@@ -1,0 +1,52 @@
+Descripción: Implementaciones concretas de los DAO usando JPA
+Generados por: NetBeans (New > Persistence > JPA Controller Classes from Entity)
+
+Qué va aquí:
+- Clases que implementan las interfaces DAO
+- Código JPA/EntityManager
+- Transacciones
+- Queries JPQL
+
+Ejemplo - EventoJpaController.java:
+```java
+public class EventoJpaController implements EventoDAO {
+    private EntityManagerFactory emf;
+    
+    public EventoJpaController(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+    
+    @Override
+    public void crear(Evento evento) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(evento);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+    
+    @Override
+    public List<Evento> buscarPorFecha(Date fecha) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Evento> query = em.createQuery(
+                "SELECT e FROM Evento e WHERE e.fecha = :fecha", 
+                Evento.class
+            );
+            query.setParameter("fecha", fecha);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+}
+```
+
+Archivos típicos:
+- EventoJpaController.java
+- ParticipanteJpaController.java
+- InscripcionJpaController.java
+- JPAGenericDAO.java (implementación genérica base)

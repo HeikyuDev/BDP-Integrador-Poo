@@ -1,0 +1,32 @@
+Descripción: Interfaces que definen las operaciones de base de datos
+Patrón: Data Access Object (DAO)
+
+Qué va aquí:
+- Interfaces con métodos CRUD
+- Métodos de búsqueda personalizados
+- NO implementación, solo firmas de métodos
+
+Ejemplo - EventoDAO.java:
+```java
+public interface EventoDAO {
+    // CRUD básico
+    void crear(Evento evento);
+    Evento buscarPorId(Long id);
+    List<Evento> buscarTodos();
+    void actualizar(Evento evento);
+    void eliminar(Long id) throws Exception;
+    
+    // Búsquedas personalizadas
+    List<Evento> buscarPorFecha(Date fecha);
+    List<Evento> buscarActivos();
+    List<Evento> buscarPorCategoria(String categoria);
+    int contarParticipantes(Long eventoId);
+}
+```
+
+Archivos típicos:
+- GenericDAO.java (interfaz base)
+- EventoDAO.java
+- ParticipanteDAO.java
+- InscripcionDAO.java
+- UsuarioDAO.java
