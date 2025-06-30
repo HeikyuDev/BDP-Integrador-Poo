@@ -1,5 +1,7 @@
 package com.mycompany.bdppeventos;
 
+import com.mycompany.bdppeventos.model.entities.Persona;
+import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,7 +34,11 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+         Persona unaPersona = new Persona("46037431", "Nahuel", "Pedernera", "3764658115", "nahuelpedernera2005@gmail.com");
+         System.out.println(unaPersona.getInformacionPersonal());
+         EstadoEvento xs = EstadoEvento.FINALIZADO;
+         
+         System.out.println(xs.getDescripcion());
     }
 
 }
