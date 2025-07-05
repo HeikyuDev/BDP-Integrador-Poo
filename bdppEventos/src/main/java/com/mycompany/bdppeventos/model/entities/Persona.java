@@ -4,7 +4,9 @@ import com.mycompany.bdppeventos.model.interfaces.Activable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "personas")
@@ -28,6 +30,10 @@ public class Persona implements Activable {
     @Column(name = "correo_electronico", length = 50, nullable = true)
     private String correoElectronico;
 
+    @OneToMany(mappedBy = "unaPersona")    
+    private List<Participacion> unaListaParticipacion;
+    
+    
     // Variable que verifica si la Persona esta en baja o esta activa
     @Column(name = "activo")
     private Boolean activo;
@@ -39,15 +45,16 @@ public class Persona implements Activable {
         this.activo = true;
     }
 
-    public Persona(String dni, String nombre, String apellido, String telefono, String correoElectronico) {
+    public Persona(String dni, String nombre, String apellido, String telefono, String correoElectronico, List<Participacion> unaListaParticipacion, Boolean activo) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
-        this.activo = true;
+        this.unaListaParticipacion = unaListaParticipacion;
+        this.activo = activo;
     }
-
+    
     // Getters y Setters
     public String getDni() {
         return dni;
@@ -150,6 +157,16 @@ public class Persona implements Activable {
         this.activo = activo;
     }
 
+    public List<Participacion> getUnaListaParticipacion() {
+        return unaListaParticipacion;
+    }
+
+    public void setUnaListaParticipacion(List<Participacion> unaListaParticipacion) {
+        this.unaListaParticipacion = unaListaParticipacion;
+    }
+
+    
+    
     // Metodos Específicos
     private boolean esEmailValido(String email) {
 

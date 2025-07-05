@@ -34,11 +34,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-         Persona unaPersona = new Persona("46037431", "Nahuel", "Pedernera", "3764658115", "nahuelpedernera2005@gmail.com");
-         System.out.println(unaPersona.getInformacionPersonal());
-         EstadoEvento xs = EstadoEvento.FINALIZADO;
-         
-         System.out.println(xs.getDescripcion());
+        System.out.println("Hola bana");
     }
 
 }
