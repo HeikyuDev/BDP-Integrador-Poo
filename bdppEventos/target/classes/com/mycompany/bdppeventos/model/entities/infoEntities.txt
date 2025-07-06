@@ -1,0 +1,38 @@
+Descripción: Clases que representan las tablas de la base de datos
+Anotaciones: @Entity, @Table, @Id, @Column, @ManyToOne, etc.
+
+Qué va aquí:
+- Clases con anotaciones JPA
+- Atributos que representan columnas
+- Getters y setters
+- Constructores
+- Relaciones entre entidades
+
+Ejemplo - Evento.java:
+```java
+@Entity
+@Table(name = "eventos")
+public class Evento {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(name = "nombre", nullable = false)
+    private String nombre;
+    
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
+    
+    @ManyToMany(mappedBy = "eventos")
+    private List<Participante> participantes;
+    
+    // Constructores, getters y setters
+}
+```
+
+Archivos típicos:
+- Evento.java
+- Participante.java  
+- Inscripcion.java
+- Usuario.java
+- Categoria.java
