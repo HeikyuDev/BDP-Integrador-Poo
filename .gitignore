@@ -1,0 +1,19 @@
+# 🔧 Archivos generados por Maven
+/target/
+*.jar
+*.class
+
+# ⚙️ Configuración del editor (VS Code)
+.vscode/
+
+# 🧪 Archivos temporales de test
+/test-output/
+*.log
+
+# 💻 Archivos específicos del sistema
+.DS_Store
+Thumbs.db
+
+# 🚀 Archivos de entorno y construcción
+*.iml
+.idea/
