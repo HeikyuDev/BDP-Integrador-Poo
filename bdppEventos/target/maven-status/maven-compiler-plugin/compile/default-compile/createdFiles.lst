@@ -1,12 +1,13 @@
 com\mycompany\bdppeventos\model\entities\Persona.class
+module-info.class
+com\mycompany\bdppeventos\view\PantallaPrincipalController.class
+com\mycompany\bdppeventos\model\entities\Evento.class
+com\mycompany\bdppeventos\model\entities\TipoRol.class
 com\mycompany\bdppeventos\App.class
 com\mycompany\bdppeventos\model\enums\EstadoEvento.class
-module-info.class
 com\mycompany\bdppeventos\model\interfaces\Activable.class
 com\mycompany\bdppeventos\model\entities\Participacion.class
 com\mycompany\bdppeventos\model\entities\TipoDeArte.class
-com\mycompany\bdppeventos\model\entities\Evento.class
-com\mycompany\bdppeventos\model\entities\TipoRol.class
 com\mycompany\bdppeventos\model\entities\Feria.class
 com\mycompany\bdppeventos\model\enums\TipoCobertura.class
 com\mycompany\bdppeventos\model\entities\Exposicion.class
