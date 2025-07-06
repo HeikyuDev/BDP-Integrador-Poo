@@ -1,4 +1,0 @@
---patch-module
-com.mycompany.bdppeventos=_
---add-reads
-com.mycompany.bdppeventos=ALL-UNNAMED
