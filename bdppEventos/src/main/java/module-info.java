@@ -10,6 +10,7 @@ module com.mycompany.bdppeventos {
    
     // PostgreSQL
     requires org.postgresql.jdbc;
+    requires java.base;
     
     // Exports para JavaFX
     opens com.mycompany.bdppeventos to javafx.fxml;
@@ -18,4 +19,8 @@ module com.mycompany.bdppeventos {
     // IMPORTANTE: Abrir entidades para JPA
     opens com.mycompany.bdppeventos.model.entities to         
         jakarta.persistence;
+    
+    // IMPORTANTE: Abrir el paquete view para JavaFX (ESTO FALTABA)
+    opens com.mycompany.bdppeventos.view to javafx.fxml;
+    exports com.mycompany.bdppeventos.view;
 }

@@ -70,7 +70,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>com.mycompany.bdppeventos.App</mainClass>
+                    <mainClass>com.mycompany.bdppeventos/com.mycompany.bdppeventos.App</mainClass>
                 </configuration>
             </plugin>
         </plugins>
