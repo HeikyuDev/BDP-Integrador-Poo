@@ -1,4 +1,4 @@
-package com.mycompany.bdppeventos.model.repository;
+package com.mycompany.bdppeventos.repository;
 
 import java.util.List;
 

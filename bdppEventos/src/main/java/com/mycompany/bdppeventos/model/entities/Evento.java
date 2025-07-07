@@ -1,7 +1,11 @@
 package com.mycompany.bdppeventos.model.entities;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 import com.mycompany.bdppeventos.model.interfaces.Activable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,8 +13,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "eventos")
@@ -40,6 +42,9 @@ public abstract class Evento implements Activable {
     @Column(name = "tiene_inscripcion", nullable = false)
     private boolean tieneInscripcion;
     
+    @Column(name = "ubicacion", length = 35, nullable = false)
+    private String ubicacion;
+    
     @Column (name = "estado_evento", nullable = false)
     private EstadoEvento unEstadoEvento;
     
@@ -61,7 +66,7 @@ public abstract class Evento implements Activable {
     public Evento() {
     }
 
-    public Evento(int idEvento, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, EstadoEvento unEstadoEvento, boolean esPago, double montoInscripcion, boolean activo, List<Participacion> unaListaParticipacion) {
+    public Evento(int idEvento, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento unEstadoEvento, boolean esPago, double montoInscripcion, boolean activo, List<Participacion> unaListaParticipacion) {
         this.idEvento = idEvento;
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
@@ -69,15 +74,19 @@ public abstract class Evento implements Activable {
         this.tieneCupo = tieneCupo;
         this.capacidadMaxima = capacidadMaxima;
         this.tieneInscripcion = tieneInscripcion;
+        this.ubicacion = ubicacion;
         this.unEstadoEvento = unEstadoEvento;
         this.esPago = esPago;
         this.montoInscripcion = montoInscripcion;
         this.activo = activo;
         this.unaListaParticipacion = unaListaParticipacion;
     }
+
     
     // Getters  Y setters
 
+    
+    // TODO: Falta validaciones IMPORTANTE
     public int getIdEvento() {
         return idEvento;
     }

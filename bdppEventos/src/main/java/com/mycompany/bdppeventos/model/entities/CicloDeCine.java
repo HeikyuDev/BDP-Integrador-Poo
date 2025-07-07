@@ -30,32 +30,21 @@ public class CicloDeCine extends Evento {
     }
 
     // Constructor completo para crear ciclos de cine existentes
-    public CicloDeCine(int idEvento, String nombre, LocalDate fechaInicio, int duracionEstimada,
-            boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion,
-            EstadoEvento unEstadoEvento, boolean esPago, double montoInscripcion,
-            boolean activo, List<Participacion> unaListaParticipacion,
-            boolean charlasPosteriores, List<Proyeccion> proyecciones) {
-        super(idEvento, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima,
-                tieneInscripcion, unEstadoEvento, esPago, montoInscripcion, activo, unaListaParticipacion);
+
+    public CicloDeCine(boolean charlasPosteriores, List<Proyeccion> proyecciones) {
         this.charlasPosteriores = charlasPosteriores;
         this.proyecciones = proyecciones;
     }
 
-    // Constructor simplificado para crear ciclos de cine nuevos
-    public CicloDeCine(String nombre, LocalDate fechaInicio, int duracionEstimada,
-            boolean charlasPosteriores) {
-        super();
-        this.setNombre(nombre);
-        this.setFechaInicio(fechaInicio);
-        this.setDuracionEstimada(duracionEstimada);
-        this.setTieneCupo(false); // Los ciclos de cine generalmente no tienen cupo limitado
-        this.setCapacidadMaxima(0); // Se define por las salas de proyección
-        this.setTieneInscripcion(false); // Por defecto no requieren inscripción
-        this.setEsPago(false); // Por defecto gratuito
-        this.setMontoInscripcion(0.0);
+    public CicloDeCine(boolean charlasPosteriores, List<Proyeccion> proyecciones, int idEvento, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento unEstadoEvento, boolean esPago, double montoInscripcion, boolean activo, List<Participacion> unaListaParticipacion) {
+        super(idEvento, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, unEstadoEvento, esPago, montoInscripcion, activo, unaListaParticipacion);
         this.charlasPosteriores = charlasPosteriores;
-        this.activar(); // Se activa por defecto
+        this.proyecciones = proyecciones;
     }
+    
+    
+    // Constructor simplificado para crear ciclos de cine nuevos
+    
 
     // Getters y Setters
     public boolean isCharlasPosteriores() {

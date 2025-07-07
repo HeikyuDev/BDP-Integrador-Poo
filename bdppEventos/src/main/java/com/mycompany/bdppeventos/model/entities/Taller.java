@@ -26,35 +26,17 @@ public class Taller extends Evento {
         super();
     }
 
-    public Taller(int idEvento, String nombre, LocalDate fechaInicio, int duracionEstimada,
-            boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion,
-            EstadoEvento unEstadoEvento, boolean esPago, double montoInscripcion,
-            boolean activo, List<Participacion> unaListaParticipacion,
-            int cupoMaximo, TipoModalidad modalidad) {
-        super(idEvento, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima,
-                tieneInscripcion, unEstadoEvento, esPago, montoInscripcion, activo, unaListaParticipacion);
-        setCupoMaximo(cupoMaximo);
-        setModalidad(modalidad);
+    public Taller(int cupoMaximo, TipoModalidad modalidad) {
+        this.cupoMaximo = cupoMaximo;
+        this.modalidad = modalidad;
     }
 
-    // Constructor simplificado para crear talleres nuevos desde la interfaz
-    // No requiere idEvento ya que es autogenerado por la base de datos
-    public Taller(String nombre, LocalDate fechaInicio, int duracionEstimada,
-            int cupoMaximo, TipoModalidad modalidad) {
-        super();
-        this.setNombre(nombre);
-        this.setFechaInicio(fechaInicio);
-        this.setDuracionEstimada(duracionEstimada);
-        this.setTieneCupo(true); // Los talleres siempre tienen cupo
-        this.setCapacidadMaxima(cupoMaximo);
-        this.setTieneInscripcion(true); // Los talleres requieren inscripción
-        this.setEsPago(false); // Por defecto gratuito
-        this.setMontoInscripcion(0.0);
-        this.setCupoMaximo(cupoMaximo);
-        this.setModalidad(modalidad);
-        this.activar(); // Se activa por defecto
+    public Taller(int cupoMaximo, TipoModalidad modalidad, int idEvento, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento unEstadoEvento, boolean esPago, double montoInscripcion, boolean activo, List<Participacion> unaListaParticipacion) {
+        super(idEvento, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, unEstadoEvento, esPago, montoInscripcion, activo, unaListaParticipacion);
+        this.cupoMaximo = cupoMaximo;
+        this.modalidad = modalidad;
     }
-
+       
     // Getters y Setters
 
     public int getCupoMaximo() {

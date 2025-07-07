@@ -1,12 +1,9 @@
 package com.mycompany.bdppeventos.model.entities;
-
-import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 import com.mycompany.bdppeventos.model.enums.TipoCobertura;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
-import java.util.List;
+
 
 
 @Entity
@@ -32,11 +29,7 @@ public class Feria extends Evento{
         this.tipoCobertura = tipoCobertura;
     }
 
-    public Feria(int cantidadStands, TipoCobertura tipoCobertura, int idEvento, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, EstadoEvento unEstadoEvento, boolean esPago, double montoInscripcion, boolean activo, List<Participacion> unaListaParticipacion) {
-        super(idEvento, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, unEstadoEvento, esPago, montoInscripcion, activo, unaListaParticipacion);
-        this.cantidadStands = cantidadStands;
-        this.tipoCobertura = tipoCobertura;
-    }
+    
     
     // Getters y Setters
 
