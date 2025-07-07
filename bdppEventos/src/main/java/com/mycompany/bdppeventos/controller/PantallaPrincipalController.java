@@ -1,4 +1,4 @@
-package com.mycompany.bdppeventos.view;
+package com.mycompany.bdppeventos.controller;
 
 import java.io.IOException;
 import java.net.URL;
@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -264,18 +263,10 @@ public class PantallaPrincipalController implements Initializable {
     private void cargarVistaGestionEventos() {
         mostrarMensajeTemporalmente("Cargando Gestión de Eventos...");
         // TODO: Implementar carga de vista real
-    }
-
-    private void cargarVistaGestionPersonas() {
-        mostrarMensajeTemporalmente("Cargando Gestión de Personas...");
-        // TODO: Implementar carga de vista real
         try {
-            System.out.println("Cargando FXML...");
-            System.out.println(getClass().getResource("/fxml/ABMPersona/FormularioPersona.fxml"));
-
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/fxml/ABMPersona/FormularioPersona.fxml"));
-            Parent vistaPersonas = loader.load(); // Cambiar AnchorPane por Parent
+                    getClass().getResource("/com/mycompany/bdppeventos/view/GestionPersonas.fxml"));
+            AnchorPane vistaPersonas = loader.load();
 
             // reemplazar contenido del centerContainer
             centerContainer.getChildren().clear();
@@ -289,6 +280,11 @@ public class PantallaPrincipalController implements Initializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void cargarVistaGestionPersonas() {
+        mostrarMensajeTemporalmente("Cargando Gestión de Personas...");
+        // TODO: Implementar carga de vista real
     }
 
     private void cargarVistaInscribirParticipante() {
