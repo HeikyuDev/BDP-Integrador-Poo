@@ -1,0 +1,92 @@
+Descripción: Hojas de estilo para las interfaces
+Sintaxis: CSS adaptado para JavaFX
+
+Qué va aquí:
+- Archivos .css
+- Estilos visuales
+- Temas de la aplicación
+
+Ejemplo - styles.css:
+```css
+/* Estilos generales */
+.root {
+    -fx-background-color: #f5f5f5;
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Panel de navegación */
+.nav-panel {
+    -fx-background-color: #2c3e50;
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+}
+
+.nav-panel Button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+    -fx-max-width: infinity;
+}
+
+.nav-panel Button:hover {
+    -fx-background-color: #34495e;
+}
+
+/* Tablas */
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+.table-view .column-header {
+    -fx-background-color: #ecf0f1;
+    -fx-font-weight: bold;
+}
+
+/* Botones principales */
+.btn-primary {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #2980b9;
+}
+
+/* Formularios */
+.form-field {
+    -fx-padding: 8px;
+    -fx-background-radius: 3;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 3;
+}
+
+.form-field:focused {
+    -fx-border-color: #3498db;
+}
+
+/* Alertas */
+.alert-success {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+}
+
+.alert-error {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+}
+```
+
+Archivos típicos:
+- styles.css (estilos generales)
+- theme-dark.css (tema oscuro)
+- theme-light.css (tema claro)
+- forms.css (estilos de formularios)
+- tables.css (estilos de tablas)
+- buttons.css (estilos de botones)
+- dashboard.css (estilos específicos del dashboard)

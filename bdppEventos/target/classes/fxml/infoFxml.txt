@@ -1,0 +1,47 @@
+Descripción: Archivos FXML que definen la interfaz gráfica
+Creados con: Scene Builder o manualmente
+
+Qué va aquí:
+- Archivos .fxml
+- Cada vista tiene su propio archivo
+- Vinculados a controladores en el paquete view
+
+Ejemplo - main.fxml:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.mycompany.bdppeventos.view.MainController"
+            prefWidth="1200" prefHeight="700"
+            stylesheets="@../css/styles.css">
+    
+    <left>
+        <!-- Panel de navegación -->
+        <VBox fx:id="navPanel" styleClass="nav-panel">
+            <Button text="Dashboard" onAction="#loadDashboard"/>
+            <Button text="Eventos" onAction="#loadEventos"/>
+            <Button text="Participantes" onAction="#loadParticipantes"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <!-- Contenedor dinámico -->
+        <StackPane fx:id="contentArea"/>
+    </center>
+</BorderPane>
+```
+
+Archivos típicos:
+- main.fxml (ventana principal con navegación)
+- dashboard.fxml (panel de control)
+- eventos-lista.fxml (tabla de eventos)
+- evento-form.fxml (formulario de evento)
+- participantes-lista.fxml (tabla de participantes)
+- participante-form.fxml (formulario de participante)
+- inscripcion-form.fxml (formulario de inscripción)
+- calendario.fxml (vista de calendario)
+- reporte.fxml (vista de reportes)
+- login.fxml (pantalla de login)
