@@ -1,9 +1,12 @@
 module com.mycompany.bdppeventos {
     
-    // JavaFX
-    requires javafx.controls;
-    requires javafx.fxml;
-    requires javafx.graphics;
+    // JavaFX con transitive
+    requires transitive javafx.controls;
+    requires transitive javafx.fxml;
+    requires transitive javafx.graphics;
+    
+    // ControlsFX (NUEVA LIBRERÍA)
+    requires org.controlsfx.controls;
     
     // JPA con Jakarta
     requires jakarta.persistence;
@@ -15,7 +18,6 @@ module com.mycompany.bdppeventos {
     requires java.management;
     requires java.naming;
     requires java.xml;
-    // REMOVIDO: requires java.logging;
     
     // PostgreSQL
     requires org.postgresql.jdbc;
@@ -23,6 +25,7 @@ module com.mycompany.bdppeventos {
     
     // ABRIR PAQUETES PARA JAVAFX FXML
     opens com.mycompany.bdppeventos.controller to javafx.fxml;
+    opens com.mycompany.bdppeventos.controller.ABMPersona to javafx.fxml;
     
     // ABRIR ENTIDADES PARA JPA
     opens com.mycompany.bdppeventos.model.entities to 
@@ -30,12 +33,15 @@ module com.mycompany.bdppeventos {
         eclipselink, 
         java.base;
     
-    // ABRIR SERVICES PARA JPA
-    //opens com.mycompany.bdppeventos.services to 
-    //    eclipselink, 
-    //    jakarta.persistence;
+    // ABRIR ENUMS PARA JPA (si existen)
+    opens com.mycompany.bdppeventos.model.enums to 
+        jakarta.persistence, 
+        eclipselink, 
+        java.base;
     
     // EXPORTAR PAQUETES PRINCIPALES
     exports com.mycompany.bdppeventos;
     exports com.mycompany.bdppeventos.controller;
+    exports com.mycompany.bdppeventos.model.entities;
+    exports com.mycompany.bdppeventos.model.enums;
 }

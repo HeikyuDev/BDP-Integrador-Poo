@@ -1,10 +1,13 @@
 package com.mycompany.bdppeventos.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -258,7 +261,29 @@ public class PantallaPrincipalController implements Initializable {
 
     private void cargarVistaGestionPersonas() {
         mostrarMensajeTemporalmente("Cargando Gestión de Personas...");
-        // TODO: Implementar carga de vista real
+        
+        //IMPLEMENTACION
+
+        try {
+            System.out.println("Cargando FXML...");
+            System.out.println(getClass().getResource("/fxml/ABMPersona/FormularioPersona.fxml"));
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/fxml/ABMPersona/FormularioPersona.fxml"));
+            Parent vistaPersonas = loader.load(); // Cambiar AnchorPane por Parent
+
+            // reemplazar contenido del centerContainer
+            centerContainer.getChildren().clear();
+            centerContainer.getChildren().add(vistaPersonas);
+
+            // hacer que se estire con el container
+            AnchorPane.setTopAnchor(vistaPersonas, 0.0);
+            AnchorPane.setRightAnchor(vistaPersonas, 0.0);
+            AnchorPane.setBottomAnchor(vistaPersonas, 0.0);
+            AnchorPane.setLeftAnchor(vistaPersonas, 0.0);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void cargarVistaInscribirParticipante() {
