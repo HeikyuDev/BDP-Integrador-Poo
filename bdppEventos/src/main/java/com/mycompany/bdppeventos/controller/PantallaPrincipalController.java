@@ -1,4 +1,4 @@
-package com.mycompany.bdppeventos.view;
+package com.mycompany.bdppeventos.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,98 +14,118 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * Controller para la pantalla principal del sistema
- * Maneja la navegación del menú lateral y cambio de íconos
+ * Controller para la pantalla principal del sistema Maneja la navegación del
+ * menú lateral y cambio de íconos
  */
 public class PantallaPrincipalController implements Initializable {
-    
-    // ==================================================================================
-    // ELEMENTOS DEL FXML
-    // ==================================================================================
+
     
     // --- Botones del menú lateral ---
-    @FXML private ToggleButton btnPanelAdmin;
-    @FXML private ToggleButton btnGestionEventos;
-    @FXML private ToggleButton btnGestionPersonas;
-    @FXML private ToggleButton btnInscribirParticipante;
-    @FXML private ToggleButton btnCalendarioEventos;
-    @FXML private ToggleButton btnVerParticipantes;
-    
+    @FXML
+    private ToggleButton btnPanelAdmin;
+    @FXML
+    private ToggleButton btnGestionEventos;
+    @FXML
+    private ToggleButton btnGestionPersonas;
+    @FXML
+    private ToggleButton btnInscribirParticipante;
+    @FXML
+    private ToggleButton btnCalendarioEventos;
+    @FXML
+    private ToggleButton btnVerParticipantes;
+
     // --- Íconos de los botones ---
-    @FXML private ImageView iconPanelAdmin;
-    @FXML private ImageView iconGestionEventos;
-    @FXML private ImageView iconGestionPersonas;
-    @FXML private ImageView iconInscribirParticipante;
-    @FXML private ImageView iconCalendarioEventos;
-    @FXML private ImageView iconVerParticipantes;
-    
+    @FXML
+    private ImageView iconPanelAdmin;
+    @FXML
+    private ImageView iconGestionEventos;
+    @FXML
+    private ImageView iconGestionPersonas;
+    @FXML
+    private ImageView iconInscribirParticipante;
+    @FXML
+    private ImageView iconCalendarioEventos;
+    @FXML
+    private ImageView iconVerParticipantes;
+
     // --- Botones de ventana ---
-    @FXML private Button btnMinimizar; //si o si se tiene que llamar igual que el elemento Button cuya fx:id es btnMinimizar De lo contrario Excepcion
-    @FXML private Button btnMaximizar; //si o si se tiene que llamar igual que el elemento Button cuya fx:id es btnMaximizar De lo contrario Excepcion
-    @FXML private Button btnCerrar; //si o si se tiene que llamar igual que el elemento Button cuya fx:id es btnCerrar De lo contrario Excepcion
-    
+    @FXML
+    private Button btnMinimizar; //si o si se tiene que llamar igual que el elemento Button cuya fx:id es btnMinimizar De lo contrario Excepcion
+    @FXML
+    private Button btnMaximizar; //si o si se tiene que llamar igual que el elemento Button cuya fx:id es btnMaximizar De lo contrario Excepcion
+    @FXML
+    private Button btnCerrar; //si o si se tiene que llamar igual que el elemento Button cuya fx:id es btnCerrar De lo contrario Excepcion
+
     // --- Área de contenido dinámico ---
-    @FXML private AnchorPane centerContainer;
-    
+    @FXML
+    private AnchorPane centerContainer;
+
     // ==================================================================================
     // VARIABLES
     // ==================================================================================
-    
     private ToggleGroup menuGroup;
-    
+
     // ==================================================================================
     // INICIALIZACIÓN
     // ==================================================================================
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Inicializando PantallaPrincipalController...");
+
+        // Configuracion necesaria para que solamente se pueda seleccionar un solo ToggleButton a la vez y que no se pueda deseleccionar ninguno
+        configurarToggleGroup(); 
+
         
-        configurarToggleGroup();
         configurarCambiosIconos();
         configurarEventosNavegacion();
         configurarBotonesVentana();
-        
+
         // Seleccionar Panel de Administración por defecto
         btnPanelAdmin.setSelected(true);
-        
+
         System.out.println("PantallaPrincipalController inicializado correctamente");
     }
-    
+
     // ==================================================================================
     // CONFIGURACIÓN INICIAL
     // ==================================================================================
-    
     /**
      * Configura el ToggleGroup para que solo un botón esté activo a la vez
      */
     private void configurarToggleGroup() {
         menuGroup = new ToggleGroup();
-        
+
         btnPanelAdmin.setToggleGroup(menuGroup);
         btnGestionEventos.setToggleGroup(menuGroup);
         btnGestionPersonas.setToggleGroup(menuGroup);
         btnInscribirParticipante.setToggleGroup(menuGroup);
         btnCalendarioEventos.setToggleGroup(menuGroup);
         btnVerParticipantes.setToggleGroup(menuGroup);
-        
-        System.out.println("ToggleGroup configurado");
+
+        // Prevenir deselección completa - MEJORADO
+        menuGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle == null && oldToggle != null) {                
+                oldToggle.setSelected(true);
+            }
+        });
+
+        System.out.println("ToggleGroup configurado con selección obligatoria");
     }
-    
+
     /**
      * Configura los eventos de navegación
      */
     private void configurarEventosNavegacion() {
-        btnPanelAdmin.setOnAction(e -> cargarVistaPanelAdmin());
-        btnGestionEventos.setOnAction(e -> cargarVistaGestionEventos());
-        btnGestionPersonas.setOnAction(e -> cargarVistaGestionPersonas());
-        btnInscribirParticipante.setOnAction(e -> cargarVistaInscribirParticipante());
-        btnCalendarioEventos.setOnAction(e -> cargarVistaCalendarioEventos());
-        btnVerParticipantes.setOnAction(e -> cargarVistaVerParticipantes());
-        
+        btnPanelAdmin.setOnAction(e -> cargarVistaPanelAdmin()); // Le seteo al btn que cuando sea presionado se ejecute el método cargarVistaPanelAdmin
+        btnGestionEventos.setOnAction(e -> cargarVistaGestionEventos()); // Le seteo al btn que cuando sea presionado se ejecute el método cargarVistaGestionEventos
+        btnGestionPersonas.setOnAction(e -> cargarVistaGestionPersonas()); // Le seteo al btn que cuando sea presionado se ejecute el método cargarVistaGestionPersonas
+        btnInscribirParticipante.setOnAction(e -> cargarVistaInscribirParticipante()); // Le seteo al btn que cuando sea presionado se ejecute el método cargarVistaInscribirParticipante
+        btnCalendarioEventos.setOnAction(e -> cargarVistaCalendarioEventos()); // Le seteo al btn que cuando sea presionado se ejecute el método cargarVistaCalendarioEventos
+        btnVerParticipantes.setOnAction(e -> cargarVistaVerParticipantes()); // Le seteo al btn que cuando sea presionado se ejecute el método cargarVistaVerParticipantes
+
         System.out.println("Eventos de navegación configurados");
     }
-    
+
     /**
      * Configura los botones de ventana (minimizar, maximizar, cerrar)
      */
@@ -114,17 +134,17 @@ public class PantallaPrincipalController implements Initializable {
             System.out.println("Cerrando aplicación...");
             System.exit(0);
         });
-        
+
         btnMinimizar.setOnAction(e -> {
             System.out.println("Minimizando ventana...");
             Stage stage = (Stage) btnMinimizar.getScene().getWindow();
             stage.setIconified(true);
         });
-        
+
         btnMaximizar.setOnAction(e -> {
             System.out.println("Maximizar/Restaurar ventana...");
             Stage stage = (Stage) btnMaximizar.getScene().getWindow();
-            
+
             if (stage.isMaximized()) {
                 stage.setMaximized(false);
                 btnMaximizar.setText("□");
@@ -133,14 +153,13 @@ public class PantallaPrincipalController implements Initializable {
                 btnMaximizar.setText("❐");
             }
         });
-        
+
         System.out.println("Botones de ventana configurados");
     }
-    
+
     // ==================================================================================
     // CAMBIO DE ÍCONOS
     // ==================================================================================
-    
     /**
      * Configura los listeners para cambiar íconos automáticamente
      */
@@ -151,10 +170,10 @@ public class PantallaPrincipalController implements Initializable {
         configurarIconoInscribirParticipante();
         configurarIconoCalendarioEventos();
         configurarIconoVerParticipantes();
-        
+
         System.out.println("Listeners de cambio de íconos configurados");
     }
-    
+
     private void configurarIconoPanelAdmin() {
         btnPanelAdmin.selectedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
@@ -166,7 +185,7 @@ public class PantallaPrincipalController implements Initializable {
             }
         });
     }
-    
+
     private void configurarIconoGestionEventos() {
         btnGestionEventos.selectedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
@@ -178,7 +197,7 @@ public class PantallaPrincipalController implements Initializable {
             }
         });
     }
-    
+
     private void configurarIconoGestionPersonas() {
         btnGestionPersonas.selectedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
@@ -190,7 +209,7 @@ public class PantallaPrincipalController implements Initializable {
             }
         });
     }
-    
+
     private void configurarIconoInscribirParticipante() {
         btnInscribirParticipante.selectedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
@@ -202,7 +221,7 @@ public class PantallaPrincipalController implements Initializable {
             }
         });
     }
-    
+
     private void configurarIconoCalendarioEventos() {
         btnCalendarioEventos.selectedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
@@ -214,7 +233,7 @@ public class PantallaPrincipalController implements Initializable {
             }
         });
     }
-    
+
     private void configurarIconoVerParticipantes() {
         btnVerParticipantes.selectedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
@@ -226,45 +245,43 @@ public class PantallaPrincipalController implements Initializable {
             }
         });
     }
-    
+
     // ==================================================================================
     // NAVEGACIÓN ENTRE VISTAS
     // ==================================================================================
-    
     private void cargarVistaPanelAdmin() {
         mostrarMensajeTemporalmente("Cargando Panel de Administración...");
         // TODO: Implementar carga de vista real
     }
-    
+
     private void cargarVistaGestionEventos() {
         mostrarMensajeTemporalmente("Cargando Gestión de Eventos...");
         // TODO: Implementar carga de vista real
     }
-    
+
     private void cargarVistaGestionPersonas() {
         mostrarMensajeTemporalmente("Cargando Gestión de Personas...");
         // TODO: Implementar carga de vista real
     }
-    
+
     private void cargarVistaInscribirParticipante() {
         mostrarMensajeTemporalmente("Cargando Inscribir Participante...");
         // TODO: Implementar carga de vista real
     }
-    
+
     private void cargarVistaCalendarioEventos() {
         mostrarMensajeTemporalmente("Cargando Calendario de Eventos...");
         // TODO: Implementar carga de vista real
     }
-    
+
     private void cargarVistaVerParticipantes() {
         mostrarMensajeTemporalmente("Cargando Ver Participantes...");
         // TODO: Implementar carga de vista real
     }
-    
+
     // ==================================================================================
     // MÉTODOS AUXILIARES
     // ==================================================================================
-    
     /**
      * Muestra un mensaje temporal en el área de contenido
      */

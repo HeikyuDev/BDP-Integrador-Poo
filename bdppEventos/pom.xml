@@ -58,7 +58,6 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
-                    <!-- SOLUCIÓN AL ERROR: Deshabilitar procesador de anotaciones -->
                     <compilerArgs>
                         <arg>-proc:none</arg>
                     </compilerArgs>
@@ -71,6 +70,12 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>com.mycompany.bdppeventos/com.mycompany.bdppeventos.App</mainClass>
+                    <!-- CONFIGURACIÓN PARA ECLIPSELINK CON MÓDULOS -->
+                    <commandlineArgs>
+                        --add-opens java.base/java.lang=ALL-UNNAMED
+                        --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+                        --add-opens java.base/java.util=ALL-UNNAMED
+                    </commandlineArgs>
                 </configuration>
             </plugin>
         </plugins>

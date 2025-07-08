@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "tiporoles")
+@Table(name = "tipo_roles")
 public class TipoRol implements Activable{
     
     @Id
