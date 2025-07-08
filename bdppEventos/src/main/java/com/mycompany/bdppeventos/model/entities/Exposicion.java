@@ -1,12 +1,10 @@
 package com.mycompany.bdppeventos.model.entities;
 
-import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
-import java.util.List;
+
 
 @Entity
 @Table(name = "Exposiciones")

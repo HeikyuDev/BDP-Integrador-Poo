@@ -60,9 +60,7 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     private AnchorPane centerContainer;
 
-    // ==================================================================================
-    // VARIABLES
-    // ==================================================================================
+
     private ToggleGroup menuGroup;
 
     // ==================================================================================
@@ -75,8 +73,9 @@ public class PantallaPrincipalController implements Initializable {
         // Configuracion necesaria para que solamente se pueda seleccionar un solo ToggleButton a la vez y que no se pueda deseleccionar ninguno
         configurarToggleGroup(); 
 
-        
+        // Configuración de iconos para que se muestre el icono correcto según el botón seleccionado
         configurarCambiosIconos();
+        // Configuración de eventos de navegación. 
         configurarEventosNavegacion();
         configurarBotonesVentana();
 
@@ -157,9 +156,7 @@ public class PantallaPrincipalController implements Initializable {
         System.out.println("Botones de ventana configurados");
     }
 
-    // ==================================================================================
-    // CAMBIO DE ÍCONOS
-    // ==================================================================================
+    
     /**
      * Configura los listeners para cambiar íconos automáticamente
      */

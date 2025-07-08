@@ -31,9 +31,9 @@ module com.mycompany.bdppeventos {
         java.base;
     
     // ABRIR SERVICES PARA JPA
-    opens com.mycompany.bdppeventos.services to 
-        eclipselink, 
-        jakarta.persistence;
+    //opens com.mycompany.bdppeventos.services to 
+    //    eclipselink, 
+    //    jakarta.persistence;
     
     // EXPORTAR PAQUETES PRINCIPALES
     exports com.mycompany.bdppeventos;
