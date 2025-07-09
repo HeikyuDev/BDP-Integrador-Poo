@@ -255,9 +255,40 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     private void cargarVistaGestionEventos() {
-        mostrarMensajeTemporalmente("Cargando Gestión de Eventos...");
-        // TODO: Implementar carga de vista real
+    try {
+        System.out.println("=== DEBUG CARGA FXML ===");
+        
+        URL fxmlUrl = getClass().getResource("/fxml/ABMEvento/FormularioEvento.fxml");
+        System.out.println("URL encontrada: " + fxmlUrl);
+        
+        if (fxmlUrl == null) {
+            System.err.println("ERROR: Archivo no encontrado");
+            return;
+        }
+        
+        System.out.println("Creando FXMLLoader...");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(fxmlUrl);  // ⭐ CAMBIO CLAVE
+        
+        System.out.println("Cargando FXML...");
+        Parent vistaEvento = loader.load();
+
+        System.out.println("FXML cargado, configurando contenedor...");
+        centerContainer.getChildren().clear();
+        centerContainer.getChildren().add(vistaEvento);
+
+        AnchorPane.setTopAnchor(vistaEvento, 0.0);
+        AnchorPane.setRightAnchor(vistaEvento, 0.0);
+        AnchorPane.setBottomAnchor(vistaEvento, 0.0);
+        AnchorPane.setLeftAnchor(vistaEvento, 0.0);
+        
+        System.out.println("✅ Vista cargada exitosamente");
+        
+    } catch (Exception ex) {
+        System.err.println("❌ Error detallado:");
+        ex.printStackTrace();
     }
+}
 
     private void cargarVistaGestionPersonas() {
         mostrarMensajeTemporalmente("Cargando Gestión de Personas...");

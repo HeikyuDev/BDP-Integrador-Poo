@@ -23,9 +23,11 @@ module com.mycompany.bdppeventos {
     requires org.postgresql.jdbc;
     requires java.base;
     
-    // ABRIR PAQUETES PARA JAVAFX FXML
-    opens com.mycompany.bdppeventos.controller to javafx.fxml;
-    opens com.mycompany.bdppeventos.controller.ABMPersona to javafx.fxml;
+    // ABRIR PAQUETES PARA JAVAFX FXML (CONFIGURACIÓN AMPLIA)
+    opens com.mycompany.bdppeventos to javafx.fxml, javafx.base;
+    opens com.mycompany.bdppeventos.controller to javafx.fxml, javafx.base;
+    opens com.mycompany.bdppeventos.controller.ABMPersona to javafx.fxml, javafx.base;
+    opens com.mycompany.bdppeventos.controller.ABMEvento to javafx.fxml, javafx.base;
     
     // ABRIR ENTIDADES PARA JPA
     opens com.mycompany.bdppeventos.model.entities to 
