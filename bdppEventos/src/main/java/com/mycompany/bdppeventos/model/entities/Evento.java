@@ -17,57 +17,58 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "eventos")
 public abstract class Evento implements Activable {
-    
+
     @Id
-    @Column(name = "id_evento", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idEvento;
-    
+    private int id;
+
     @Column(name = "nombre", length = 35, nullable = false)
     private String nombre;
-    
+
     // Que anotation es reocmendada. //Hace falta usar Temporal ??
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;
-    
+
     @Column(name = "duracion_estimada", nullable = false)
     private int duracionEstimada;
-    
+
     @Column(name = "tiene_cupo", nullable = false)
     private boolean tieneCupo;
-    
+
     @Column(name = "capacidad_maxima", nullable = false)
     private int capacidadMaxima;
-    
+
     @Column(name = "tiene_inscripcion", nullable = false)
     private boolean tieneInscripcion;
-    
+
     @Column(name = "ubicacion", length = 35, nullable = false)
     private String ubicacion;
-    
-    @Column (name = "estado_evento", nullable = false)
-    private EstadoEvento unEstadoEvento;
-    
+
+    @Column(name = "estado", nullable = false)
+    private EstadoEvento estado;
+
     @Column(name = "es_pago", nullable = false)
     private boolean esPago;
-    
-    @Column(name = "monto_inscripcion", nullable = false)
-    private double montoInscripcion;    
-    
-    @Column (name = "activo", nullable = false)
-    private boolean activo;
-    
+
+    @Column(name = "monto", nullable = false)
+    private double monto;
+
+    @Column(name = "activo", nullable = false)
+    private boolean activo = true;
+
     // Relacion uno muchos evento con participacion
-    @OneToMany(mappedBy = "unEvento")
+    @OneToMany(mappedBy = "estado")
     private List<Participacion> unaListaParticipacion;
-        
-    // Constructores 
-    
+
+    // Constructores
+
     public Evento() {
     }
 
-    public Evento(int idEvento, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento unEstadoEvento, boolean esPago, double montoInscripcion, boolean activo, List<Participacion> unaListaParticipacion) {
-        this.idEvento = idEvento;
+    public Evento(String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo,
+            int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado,
+            boolean esPago, double monto) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.duracionEstimada = duracionEstimada;
@@ -75,23 +76,18 @@ public abstract class Evento implements Activable {
         this.capacidadMaxima = capacidadMaxima;
         this.tieneInscripcion = tieneInscripcion;
         this.ubicacion = ubicacion;
-        this.unEstadoEvento = unEstadoEvento;
+        this.estado = estado;
         this.esPago = esPago;
-        this.montoInscripcion = montoInscripcion;
-        this.activo = activo;
-        this.unaListaParticipacion = unaListaParticipacion;
+        this.monto = monto;
     }
 
-    
-    // Getters  Y setters
+    // Getters Y setters
 
-    
     // TODO: Falta validaciones IMPORTANTE
-    public int getIdEvento() {
-        return idEvento;
+    public int getId() {
+        return id;
     }
 
-    
     public String getNombre() {
         return nombre;
     }
@@ -140,12 +136,12 @@ public abstract class Evento implements Activable {
         this.tieneInscripcion = tieneInscripcion;
     }
 
-    public EstadoEvento getUnEstadoEvento() {
-        return unEstadoEvento;
+    public EstadoEvento getEstado() {
+        return estado;
     }
 
-    public void setUnEstadoEvento(EstadoEvento unEstadoEvento) {
-        this.unEstadoEvento = unEstadoEvento;
+    public void setEstado(EstadoEvento estado) {
+        this.estado = estado;
     }
 
     public boolean isEsPago() {
@@ -156,12 +152,12 @@ public abstract class Evento implements Activable {
         this.esPago = esPago;
     }
 
-    public double getMontoInscripcion() {
-        return montoInscripcion;
+    public double getMonto() {
+        return monto;
     }
 
-    public void setMontoInscripcion(double montoInscripcion) {
-        this.montoInscripcion = montoInscripcion;
+    public void setMonto(double monto) {
+        this.monto = monto;
     }
 
     public List<Participacion> getUnaListaParticipacion() {
@@ -171,10 +167,10 @@ public abstract class Evento implements Activable {
     public void setUnaListaParticipacion(List<Participacion> unaListaParticipacion) {
         this.unaListaParticipacion = unaListaParticipacion;
     }
-    
+
     // Metodos interfaz Activable
-    
-     @Override
+
+    @Override
     public void activar() {
         this.activo = ACTIVO;
     }
@@ -197,5 +193,5 @@ public abstract class Evento implements Activable {
         }
         this.activo = activo;
     }
-    
+
 }

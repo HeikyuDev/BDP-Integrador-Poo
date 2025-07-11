@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="650.0" minWidth="1024.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/pantallaprincipal.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.PantallaPrincipalController">
+   <top>
+      <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="650.0" styleClass="title-bar" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="title-label" text="Sistema de Gestión de Eventos Culturales" />
+            <Region prefHeight="53.0" prefWidth="261.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id = "btnMinimizar" mnemonicParsing="false" styleClass="window-button" text="−" />
+            <Button fx:id = "btnMaximizar" mnemonicParsing="false" styleClass="window-button" text="□" />
+            <Button fx:id = "btnCerrar" mnemonicParsing="false" styleClass="window-button" text="×" />
+         </children>
+      </HBox>
+   </top>
+   <left>
+      <VBox prefHeight="347.0" prefWidth="255.0" spacing="3.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="nav-title" text="Navegación" />
+            
+            <!-- Panel de Administración -->
+            <ToggleButton fx:id="btnPanelAdmin" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" selected="true" styleClass="menu-button">
+               <graphic>
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                     <ImageView fx:id="iconPanelAdmin" fitHeight="30.0" fitWidth="30.0" preserveRatio="true" smooth="true">
+                        <image>
+                            <Image url="@../images/PanelPrincipalIconBlanco.png" />
+                        </image>
+                     </ImageView>
+                     <Label text="Panel de Administración" />
+                  </HBox>
+               </graphic>
+            </ToggleButton>
+            
+            <!-- Gestión de Eventos -->
+            <ToggleButton fx:id="btnGestionEventos" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button">
+               <graphic>
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                     <ImageView fx:id="iconGestionEventos" fitHeight="30.0" fitWidth="30.0" preserveRatio="true" smooth="true">
+                        <image>
+                           <Image url="@../images/EventoMasAzul.png" />
+                        </image>
+                     </ImageView>
+                     <Label text="Gestión de Eventos" />
+                  </HBox>
+               </graphic>
+            </ToggleButton>
+            
+            <!-- Gestión de Personas -->
+            <ToggleButton fx:id="btnGestionPersonas" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button">
+               <graphic>
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                     <ImageView fx:id="iconGestionPersonas" fitHeight="30.0" fitWidth="30.0" preserveRatio="true" smooth="true">
+                        <image>
+                           <Image url="@../images/PersonaMasAzul.png" />
+                        </image>
+                     </ImageView>
+                     <Label text="Gestión de Personas" />
+                  </HBox>
+               </graphic>
+            </ToggleButton>
+            
+            <!-- Inscribir Participante -->
+            <ToggleButton fx:id="btnInscribirParticipante" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button">
+               <graphic>
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                     <ImageView fx:id="iconInscribirParticipante" fitHeight="30.0" fitWidth="30.0" preserveRatio="true" smooth="true">
+                        <image>
+                           <Image url="@../images/ParticipanteMasAzul.png" />
+                        </image>
+                     </ImageView>
+                     <Label text="Inscribir Participante" />
+                  </HBox>
+               </graphic>
+            </ToggleButton>
+            
+            <!-- Calendario de eventos -->
+            <ToggleButton fx:id="btnCalendarioEventos" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button">
+               <graphic>
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                     <ImageView fx:id="iconCalendarioEventos" fitHeight="30.0" fitWidth="30.0" preserveRatio="true" smooth="true">
+                        <image>
+                           <Image url="@../images/CalendarioEventosAzul.png" />
+                        </image>
+                     </ImageView>
+                     <Label text="Calendario de eventos" />
+                  </HBox>
+               </graphic>
+            </ToggleButton>
+            
+            <!-- Ver Participantes -->
+            <ToggleButton fx:id="btnVerParticipantes" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button">
+               <graphic>
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                     <ImageView fx:id="iconVerParticipantes" fitHeight="30.0" fitWidth="30.0" preserveRatio="true" smooth="true">
+                        <image>
+                           <Image url="@../images/ParticipantesVistaAzul.png" />
+                        </image>
+                     </ImageView>
+                     <Label text="Ver Participantes" />
+                  </HBox>
+               </graphic>
+            </ToggleButton>
+            
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="20.0" />
+         </BorderPane.margin>
+      </VBox>
+   </left>
+   <center>
+      <!-- AnchorPane de fondo (background) -->
+      <AnchorPane styleClass="content-background">
+         <children>
+            <!-- AnchorPane contenedor dinámico centrado -->
+            <AnchorPane fx:id="centerContainer" styleClass="content-container" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

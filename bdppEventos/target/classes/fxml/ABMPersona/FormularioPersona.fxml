@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns:fx2="http://javafx.com/fxml/2" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMPersona.FormularioPersonaControlador">
+  <children>
+    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0" style="-fx-background-color: #819A91;">
+      <children>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gestion de Persona" wrappingWidth="144.6669921875" />
+      </children>
+      <VBox.margin>
+        <Insets />
+      </VBox.margin>
+      <padding>
+        <Insets left="10.0" />
+      </padding>
+    </HBox>
+    <GridPane alignment="CENTER" hgap="10.0" prefHeight="111.0" prefWidth="560.0">
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="119.0" minWidth="10.0" prefWidth="74.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.0" minWidth="10.0" prefWidth="180.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0" prefWidth="97.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="217.0" minWidth="10.0" prefWidth="196.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints maxHeight="90.0" minHeight="6.0" prefHeight="41.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="84.0" minHeight="0.0" prefHeight="36.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="53.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+      <VBox.margin>
+        <Insets />
+      </VBox.margin>
+      <children>
+        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="40.0" text="DNI:" />
+        <Label text="Nombre/s:" GridPane.rowIndex="1" />
+        <Label text="Apellido/s:" GridPane.rowIndex="2" />
+        <Label text="Telefono:" GridPane.columnIndex="2">
+          <GridPane.margin>
+            <Insets left="15.0" />
+          </GridPane.margin>
+        </Label>
+        <Label text="Correo:" GridPane.columnIndex="2" GridPane.rowIndex="1">
+          <GridPane.margin>
+            <Insets left="15.0" />
+          </GridPane.margin>
+        </Label>
+        <TextField fx:id="txtDni" prefHeight="16.0" prefWidth="180.0" promptText="Ingrese el DNI" GridPane.columnIndex="1" />
+        <TextField fx:id="txtNombre" promptText="Ingrese el nombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <TextField fx:id="txtApellido" promptText="Ingrese el Apellido" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <TextField fx:id="txtTelefono" promptText="Ingrese el Telefono" GridPane.columnIndex="3" />
+        <TextField fx:id="txtCorreo" promptText="Ingrese el email" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+        <Label text="Activo:" GridPane.columnIndex="2" GridPane.rowIndex="2">
+          <GridPane.margin>
+            <Insets left="15.0" />
+          </GridPane.margin>
+        </Label>
+        <CheckBox fx:id="chkActivo" mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+      </children>
+    </GridPane>
+    <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="45.0" prefWidth="560.0" spacing="15.0">
+      <children>
+        <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#handleGuardar" text="Guardar/Modificar" />
+        <Button fx:id="btnBajaAlta" mnemonicParsing="false" onAction="#handleBajaAlta" text="Dar Baja/Alta" />
+        <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#handleLimpiar" text="Limpiar" />
+      </children>
+      <VBox.margin>
+        <Insets />
+      </VBox.margin>
+    </HBox>
+  </children>
+  <padding>
+    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+  </padding>
+</VBox>

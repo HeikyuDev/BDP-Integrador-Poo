@@ -1,0 +1,290 @@
+/* CSS SIMPLE Y LIMPIO - COMO ESTABA ANTES PERO MEJORADO */
+
+/* ScrollPane principal */
+.main-scroll-pane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent;
+}
+
+.main-scroll-pane .viewport {
+    -fx-background-color: #ffffff;
+}
+
+/* Contenedor principal */
+.main-container {
+    -fx-background-color: #ffffff;
+    -fx-spacing: 25;
+    -fx-padding: 0;
+}
+
+/* Header AZUL como estaba antes */
+.header-container {
+    -fx-background-color: #2E4BC6;
+    -fx-padding: 20;
+}
+
+.header-title {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+/* Secciones del formulario */
+.form-section {
+    -fx-background-color: white;
+    -fx-padding: 30;
+    -fx-spacing: 20;
+    -fx-border-color: #e8e8e8;
+    -fx-border-width: 0 0 1 0;
+}
+
+.tipo-evento-section {
+    -fx-background-color: white;
+    -fx-padding: 30;
+    -fx-spacing: 8;
+    -fx-border-color: #e8e8e8;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-section {
+    -fx-background-color: white;
+    -fx-padding: 30;
+    -fx-spacing: 20;
+}
+
+/* Títulos simples */
+.section-title {
+    -fx-text-fill: #2E4BC6;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 15 0;
+}
+
+/* Labels normales */
+.field-label {
+    -fx-text-fill: #333;
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 5 0;
+}
+
+/* Labels con asterisco para campos obligatorios */
+.field-label-required {
+    -fx-text-fill: #333;
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 5 0;
+}
+
+/* TextFields NORMALES y bonitos */
+.modern-textfield {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 8 12;
+    -fx-font-size: 14px;
+    -fx-pref-height: 34;
+    -fx-min-height: 34;
+    -fx-max-height: 34;
+}
+
+.modern-textfield:focused {
+    -fx-border-color: #2E4BC6;
+    -fx-border-width: 2;
+}
+
+.modern-textfield-disabled {
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 8 12;
+    -fx-font-size: 14px;
+    -fx-text-fill: #999;
+    -fx-pref-height: 34;
+    -fx-min-height: 34;
+    -fx-max-height: 34;
+}
+
+/* ComboBox normal */
+.modern-combobox {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-font-size: 14px;
+    -fx-pref-height: 34;
+    -fx-min-height: 34;
+    -fx-max-height: 34;
+}
+
+.modern-combobox:focused {
+    -fx-border-color: #2E4BC6;
+    -fx-border-width: 2;
+}
+
+/* DatePicker normal */
+.modern-datepicker {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-font-size: 14px;
+    -fx-pref-height: 34;
+    -fx-min-height: 34;
+    -fx-max-height: 34;
+}
+
+.modern-datepicker:focused {
+    -fx-border-color: #2E4BC6;
+    -fx-border-width: 2;
+}
+
+/* CheckBox alineado con TextFields */
+.modern-checkbox {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-spacing: 8;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.modern-checkbox .box {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-min-width: 16;
+    -fx-min-height: 16;
+    -fx-pref-width: 16;
+    -fx-pref-height: 16;
+    -fx-translate-y: 1;
+}
+
+.modern-checkbox:selected .box {
+    -fx-background-color: #2E4BC6;
+    -fx-border-color: #2E4BC6;
+}
+
+.modern-checkbox:selected .mark {
+    -fx-background-color: white;
+}
+
+.modern-checkbox:hover .box {
+    -fx-border-color: #2E4BC6;
+}
+
+/* Contenedor dinámico MODERNO */
+.dynamic-container {
+    -fx-background-color: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-border-style: dashed;
+    -fx-padding: 30;
+    -fx-effect: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Placeholder moderno con icono */
+.placeholder-icon {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 24px;
+}
+
+.placeholder-title {
+    -fx-text-fill: #475569;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.placeholder-text {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 14px;
+    -fx-font-style: italic;
+}
+
+/* Botón AZUL simple como antes */
+.primary-button {
+    -fx-background-color: #2E4BC6;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 10 20;
+    -fx-pref-height: 36;
+}
+
+.primary-button:hover {
+    -fx-background-color: #1a3498;
+}
+
+.primary-button:pressed {
+    -fx-background-color: #153d8a;
+}
+
+/* Tabla simple */
+.table-scroll-pane {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.modern-table {
+    -fx-background-color: white;
+    -fx-table-cell-border-color: #eee;
+    -fx-border-color: transparent;
+}
+
+.modern-table .column-header {
+    -fx-background-color: #f8f8f8;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 0 1 0;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-text-fill: #333;
+    -fx-padding: 12 8;
+}
+
+.modern-table .table-cell {
+    -fx-border-color: #f5f5f5;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 10 8;
+    -fx-font-size: 13px;
+    -fx-text-fill: #333;
+    -fx-background-color: white;
+}
+
+.modern-table .table-row-cell:selected {
+    -fx-background-color: #e3f2fd;
+}
+
+.modern-table .table-row-cell:hover {
+    -fx-background-color: #f8f8f8;
+}
+
+/* Scrollbars normales */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #ccc;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #999;
+}

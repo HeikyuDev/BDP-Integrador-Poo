@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10" alignment="TOP_CENTER"
+      prefWidth="400" prefHeight="500">
+  <padding>
+    <Insets top="20" right="20" bottom="20" left="20"/>
+  </padding>
+  <!-- Título -->
+  <Label text="Gestión de Persona" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+  <!-- DNI -->
+  <HBox spacing="10" alignment="CENTER_LEFT">
+    <Label text="DNI:" minWidth="100"/>
+    <TextField fx:id="txtDni" promptText="Ingrese DNI"/>
+  </HBox>
+  <!-- Nombre -->
+  <HBox spacing="10" alignment="CENTER_LEFT">
+    <Label text="Nombre:" minWidth="100"/>
+    <TextField fx:id="txtNombre" promptText="Ingrese nombre"/>
+  </HBox>
+  <!-- Apellido -->
+  <HBox spacing="10" alignment="CENTER_LEFT">
+    <Label text="Apellido:" minWidth="100"/>
+    <TextField fx:id="txtApellido" promptText="Ingrese apellido"/>
+  </HBox>
+  <!-- Teléfono -->
+  <HBox spacing="10" alignment="CENTER_LEFT">
+    <Label text="Teléfono:" minWidth="100"/>
+    <TextField fx:id="txtTelefono" promptText="Ingrese teléfono"/>
+  </HBox>
+  <!-- Correo -->
+  <HBox spacing="10" alignment="CENTER_LEFT">
+    <Label text="Correo:" minWidth="100"/>
+    <TextField fx:id="txtCorreo" promptText="Ingrese email"/>
+  </HBox>
+  <!-- Activo -->
+  <HBox spacing="10" alignment="CENTER_LEFT">
+    <Label text="Activo:" minWidth="100"/>
+    <CheckBox fx:id="chkActivo" selected="true"/>
+  </HBox>
+  <!-- Botones -->
+  <HBox spacing="15" alignment="CENTER">
+    <Button fx:id="btnGuardar" text="Guardar / Modificar" prefWidth="120"/>
+    <Button fx:id="btnBajaAlta" text="Dar Baja/Alta" prefWidth="100"/>
+    <Button fx:id="btnLimpiar" text="Limpiar" prefWidth="80"/>
+  </HBox>
+</VBox>

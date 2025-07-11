@@ -31,12 +31,16 @@ public class Taller extends Evento {
         this.modalidad = modalidad;
     }
 
-    public Taller(int cupoMaximo, TipoModalidad modalidad, int idEvento, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento unEstadoEvento, boolean esPago, double montoInscripcion, boolean activo, List<Participacion> unaListaParticipacion) {
-        super(idEvento, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, unEstadoEvento, esPago, montoInscripcion, activo, unaListaParticipacion);
+    public Taller(int cupoMaximo, TipoModalidad modalidad, String nombre, LocalDate fechaInicio, int duracionEstimada,
+            boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion,
+            EstadoEvento unEstadoEvento, boolean esPago, double montoInscripcion, boolean activo,
+            List<Participacion> unaListaParticipacion) {
+        super(nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion,
+                unEstadoEvento, esPago, montoInscripcion, activo, unaListaParticipacion);
         this.cupoMaximo = cupoMaximo;
         this.modalidad = modalidad;
     }
-       
+
     // Getters y Setters
 
     public int getCupoMaximo() {

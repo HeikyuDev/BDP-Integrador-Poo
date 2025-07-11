@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence 
+             https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+    
+    <persistence-unit name="EventosPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+        <!-- CLASES CON LOS PAQUETES CORRECTOS -->
+        <class>com.mycompany.bdppeventos.model.entities.Evento</class>
+        <class>com.mycompany.bdppeventos.model.entities.Persona</class>
+        <class>com.mycompany.bdppeventos.model.entities.Participacion</class>
+        <class>com.mycompany.bdppeventos.model.entities.TipoRol</class>
+        <class>com.mycompany.bdppeventos.model.entities.CicloDeCine</class>
+        <class>com.mycompany.bdppeventos.model.entities.Concierto</class>
+        <class>com.mycompany.bdppeventos.model.entities.Exposicion</class>
+        <class>com.mycompany.bdppeventos.model.entities.Feria</class>
+        <class>com.mycompany.bdppeventos.model.entities.Pelicula</class>
+        <class>com.mycompany.bdppeventos.model.entities.Proyeccion</class>
+        <class>com.mycompany.bdppeventos.model.entities.Taller</class>
+        <class>com.mycompany.bdppeventos.model.entities.TipoDeArte</class>
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <properties>
+            <!-- Configuración de PostgreSQL -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/EVENTOS"/>
+            <property name="jakarta.persistence.jdbc.user" value="AdminEvento"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.password" value="admin"/>
+            
+            <!-- Configuración de esquema -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+            
+            <!-- Configuración EclipseLink -->
+            <property name="eclipselink.logging.level" value="INFO"/>
+            <property name="eclipselink.target-database" value="PostgreSQL"/>
+            <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+            
+            <!-- Para JavaFX -->
+            <property name="eclipselink.weaving" value="false"/>
+            <property name="eclipselink.jpa.uppercase-column-names" value="false"/>
+        </properties>
+    </persistence-unit>
+</persistence>
