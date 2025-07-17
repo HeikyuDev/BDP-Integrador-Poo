@@ -3,6 +3,7 @@ package com.mycompany.bdppeventos.model.entities;
 import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.model.interfaces.Activable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -79,7 +80,7 @@ public class Participacion implements Activable {
         this.unTipoRol = unTipoRol;
     }
 
-    //TODO: Falta validaciones 
+    
     public Evento getUnEvento() {
         return unEvento;
     }
