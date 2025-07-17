@@ -4,7 +4,8 @@ public enum EstadoEvento {
     PLANIFICADO("Planificado"),
     CONFIRMADO("Confirmado"),
     EN_EJECUCION("En Ejecución"),      // ← Sin acento en código
-    FINALIZADO("Finalizado");          // ← Punto y coma OBLIGATORIO
+    FINALIZADO("Finalizado"),
+    CANCELADO("Cancelado");          // ← Punto y coma OBLIGATORIO
     
     // Atributo
     private final String descripcion;

@@ -1,12 +1,14 @@
 package com.mycompany.bdppeventos.model.entities;
 
+import java.time.LocalDate;
+
 import com.mycompany.bdppeventos.model.enums.TipoEntrada;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
 
 /**
  * Entidad que representa un Concierto como especialización de Evento
@@ -76,6 +78,16 @@ public class Concierto extends Evento {
         } else {
             this.setEsPago(true);
         }
+    }
+
+    private double getMontoInscripcion()
+    {
+        return this.getMontoInscripcion();
+    }
+
+    private void setMontoInscripcion(double valor)
+    {
+        this.setMonto(valor);
     }
 
 }

@@ -1,11 +1,7 @@
 package com.mycompany.bdppeventos.model.interfaces;
 
 public interface Activable {
-    
-    // Constantes
-    Boolean ACTIVO = true;
-    Boolean INACTIVO = false;
-    
+            
     // Métodos que DEBEN implementar las clases
     void activar();
     void desactivar();

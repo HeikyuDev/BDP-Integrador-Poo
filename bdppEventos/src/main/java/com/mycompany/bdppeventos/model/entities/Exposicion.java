@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "Exposiciones")
+@Table(name = "exposiciones")
 public class Exposicion extends Evento {
 
     // Atributos 
@@ -26,17 +26,21 @@ public class Exposicion extends Evento {
         this.unTipoArte = unTipoArte;
     }
     
-    //getters y Setters
-    // TODO: Falta validaciones
+    //getters y Setters    
     
     public TipoDeArte getUnTipoArte() {
         return unTipoArte;
     }
 
     public void setUnTipoArte(TipoDeArte unTipoArte) {
-        this.unTipoArte = unTipoArte;
+        if(unTipoArte == null)
+        {
+            throw new IllegalArgumentException("unTipoArte no puede ser null");
+        }
+        else
+        {
+            this.unTipoArte = unTipoArte;
+        }
     }
-    
-    
-
+        
 }

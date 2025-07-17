@@ -1,12 +1,14 @@
 package com.mycompany.bdppeventos.model.entities;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import com.mycompany.bdppeventos.model.enums.EstadoEvento;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Entidad que representa un Ciclo de Cine como especialización de Evento
@@ -21,31 +23,25 @@ public class CicloDeCine extends Evento {
     private boolean charlasPosteriores;
 
     // Relación uno a muchos con Proyeccion
-    @OneToMany(mappedBy = "cicloDeCine")
+    @OneToMany(mappedBy = "unCicloDeCine")
     private List<Proyeccion> proyecciones;
 
-    // Constructor por defecto
+    // Constructores
     public CicloDeCine() {
         super();
     }
-
-    // Constructor completo para crear ciclos de cine existentes
 
     public CicloDeCine(boolean charlasPosteriores, List<Proyeccion> proyecciones) {
         this.charlasPosteriores = charlasPosteriores;
         this.proyecciones = proyecciones;
     }
 
-    public CicloDeCine(boolean charlasPosteriores, List<Proyeccion> proyecciones, int idEvento, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento unEstadoEvento, boolean esPago, double montoInscripcion, boolean activo, List<Participacion> unaListaParticipacion) {
-        super(idEvento, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, unEstadoEvento, esPago, montoInscripcion, activo, unaListaParticipacion);
+    public CicloDeCine(boolean charlasPosteriores, List<Proyeccion> proyecciones, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, boolean esPago, double monto, List<Participacion> unaListaParticipacion) {
+        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, esPago, monto, unaListaParticipacion);
         this.charlasPosteriores = charlasPosteriores;
         this.proyecciones = proyecciones;
     }
     
-    
-    // Constructor simplificado para crear ciclos de cine nuevos
-    
-
     // Getters y Setters
     public boolean isCharlasPosteriores() {
         return charlasPosteriores;

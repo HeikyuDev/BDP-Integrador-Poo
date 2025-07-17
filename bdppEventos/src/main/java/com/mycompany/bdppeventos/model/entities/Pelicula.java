@@ -1,5 +1,6 @@
 package com.mycompany.bdppeventos.model.entities;
 
+import com.mycompany.bdppeventos.model.interfaces.Activable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,15 +16,18 @@ import java.util.List;
  */
 @Entity
 @Table(name = "peliculas")
-public class Pelicula {
+public class Pelicula implements Activable {
 
     @Id
     @Column(name = "id_pelicula", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPelicula;
 
-    @Column(name = "titulo", length = 100, nullable = false)
+    @Column(name = "titulo", length = 50, nullable = false)
     private String titulo;
+    
+    @Column(name = "duracion", nullable = false)
+    private double duracion;
 
     @Column(name = "activo", nullable = false)
     private boolean activo;
@@ -38,29 +42,25 @@ public class Pelicula {
         this.activo = true; // Por defecto activo
     }
 
-    // Constructor para crear una película nueva sin proyecciones
-    public Pelicula(int idPelicula, String titulo, boolean activo) {
+    public Pelicula(int idPelicula, String titulo, double duracion, boolean activo, List<Proyeccion> proyecciones) {
         this.idPelicula = idPelicula;
         this.titulo = titulo;
-        this.activo = activo;
-    }
-
-    // Constructor completo para crear una película con proyecciones
-    public Pelicula(int idPelicula, String titulo, boolean activo, List<Proyeccion> proyecciones) {
-        this.idPelicula = idPelicula;
-        this.titulo = titulo;
-        this.activo = activo;
+        this.duracion = duracion;
+        this.activo = true;
         this.proyecciones = proyecciones;
     }
-
-    // Getters y Setters
-
-    public int getIdPelicula() {
-        return idPelicula;
+    
+    public Pelicula(int idPelicula, String titulo, double duracion, boolean activo) {
+        this.idPelicula = idPelicula;
+        this.titulo = titulo;
+        this.duracion = duracion;
+        this.activo = true;        
     }
 
-    public void setIdPelicula(int idPelicula) {
-        this.idPelicula = idPelicula;
+
+    // Getters y Setters
+    public int getIdPelicula() {
+        return idPelicula;
     }
 
     public String getTitulo() {
@@ -68,15 +68,14 @@ public class Pelicula {
     }
 
     public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+        if (titulo == null || titulo.trim().isEmpty()) {
+            throw new IllegalArgumentException("El título no puede estar vacío");
+        }
+        if (titulo.trim().length() > 50) {
+            throw new IllegalArgumentException("El título no puede exceder los 100 caracteres");
+        }
 
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+        this.titulo = titulo.trim();
     }
 
     public List<Proyeccion> getProyecciones() {
@@ -85,6 +84,31 @@ public class Pelicula {
 
     public void setProyecciones(List<Proyeccion> proyecciones) {
         this.proyecciones = proyecciones;
+    }
+
+      // Metodos interfaz Activable
+    @Override
+    public void activar() {
+        this.activo = true;
+    }
+
+    @Override
+    public void desactivar() {
+        this.activo = false;
+    }
+
+    @Override
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    @Override
+    public void setActivo(Boolean activo) {
+        // Activo no puede ser null
+        if (activo == null) {
+            throw new IllegalArgumentException("Estado activo no puede ser nulo");
+        }
+        this.activo = activo;
     }
 
 }

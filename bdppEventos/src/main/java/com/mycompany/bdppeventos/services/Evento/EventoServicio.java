@@ -1,3 +1,5 @@
+/* 
+
 package com.mycompany.bdppeventos.services.Evento;
 
 import java.time.LocalDate;
@@ -218,3 +220,5 @@ public class EventoServicio extends CrudServicio<Evento> {
         servicioIdioma.agregarQuitarLibro(idioma, libro);
     }
 }
+
+*/

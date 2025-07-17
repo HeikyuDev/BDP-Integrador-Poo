@@ -1,5 +1,6 @@
 package com.mycompany.bdppeventos.model.entities;
 
+import com.mycompany.bdppeventos.model.interfaces.Activable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,10 +16,10 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "proyecciones")
-public class Proyeccion {
+public class Proyeccion implements Activable {
 
     @Id
-    @Column(name = "id_proyeccion", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idProyeccion;
 
@@ -28,7 +29,7 @@ public class Proyeccion {
     // Relación muchos a uno con CicloDeCine
     @ManyToOne
     @JoinColumn(name = "id_ciclo_cine", nullable = false)
-    private CicloDeCine cicloDeCine;
+    private CicloDeCine unCicloDeCine;
 
     // Relación muchos a uno con Pelicula
     @ManyToOne
@@ -42,8 +43,8 @@ public class Proyeccion {
 
     public Proyeccion(int idProyeccion, boolean activo, CicloDeCine cicloDeCine, Pelicula pelicula) {
         this.idProyeccion = idProyeccion;
-        this.activo = activo;
-        this.cicloDeCine = cicloDeCine;
+        this.activo = true;
+        this.unCicloDeCine = cicloDeCine;
         this.pelicula = pelicula;
     }
 
@@ -51,17 +52,48 @@ public class Proyeccion {
 
     public int getIdProyeccion() {
         return idProyeccion;
+    }   
+
+    public CicloDeCine getUnCicloDeCine() {
+        return unCicloDeCine;
     }
 
-    public void setIdProyeccion(int idProyeccion) {
-        this.idProyeccion = idProyeccion;
+    public void setUnCicloDeCine(CicloDeCine unCicloDeCine) {
+        this.unCicloDeCine = unCicloDeCine;
     }
 
-    public boolean isActivo() {
+    public Pelicula getPelicula() {
+        return pelicula;
+    }
+
+    public void setPelicula(Pelicula pelicula) {
+        this.pelicula = pelicula;
+    }
+
+    
+ 
+     // Metodos interfaz Activable
+    @Override
+    public void activar() {
+        this.activo = true;
+    }
+
+    @Override
+    public void desactivar() {
+        this.activo = false;
+    }
+
+    @Override
+    public Boolean getActivo() {
         return activo;
     }
 
-    public void setActivo(boolean activo) {
+    @Override
+    public void setActivo(Boolean activo) {
+        // Activo no puede ser null
+        if (activo == null) {
+            throw new IllegalArgumentException("Estado activo no puede ser nulo");
+        }
         this.activo = activo;
     }
 }

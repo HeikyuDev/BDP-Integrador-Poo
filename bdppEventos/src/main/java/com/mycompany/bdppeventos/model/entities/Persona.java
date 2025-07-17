@@ -14,7 +14,7 @@ public class Persona implements Activable {
 
     // Clave Primaria
     @Id
-    @Column(name = "dni", length = 10, nullable = false)
+    @Column(name = "dni", length = 15, nullable = false)
     private String dni;
 
     // Atributos Simples    
@@ -45,14 +45,14 @@ public class Persona implements Activable {
         this.activo = true;
     }
 
-    public Persona(String dni, String nombre, String apellido, String telefono, String correoElectronico, List<Participacion> unaListaParticipacion, Boolean activo) {
+    public Persona(String dni, String nombre, String apellido, String telefono, String correoElectronico, List<Participacion> unaListaParticipacion) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.unaListaParticipacion = unaListaParticipacion;
-        this.activo = activo;
+        this.activo = true;
     }
     
     // Getters y Setters
@@ -63,15 +63,16 @@ public class Persona implements Activable {
     public void setDni(String dni) {
         if (dni == null || dni.trim().isEmpty()) {
             throw new IllegalArgumentException("DNI no puede estar vacío");
+        }        
+        if(dni.trim().length() > 15)
+        {
+            throw new IllegalArgumentException("Dni no puede exceder los 15 caracteres");
         }
-
-        String dniLimpio = dni.trim();
-
         // Validar que solo contenga números
-        if (!dniLimpio.matches("\\d+")) {
+        if (!dni.trim().matches("\\d+")) {
             throw new IllegalArgumentException("DNI debe contener solo números");
         }
-        this.dni = dniLimpio;
+        this.dni = dni.trim();
     }
 
     public String getNombre() {
@@ -108,16 +109,15 @@ public class Persona implements Activable {
 
     public void setTelefono(String telefono) {
         // Teléfono es opcional, pero si viene debe ser válido
-        if (telefono != null && !telefono.trim().isEmpty()) {
-            String telefonoLimpio = telefono.trim();
-            if (telefonoLimpio.length() > 15) {
+        if (telefono != null && !telefono.trim().isEmpty()) {            
+            if (telefono.trim().length() > 15) {
                 throw new IllegalArgumentException("Teléfono no puede exceder 15 caracteres");
             }
             //validar formato (solo números, espacios, guiones)
-            if (!telefonoLimpio.matches("[0-9 \\-+()]+")) {
+            if (!telefono.trim().matches("[0-9 \\-+()]+")) {
                 throw new IllegalArgumentException("Teléfono solo puede tener números, espacios, guiones, + y paréntesis");
             }
-            this.telefono = telefonoLimpio;
+            this.telefono = telefono.trim();
         } else {
             this.telefono = null;  // Si viene vacío, guardar como null
         }
@@ -130,33 +130,19 @@ public class Persona implements Activable {
     public void setCorreoElectronico(String correoElectronico) {
         // Email es opcional, pero si viene debe ser válido
         if (correoElectronico != null && !correoElectronico.trim().isEmpty()) {
-            String emailLimpio = correoElectronico.trim();
-            if (emailLimpio.length() > 50) {
+            
+            if (correoElectronico.trim().length() > 50) {
                 throw new IllegalArgumentException("Email no puede exceder 50 caracteres");
             }
-            if (!esEmailValido(emailLimpio)) {
+            if (!esEmailValido(correoElectronico.trim())) {
                 throw new IllegalArgumentException("Formato de email inválido");
             }
-            this.correoElectronico = emailLimpio;
+            this.correoElectronico = correoElectronico.trim();
         } else {
             this.correoElectronico = null;  // Si viene vacío, guardar como null
         }
     }
-
-    @Override
-    public Boolean getActivo() {
-        return activo;
-    }
-
-    @Override
-    public void setActivo(Boolean activo) {
-        // Activo no puede ser null
-        if (activo == null) {
-            throw new IllegalArgumentException("Estado activo no puede ser nulo");
-        }
-        this.activo = activo;
-    }
-
+       
     public List<Participacion> getUnaListaParticipacion() {
         return unaListaParticipacion;
     }
@@ -191,14 +177,30 @@ public class Persona implements Activable {
         return true;
     }
 
+    // Metodos interfaz Activable
+
     @Override
     public void activar() {
-        this.activo = ACTIVO;
+        this.activo = true;
     }
 
     @Override
     public void desactivar() {
-        this.activo = INACTIVO;
+        this.activo = false;
+    }
+
+    @Override
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    @Override
+    public void setActivo(Boolean activo) {
+        // Activo no puede ser null
+        if (activo == null) {
+            throw new IllegalArgumentException("Estado activo no puede ser nulo");
+        }
+        this.activo = activo;
     }
 
     @Override

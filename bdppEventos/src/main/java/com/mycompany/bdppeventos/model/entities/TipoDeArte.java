@@ -15,7 +15,7 @@ public class TipoDeArte implements Activable{
     // Atributos
     
     @Id
-    @Column(name = "id_tipo_arte", nullable = false)
+    @Column(name = "id", nullable = false)
     private int idTipoArte;
     
     @Column(name = "nombre", nullable = false)
@@ -29,60 +29,55 @@ public class TipoDeArte implements Activable{
     // Constructores
 
     public TipoDeArte() {
+        this.activo = true;
     }
 
     public TipoDeArte(int idTipoArte, String nombre, boolean activo, List<Exposicion> unaListaExposicion) {
         this.idTipoArte = idTipoArte;
         this.nombre = nombre;
-        this.activo = activo;
+        this.activo = true;
         this.unaListaExposicion = unaListaExposicion;
     }
     
     // Getters y Setters    
-    // TODO: Falta las validaciones
-    
+       
     public int getIdTipoArte() {
         return idTipoArte;
     }
-
-    public void setIdTipoArte(int idTipoArte) {
-        this.idTipoArte = idTipoArte;
-    }
-
+    
     public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío");
+        }
+        if (nombre.trim().length() > 35) {
+            throw new IllegalArgumentException("El nombre no puede exceder los 35 caracteres");
+        }
 
-    public boolean isActivo() {
-        return activo;
+        this.nombre = nombre.trim();
     }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-    }
-
+  
     public List<Exposicion> getUnaListaExposicion() {
         return unaListaExposicion;
     }
 
     public void setUnaListaExposicion(List<Exposicion> unaListaExposicion) {
         this.unaListaExposicion = unaListaExposicion;
-    }                                        
+    }                                                
     
-    // Metodos Interfaz Activable
-    
-     @Override
+    // Metodos interfaz Activable
+
+    @Override
     public void activar() {
-        this.activo = ACTIVO;
+        this.activo = true;
     }
 
     @Override
     public void desactivar() {
-        this.activo = INACTIVO;
+        this.activo = false;
     }
 
     @Override
@@ -98,4 +93,13 @@ public class TipoDeArte implements Activable{
         }
         this.activo = activo;
     }
+    
+    // To String
+
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
+    
+    
 }

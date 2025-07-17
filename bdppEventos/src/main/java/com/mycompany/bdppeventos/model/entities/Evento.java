@@ -8,6 +8,8 @@ import com.mycompany.bdppeventos.model.interfaces.Activable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,7 +28,6 @@ public abstract class Evento implements Activable {
     @Column(name = "nombre", length = 35, nullable = false)
     private String nombre;
 
-    // Que anotation es reocmendada. //Hace falta usar Temporal ??
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;
 
@@ -42,10 +43,11 @@ public abstract class Evento implements Activable {
     @Column(name = "tiene_inscripcion", nullable = false)
     private boolean tieneInscripcion;
 
-    @Column(name = "ubicacion", length = 35, nullable = false)
+    @Column(name = "ubicacion", length = 50, nullable = false)
     private String ubicacion;
 
-    @Column(name = "estado", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado", nullable = false, length = 20)
     private EstadoEvento estado;
 
     @Column(name = "es_pago", nullable = false)
@@ -55,20 +57,19 @@ public abstract class Evento implements Activable {
     private double monto;
 
     @Column(name = "activo", nullable = false)
-    private boolean activo = true;
+    private boolean activo;
 
     // Relacion uno muchos evento con participacion
     @OneToMany(mappedBy = "estado")
     private List<Participacion> unaListaParticipacion;
 
     // Constructores
-
     public Evento() {
+        this.activo = true;
     }
 
-    public Evento(String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo,
-            int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado,
-            boolean esPago, double monto) {
+    public Evento(int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, boolean esPago, double monto, List<Participacion> unaListaParticipacion) {
+        this.id = id;
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.duracionEstimada = duracionEstimada;
@@ -79,11 +80,11 @@ public abstract class Evento implements Activable {
         this.estado = estado;
         this.esPago = esPago;
         this.monto = monto;
+        this.unaListaParticipacion = unaListaParticipacion;
+        this.activo = true;
     }
 
     // Getters Y setters
-
-    // TODO: Falta validaciones IMPORTANTE
     public int getId() {
         return id;
     }
@@ -93,7 +94,14 @@ public abstract class Evento implements Activable {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío");
+        }
+        if (nombre.trim().length() > 35) {
+            throw new IllegalArgumentException("El nombre no puede exceder los 35 caracteres");
+        }
+
+        this.nombre = nombre.trim();
     }
 
     public LocalDate getFechaInicio() {
@@ -101,6 +109,13 @@ public abstract class Evento implements Activable {
     }
 
     public void setFechaInicio(LocalDate fechaInicio) {
+        if (fechaInicio == null) {
+            throw new IllegalArgumentException("La fecha de inicio no puede ser nula");
+        }
+        if (fechaInicio.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha de inicio debe ser posterior a la fecha actual");
+        }
+
         this.fechaInicio = fechaInicio;
     }
 
@@ -109,7 +124,11 @@ public abstract class Evento implements Activable {
     }
 
     public void setDuracionEstimada(int duracionEstimada) {
-        this.duracionEstimada = duracionEstimada;
+        if (duracionEstimada <= 0) {
+            throw new IllegalArgumentException("La duracion del evento no puede ser negativo o nulo");
+        } else {
+            this.duracionEstimada = duracionEstimada;
+        }
     }
 
     public boolean isTieneCupo() {
@@ -125,7 +144,14 @@ public abstract class Evento implements Activable {
     }
 
     public void setCapacidadMaxima(int capacidadMaxima) {
-        this.capacidadMaxima = capacidadMaxima;
+        if (this.tieneCupo == false && capacidadMaxima > 0) {
+            throw new IllegalArgumentException("La capacidad maxima requiere que tieneCupo sea verdadero");
+        }
+        if (capacidadMaxima <= 0) {
+            throw new IllegalArgumentException("La capacidad maxima debe ser positiva");
+        } else {
+            this.capacidadMaxima = capacidadMaxima;
+        }
     }
 
     public boolean isTieneInscripcion() {
@@ -136,12 +162,31 @@ public abstract class Evento implements Activable {
         this.tieneInscripcion = tieneInscripcion;
     }
 
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        if (ubicacion == null || ubicacion.trim().isEmpty()) {
+            throw new IllegalArgumentException("La ubicación no puede estar vacía");
+        }
+        if (ubicacion.trim().length() > 50) {
+            throw new IllegalArgumentException("La ubicación no puede exceder los 50 caracteres");
+        }
+
+        this.ubicacion = ubicacion.trim();
+    }
+
     public EstadoEvento getEstado() {
         return estado;
     }
 
     public void setEstado(EstadoEvento estado) {
-        this.estado = estado;
+        if (estado == null) {
+            throw new IllegalArgumentException("el estado del evento no puede ser nulo");
+        } else {
+            this.estado = estado;
+        }
     }
 
     public boolean isEsPago() {
@@ -157,7 +202,14 @@ public abstract class Evento implements Activable {
     }
 
     public void setMonto(double monto) {
-        this.monto = monto;
+        if (this.esPago == false) {
+            throw new IllegalArgumentException("Es necesario que esPago sea verdadero para poder definir el monto del evento");
+        }
+        if (monto <= 0) {
+            throw new IllegalArgumentException("El monto no puede ser negativo o nulo");
+        } else {
+            this.monto = monto;
+        }
     }
 
     public List<Participacion> getUnaListaParticipacion() {
@@ -169,15 +221,14 @@ public abstract class Evento implements Activable {
     }
 
     // Metodos interfaz Activable
-
     @Override
     public void activar() {
-        this.activo = ACTIVO;
+        this.activo = true;
     }
 
     @Override
     public void desactivar() {
-        this.activo = INACTIVO;
+        this.activo = false;
     }
 
     @Override
