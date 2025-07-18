@@ -49,18 +49,12 @@ public abstract class Evento implements Activable {
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false, length = 20)
     private EstadoEvento estado;
-
-    @Column(name = "es_pago", nullable = false)
-    private boolean esPago;
-
-    @Column(name = "monto", nullable = false)
-    private double monto;
-
+       
     @Column(name = "activo", nullable = false)
     private boolean activo;
 
     // Relacion uno muchos evento con participacion
-    @OneToMany(mappedBy = "estado")
+    @OneToMany(mappedBy = "unEvento")
     private List<Participacion> unaListaParticipacion;
 
     // Constructores
@@ -68,19 +62,17 @@ public abstract class Evento implements Activable {
         this.activo = true;
     }
 
-    public Evento(int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, boolean esPago, double monto, List<Participacion> unaListaParticipacion) {
+    public Evento(int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Participacion> unaListaParticipacion) {
         this.id = id;
-        this.nombre = nombre;
-        this.fechaInicio = fechaInicio;
-        this.duracionEstimada = duracionEstimada;
-        this.tieneCupo = tieneCupo;
-        this.capacidadMaxima = capacidadMaxima;
-        this.tieneInscripcion = tieneInscripcion;
-        this.ubicacion = ubicacion;
-        this.estado = estado;
-        this.esPago = esPago;
-        this.monto = monto;
-        this.unaListaParticipacion = unaListaParticipacion;
+        this.setNombre(nombre);
+        this.setFechaInicio(fechaInicio);
+        this.setDuracionEstimada(duracionEstimada);
+        this.setTieneCupo(tieneCupo);
+        this.setCapacidadMaxima(capacidadMaxima);
+        this.setTieneInscripcion(tieneInscripcion);
+        this.setUbicacion(ubicacion);
+        this.setEstado(estado);
+        this.setUnaListaParticipacion(unaListaParticipacion);
         this.activo = true;
     }
 
@@ -137,6 +129,11 @@ public abstract class Evento implements Activable {
 
     public void setTieneCupo(boolean tieneCupo) {
         this.tieneCupo = tieneCupo;
+        
+        if(this.tieneCupo == false)
+        {
+            this.capacidadMaxima = 0;
+        }
     }
 
     public int getCapacidadMaxima() {
@@ -188,29 +185,7 @@ public abstract class Evento implements Activable {
             this.estado = estado;
         }
     }
-
-    public boolean isEsPago() {
-        return esPago;
-    }
-
-    public void setEsPago(boolean esPago) {
-        this.esPago = esPago;
-    }
-
-    public double getMonto() {
-        return monto;
-    }
-
-    public void setMonto(double monto) {
-        if (this.esPago == false) {
-            throw new IllegalArgumentException("Es necesario que esPago sea verdadero para poder definir el monto del evento");
-        }
-        if (monto <= 0) {
-            throw new IllegalArgumentException("El monto no puede ser negativo o nulo");
-        } else {
-            this.monto = monto;
-        }
-    }
+       
 
     public List<Participacion> getUnaListaParticipacion() {
         return unaListaParticipacion;

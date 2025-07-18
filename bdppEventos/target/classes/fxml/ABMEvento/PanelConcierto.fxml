@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="173.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelConciertoController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="173.0" prefWidth="485.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelConciertoController">
     <children>
         <HBox alignment="CENTER" prefHeight="30.0" prefWidth="453.0" spacing="18.0">
             <children>
@@ -17,11 +18,11 @@
                 </Label>
             </children>
         </HBox>
-        <HBox alignment="CENTER_LEFT" prefHeight="137.0" prefWidth="453.0" spacing="40.0">
-            <children>
-                <Label fx:id="lblTipoConcierto" text="Tipo de Concierto: " />
-                <ComboBox fx:id="cmbTipoConcierto" prefHeight="25.0" prefWidth="281.0" promptText="seleccion el tipo de concierto" />
-            </children>
+        <HBox alignment="CENTER_LEFT" prefHeight="142.0" prefWidth="485.0" spacing="40.0">
+         <children>
+            <CheckBox fx:id="chkEsPago" mnemonicParsing="false" text="Es pago?" onAction="#configurarEsPago" />
+            <TextField fx:id="txtEsPago" disable="true" editable="false" />
+         </children>
         </HBox>
     </children>
 </VBox>

@@ -32,15 +32,17 @@ public class CicloDeCine extends Evento {
     }
 
     public CicloDeCine(boolean charlasPosteriores, List<Proyeccion> proyecciones) {
-        this.charlasPosteriores = charlasPosteriores;
-        this.proyecciones = proyecciones;
+        this.setCharlasPosteriores(charlasPosteriores);
+        this.setProyecciones(proyecciones);
     }
 
-    public CicloDeCine(boolean charlasPosteriores, List<Proyeccion> proyecciones, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, boolean esPago, double monto, List<Participacion> unaListaParticipacion) {
-        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, esPago, monto, unaListaParticipacion);
-        this.charlasPosteriores = charlasPosteriores;
-        this.proyecciones = proyecciones;
+    public CicloDeCine(boolean charlasPosteriores, List<Proyeccion> proyecciones, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Participacion> unaListaParticipacion) {
+        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, unaListaParticipacion);
+        this.setCharlasPosteriores(charlasPosteriores);
+        this.setProyecciones(proyecciones);
     }
+
+    
     
     // Getters y Setters
     public boolean isCharlasPosteriores() {

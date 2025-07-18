@@ -15,7 +15,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-public class FormularioEventoController implements Initializable {
+public class FormularioEventoController extends ConfiguracionIguEvento implements Initializable  {
 
     // Elementos del Controlador
     @FXML
@@ -26,12 +26,8 @@ public class FormularioEventoController implements Initializable {
 
     @FXML
     private TextField txtCupoMaximo;
-
-    @FXML
-    private CheckBox chkEsPago;
-
-    @FXML
-    private TextField txtEsPago;
+   
+    
     
     @FXML
     private ComboBox<TipoEvento> cmbTipoEvento;  // ← Tipado con enum /////IMPORTANTISIMO DEFINIR EL TIPO DE DATO DEL ENUM
@@ -84,26 +80,10 @@ public class FormularioEventoController implements Initializable {
     // Metodos de los controles
     @FXML
     private void configuracionCupoMaximo() {
-        if (chkCupoMaximo.isSelected()) {
-            txtCupoMaximo.setDisable(false);
-            txtCupoMaximo.setEditable(true);
-        } else {
-            txtCupoMaximo.setText("");
-            txtCupoMaximo.setDisable(true);
-        }
+        configuracionCheckTextfield(chkCupoMaximo,txtCupoMaximo);
     }
 
-    @FXML
-    private void configuracionEsPago() {
-        if (chkEsPago.isSelected()) {
-            txtEsPago.setDisable(false);
-            txtEsPago.setEditable(true);
-        } else {
-            txtEsPago.setText("");
-            txtEsPago.setDisable(true);
-        }
-    }
-
+    
     @FXML
     private void onTipoEventoChanged() {
         TipoEvento tipoSeleccionado = cmbTipoEvento.getSelectionModel().getSelectedItem();  // ← Sin casting. Obtengo el ENUM

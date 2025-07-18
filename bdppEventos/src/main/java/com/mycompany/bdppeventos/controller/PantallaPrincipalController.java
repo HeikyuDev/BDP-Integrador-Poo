@@ -16,10 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-/**
- * Controller para la pantalla principal del sistema Maneja la navegación del
- * menú lateral y cambio de íconos
- */
+
 public class PantallaPrincipalController implements Initializable {
 
     
@@ -50,8 +47,7 @@ public class PantallaPrincipalController implements Initializable {
     private ImageView iconCalendarioEventos;
     @FXML
     private ImageView iconVerParticipantes;
-
-    // --- Botones de ventana ---
+    
     @FXML
     private Button btnMinimizar; //si o si se tiene que llamar igual que el elemento Button cuya fx:id es btnMinimizar De lo contrario Excepcion
     @FXML
@@ -59,7 +55,7 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     private Button btnCerrar; //si o si se tiene que llamar igual que el elemento Button cuya fx:id es btnCerrar De lo contrario Excepcion
 
-    // --- Área de contenido dinámico ---
+    
     @FXML
     private AnchorPane centerContainer;
 
@@ -70,27 +66,21 @@ public class PantallaPrincipalController implements Initializable {
     // INICIALIZACIÓN
     // ==================================================================================
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("Inicializando PantallaPrincipalController...");
-
+    public void initialize(URL url, ResourceBundle rb) {        
         // Configuracion necesaria para que solamente se pueda seleccionar un solo ToggleButton a la vez y que no se pueda deseleccionar ninguno
         configurarToggleGroup(); 
 
         // Configuración de iconos para que se muestre el icono correcto según el botón seleccionado
         configurarCambiosIconos();
-        // Configuración de eventos de navegación. 
-        configurarEventosNavegacion();
+        // Configuración de eventos de navegación.         
         configurarBotonesVentana();
-
+        
         // Seleccionar Panel de Administración por defecto
         btnPanelAdmin.setSelected(true);
-
-        System.out.println("PantallaPrincipalController inicializado correctamente");
+        
     }
 
-    // ==================================================================================
-    // CONFIGURACIÓN INICIAL
-    // ==================================================================================
+    
     /**
      * Configura el ToggleGroup para que solo un botón esté activo a la vez
      */
@@ -104,45 +94,25 @@ public class PantallaPrincipalController implements Initializable {
         btnCalendarioEventos.setToggleGroup(menuGroup);
         btnVerParticipantes.setToggleGroup(menuGroup);
 
-        // Prevenir deselección completa - MEJORADO
+        // Prevenir deselección completa 
         menuGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             if (newToggle == null && oldToggle != null) {                
                 oldToggle.setSelected(true);
             }
         });        
-    }
-
-    /**
-     * Configura los eventos de navegación
-     */
-    private void configurarEventosNavegacion() {
-        btnPanelAdmin.setOnAction(e -> cargarVistaPanelAdmin()); // Le seteo al btn que cuando sea presionado se ejecute el método cargarVistaPanelAdmin
-        btnGestionEventos.setOnAction(e -> cargarVistaGestionEventos()); // Le seteo al btn que cuando sea presionado se ejecute el método cargarVistaGestionEventos
-        btnGestionPersonas.setOnAction(e -> cargarVistaGestionPersonas()); // Le seteo al btn que cuando sea presionado se ejecute el método cargarVistaGestionPersonas
-        btnInscribirParticipante.setOnAction(e -> cargarVistaInscribirParticipante()); // Le seteo al btn que cuando sea presionado se ejecute el método cargarVistaInscribirParticipante
-        btnCalendarioEventos.setOnAction(e -> cargarVistaCalendarioEventos()); // Le seteo al btn que cuando sea presionado se ejecute el método cargarVistaCalendarioEventos
-        btnVerParticipantes.setOnAction(e -> cargarVistaVerParticipantes()); // Le seteo al btn que cuando sea presionado se ejecute el método cargarVistaVerParticipantes
-
-        System.out.println("Eventos de navegación configurados");
-    }
-
-    /**
-     * Configura los botones de ventana (minimizar, maximizar, cerrar)
-     */
+    }  
+    
     private void configurarBotonesVentana() {
-        btnCerrar.setOnAction(e -> {
-            System.out.println("Cerrando aplicación...");
+        btnCerrar.setOnAction(e -> {            
             System.exit(0);
         });
 
-        btnMinimizar.setOnAction(e -> {
-            System.out.println("Minimizando ventana...");
+        btnMinimizar.setOnAction(e -> {            
             Stage stage = (Stage) btnMinimizar.getScene().getWindow();
             stage.setIconified(true);
         });
 
-        btnMaximizar.setOnAction(e -> {
-            System.out.println("Maximizar/Restaurar ventana...");
+        btnMaximizar.setOnAction(e -> {            
             Stage stage = (Stage) btnMaximizar.getScene().getWindow();
 
             if (stage.isMaximized()) {
@@ -153,23 +123,17 @@ public class PantallaPrincipalController implements Initializable {
                 btnMaximizar.setText("❐");
             }
         });
-
-        System.out.println("Botones de ventana configurados");
+        
     }
 
-    
-    /**
-     * Configura los listeners para cambiar íconos automáticamente
-     */
+        
     private void configurarCambiosIconos() {
         configurarIconoPanelAdmin();
         configurarIconoGestionEventos();
         configurarIconoGestionPersonas();
         configurarIconoInscribirParticipante();
         configurarIconoCalendarioEventos();
-        configurarIconoVerParticipantes();
-
-        System.out.println("Listeners de cambio de íconos configurados");
+        configurarIconoVerParticipantes();        
     }
 
     private void configurarIconoPanelAdmin() {
@@ -243,15 +207,15 @@ public class PantallaPrincipalController implements Initializable {
             }
         });
     }
-
-    // ==================================================================================
+    
     // NAVEGACIÓN ENTRE VISTAS
-    // ==================================================================================
-    private void cargarVistaPanelAdmin() {
-        mostrarMensajeTemporalmente("Cargando Panel de Administración...");
+    
+    @FXML
+    private void cargarVistaPanelAdmin() {        
         // TODO: Implementar carga de vista real
     }
 
+    @FXML
     private void cargarVistaGestionEventos() {
     try {                
         URL fxmlUrl = getClass().getResource("/fxml/ABMEvento/FormularioEvento.fxml");
@@ -277,18 +241,16 @@ public class PantallaPrincipalController implements Initializable {
         AnchorPane.setRightAnchor(vistaEvento, 0.0);
         AnchorPane.setBottomAnchor(vistaEvento, 0.0);
         AnchorPane.setLeftAnchor(vistaEvento, 0.0);
+                
         
-        System.out.println("✅ Vista cargada exitosamente");
-        
-    } catch (Exception ex) {
-        System.err.println("❌ Error detallado:");
+    } catch (Exception ex) {        
         ex.printStackTrace();
     }
 }
 
+    @FXML
     private void cargarVistaGestionPersonas() {
-        mostrarMensajeTemporalmente("Cargando Gestión de Personas...");
-        
+                
         //IMPLEMENTACION
 
         try {
@@ -313,29 +275,19 @@ public class PantallaPrincipalController implements Initializable {
         }
     }
 
-    private void cargarVistaInscribirParticipante() {
-        mostrarMensajeTemporalmente("Cargando Inscribir Participante...");
+    @FXML
+    private void cargarVistaInscribirParticipante() {        
         // TODO: Implementar carga de vista real
     }
 
-    private void cargarVistaCalendarioEventos() {
-        mostrarMensajeTemporalmente("Cargando Calendario de Eventos...");
+    @FXML
+    private void cargarVistaCalendarioEventos() {        
         // TODO: Implementar carga de vista real
     }
 
-    private void cargarVistaVerParticipantes() {
-        mostrarMensajeTemporalmente("Cargando Ver Participantes...");
+    @FXML
+    private void cargarVistaVerParticipantes() {       
         // TODO: Implementar carga de vista real
     }
-
-    // ==================================================================================
-    // MÉTODOS AUXILIARES
-    // ==================================================================================
-    /**
-     * Muestra un mensaje temporal en el área de contenido
-     */
-    private void mostrarMensajeTemporalmente(String mensaje) {
-        System.out.println(">>> " + mensaje);
-        // TODO: Crear Label temporal en centerContainer
-    }
+    
 }

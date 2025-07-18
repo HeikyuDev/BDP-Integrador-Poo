@@ -30,7 +30,7 @@
             <Label styleClass="nav-title" text="Navegación" />
             
             <!-- Panel de Administración -->
-            <ToggleButton fx:id="btnPanelAdmin" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" selected="true" styleClass="menu-button">
+            <ToggleButton fx:id="btnPanelAdmin" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" selected="true" styleClass="menu-button" onAction="#cargarVistaPanelAdmin">
                <graphic>
                   <HBox alignment="CENTER_LEFT" spacing="10">
                      <ImageView fx:id="iconPanelAdmin" fitHeight="30.0" fitWidth="30.0" preserveRatio="true" smooth="true">
@@ -44,7 +44,7 @@
             </ToggleButton>
             
             <!-- Gestión de Eventos -->
-            <ToggleButton fx:id="btnGestionEventos" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button">
+            <ToggleButton fx:id="btnGestionEventos" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button" onAction="#cargarVistaGestionEventos" >
                <graphic>
                   <HBox alignment="CENTER_LEFT" spacing="10">
                      <ImageView fx:id="iconGestionEventos" fitHeight="30.0" fitWidth="30.0" preserveRatio="true" smooth="true">
@@ -58,7 +58,7 @@
             </ToggleButton>
             
             <!-- Gestión de Personas -->
-            <ToggleButton fx:id="btnGestionPersonas" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button">
+            <ToggleButton fx:id="btnGestionPersonas" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button" onAction="#cargarVistaGestionPersonas">
                <graphic>
                   <HBox alignment="CENTER_LEFT" spacing="10">
                      <ImageView fx:id="iconGestionPersonas" fitHeight="30.0" fitWidth="30.0" preserveRatio="true" smooth="true">
@@ -72,7 +72,7 @@
             </ToggleButton>
             
             <!-- Inscribir Participante -->
-            <ToggleButton fx:id="btnInscribirParticipante" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button">
+            <ToggleButton fx:id="btnInscribirParticipante" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button" onAction="#cargarVistaInscribirParticipante">
                <graphic>
                   <HBox alignment="CENTER_LEFT" spacing="10">
                      <ImageView fx:id="iconInscribirParticipante" fitHeight="30.0" fitWidth="30.0" preserveRatio="true" smooth="true">
@@ -86,7 +86,7 @@
             </ToggleButton>
             
             <!-- Calendario de eventos -->
-            <ToggleButton fx:id="btnCalendarioEventos" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button">
+            <ToggleButton fx:id="btnCalendarioEventos" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button" onAction="#cargarVistaCalendarioEventos">
                <graphic>
                   <HBox alignment="CENTER_LEFT" spacing="10">
                      <ImageView fx:id="iconCalendarioEventos" fitHeight="30.0" fitWidth="30.0" preserveRatio="true" smooth="true">
@@ -100,7 +100,7 @@
             </ToggleButton>
             
             <!-- Ver Participantes -->
-            <ToggleButton fx:id="btnVerParticipantes" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button">
+            <ToggleButton fx:id="btnVerParticipantes" mnemonicParsing="false" prefHeight="25.0" prefWidth="249.0" styleClass="menu-button" onAction="#cargarVistaVerParticipantes">
                <graphic>
                   <HBox alignment="CENTER_LEFT" spacing="10">
                      <ImageView fx:id="iconVerParticipantes" fitHeight="30.0" fitWidth="30.0" preserveRatio="true" smooth="true">

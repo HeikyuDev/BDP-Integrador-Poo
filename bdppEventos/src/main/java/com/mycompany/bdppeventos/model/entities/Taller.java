@@ -4,49 +4,63 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.mycompany.bdppeventos.model.enums.EstadoEvento;
-import com.mycompany.bdppeventos.model.enums.TipoModalidad;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "talleres")
 public class Taller extends Evento {
 
+    @Column(name = "es_presencial", nullable = false)
+    private boolean esPresencial;
     
-    @Enumerated(EnumType.STRING) // EnumType.STRING para guardar el nombre del enum en la base de datos
-    private TipoModalidad modalidad;
-
-    // Constructores
-
     public Taller() {
         super();
     }
 
-    public Taller(TipoModalidad modalidad) {
+    public Taller(boolean esPresencial) {
         super();
-        this.modalidad = modalidad;
+        this.setEsPresencial(esPresencial);
     }
 
-    public Taller(TipoModalidad modalidad, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, boolean esPago, double monto, List<Participacion> unaListaParticipacion) {
-        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, esPago, monto, unaListaParticipacion);
-        this.modalidad = modalidad;
-    } 
-    
-       
-    // Getters y Setters   
+    public Taller(
+            boolean esPresencial,
+            int id,
+            String nombre,
+            LocalDate fechaInicio,
+            int duracionEstimada,
+            boolean tieneCupo,
+            int capacidadMaxima,
+            boolean tieneInscripcion,
+            String ubicacion,
+            EstadoEvento estado,
+            List<Participacion> unaListaParticipacion
+    ) {
+        super(
+                id,
+                nombre,
+                fechaInicio,
+                duracionEstimada,
+                tieneCupo,
+                capacidadMaxima,
+                tieneInscripcion,
+                ubicacion,
+                estado,
+                unaListaParticipacion
+        );
 
-    public TipoModalidad getModalidad() {
-        return modalidad;
+        this.setEsPresencial(esPresencial);
     }
-    
-    public void setModalidad(TipoModalidad modalidad) {
-        if (modalidad == null) {
-            throw new IllegalArgumentException("La modalidad no puede ser nula");
-        }
-        this.modalidad = modalidad;
+
+    // Getters y Setters
+    public boolean isEsPresencial() {
+        return esPresencial;
+    }
+
+    public void setEsPresencial(boolean esPresencial) {
+        this.esPresencial = esPresencial;
     }
 
 }

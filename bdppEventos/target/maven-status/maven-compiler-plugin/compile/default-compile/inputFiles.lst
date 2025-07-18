@@ -5,12 +5,12 @@ C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\Concierto.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\PantallaPrincipalController.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\Persona.java
+C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\ABMEvento\ConfiguracionIguEvento.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\services\CrudServicio.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\module-info.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\ABMEvento\FormularioEventoController.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\enums\TipoEvento.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\CicloDeCine.java
-C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\enums\TipoModalidad.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\Proyeccion.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\services\Evento\EventoServicio.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\ABMEvento\PanelTallerController.java
@@ -19,7 +19,6 @@ C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\Evento.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\repository\Repositorio.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\Participacion.java
-C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\enums\TipoConcierto.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\Taller.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\ABMEvento\PanelConciertoController.java
 C:\Users\elnah\OneDrive\Escritorio\POO I\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\ABMEvento\PanelExposicionController.java

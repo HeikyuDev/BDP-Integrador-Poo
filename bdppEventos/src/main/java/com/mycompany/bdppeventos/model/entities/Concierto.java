@@ -3,12 +3,10 @@ package com.mycompany.bdppeventos.model.entities;
 import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 import java.time.LocalDate;
 
-import com.mycompany.bdppeventos.model.enums.TipoConcierto;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import java.util.List;
 
@@ -20,36 +18,59 @@ import java.util.List;
 @Table(name = "conciertos")
 public class Concierto extends Evento {
 
-    @Enumerated(EnumType.STRING) // Se usa STRING para almacenar el nombre del enum en la base de datos
-    @Column(name = "tipo_concierto", nullable = false, length = 20) // length debe ser suficiente para el nombre del enum
-    private TipoConcierto tipoConcierto;
+   @Column(name = "es_pago", nullable = false)
+    private boolean esPago;
 
+   @Column(name = "monto", nullable = false)
+    private double monto;
+
+    
+    
     // Constructores
 
     public Concierto() {
         super();
     }
 
-    public Concierto(TipoConcierto tipoConcierto) {
-        this.tipoConcierto = tipoConcierto;
+    public Concierto(boolean esPago, double monto) {
+        super();
+        this.setEsPago(esPago);
+        this.setMonto(monto);
     }
 
-    public Concierto(TipoConcierto tipoConcierto, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, boolean esPago, double monto, List<Participacion> unaListaParticipacion) {
-        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, esPago, monto, unaListaParticipacion);
-        this.tipoConcierto = tipoConcierto;
+    public Concierto(boolean esPago, double monto, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Participacion> unaListaParticipacion) {
+        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, unaListaParticipacion);
+        this.setEsPago(esPago);
+        this.setMonto(monto);
     }
-
+      
     // Getters y Setters
-
-    public TipoConcierto getTipoConcierto() {
-        return tipoConcierto;
+    public boolean isEsPago() {
+        return esPago;
     }
 
-    public void setTipoConcierto(TipoConcierto tipoConcierto) {
-        if(tipoConcierto == null)
+    public void setEsPago(boolean esPago) {
+        this.esPago = esPago;
+        
+        if(this.esPago == false)
         {
-            throw new IllegalArgumentException("tipoConcierto no puede ser null");
+            this.monto = 0.0;
         }
-        this.tipoConcierto = tipoConcierto;
-    }                   
+    }
+
+    public double getMonto() {
+        return this.monto;
+    }
+
+    public void setMonto(double monto) {
+        if (this.esPago == false) {
+            throw new IllegalArgumentException("Es necesario que esPago sea verdadero para poder definir el monto del evento");
+        }
+        if (monto <= 0) {
+            throw new IllegalArgumentException("El monto no puede ser negativo o nulo");
+        } else {
+            this.monto = monto;
+        }
+    }
+
 }

@@ -1,32 +1,40 @@
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
-import com.mycompany.bdppeventos.model.enums.TipoConcierto;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 
 
-public class PanelConciertoController implements Initializable {
+public class PanelConciertoController extends ConfiguracionIguEvento implements Initializable {
 
 
     @FXML
-    private ComboBox<TipoConcierto> cmbTipoConcierto;
+    private CheckBox chkEsPago;
     
+    @FXML
+    private TextField txtEsPago;
     
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        cargarTipoConcierto();
+    public void initialize(URL url, ResourceBundle rb) {        
+        
     }    
     
     
     
     // Metodos específicos
     
-    private void cargarTipoConcierto()
+    
+    // Metodos de Controles
+    @FXML
+    private void configurarEsPago()
     {
-        cmbTipoConcierto.getItems().addAll(TipoConcierto.values());
+        configuracionCheckTextfield(chkEsPago, txtEsPago);
     }
+    
 }
