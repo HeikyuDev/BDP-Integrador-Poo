@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.HyperlinkLabel?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="173.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelFeriaController">
+    <children>
+        <HBox alignment="CENTER" prefHeight="30.0" prefWidth="453.0" spacing="18.0">
+            <children>
+                <Label fx:id="lblFeria" text="Feria">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="73.0" prefWidth="453.0" spacing="23.0">
+         <children>
+            <Label fx:id="lblCantidadStands" text="Cantidad de Stands: " />
+            <TextField fx:id="txtCantidadStands" prefHeight="25.0" prefWidth="297.0" promptText="ingrese la cantidad de stands" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="23.0">
+         <children>
+            <HyperlinkLabel />
+            <Label fx:id="lblTipoCobertura" text="Tipo cobertura: " />
+            <ComboBox fx:id="cmbTipoCobertura" prefHeight="25.0" prefWidth="300.0" promptText="seleccione un tipo de cobertura" />
+         </children>
+      </HBox>
+    </children>
+</VBox>

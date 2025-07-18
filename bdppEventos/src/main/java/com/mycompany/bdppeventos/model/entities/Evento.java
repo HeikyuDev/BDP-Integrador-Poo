@@ -244,5 +244,6 @@ public abstract class Evento implements Activable {
         }
         this.activo = activo;
     }
-
+    
+    
 }

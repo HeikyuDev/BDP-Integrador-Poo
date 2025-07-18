@@ -23,6 +23,10 @@ public class Proyeccion implements Activable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idProyeccion;
 
+    
+    @Column(name = "nombre", length = 35, nullable = false)
+    private String nombre;
+    
     @Column(name = "activo", nullable = false)
     private boolean activo;
 
@@ -41,12 +45,15 @@ public class Proyeccion implements Activable {
         this.activo = true; // Por defecto activo
     }
 
-    public Proyeccion(int idProyeccion, boolean activo, CicloDeCine cicloDeCine, Pelicula pelicula) {
+    public Proyeccion(int idProyeccion, String nombre, CicloDeCine unCicloDeCine, Pelicula pelicula) {
         this.idProyeccion = idProyeccion;
+        this.nombre = nombre;
         this.activo = true;
-        this.unCicloDeCine = cicloDeCine;
+        this.unCicloDeCine = unCicloDeCine;
         this.pelicula = pelicula;
     }
+
+    
 
     // Getters y Setters
 
@@ -62,6 +69,21 @@ public class Proyeccion implements Activable {
         this.unCicloDeCine = unCicloDeCine;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nombre no puede estar vacío");
+        }
+        if (nombre.trim().length() > 35) {
+            throw new IllegalArgumentException("Nombre no puede exceder 35 caracteres");
+        }
+        this.nombre = nombre.trim();
+    }
+    
+    
     public Pelicula getPelicula() {
         return pelicula;
     }

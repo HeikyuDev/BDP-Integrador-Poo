@@ -109,9 +109,7 @@ public class PantallaPrincipalController implements Initializable {
             if (newToggle == null && oldToggle != null) {                
                 oldToggle.setSelected(true);
             }
-        });
-
-        System.out.println("ToggleGroup configurado con selección obligatoria");
+        });        
     }
 
     /**
@@ -255,9 +253,7 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     private void cargarVistaGestionEventos() {
-    try {
-        System.out.println("=== DEBUG CARGA FXML ===");
-        
+    try {                
         URL fxmlUrl = getClass().getResource("/fxml/ABMEvento/FormularioEvento.fxml");
         System.out.println("URL encontrada: " + fxmlUrl);
         

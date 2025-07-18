@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1358.0" prefWidth="807.0" styleClass="main-scroll-pane" stylesheets="@../../css/formularioevento.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
+<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1358.0" prefWidth="807.0" styleClass="main-scroll-pane" stylesheets="@../../css/formularioevento.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
    <content>
       <VBox prefWidth="728.0" styleClass="main-container">
          <children>
@@ -82,7 +82,7 @@
                   </VBox>
                   
                   <!-- Configuraciones - MAS A LA DERECHA -->
-                  <VBox prefHeight="303.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                  <VBox prefHeight="303.0" spacing="22.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label styleClass="section-title" text="Configuraciones">
                            <opaqueInsets>
@@ -95,7 +95,7 @@
                         <!-- Cupo Máximo -->
                         <HBox alignment="CENTER_LEFT" spacing="12.0">
                            <children>
-                              <CheckBox fx:id="chkCupoMaximo" styleClass="modern-checkbox" />
+                              <CheckBox fx:id="chkCupoMaximo" styleClass="modern-checkbox" onAction="#configuracionCupoMaximo" />
                               <Label alignment="CENTER_LEFT" prefWidth="90.0" styleClass="field-label" text="Cupo Máximo">
                                  <HBox.margin>
                                     <Insets left="2.0" right="9.0" />
@@ -107,7 +107,7 @@
                         <!-- Es Pago -->
                         <HBox alignment="CENTER_LEFT" spacing="12.0">
                            <children>
-                              <CheckBox fx:id="chkEsPago" styleClass="modern-checkbox" />
+                              <CheckBox fx:id="chkEsPago" styleClass="modern-checkbox" onAction="#configuracionEsPago"/>
                               <Label alignment="CENTER_LEFT" prefWidth="90.0" styleClass="field-label" text="Es Pago">
                                  <HBox.margin>
                                     <Insets left="2.0" right="9.0" />
@@ -119,7 +119,7 @@
                         <!-- Tiene Inscripción -->
                         <HBox alignment="CENTER_LEFT" spacing="12.0">
                            <children>
-                              <CheckBox fx:id="chkTieneInscripcion" styleClass="modern-checkbox" />
+                              <CheckBox fx:id="chkTieneInscripcion" styleClass="modern-checkbox"/>
                               <Label alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="104.0" styleClass="field-label" text="Tiene Inscripción">
                                  <HBox.margin>
                                     <Insets left="2.0" right="9.0" />
