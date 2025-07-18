@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="173.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelTallerController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="30.0" prefWidth="453.0" spacing="18.0">
+         <children>
+            <Label fx:id="lblTaller" text="Taller">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" prefHeight="39.0" prefWidth="453.0">
+         <children>
+            <Label fx:id="lblTipoDeModalidad" text="Tipo de Modalidad" />
+         </children>
+      </VBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+         <children>
+            <RadioButton fx:id="rbtnPresencial" mnemonicParsing="false" text="Presencial" />
+            <RadioButton fx:id="rbtnVirtual" mnemonicParsing="false" text="Virtual" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

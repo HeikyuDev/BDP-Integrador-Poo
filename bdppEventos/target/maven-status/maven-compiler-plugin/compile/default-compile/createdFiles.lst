@@ -1,5 +1,6 @@
 com\mycompany\bdppeventos\controller\ABMParticipante\InscribirParticipanteController.class
 com\mycompany\bdppeventos\model\entities\Pelicula.class
+com\mycompany\bdppeventos\controller\ABMEvento\FormularioEventoController$1.class
 com\mycompany\bdppeventos\model\entities\Evento.class
 com\mycompany\bdppeventos\repository\Repositorio.class
 com\mycompany\bdppeventos\model\enums\EstadoEvento.class

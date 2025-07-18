@@ -1,0 +1,57 @@
+Descripción: Controladores de las vistas FXML
+Patrón: MVC (Model-View-Controller)
+
+Qué va aquí:
+- Clases controladoras de FXML
+- Métodos @FXML
+- Manejo de eventos de interfaz
+- NO lógica de negocio (usar services)
+
+Ejemplo - EventoController.java:
+```java
+public class EventoController implements Initializable {
+    @FXML private TableView<Evento> tablaEventos;
+    @FXML private TextField txtNombre;
+    @FXML private DatePicker dpFecha;
+    @FXML private Button btnGuardar;
+    
+    private EventoService eventoService;
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        eventoService = new EventoService();
+        cargarEventos();
+    }
+    
+    @FXML
+    private void guardarEvento(ActionEvent event) {
+        try {
+            Evento evento = new Evento();
+            evento.setNombre(txtNombre.getText());
+            evento.setFecha(dpFecha.getValue());
+            
+            eventoService.crearEvento(evento);
+            
+            AlertHelper.showInfo("Evento creado exitosamente");
+            limpiarFormulario();
+            cargarEventos();
+            
+        } catch (Exception e) {
+            AlertHelper.showError(e.getMessage());
+        }
+    }
+    
+    private void cargarEventos() {
+        List<Evento> eventos = eventoService.obtenerEventosDisponibles();
+        tablaEventos.setItems(FXCollections.observableArrayList(eventos));
+    }
+}
+```
+
+Archivos típicos:
+- MainController.java (navegación principal)
+- DashboardController.java (panel de control)
+- EventoController.java (gestión de eventos)
+- ParticipanteController.java (gestión de participantes)
+- InscripcionController.java (formulario de inscripción)
+- ReporteController.java (generación de reportes

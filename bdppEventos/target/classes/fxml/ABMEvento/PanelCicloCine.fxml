@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="173.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelCicloCineController">
+    <children>
+        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="453.0" spacing="18.0">
+            <children>
+                <Label fx:id="lblCicloCine" text="Ciclo de Cine"> 
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" prefHeight="97.0" prefWidth="453.0" spacing="20.0">
+            <children>
+                <Label fx:id="lblCiclo" text="Ciclo de Cine:" />
+                <ComboBox fx:id="cmbCiclo" prefHeight="25.0" prefWidth="161.0" promptText="seleccione el ciclo">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin></ComboBox>
+            <CheckBox fx:id="ChkCharlasPosteriores" mnemonicParsing="false" text="Charlas Posteriores">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </CheckBox>
+            </children>
+        </HBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="453.0">
+         <children>
+            <Button fx:id="btnAgregarCiclo" mnemonicParsing="false" text="+ Agregar ciclo" onAction="#agregarCiclo"/>
+         </children>
+      </HBox>
+    </children>
+</VBox>

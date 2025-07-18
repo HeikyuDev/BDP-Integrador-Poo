@@ -1,16 +1,15 @@
 package com.mycompany.bdppeventos.model.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 import com.mycompany.bdppeventos.model.enums.TipoModalidad;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import java.util.List;
 
 @Entity
 @Table(name = "talleres")
