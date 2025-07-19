@@ -7,7 +7,8 @@ import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -26,53 +27,31 @@ public final class CicloDeCine extends Evento {
 
 
     /** Lista de proyecciones asociadas al ciclo de cine (relación uno a muchos) */
-    @OneToMany(mappedBy = "unCicloDeCine")
-    private List<Proyeccion> proyecciones;
+    @ManyToOne    
+    @JoinColumn(name = "id_proyeccion", nullable = false)
+    private Proyeccion unaProyeccion;
 
 
     // Constructores
-
-    /**
-     * Constructor por defecto. Inicializa el ciclo de cine como activo.
-     */
+    
     public CicloDeCine() {
         super();
     }
 
-    /**
-     * Constructor que recibe si hay charlas posteriores y la lista de proyecciones.
-     * @param charlasPosteriores true si hay charlas posteriores, false si no
-     * @param proyecciones Lista de proyecciones del ciclo
-     */
-    public CicloDeCine(boolean charlasPosteriores, List<Proyeccion> proyecciones) {
-        this.setCharlasPosteriores(charlasPosteriores);
-        this.setProyecciones(proyecciones);
+    public CicloDeCine(boolean charlasPosteriores, Proyeccion unaProyeccion) {
+        super();
+        this.charlasPosteriores = charlasPosteriores;
+        this.unaProyeccion = unaProyeccion;
     }
 
-    /**
-     * Constructor completo para inicializar todos los campos del ciclo de cine.
-     * @param charlasPosteriores true si hay charlas posteriores
-     * @param proyecciones Lista de proyecciones
-     * @param id Identificador único del evento
-     * @param nombre Nombre del evento
-     * @param fechaInicio Fecha de inicio
-     * @param duracionEstimada Duración estimada
-     * @param tieneCupo Si tiene cupo máximo
-     * @param capacidadMaxima Capacidad máxima
-     * @param tieneInscripcion Si requiere inscripción
-     * @param ubicacion Ubicación física
-     * @param estado Estado del evento
-     * @param unaListaParticipacion Lista de participaciones
-     */
-    public CicloDeCine(boolean charlasPosteriores, List<Proyeccion> proyecciones, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Participacion> unaListaParticipacion) {
+    
+    public CicloDeCine(boolean charlasPosteriores, Proyeccion unaProyeccion, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Participacion> unaListaParticipacion) {    
         super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, unaListaParticipacion);
-        this.setCharlasPosteriores(charlasPosteriores);
-        this.setProyecciones(proyecciones);
+        this.charlasPosteriores = charlasPosteriores;
+        this.unaProyeccion = unaProyeccion;
     }
 
-    
-    
-
+               
     // Getters y Setters
 
     /**
@@ -90,18 +69,13 @@ public final class CicloDeCine extends Evento {
         this.charlasPosteriores = charlasPosteriores;
     }
 
-    /**
-     * Devuelve la lista de proyecciones asociadas al ciclo de cine.
-     */
-    public List<Proyeccion> getProyecciones() {
-        return proyecciones;
+    public Proyeccion getUnaProyeccion() {
+        return unaProyeccion;
     }
 
-    /**
-     * Asigna la lista de proyecciones al ciclo de cine.
-     * @param proyecciones Lista de proyecciones
-     */
-    public void setProyecciones(List<Proyeccion> proyecciones) {
-        this.proyecciones = proyecciones;
+    public void setUnaProyeccion(Proyeccion unaProyeccion) {
+        this.unaProyeccion = unaProyeccion;
     }
+
+    
 }

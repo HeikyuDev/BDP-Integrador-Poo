@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-public class PanelFeriaController implements Initializable {
+public class PanelFeriaController extends ConfiguracionIguEvento implements Initializable {
 
 
     // Atributos
@@ -40,19 +40,12 @@ public class PanelFeriaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cargarTipoCobertura();
+        configuracionEnumEnCombo(cmbTipoCobertura, TipoCobertura.class);
     }
     
     
-    // Metodos Específicos
     
-
-    /**
-     * Carga los valores del enum TipoCobertura en el ComboBox correspondiente.
-     */
-    private void cargarTipoCobertura() {
-        cmbTipoCobertura.getItems().addAll(TipoCobertura.values());
-    }
+    
     
     
 }

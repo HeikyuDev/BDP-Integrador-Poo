@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="173.0" prefWidth="536.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelCicloCineController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="173.0" prefWidth="536.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelCicloCineController">
     <children>
         <HBox alignment="CENTER" prefHeight="35.0" prefWidth="453.0" spacing="18.0">
             <children>
@@ -34,7 +34,7 @@
             </CheckBox>
             </children>
         </HBox>
-      <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="453.0">
+      <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="453.0" styleClass="main-section">
          <children>
             <Button fx:id="btnAgregarCiclo" mnemonicParsing="false" onAction="#agregarCiclo" styleClass="alta-button-alt" text="+ Agregar ciclo" />
          </children>

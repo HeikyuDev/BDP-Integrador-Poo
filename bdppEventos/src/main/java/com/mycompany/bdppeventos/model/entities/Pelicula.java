@@ -9,7 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -42,15 +41,7 @@ public class Pelicula implements Activable {
     /** Indica si la película está activa (lógico, para borrado suave) */
     @Column(name = "activo", nullable = false)
     private boolean activo;
-
-
-    /**
-     * Relación uno a muchos: una película puede tener muchas proyecciones
-     */
-    @OneToMany(mappedBy = "pelicula")
-    private List<Proyeccion> proyecciones;
-
-
+   
     // Constructores
 
     /**
@@ -68,30 +59,13 @@ public class Pelicula implements Activable {
      * @param activo Estado de la película
      * @param proyecciones Lista de proyecciones asociadas
      */
-    public Pelicula(int idPelicula, String titulo, double duracion, boolean activo, List<Proyeccion> proyecciones) {
-        this.idPelicula = idPelicula;
-        this.titulo = titulo;
-        this.duracion = duracion;
-        this.activo = true;
-        this.proyecciones = proyecciones;
-    }
-
-    /**
-     * Constructor alternativo sin lista de proyecciones.
-     * @param idPelicula Identificador único
-     * @param titulo Título de la película
-     * @param duracion Duración en minutos
-     * @param activo Estado de la película
-     */
     public Pelicula(int idPelicula, String titulo, double duracion, boolean activo) {
         this.idPelicula = idPelicula;
         this.titulo = titulo;
         this.duracion = duracion;
         this.activo = true;        
     }
-
-
-
+    
     // Getters y Setters
 
     /**
@@ -141,24 +115,8 @@ public class Pelicula implements Activable {
         }
         this.duracion = duracion;
     }
-
-
-    /**
-     * Devuelve la lista de proyecciones asociadas a la película.
-     */
-    public List<Proyeccion> getProyecciones() {
-        return proyecciones;
-    }
-
-    /**
-     * Asigna la lista de proyecciones asociadas a la película.
-     * @param proyecciones Lista de proyecciones
-     */
-    public void setProyecciones(List<Proyeccion> proyecciones) {
-        this.proyecciones = proyecciones;
-    }
-
-
+   
+            
     // Métodos de la interfaz Activable
 
     /**

@@ -66,28 +66,10 @@ public class FormularioEventoController extends ConfiguracionIguEvento implement
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cargarEstadoEvento();
-        cargarTipoEvento();
-    }
-
-
-    // Métodos auxiliares para cargar los combos
-
-    /**
-     * Carga todos los valores posibles del enum EstadoEvento en el ComboBox correspondiente.
-     */
-    private void cargarEstadoEvento() {
-        cmbEstado.getItems().addAll(EstadoEvento.values());
-    }
-
-    /**
-     * Carga todos los valores posibles del enum TipoEvento en el ComboBox correspondiente.
-     */
-    private void cargarTipoEvento() {
-        cmbTipoEvento.getItems().addAll(TipoEvento.values());
-    }
-
-
+        configuracionEnumEnCombo(cmbEstado, EstadoEvento.class);
+        configuracionEnumEnCombo(cmbTipoEvento, TipoEvento.class);
+    }     
+    
     // Métodos para cargar los paneles específicos según el tipo de evento
 
     /**
