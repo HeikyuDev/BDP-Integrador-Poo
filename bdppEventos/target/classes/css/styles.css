@@ -1,0 +1,545 @@
+/* Importar fuentes modernas */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap');
+
+/* Estilos generales */
+.root {
+    -fx-background-color: #f5f5f5;
+    -fx-font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+/* Barra de título superior */
+.title-bar {
+    -fx-background-color: #2E4BC6;
+    -fx-padding: 10 20 10 20;
+}
+
+.title-label {
+    -fx-text-fill: white;
+    -fx-font-family: "Montserrat", sans-serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: 800;           
+}
+
+/* Botones de ventana */
+.window-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: 400;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-background-radius: 3px;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.window-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.window-button:pressed {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Sidebar */
+.sidebar {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 1 0 0;
+    -fx-padding: 20 0 20 0;
+    -fx-background-radius: 0 0 12 0;
+    -fx-border-radius: 0 0 12 0;
+}
+
+.nav-title {
+    -fx-text-fill: #2E4BC6;
+    -fx-font-family: "Montserrat", sans-serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+    -fx-padding: 0 0 20 20;
+}
+
+.nav-title-secondary {
+    -fx-text-fill: #2E4BC6;
+    -fx-font-family: "Montserrat", sans-serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;    
+}
+
+
+/* Botones del menú */
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 15px;
+    -fx-font-weight: 500;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 18 20 18 20;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+    -fx-max-width: Infinity;
+    -fx-pref-height: 50;
+    -fx-min-height: 50;
+}
+
+.menu-button:hover {
+    -fx-background-color: #f0f0f0;
+}
+
+.menu-button:selected {
+    -fx-background-color: #2E4BC6;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+}
+
+.menu-button:selected:hover {
+    -fx-background-color: #1a3498;
+}
+
+/* Labels dentro de los botones */
+.menu-button .label {
+    -fx-text-fill: inherit;
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 15px;
+    -fx-font-weight: 500;
+}
+
+.menu-button:selected .label {
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+}
+
+/* Área de contenido */
+.content-background {
+    -fx-background-color: #f5f6fa;
+}
+
+.content-container {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 3);
+    -fx-border-color: #e1e5e9;
+    -fx-border-width: 1;    
+    -fx-border-radius: 8;
+}
+
+/* Títulos de sección (ej: "Datos del Evento") */
+.section-title {
+    -fx-text-fill: #2E4BC6;
+    -fx-font-family: "Montserrat", sans-serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+    -fx-padding: 0 0 0 0;
+}
+
+/* Labels normales */
+.form-label {
+    -fx-text-fill: #333333;
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+}
+
+/* Labels para campos obligatorios */
+.form-label-required {
+    -fx-text-fill: #333333;
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+}
+.form-label-required .text {
+    -fx-fill: #d32f2f;
+    -fx-font-weight: bold;
+}
+
+
+/* SECCIONES */
+
+/* CONTENEDORES PRINCIPALES */
+.main-section {
+    -fx-spacing: 20;
+    -fx-padding: 15;
+    -fx-background-color: transparent;
+}
+
+/* ESPACIADO ENTRE SECCIONES PRINCIPALES */
+.main-spacer {
+    -fx-padding: 0 0 25 0;
+}
+
+/* SECCIONES SECUNDARIAS */
+.field-section {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e1e5e9;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 15;
+    -fx-spacing: 10;
+}
+
+/* VARIANTES PARA SECCIONES SECUNDARIAS. SECCIONES CRITICAS */
+.field-section-highlight {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #d4e1f4;        
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 15;
+    -fx-spacing: 10;
+}
+/*SECCIONES AUN MAS CRITICAS*/
+.field-section-accent {
+    -fx-background-color: #f0f5ff;
+    -fx-border-color: #c7d8ff;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 15;
+    -fx-spacing: 10;
+}
+
+/* Estilo del contenedor dinámico EXCLUSIVO DE ABM EVENTO*/
+.dynamic-container {
+    -fx-border-color: #c0c0c0; /* Color gris claro */
+    -fx-border-width: 1px;
+    -fx-border-style: segments(3, 3, 3, 3) line-cap round;
+    -fx-border-radius: 5px;
+    -fx-background-color: #f9f9f9; /* Fondo muy claro */
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);
+}
+
+/* Estilo para los hijos del contenedor */
+.dynamic-container .content-panel {
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-style: dashed;
+    -fx-border-radius: 3px;
+    -fx-padding: 10px;
+    -fx-background-color: white;
+}
+
+/*BOTONES*/
+
+/* Botón Simple con Texto Fuerte */
+.simple-button-bold {
+    -fx-background-color: #2E4BC6;
+    -fx-text-fill: white;
+    -fx-font-family: "Montserrat", sans-serif; /* Cambiado a Montserrat para más impacto */
+    -fx-font-size: 15px;
+    -fx-font-weight: 700; /* Negrita fuerte */
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 6, 0, 0, 3);
+    -fx-letter-spacing: 0.5px; /* Espaciado entre letras */
+}
+
+/* Estados Interactivos Mejorados */
+.simple-button-bold:hover {
+    -fx-background-color: #1a3498;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: 800; /* Más negrita al hover */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.25), 8, 0, 0, 4);
+}
+
+.simple-button-bold:pressed {
+    -fx-background-color: #0f225c;
+    -fx-translate-y: 2px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
+}
+
+/* Variantes con Texto Impactante */
+.simple-button-bold.success {
+    -fx-background-color: #28a745;
+    -fx-text-fill: #ffffff;
+}
+
+.simple-button-bold.warning {
+    -fx-background-color: #ffc107;
+    -fx-text-fill: #000000; /* Negro para mejor contraste */
+    -fx-font-weight: 800;
+}
+
+.simple-button-bold.danger {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: 800;
+}
+
+/*BOTONES BAJA Y MODIFICACION*/
+
+/* Botón de BAJA (Rojo intenso) */
+.baja-button {
+    -fx-background-color: #d32f2f;  /* Rojo vibrante */
+    -fx-text-fill: white;
+    -fx-font-family: "Montserrat", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;  /* Negrita */
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    -fx-min-width: 100px;
+}
+
+.baja-button:hover {
+    -fx-background-color: #b71c1c;  /* Rojo más oscuro */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 3);
+}
+
+.baja-button:pressed {
+    -fx-background-color: #8e0000;
+    -fx-translate-y: 1px;
+}
+
+/* Botón de MODIFICACIÓN (Verde azulado profesional) */
+.modificacion-button {
+    -fx-background-color: #0288d1;  /* Azul profesional */
+    -fx-text-fill: white;
+    -fx-font-family: "Montserrat", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    -fx-min-width: 100px;
+}
+
+.modificacion-button:hover {
+    -fx-background-color: #0277bd;  /* Azul más oscuro */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 3);
+}
+
+.modificacion-button:pressed {
+    -fx-background-color: #01579b;
+    -fx-translate-y: 1px;
+}
+
+
+/*BOTONES DE AGREGAR ALTERNATIVOS*/
+.alta-button-alt {
+    -fx-background-color: #4CAF50;  /* Azul profesional */
+    -fx-text-fill: white;
+    -fx-font-family: "Montserrat", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    -fx-min-width: 100px;
+    
+}
+
+.alta-button-alt:hover {
+    -fx-background-color: #245C26;  /* Azul más oscuro */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 3);
+}
+
+.alta-button-alt:pressed {
+    -fx-background-color: #245C12;
+    -fx-translate-y: 1px;
+}
+
+/* ========== TEXTFIELDS ========== */
+.form-textfield {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;    
+}
+
+.form-textfield:focused {
+    -fx-border-color: #2E4BC6;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(46,75,198,0.15), 5, 0, 0, 2);
+}
+
+.form-textfield:disabled {
+    -fx-background-color: #f5f5f5;
+    -fx-text-fill: #999999;
+}
+
+/* ========== CHECKBOXES ========== */
+.form-checkbox {
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+.form-checkbox .box {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4px;
+    -fx-border-width: 1.5px;
+    -fx-padding: 3px;
+}
+
+.form-checkbox:selected .mark {
+    -fx-background-color: #2E4BC6;
+}
+
+.form-checkbox:hover .box {
+    -fx-border-color: #2E4BC6;
+}
+
+.form-checkbox:disabled {
+    -fx-opacity: 0.7;
+}
+
+/* ========== DATEPICKERS ========== */
+.form-datepicker {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 1px;
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+}
+
+.form-datepicker .arrow-button {
+    -fx-background-color: #2E4BC6;
+    -fx-background-radius: 0 5px 5px 0;
+}
+
+.form-datepicker .arrow {
+    -fx-background-color: white;
+}
+
+.form-datepicker:focused {
+    -fx-border-color: #2E4BC6;
+    -fx-border-width: 2px;
+}
+
+
+/* ========== COMBOBOX ========== */
+.form-combobox {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 3px;
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-pref-height: 35px;
+}
+
+.form-combobox .arrow-button {
+    -fx-background-color: #2E4BC6;
+    -fx-background-radius: 5px;    
+}
+
+.form-combobox .arrow {
+    -fx-background-color: white;
+}
+
+/* ========== TABLEVIEW ========== */
+.form-tableview {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 0;    
+}
+
+/* Encabezados de columnas */
+.form-tableview .column-header,
+.form-tableview .column-header-background {
+    -fx-background-color: #2E4BC6;
+    -fx-border-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: "Montserrat", sans-serif;
+    -fx-font-weight: 200;
+    -fx-font-size: 11px;
+}
+
+.form-tableview .column-header .label {
+    -fx-text-fill: white;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10px;
+}
+
+/* Filas */
+.form-tableview .table-row-cell {
+    -fx-border-color: transparent;
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 13px;
+}
+
+.form-tableview .table-row-cell:odd {
+    -fx-background-color: #f9f9f9;
+}
+
+.form-tableview .table-row-cell:selected {
+    -fx-background-color: #e3e9ff;
+    -fx-text-fill: #2E4BC6;
+}
+
+/* Celdas */
+.form-tableview .table-cell {
+    -fx-padding: 8px 10px;
+    -fx-border-color: #f0f0f0;
+    -fx-border-width: 0 0 1px 0;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* Barra de scroll */
+.form-tableview .scroll-bar:horizontal,
+.form-tableview .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.form-tableview .scroll-bar .thumb {
+    -fx-background-color: #d0d0d0;
+    -fx-background-radius: 5px;
+}
+
+
+/* Estilo base para el RadioButton */
+.radio-button {
+    -fx-font-family: "Inter";
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-cursor: hand;
+}
+
+/* Círculo exterior (siempre visible) */
+.radio-button .radio {
+    -fx-background-color: transparent;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 50%;
+    -fx-padding: 3px;
+}
+
+/* Punto interior (SOLO visible cuando está seleccionado) */
+.radio-button:selected .radio .dot {
+    -fx-background-color: #2E4BC6;
+    -fx-background-radius: 50%;
+    -fx-padding: 4px;
+}
+
+/* Efecto hover */
+.radio-button:hover .radio {
+    -fx-border-color: #707070;
+}
+
