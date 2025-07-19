@@ -263,7 +263,7 @@ public class Persona implements Activable {
             return false;
         }
         String dominio = partes[1];
-        if (!dominio.contains(".")) {
+        if(!dominio.contains(".")) {
             return false;
         }
         return true;

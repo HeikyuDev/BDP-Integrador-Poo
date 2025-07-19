@@ -8,12 +8,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="190.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelExposicionController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="190.0" prefWidth="453.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelExposicionController">
    <children>
       <HBox alignment="CENTER" prefHeight="41.0" prefWidth="453.0" spacing="18.0">
          <children>
-            <Label fx:id="lblExposicion" text="Exposicion">
+            <Label fx:id="lblExposicion" styleClass="nav-title-secondary" text="Exposicion">
                <font>
                   <Font size="15.0" />
                </font>
@@ -22,7 +21,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="95.0" prefWidth="453.0" spacing="18.0">
          <children>
-            <Label fx:id="lblTipoArte" text="Tipo de Arte:" textAlignment="JUSTIFY">
+            <Label fx:id="lblTipoArte" styleClass="form-label" text="Tipo de Arte:" textAlignment="JUSTIFY">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -30,12 +29,12 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <ComboBox fx:id="cmbTipoArte" prefHeight="25.0" prefWidth="321.0" promptText="seleccione un tipo de Arte" />
+            <ComboBox fx:id="cmbTipoArte" prefHeight="25.0" prefWidth="321.0" promptText="seleccione un tipo de Arte" styleClass="form-combobox" />
          </children>
       </HBox>
-      <HBox alignment="CENTER_RIGHT" prefHeight="57.0" prefWidth="453.0" spacing="10.0">
+      <HBox alignment="CENTER_RIGHT" prefHeight="57.0" prefWidth="453.0">
          <children>
-            <Button fx:id="btnAgregarTipoArte" mnemonicParsing="false" onAction="#agregarTipoArte" prefHeight="25.0" prefWidth="169.0" text="Agregar Tipo de Arte" />
+            <Button fx:id="btnAgregarTipoArte" mnemonicParsing="false" onAction="#agregarTipoArte" prefHeight="29.0" prefWidth="222.0" styleClass="alta-button-alt" text="+ Agregar Tipo de Arte" />
          </children>
       </HBox>
    </children>

@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -16,74 +18,58 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-
 public class PantallaPrincipalController implements Initializable {
 
-    
-    // --- Botones del menú lateral ---
+    // Elementos de la interfaz 
     @FXML
-    private ToggleButton btnPanelAdmin;
+    private ToggleButton btnPanelAdmin, btnGestionEventos, btnGestionPersonas,
+            btnInscribirParticipante, btnCalendarioEventos, btnVerParticipantes;
     @FXML
-    private ToggleButton btnGestionEventos;
+    private ImageView iconPanelAdmin, iconGestionEventos, iconGestionPersonas,
+            iconInscribirParticipante, iconCalendarioEventos, iconVerParticipantes;
     @FXML
-    private ToggleButton btnGestionPersonas;
-    @FXML
-    private ToggleButton btnInscribirParticipante;
-    @FXML
-    private ToggleButton btnCalendarioEventos;
-    @FXML
-    private ToggleButton btnVerParticipantes;
-
-    // --- Íconos de los botones ---
-    @FXML
-    private ImageView iconPanelAdmin;
-    @FXML
-    private ImageView iconGestionEventos;
-    @FXML
-    private ImageView iconGestionPersonas;
-    @FXML
-    private ImageView iconInscribirParticipante;
-    @FXML
-    private ImageView iconCalendarioEventos;
-    @FXML
-    private ImageView iconVerParticipantes;
-    
-    @FXML
-    private Button btnMinimizar; //si o si se tiene que llamar igual que el elemento Button cuya fx:id es btnMinimizar De lo contrario Excepcion
-    @FXML
-    private Button btnMaximizar; //si o si se tiene que llamar igual que el elemento Button cuya fx:id es btnMaximizar De lo contrario Excepcion
-    @FXML
-    private Button btnCerrar; //si o si se tiene que llamar igual que el elemento Button cuya fx:id es btnCerrar De lo contrario Excepcion
-
-    
+    private Button btnMinimizar, btnMaximizar, btnCerrar;
     @FXML
     private AnchorPane centerContainer;
 
-
     private ToggleGroup menuGroup;
 
-    // ==================================================================================
-    // INICIALIZACIÓN
-    // ==================================================================================
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
-        // Configuracion necesaria para que solamente se pueda seleccionar un solo ToggleButton a la vez y que no se pueda deseleccionar ninguno
-        configurarToggleGroup(); 
-
-        // Configuración de iconos para que se muestre el icono correcto según el botón seleccionado
-        configurarCambiosIconos();
-        // Configuración de eventos de navegación.         
+    public void initialize(URL url, ResourceBundle rb) {
+        configurarToggleGroup();
+        configurarIconos();
         configurarBotonesVentana();
-        
-        // Seleccionar Panel de Administración por defecto
-        btnPanelAdmin.setSelected(true);
-        
+        seleccionarPanelAdminPorDefecto();
     }
 
-    
-    /**
-     * Configura el ToggleGroup para que solo un botón esté activo a la vez
-     */
+    // Método para configurar iconos
+    private void configurarIconos() {
+        configurarIcono(btnPanelAdmin, iconPanelAdmin, "PanelPrincipalIcon");
+        configurarIcono(btnGestionEventos, iconGestionEventos, "EventoMas");
+        configurarIcono(btnGestionPersonas, iconGestionPersonas, "PersonaMas");
+        configurarIcono(btnInscribirParticipante, iconInscribirParticipante, "ParticipanteMas");
+        configurarIcono(btnCalendarioEventos, iconCalendarioEventos, "CalendarioEventos");
+        configurarIcono(btnVerParticipantes, iconVerParticipantes, "ParticipantesVista");
+    }
+
+    private void configurarIcono(ToggleButton boton, ImageView icono, String nombreBaseIcono) {
+        boton.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            String color;
+            if (newVal) {
+                color = "Blanco";
+            } else {
+                color = "Azul";
+            }
+
+            String ruta = "/images/" + nombreBaseIcono + color + ".png";
+            URL imageUrl = getClass().getResource(ruta);
+
+            if (imageUrl != null) {
+                icono.setImage(new Image(imageUrl.toExternalForm()));
+            }
+        });
+    }
+
     private void configurarToggleGroup() {
         menuGroup = new ToggleGroup();
 
@@ -94,27 +80,23 @@ public class PantallaPrincipalController implements Initializable {
         btnCalendarioEventos.setToggleGroup(menuGroup);
         btnVerParticipantes.setToggleGroup(menuGroup);
 
-        // Prevenir deselección completa 
         menuGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
-            if (newToggle == null && oldToggle != null) {                
+            if (newToggle == null && oldToggle != null) {
                 oldToggle.setSelected(true);
             }
-        });        
-    }  
-    
-    private void configurarBotonesVentana() {
-        btnCerrar.setOnAction(e -> {            
-            System.exit(0);
         });
+    }
 
-        btnMinimizar.setOnAction(e -> {            
+    private void configurarBotonesVentana() {
+        btnCerrar.setOnAction(e -> System.exit(0));
+
+        btnMinimizar.setOnAction(e -> {
             Stage stage = (Stage) btnMinimizar.getScene().getWindow();
             stage.setIconified(true);
         });
 
-        btnMaximizar.setOnAction(e -> {            
+        btnMaximizar.setOnAction(e -> {
             Stage stage = (Stage) btnMaximizar.getScene().getWindow();
-
             if (stage.isMaximized()) {
                 stage.setMaximized(false);
                 btnMaximizar.setText("□");
@@ -123,171 +105,68 @@ public class PantallaPrincipalController implements Initializable {
                 btnMaximizar.setText("❐");
             }
         });
-        
     }
 
-        
-    private void configurarCambiosIconos() {
-        configurarIconoPanelAdmin();
-        configurarIconoGestionEventos();
-        configurarIconoGestionPersonas();
-        configurarIconoInscribirParticipante();
-        configurarIconoCalendarioEventos();
-        configurarIconoVerParticipantes();        
+    private void seleccionarPanelAdminPorDefecto() {
+        btnPanelAdmin.setSelected(true);
     }
 
-    private void configurarIconoPanelAdmin() {
-        btnPanelAdmin.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                URL imageUrl = getClass().getResource("/images/PanelPrincipalIconBlanco.png");
-                iconPanelAdmin.setImage(new Image(imageUrl.toExternalForm()));
-            } else {
-                URL imageUrl = getClass().getResource("/images/PanelPrincipalIconAzul.png");
-                iconPanelAdmin.setImage(new Image(imageUrl.toExternalForm()));
-            }
-        });
+    // Método centralizado para cargar vistas
+    private void cargarVista(String rutaFXML) {
+        try {
+            Parent vista = FXMLLoader.load(getClass().getResource(rutaFXML));
+            mostrarVistaEnContenedor(vista);
+        } catch (IOException ex) {
+            mostrarError("Error al cargar vista", "No se pudo cargar: " + rutaFXML);
+        }
     }
 
-    private void configurarIconoGestionEventos() {
-        btnGestionEventos.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                URL imageUrl = getClass().getResource("/images/EventoMasBlanco.png");
-                iconGestionEventos.setImage(new Image(imageUrl.toExternalForm()));
-            } else {
-                URL imageUrl = getClass().getResource("/images/EventoMasAzul.png");
-                iconGestionEventos.setImage(new Image(imageUrl.toExternalForm()));
-            }
-        });
+    private void mostrarVistaEnContenedor(Parent vista) {
+        centerContainer.getChildren().clear();
+        centerContainer.getChildren().add(vista);
+
+        AnchorPane.setTopAnchor(vista, 0.0);
+        AnchorPane.setRightAnchor(vista, 0.0);
+        AnchorPane.setBottomAnchor(vista, 0.0);
+        AnchorPane.setLeftAnchor(vista, 0.0);
     }
 
-    private void configurarIconoGestionPersonas() {
-        btnGestionPersonas.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                URL imageUrl = getClass().getResource("/images/PersonaMasBlanco.png");
-                iconGestionPersonas.setImage(new Image(imageUrl.toExternalForm()));
-            } else {
-                URL imageUrl = getClass().getResource("/images/PersonaMasAzul.png");
-                iconGestionPersonas.setImage(new Image(imageUrl.toExternalForm()));
-            }
-        });
+    private void mostrarError(String titulo, String mensaje) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 
-    private void configurarIconoInscribirParticipante() {
-        btnInscribirParticipante.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                URL imageUrl = getClass().getResource("/images/ParticipanteMasBlanco.png");
-                iconInscribirParticipante.setImage(new Image(imageUrl.toExternalForm()));
-            } else {
-                URL imageUrl = getClass().getResource("/images/ParticipanteMasAzul.png");
-                iconInscribirParticipante.setImage(new Image(imageUrl.toExternalForm()));
-            }
-        });
-    }
-
-    private void configurarIconoCalendarioEventos() {
-        btnCalendarioEventos.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                URL imageUrl = getClass().getResource("/images/CalendarioEventosBlanco.png");
-                iconCalendarioEventos.setImage(new Image(imageUrl.toExternalForm()));
-            } else {
-                URL imageUrl = getClass().getResource("/images/CalendarioEventosAzul.png");
-                iconCalendarioEventos.setImage(new Image(imageUrl.toExternalForm()));
-            }
-        });
-    }
-
-    private void configurarIconoVerParticipantes() {
-        btnVerParticipantes.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                URL imageUrl = getClass().getResource("/images/ParticipantesVistaBlanco.png");
-                iconVerParticipantes.setImage(new Image(imageUrl.toExternalForm()));
-            } else {
-                URL imageUrl = getClass().getResource("/images/ParticipantesVistaAzul.png");
-                iconVerParticipantes.setImage(new Image(imageUrl.toExternalForm()));
-            }
-        });
-    }
-    
-    // NAVEGACIÓN ENTRE VISTAS
-    
+    // Métodos de navegación (simplificados)
     @FXML
-    private void cargarVistaPanelAdmin() {        
-        // TODO: Implementar carga de vista real
+    private void cargarVistaPanelAdmin() {
+        cargarVista("/fxml/PanelAdmin.fxml");
     }
 
     @FXML
     private void cargarVistaGestionEventos() {
-    try {                
-        URL fxmlUrl = getClass().getResource("/fxml/ABMEvento/FormularioEvento.fxml");
-        System.out.println("URL encontrada: " + fxmlUrl);
-        
-        if (fxmlUrl == null) {
-            System.err.println("ERROR: Archivo no encontrado");
-            return;
-        }
-        
-        System.out.println("Creando FXMLLoader...");
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(fxmlUrl);  // ⭐ CAMBIO CLAVE
-        
-        System.out.println("Cargando FXML...");
-        Parent vistaEvento = loader.load();
-
-        System.out.println("FXML cargado, configurando contenedor...");
-        centerContainer.getChildren().clear();
-        centerContainer.getChildren().add(vistaEvento);
-
-        AnchorPane.setTopAnchor(vistaEvento, 0.0);
-        AnchorPane.setRightAnchor(vistaEvento, 0.0);
-        AnchorPane.setBottomAnchor(vistaEvento, 0.0);
-        AnchorPane.setLeftAnchor(vistaEvento, 0.0);
-                
-        
-    } catch (Exception ex) {        
-        ex.printStackTrace();
+        cargarVista("/fxml/ABMEvento/FormularioEvento.fxml");
     }
-}
 
     @FXML
     private void cargarVistaGestionPersonas() {
-                
-        //IMPLEMENTACION
-
-        try {
-            System.out.println("Cargando FXML...");
-            System.out.println(getClass().getResource("/fxml/ABMPersona/FormularioPersona.fxml"));
-
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/fxml/ABMPersona/FormularioPersona.fxml"));
-            Parent vistaPersonas = loader.load(); // Cambiar AnchorPane por Parent
-
-            // reemplazar contenido del centerContainer
-            centerContainer.getChildren().clear();
-            centerContainer.getChildren().add(vistaPersonas);
-
-            // hacer que se estire con el container
-            AnchorPane.setTopAnchor(vistaPersonas, 0.0);
-            AnchorPane.setRightAnchor(vistaPersonas, 0.0);
-            AnchorPane.setBottomAnchor(vistaPersonas, 0.0);
-            AnchorPane.setLeftAnchor(vistaPersonas, 0.0);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        cargarVista("/fxml/ABMPersona/FormularioPersona.fxml");
     }
 
     @FXML
-    private void cargarVistaInscribirParticipante() {        
-        // TODO: Implementar carga de vista real
+    private void cargarVistaInscribirParticipante() {
+        cargarVista("/fxml/InscripcionParticipante.fxml");
     }
 
     @FXML
-    private void cargarVistaCalendarioEventos() {        
-        // TODO: Implementar carga de vista real
+    private void cargarVistaCalendarioEventos() {
+        cargarVista("/fxml/CalendarioEventos.fxml");
     }
 
     @FXML
-    private void cargarVistaVerParticipantes() {       
-        // TODO: Implementar carga de vista real
+    private void cargarVistaVerParticipantes() {
+        cargarVista("/fxml/VerParticipantes.fxml");
     }
-    
 }

@@ -1,36 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import org.controlsfx.control.HyperlinkLabel?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="173.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelFeriaController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="103.0" prefWidth="833.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelFeriaController">
     <children>
         <HBox alignment="CENTER" prefHeight="30.0" prefWidth="453.0" spacing="18.0">
             <children>
-                <Label fx:id="lblFeria" text="Feria">
+                <Label fx:id="lblFeria" styleClass="nav-title-secondary" text="Feria">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
             </children>
         </HBox>
-      <HBox alignment="CENTER_LEFT" prefHeight="73.0" prefWidth="453.0" spacing="23.0">
-         <children>
-            <Label fx:id="lblCantidadStands" text="Cantidad de Stands: " />
-            <TextField fx:id="txtCantidadStands" prefHeight="25.0" prefWidth="297.0" promptText="ingrese la cantidad de stands" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="23.0">
-         <children>
-            <HyperlinkLabel />
-            <Label fx:id="lblTipoCobertura" text="Tipo cobertura: " />
-            <ComboBox fx:id="cmbTipoCobertura" prefHeight="25.0" prefWidth="300.0" promptText="seleccione un tipo de cobertura" />
-         </children>
-      </HBox>
+        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="453.0" spacing="5.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="381.0" spacing="3.0">
+                    <children>
+                        <Label fx:id="lblCantidadStands" prefHeight="18.0" prefWidth="214.0" styleClass="form-label" text="Cantidad de Stands: " />            
+                        <TextField fx:id="txtCantidadStands" prefHeight="31.0" prefWidth="295.0" promptText="ingrese la cantidad de stands" styleClass="form-textfield" />
+                    </children>
+                </HBox>                
+                <HBox alignment="CENTER_LEFT" prefHeight="59.0" prefWidth="453.0" spacing="3.0">
+                    <children>
+                        <Label fx:id="lblTipoCobertura" styleClass="form-label" text="Tipo cobertura: ">
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Label>
+                        <ComboBox fx:id="cmbTipoCobertura" prefHeight="37.0" prefWidth="288.0" promptText="seleccione el tipo cobertura" styleClass="form-combobox" />
+                    </children>
+                </HBox>
+            </children>
+        </HBox>
     </children>
 </VBox>
