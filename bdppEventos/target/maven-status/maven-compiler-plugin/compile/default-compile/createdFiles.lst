@@ -1,9 +1,12 @@
+com\mycompany\bdppeventos\util\Alerta.class
 com\mycompany\bdppeventos\controller\ABMParticipante\InscribirParticipanteController.class
+com\mycompany\bdppeventos\controller\ABMProyeccion\FormularioProyeccionController.class
 com\mycompany\bdppeventos\model\entities\Pelicula.class
 com\mycompany\bdppeventos\controller\ABMEvento\FormularioEventoController$1.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelFeriaController.class
 com\mycompany\bdppeventos\model\entities\Evento.class
 com\mycompany\bdppeventos\controller\ABMEvento\ConfiguracionIguEvento.class
+com\mycompany\bdppeventos\view\Vista.class
 com\mycompany\bdppeventos\repository\Repositorio.class
 com\mycompany\bdppeventos\model\enums\EstadoEvento.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelConciertoController.class
@@ -17,6 +20,8 @@ com\mycompany\bdppeventos\model\entities\Persona.class
 com\mycompany\bdppeventos\model\entities\CicloDeCine.class
 module-info.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelExposicionController.class
+com\mycompany\bdppeventos\util\DialogUtils.class
+com\mycompany\bdppeventos\util\StageManager.class
 com\mycompany\bdppeventos\model\enums\TipoEvento.class
 com\mycompany\bdppeventos\model\enums\TipoRol.class
 com\mycompany\bdppeventos\controller\ABMEvento\FormularioEventoController.class

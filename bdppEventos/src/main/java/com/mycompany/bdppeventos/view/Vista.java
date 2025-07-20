@@ -7,39 +7,48 @@ public enum Vista {
 
 
     // FXML ventana principal
-    PantallaPrincipal("PantallaPrincipal"),    
+    PantallaPrincipal("","PantallaPrincipal"),    
     
     // FXML de la seccion ABM eventos
-    FormularioEvento("ABMEvento/FormularioEvento"),
-    PanelCicloCine("ABMEvento/PanelCicloCine"),
-    PanelConcierto("ABMEvento/PanelConcierto"),
-    PanelExposicion("ABMEvento/PanelExposicion"),
-    PanelFeria("ABMEvento/PanelFeria"),
-    PanelTaller("ABMEvento/PanelTaller"),
+    FormularioEvento("","ABMEvento/FormularioEvento"),
+    PanelCicloCine("","ABMEvento/PanelCicloCine"),
+    PanelConcierto("","ABMEvento/PanelConcierto"),
+    PanelExposicion("","ABMEvento/PanelExposicion"),
+    PanelFeria("","ABMEvento/PanelFeria"),
+    PanelTaller("","ABMEvento/PanelTaller"),
     
     // FXML de la seccion  ABM Persona
     
-    FormularioPersona("ABMPersona/FormularioPersona"),
-    FormularioPersona2("ABMPersona/FormularioPersona"),
+    FormularioPersona("","ABMPersona/FormularioPersona"),
+    FormularioPersona2("","ABMPersona/FormularioPersona"),
     
     // FXML de la seccion Inscribir Participante
     
-    InscribirParticipante("ABMParticipante/InscribirParticipante"),
+    InscribirParticipante("","ABMParticipante/InscribirParticipante"),
     
     // FXML de la seccion ABM Proyeccion
     
-    FormularioProyeccion("ABMProyeccion/FormularioProyeccion");
+    FormularioProyeccion("FormularioProyeccion","ABMProyeccion/FormularioProyeccion");
     
             
     private final String rutaFxml;  // Ruta relativa del archivo FXML que define la vista
+    private final String titulo;
 
     // Constructor del enumerado, se utiliza para inicializar las constantes con un título y una ruta FXML
-    private Vista(String rutaFxml) {    
+    private Vista(String titulo ,String rutaFxml) {    
+        this.titulo = titulo;
         this.rutaFxml = rutaFxml;
     }        
 
+    // Devuelve El titulo correspondiente de la vista
+
+    public String getTitulo() {
+        return titulo;
+    }    
+    
     // Devuelve la ruta completa del archivo FXML correspondiente a la vista
     public String getRutaFxml() {
-        return String.format(("fxml/%s.fxml"), rutaFxml);  // Se asume que todos los archivos FXML están en la carpeta "fxml"
+        return "/fxml/" + this.rutaFxml + ".fxml";  // Se asume que todos los archivos FXML están en la carpeta "fxml"
     }
+    
 }

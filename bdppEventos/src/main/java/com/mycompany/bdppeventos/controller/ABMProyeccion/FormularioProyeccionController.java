@@ -1,6 +1,7 @@
 package com.mycompany.bdppeventos.controller.ABMProyeccion;
 
 import com.mycompany.bdppeventos.model.entities.Pelicula;
+import com.mycompany.bdppeventos.util.Alerta;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +18,7 @@ public class FormularioProyeccionController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        Alerta.mostrarMensaje(false, "PERUANO", "Se realizo con exito");
     }    
     
 }
