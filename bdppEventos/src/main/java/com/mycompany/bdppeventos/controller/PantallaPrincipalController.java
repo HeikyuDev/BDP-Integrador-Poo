@@ -1,15 +1,13 @@
 package com.mycompany.bdppeventos.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.mycompany.bdppeventos.util.Alerta;
+import com.mycompany.bdppeventos.util.StageManager;
+import com.mycompany.bdppeventos.view.Vista;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -111,54 +109,36 @@ public class PantallaPrincipalController implements Initializable {
         btnPanelAdmin.setSelected(true);
     }
 
-    // Método centralizado para cargar vistas
-    private void cargarVista(String rutaFXML) {
-        try {
-            Parent vista = FXMLLoader.load(getClass().getResource(rutaFXML));
-            mostrarVistaEnContenedor(vista);
-        } catch (IOException ex) {
-            Alerta.mostrarError("Error al cargar la vista");                                 
-        }
-    }
-
-    private void mostrarVistaEnContenedor(Parent vista) {
-        centerContainer.getChildren().clear();
-        centerContainer.getChildren().add(vista);
-
-        AnchorPane.setTopAnchor(vista, 0.0);
-        AnchorPane.setRightAnchor(vista, 0.0);
-        AnchorPane.setBottomAnchor(vista, 0.0);
-        AnchorPane.setLeftAnchor(vista, 0.0);
-    }
-
+    
+   
         
     @FXML
     private void cargarVistaPanelAdmin() {
-        cargarVista("/fxml/PanelAdmin.fxml");
+        // TODO: Implementar view
     }
 
     @FXML
     private void cargarVistaGestionEventos() {
-        cargarVista("/fxml/ABMEvento/FormularioEvento.fxml");
+        StageManager.cambiarEscenaEnContenedor(centerContainer, Vista.FormularioEvento);
     }
 
     @FXML
     private void cargarVistaGestionPersonas() {
-        cargarVista("/fxml/ABMPersona/FormularioPersona.fxml");
+        StageManager.cambiarEscenaEnContenedor(centerContainer, Vista.FormularioPersona);
     }
 
     @FXML
     private void cargarVistaInscribirParticipante() {
-        cargarVista("/fxml/InscripcionParticipante.fxml");
+        // TODO: Implementar view
     }
 
     @FXML
     private void cargarVistaCalendarioEventos() {
-        cargarVista("/fxml/CalendarioEventos.fxml");
+        // TODO: Implementar view
     }
 
     @FXML
     private void cargarVistaVerParticipantes() {
-        cargarVista("/fxml/VerParticipantes.fxml");
+        // TODO: Implementar view
     }
 }

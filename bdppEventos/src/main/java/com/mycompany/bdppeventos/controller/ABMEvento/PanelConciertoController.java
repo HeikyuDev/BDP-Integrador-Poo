@@ -8,13 +8,15 @@ package com.mycompany.bdppeventos.controller.ABMEvento;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.mycompany.bdppeventos.util.ConfiguracionIgu;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
 
-public class PanelConciertoController extends ConfiguracionIguEvento implements Initializable {
+public class PanelConciertoController extends ConfiguracionIgu implements Initializable {
 
 
 

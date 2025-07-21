@@ -5,15 +5,18 @@
  */
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
-import com.mycompany.bdppeventos.model.enums.TipoCobertura;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.mycompany.bdppeventos.model.enums.TipoCobertura;
+import com.mycompany.bdppeventos.util.ConfiguracionIgu;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-public class PanelFeriaController extends ConfiguracionIguEvento implements Initializable {
+public class PanelFeriaController extends ConfiguracionIgu implements Initializable {
 
 
     // Atributos

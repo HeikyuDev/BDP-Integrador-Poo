@@ -1,28 +1,25 @@
 package com.mycompany.bdppeventos.util;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.mycompany.bdppeventos.App;
 import com.mycompany.bdppeventos.view.Vista;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Pair;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import javafx.stage.StageStyle;
-
-
+import javafx.util.Pair;
 
 public class StageManager {
-    
+
     // Clase dirigida a controlar las Ventanas, Paneles, Modales....
-    
-    
 
     // Stage principal de la aplicación
     private static Stage stagePrincipal;
@@ -36,7 +33,7 @@ public class StageManager {
         if (root != null) {
             mostrar(root, vista.getTitulo()); // Muestra la vista en el Stage principal
         } else {
-            Alerta.mostrarError("No se pudo cargar la vista:"  + vista.getRutaFxml());
+            Alerta.mostrarError("No se pudo cargar la vista:" + vista.getRutaFxml());
         }
     }
 
@@ -50,9 +47,9 @@ public class StageManager {
             stagePrincipal.setTitle(titulo);
             stagePrincipal.setScene(escena);
             stagePrincipal.setMaximized(true);
-            stagePrincipal.setResizable(true);       
-            stagePrincipal.initStyle(StageStyle.UNDECORATED); 
-            stagePrincipal.getIcons().add(new Image(App.class.getResource("/images/Logo.png").toExternalForm()));            
+            stagePrincipal.setResizable(true);
+            stagePrincipal.initStyle(StageStyle.UNDECORATED);
+            stagePrincipal.getIcons().add(new Image(App.class.getResource("/images/Logo.png").toExternalForm()));
             try {
                 stagePrincipal.show();
             } catch (Exception e) {
@@ -73,6 +70,34 @@ public class StageManager {
         }
         return escena;
     }
+
+    // Cambia la escena en un determinado contenedor
+    public static void cambiarEscenaEnContenedor(AnchorPane contenedor, Vista vista) {
+        Parent root = cargarVista(vista.getRutaFxml()); // Carga la vista FXML
+        if (root != null && contenedor != null) {
+            mostrarEnContenedor(contenedor, root);
+        } else {
+            Alerta.mostrarError("No se pudo cargar la vista en el contenedor: " + vista.getRutaFxml());
+        }
+    }
+
+    // Mustra el nodoRaiz pasado como parametro en el contenedor
+    private static void mostrarEnContenedor(AnchorPane contenedor, Parent root) {
+        if (root != null) {
+            contenedor.getChildren().setAll(root);
+            AnchorPane.setTopAnchor(root, 0.0);
+            AnchorPane.setRightAnchor(root, 0.0);
+            AnchorPane.setBottomAnchor(root, 0.0);
+            AnchorPane.setLeftAnchor(root, 0.0);
+        }
+        else
+        {
+            Alerta.mostrarError("No se pudo mostrar el panel");
+        }
+
+    }
+
+    
 
     // Abre un modal con la vista proporcionada
     public static void abrirModal(Parent root, Vista vista) {
@@ -117,9 +142,8 @@ public class StageManager {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(rutaFxml)); // Carga el archivo FXML
             Parent root = loader.load(); // Carga el nodo raíz de la vista
-            Objects.requireNonNull(root, "El nodo FXML raíz no debe ser nulo"); // Verifica que el nodo no sea nulo
             return root;
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             Alerta.mostrarError("Error al cargar la vista\n" + e.getMessage());
             return null;
         }
@@ -147,6 +171,5 @@ public class StageManager {
     public static void setTitulo(String titulo) {
         stagePrincipal.setTitle(titulo);
     }
-    
-    
+
 }

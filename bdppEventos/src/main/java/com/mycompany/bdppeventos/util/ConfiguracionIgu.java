@@ -1,11 +1,11 @@
-package com.mycompany.bdppeventos.controller.ABMEvento;
+package com.mycompany.bdppeventos.util;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 
-public abstract class ConfiguracionIguEvento {
+public abstract class ConfiguracionIgu {
     
     /**
      * Clase dirigida a reutilizar metodos de las interfaces de la seccion "ABM EVENTOS".

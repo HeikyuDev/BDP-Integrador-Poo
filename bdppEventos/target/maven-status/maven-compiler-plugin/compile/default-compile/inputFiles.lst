@@ -1,6 +1,5 @@
 C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\enums\TipoEvento.java
 C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\util\StageManager.java
-C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\ABMEvento\ConfiguracionIguEvento.java
 C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\ABMEvento\PanelTallerController.java
 C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\TipoDeArte.java
 C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\enums\TipoCobertura.java
@@ -18,6 +17,7 @@ C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos
 C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\PantallaPrincipalController.java
 C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\Pelicula.java
 C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\Evento.java
+C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\util\ConfiguracionIgu.java
 C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\Concierto.java
 C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\App.java
 C:\Users\elnah\OneDrive\Escritorio\INTEGRADOR POO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\ABMEvento\PanelConciertoController.java
