@@ -2,12 +2,14 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMProyeccion.FormularioProyeccionController"> 
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="566.0" prefWidth="600.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMProyeccion.FormularioProyeccionController"> 
    <children>
       <HBox alignment="CENTER" prefHeight="33.0" prefWidth="600.0" styleClass="title-bar">
          <children>
@@ -26,15 +28,42 @@
                      </children>
                   </HBox>
                   <Label styleClass="form-label-required" text="Peliculas *" />
-                  <CheckComboBox fx:id="chkComboPeliculas" prefHeight="23.0" prefWidth="435.0" styleClass="form-combobox" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                     <children>
+                        <CheckComboBox fx:id="chkComboPeliculas" prefHeight="23.0" prefWidth="301.0" styleClass="form-combobox" />
+                        <Button fx:id="btnAgregarPelicula" mnemonicParsing="false" onAction="#agregarPelicula" prefHeight="29.0" prefWidth="201.0" styleClass="alta-button-alt" text="+ Agregar Pelicula" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>
       </VBox>
-      <HBox alignment="CENTER_RIGHT" prefHeight="56.0" prefWidth="600.0" styleClass="main-section">
+      <HBox alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="583.0" styleClass="main-section">
          <children>
-            <Button fx:id="btnAltaProyeccion" mnemonicParsing="false" prefHeight="39.0" prefWidth="205.0" styleClass="simple-button-bold" text="Alta de Proyeccion" />
+            <Button fx:id="btnAltaProyeccion" mnemonicParsing="false" onAction="#altaProyeccion" prefHeight="39.0" prefWidth="205.0" styleClass="simple-button-bold" text="Alta de Proyeccion" />
          </children>
       </HBox>
+      <VBox prefHeight="281.0" prefWidth="600.0" styleClass="main-section">
+         <children>
+            <VBox prefHeight="236.0" prefWidth="569.0" styleClass="field-section">
+               <children>
+                  <Label styleClass="section-title" text="Datos Cargados" />
+                  <TableView fx:id="tblProyeccion" prefHeight="200.0" prefWidth="200.0" styleClass="form-tableview">
+                    <columns>
+                      <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
+                      <TableColumn fx:id="colNombre" prefWidth="86.66671752929688" text="NOMBRE" />
+                        <TableColumn fx:id="colPeliculas" prefWidth="374.6666259765625" text="PELICULAS" />
+                    </columns>
+                  </TableView>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="41.0" prefWidth="537.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#bajaProyeccion" styleClass="baja-button" text="Baja" />
+                        <Button fx:id="btnModificacion" mnemonicParsing="false" onAction="#modificacionProyeccion" styleClass="modificacion-button" text="Modificacion" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
    </children>
 </VBox>

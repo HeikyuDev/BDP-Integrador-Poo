@@ -24,8 +24,6 @@ public class StageManager {
     // Stage principal de la aplicación
     private static Stage stagePrincipal;
 
-    // Mapa para gestionar los modales abiertos, asociando títulos con Stages
-    private static Map<String, Stage> modalStages = new HashMap<>();
 
     // Cambia la escena principal a la especificada por la vista proporcionada
     public static void cambiarEscena(Vista vista) {
@@ -100,7 +98,8 @@ public class StageManager {
     
 
     // Abre un modal con la vista proporcionada
-    public static void abrirModal(Parent root, Vista vista) {
+    public static void abrirModal(Vista vista) {
+        Parent root = cargarVista(vista.getRutaFxml());
         Stage modalStage = crearModalStage(vista); // Crea un nuevo Stage para el modal
         mostrarModal(modalStage, root, vista); // Muestra el modal
     }
@@ -108,21 +107,10 @@ public class StageManager {
     // Crea un nuevo Stage para el modal
     private static Stage crearModalStage(Vista vista) {
         Stage modalStage = new Stage();
-        modalStage.initModality(Modality.APPLICATION_MODAL); // Configura el modal como bloqueante
-        modalStages.put(vista.getTitulo(), modalStage); // Almacena el modal en el mapa con su título
+        modalStage.initModality(Modality.APPLICATION_MODAL); // Configura el modal como bloqueante        
         return modalStage;
     }
-
-    // Cierra un modal asociado al título proporcionado
-    public static void cerrarModal(Vista vista) {
-        Stage modalStage = modalStages.get(vista.getTitulo()); // Obtiene el modal del mapa
-        if (modalStage != null) {
-            modalStage.close(); // Cierra el modal si existe
-            modalStages.remove(vista.getTitulo()); // Elimina el modal del mapa
-        } else {
-            Alerta.mostrarError("No se encontró un modal con el título: " + vista.getTitulo());
-        }
-    }
+   
 
     // Muestra el modal con la vista proporcionada
     private static void mostrarModal(Stage modalStage, Parent root, Vista vista) {
@@ -132,8 +120,7 @@ public class StageManager {
         modalStage.sizeToScene();
         modalStage.centerOnScreen();
         modalStage.setResizable(false);
-        modalStage.getIcons().add(new Image(App.class.getResource("images/logo.png").toExternalForm()));
-        modalStage.setOnCloseRequest(event -> cerrarModal(vista)); // Configura el cierre del modal
+        modalStage.getIcons().add(new Image(App.class.getResource("/images/logo.png").toExternalForm()));        
         modalStage.showAndWait(); // Muestra el modal y espera hasta que se cierre
     }
 
@@ -149,18 +136,7 @@ public class StageManager {
         }
     }
 
-    // Carga una vista FXML para un modal y devuelve el controlador y el nodo raíz
-    public static <T> Pair<T, Parent> cargarVistaConControlador(String fxmlPath) {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath)); // Carga el archivo FXML
-            Parent nodo = loader.load(); // Carga el nodo raíz de la vista
-            T controlador = loader.getController(); // Obtiene el controlador asociado
-            return new Pair<>(controlador, nodo); // Devuelve el controlador y el nodo raíz como un par
-        } catch (IOException e) {
-            Alerta.mostrarError("Error al cargar el modal FXML: " + fxmlPath);
-            return null;
-        }
-    }
+
 
     // Establece el Stage principal de la aplicación
     public static void setStagePrincipal(Stage stage) {

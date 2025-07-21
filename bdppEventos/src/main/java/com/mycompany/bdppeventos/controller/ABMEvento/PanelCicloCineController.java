@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.mycompany.bdppeventos.util.DialogUtils;
+import com.mycompany.bdppeventos.util.StageManager;
+import com.mycompany.bdppeventos.view.Vista;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,18 +34,8 @@ public class PanelCicloCineController implements Initializable {
     
     
     @FXML
-    private void agregarCiclo() {
-        try {
-        // 1) Cargo el FXML de tu formulario de Ciclo de Cine
-        Parent content = FXMLLoader.load(getClass().getResource("/fxml/ABMProyeccion/FormularioProyeccion.fxml"));
-        
-        // 2) Muestro el diálogo centrado y modal
-        DialogUtils.showCenteredDialog(content);
-    } catch (IOException ex) {
-        ex.printStackTrace();
-        // Aquí podrías mostrar un Alert de error si prefieres
-    }
-        
+    private void agregarCiclo() {        
+        StageManager.abrirModal(Vista.FormularioProyeccion);
     }        
     
 }
