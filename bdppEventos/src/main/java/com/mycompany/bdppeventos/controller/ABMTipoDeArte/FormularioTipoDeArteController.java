@@ -1,12 +1,8 @@
-package com.mycompany.bdppeventos.controller.ABMProyeccion;
+package com.mycompany.bdppeventos.controller.ABMTipoDeArte;
 
 
-import com.mycompany.bdppeventos.model.entities.Pelicula;
+
 import com.mycompany.bdppeventos.model.entities.Proyeccion;
-import com.mycompany.bdppeventos.util.StageManager;
-import com.mycompany.bdppeventos.view.Vista;
-
-
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -14,13 +10,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import org.controlsfx.control.CheckComboBox;
 
-public class FormularioProyeccionController implements Initializable {
 
-    @FXML
-    private CheckComboBox<Pelicula> chkComboPeliculas;
-
+public class FormularioTipoDeArteController implements Initializable {
+    
     @FXML
     private TextField txtNombre;
 
@@ -28,10 +21,10 @@ public class FormularioProyeccionController implements Initializable {
     private TableView<Proyeccion> tblProyeccion;
     @FXML
     private TableColumn<Proyeccion, Integer> colId;
+    
     @FXML
     private TableColumn<Proyeccion, String> colNombre;
-    @FXML
-    private TableColumn<Proyeccion, String> colPeliculas;
+        
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -42,26 +35,22 @@ public class FormularioProyeccionController implements Initializable {
     // Metodos OnActioin
     
     
-    @FXML
-    private void agregarPelicula()
-    {
-        StageManager.abrirModal(Vista.FormularioPelicula);
-    }
+    
     
     @FXML
-    private void altaProyeccion()
+    private void altaTipoDeArte()
     {
         // TODO: No implementado
     }
     
     @FXML
-    private void bajaProyeccion()
+    private void bajaTipoDeArte()
     {
         // TODO: No Implementado
     }
     
     @FXML
-    private void modificacionProyeccion()
+    private void modificacionTipoDeArte()
     {
         // TODO: No Implementado
     }

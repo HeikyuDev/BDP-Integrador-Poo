@@ -31,6 +31,8 @@ module com.mycompany.bdppeventos {
     opens com.mycompany.bdppeventos.controller.ABMPersona to javafx.fxml, javafx.base;
     opens com.mycompany.bdppeventos.controller.ABMEvento to javafx.fxml, javafx.base;
     opens com.mycompany.bdppeventos.controller.ABMProyeccion to javafx.fxml, javafx.base;
+    opens com.mycompany.bdppeventos.controller.ABMPelicula to javafx.fxml, javafx.base;
+    opens com.mycompany.bdppeventos.controller.ABMTipoDeArte to javafx.fxml, javafx.base;
     
     // ABRIR ENTIDADES PARA JPA
     opens com.mycompany.bdppeventos.model.entities to

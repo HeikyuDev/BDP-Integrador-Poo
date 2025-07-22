@@ -5,6 +5,8 @@
  */
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
+import com.mycompany.bdppeventos.util.StageManager;
+import com.mycompany.bdppeventos.view.Vista;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -45,7 +47,7 @@ public class PanelExposicionController implements Initializable {
      */
     @FXML
     private void agregarTipoArte() {
-        System.out.println("Falta implementar");
+        StageManager.abrirModal(Vista.FormularioTipoDeArte);
     }
     
 }

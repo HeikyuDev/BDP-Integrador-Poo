@@ -28,9 +28,16 @@ public enum Vista {
     
     // FXML de la seccion ABM Proyeccion
     
-    FormularioProyeccion("FormularioProyeccion","ABMProyeccion/FormularioProyeccion");
+    FormularioProyeccion("Formulario Proyeccion","ABMProyeccion/FormularioProyeccion"),
     
-            
+    // FXML de la seccion ABM Pelicula
+    
+    FormularioPelicula("Formulario Pelicula","ABMPelicula/FormularioPelicula"),
+    
+    // FXML de la seccion ABM Tipo De Arte
+    
+    FormularioTipoDeArte("Formulario Tipo De Arte","ABMTipoDeArte/FormularioTipoDeArte");
+    
     private final String rutaFxml;  // Ruta relativa del archivo FXML que define la vista
     private final String titulo;
 
