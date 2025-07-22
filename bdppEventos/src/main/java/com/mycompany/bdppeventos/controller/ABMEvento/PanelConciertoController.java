@@ -15,10 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
-
 public class PanelConciertoController extends ConfiguracionIgu implements Initializable {
-
-
 
     /**
      * CheckBox para indicar si el concierto es pago.
@@ -27,12 +24,11 @@ public class PanelConciertoController extends ConfiguracionIgu implements Initia
     private CheckBox chkEsPago;
 
     /**
-     * Campo de texto asociado al CheckBox para ingresar información adicional si es pago.
+     * Campo de texto asociado al CheckBox para ingresar información adicional si es
+     * pago.
      */
     @FXML
     private TextField txtEsPago;
-    
-    
 
     /**
      * Inicializa el panel de concierto al cargar la vista.
@@ -42,12 +38,7 @@ public class PanelConciertoController extends ConfiguracionIgu implements Initia
     public void initialize(URL url, ResourceBundle rb) {
         // TODO: agregar lógica de inicialización si es necesario
     }
-    
-    
-    
-    // Metodos específicos
-    
-    
+
     // Metodos de Controles
 
     /**
@@ -58,5 +49,31 @@ public class PanelConciertoController extends ConfiguracionIgu implements Initia
     private void configurarEsPago() {
         configuracionCheckTextfield(chkEsPago, txtEsPago);
     }
-    
+
+    // Metodos específicos
+
+    public boolean getEsPago() {
+        return chkEsPago.isSelected();
+    }
+
+    public double getMonto() {
+        if (chkEsPago.isSelected()) {
+            String texto = txtEsPago.getText().trim();
+            if (texto.isEmpty()) {
+                throw new IllegalArgumentException("Debe ingresar un monto si el evento es pago.");
+            }
+            try {
+                double monto = Double.parseDouble(texto);
+                if (monto <= 0) {
+                    throw new IllegalArgumentException("El monto debe ser mayor que cero.");
+                }
+                return monto;
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("El monto ingresado no es válido. Debe ser un número.");
+            }
+        } else {
+            throw new IllegalArgumentException("No se puede especificar el monto del evento si el mismo es gratuito.");
+        }
+    }
+
 }

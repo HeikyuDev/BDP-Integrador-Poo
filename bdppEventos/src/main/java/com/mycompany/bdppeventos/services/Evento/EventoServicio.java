@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import com.mycompany.bdppeventos.model.entities.Evento;
 import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 import com.mycompany.bdppeventos.repository.Repositorio;
@@ -16,7 +15,6 @@ public class EventoServicio extends CrudServicio<Evento> {
 
     public EventoServicio(Repositorio repositorio) {
         super(repositorio, Evento.class);
-
     }
 
     @Override

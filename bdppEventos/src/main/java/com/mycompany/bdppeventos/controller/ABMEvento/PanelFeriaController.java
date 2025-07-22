@@ -18,15 +18,12 @@ import javafx.scene.control.TextField;
 
 public class PanelFeriaController extends ConfiguracionIgu implements Initializable {
 
-
     // Atributos
-    
-    
 
     /**
      * Campo de texto para ingresar la cantidad de stands de la feria.
      */
-    @FXML 
+    @FXML
     private TextField txtCantidadStands;
 
     /**
@@ -34,8 +31,6 @@ public class PanelFeriaController extends ConfiguracionIgu implements Initializa
      */
     @FXML
     private ComboBox<TipoCobertura> cmbTipoCobertura;
-    
-    
 
     /**
      * Inicializa el panel de feria al cargar la vista.
@@ -45,10 +40,30 @@ public class PanelFeriaController extends ConfiguracionIgu implements Initializa
     public void initialize(URL url, ResourceBundle rb) {
         configuracionEnumEnCombo(cmbTipoCobertura, TipoCobertura.class);
     }
-    
-    
-    
-    
-    
-    
+
+    // Metodos Especificos
+
+    public int getCantidadStands() {
+        String cantidadTexto = txtCantidadStands.getText().trim();
+        if (cantidadTexto.isEmpty()) {
+            throw new IllegalArgumentException("Debe ingresar la cantidad de stands.");
+        }
+        try {
+            int cantidad = Integer.parseInt(cantidadTexto);
+            if (cantidad <= 0) {
+                throw new IllegalArgumentException("La cantidad de stands debe ser mayor que cero.");
+            }
+            return cantidad;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("La cantidad de stands debe ser un número entero válido.");
+        }
+    }
+
+    public TipoCobertura getTipoCobertura() {
+        TipoCobertura tipo = cmbTipoCobertura.getSelectionModel().getSelectedItem();
+        if (tipo == null) {
+            throw new IllegalArgumentException("Tipo de Cobertura inválido, por favor asegurese de seleccionar uno.");
+        }
+        return tipo;
+    }
 }

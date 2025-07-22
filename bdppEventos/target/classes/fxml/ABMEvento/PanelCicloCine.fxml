@@ -34,7 +34,7 @@
             </CheckBox>
             </children>
         </HBox>
-      <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="453.0" styleClass="main-section">
+      <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="453.0">
          <children>
             <Button fx:id="btnAgregarCiclo" mnemonicParsing="false" onAction="#agregarCiclo" styleClass="alta-button-alt" text="+ Agregar ciclo" />
          </children>

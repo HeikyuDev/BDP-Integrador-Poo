@@ -43,7 +43,7 @@ public abstract class Evento implements Activable {
     private LocalDate fechaInicio;
 
 
-    /** Duración estimada del evento en horas o días (no nulo, positivo) */
+    /** Duración estimada del evento en horas (no nulo, positivo) */
     @Column(name = "duracion_estimada", nullable = false)
     private int duracionEstimada;
 

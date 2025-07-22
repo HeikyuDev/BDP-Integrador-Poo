@@ -3,13 +3,11 @@ package com.mycompany.bdppeventos.services;
 import com.mycompany.bdppeventos.repository.Repositorio;
 import java.util.ArrayList;
 import java.util.List;
-import static org.slf4j.LoggerFactory.getLogger;
-import org.slf4j.Logger;
+
 
 public abstract class CrudServicio<T> {
 
-    // Logger para gestionar información
-    private static final Logger log = getLogger(CrudServicio.class);
+    
 
     private Repositorio repositorio; // Repositorio para realizar operaciones de persistencia
     private Class<T> clase; // Clase de las entidades que maneja este servicio
@@ -51,9 +49,7 @@ public abstract class CrudServicio<T> {
 
             this.repositorio.confirmarTransaccion(); // Confirmar la transacción
         } catch (Exception e) {
-            this.repositorio.descartarTransaccion(); // Descartar la transacción en caso de error
-            log.error("Error al insertar la entidad de tipo {}: {}", entidad.getClass().getSimpleName(), e,
-                    e.getCause());
+            this.repositorio.descartarTransaccion(); // Descartar la transacción en caso de error            
             throw e; // Volver a lanzar la excepción después de hacer rollback
         }
     }
@@ -67,9 +63,7 @@ public abstract class CrudServicio<T> {
                 this.repositorio.confirmarTransaccion(); // Confirmar la transacción
             }
         } catch (Exception e) {
-            this.repositorio.descartarTransaccion(); // Descartar la transacción en caso de error
-            log.error("Error al modificar la entidad de tipo {}: {}", entidad.getClass().getSimpleName(), e,
-                    e.getCause());
+            this.repositorio.descartarTransaccion(); // Descartar la transacción en caso de error                        
             throw e; // Volver a lanzar la excepción después de hacer rollback
         }
     }
@@ -86,9 +80,7 @@ public abstract class CrudServicio<T> {
                 this.repositorio.descartarTransaccion(); // Descartar la transacción si la entidad es null
             }
         } catch (Exception e) {
-            this.repositorio.descartarTransaccion(); // Descartar la transacción en caso de error
-            log.error("Error al eliminar la entidad de tipo {}: {}", entidad.getClass().getSimpleName(), e,
-                    e.getCause());
+            this.repositorio.descartarTransaccion(); // Descartar la transacción en caso de error            
             throw e; // Volver a lanzar la excepción después de hacer rollback
         }
     }

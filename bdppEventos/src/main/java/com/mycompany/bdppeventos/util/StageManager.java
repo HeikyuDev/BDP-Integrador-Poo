@@ -1,8 +1,6 @@
 package com.mycompany.bdppeventos.util;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.mycompany.bdppeventos.App;
 import com.mycompany.bdppeventos.view.Vista;
@@ -79,6 +77,19 @@ public class StageManager {
         }
     }
 
+    public static <T> T cambiarEscenaEnContenedorYObtenerControlador(AnchorPane contenedor, Vista vista) {
+    Pair<T, Parent> resultado = cargarVistaConControlador(vista.getRutaFxml());
+    if (resultado != null) {
+        Parent root = resultado.getValue();
+        T controlador = resultado.getKey();
+        mostrarEnContenedor(contenedor, root);
+        return controlador;
+    } else {
+        Alerta.mostrarError("No se pudo cargar la vista con controlador: " + vista.getRutaFxml());
+        return null;
+    }
+}
+
     // Mustra el nodoRaiz pasado como parametro en el contenedor
     private static void mostrarEnContenedor(AnchorPane contenedor, Parent root) {
         if (root != null) {
@@ -136,7 +147,18 @@ public class StageManager {
         }
     }
 
-
+    // Carga una vista FXML  y devuelve el controlador y el nodo raíz
+    public static <T> Pair<T, Parent> cargarVistaConControlador(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath)); // Carga el archivo FXML
+            Parent nodo = loader.load(); // Carga el nodo raíz de la vista
+            T controlador = loader.getController(); // Obtiene el controlador asociado
+            return new Pair<>(controlador, nodo); // Devuelve el controlador y el nodo raíz como un par
+        } catch (IOException e) {            
+            Alerta.mostrarError("A ocurrido un Error inesperado\n" + e.getMessage());
+            return null;
+        }
+    }
 
     // Establece el Stage principal de la aplicación
     public static void setStagePrincipal(Stage stage) {
@@ -147,5 +169,7 @@ public class StageManager {
     public static void setTitulo(String titulo) {
         stagePrincipal.setTitle(titulo);
     }
+
+    
 
 }

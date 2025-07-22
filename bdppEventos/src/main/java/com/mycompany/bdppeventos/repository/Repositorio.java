@@ -4,9 +4,12 @@ import java.util.List;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+import java.util.Map;
+
 
 /**
  * Implementación Genérica de un repositorio usando un EntityManager.
@@ -15,8 +18,7 @@ import jakarta.persistence.criteria.Root;
 
 public class Repositorio {
 
-    private final EntityManager em; // Instancia del EntityManager para gestionar las operaciones con la base de
-                                    // datos
+    private final EntityManager em; // Instancia del EntityManager para gestionar las operaciones con la base de datos                                    
 
     public Repositorio(EntityManagerFactory emf) {
         this.em = emf.createEntityManager(); // Se crea un EntityManager a partir del EntityManagerFactory
@@ -27,13 +29,12 @@ public class Repositorio {
         em.getTransaction().begin();
     }
 
-    // Confirma (commits) la transacción en curso
+    // Confirma  la transacción en curso (Hacer Un COMMIT)
     public void confirmarTransaccion() {
         em.getTransaction().commit();
     }
 
-    // Descartar (rollback) la transacción en curso en caso de error o necesidad de
-    // deshacer cambios
+    // hace un Rollback de la transaccion
     public void descartarTransaccion() {
         em.getTransaction().rollback();
     }
@@ -80,5 +81,20 @@ public class Repositorio {
         consulta.select(origen);
         // Ejecuto la consulta y obtengo el resultado como una lista de objetos
         return em.createQuery(consulta).getResultList();
+    }
+    
+    
+    // Método genérico para ejecutar una consulta JPQL con parámetros opcionales
+    public <T> List<T> buscarConQuery(String jpql, Map<String, Object> parametros, Class<T> claseResultado) {
+        Query query = this.em.createQuery(jpql, claseResultado);
+
+        // Carga de parámetros a la consulta
+        if (parametros != null) {
+            for (Map.Entry<String, Object> entry : parametros.entrySet()) {
+                query.setParameter(entry.getKey(), entry.getValue());
+            }
+        }
+
+        return query.getResultList();
     }
 }

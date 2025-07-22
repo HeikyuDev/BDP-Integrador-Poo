@@ -11,13 +11,10 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
 public class PanelTallerController implements Initializable {
-
 
     /**
      * Inicializa el panel de taller al cargar la vista.
@@ -47,10 +44,10 @@ public class PanelTallerController implements Initializable {
      */
     private final ToggleGroup rBtnGroup = new ToggleGroup();
 
-
     /**
      * Configura el ToggleGroup para los RadioButton de modalidad.
-     * Si se deselecciona la opción actual, vuelve a seleccionarla para evitar que ambas queden desmarcadas.
+     * Si se deselecciona la opción actual, vuelve a seleccionarla para evitar que
+     * ambas queden desmarcadas.
      */
     private void configurarToggleGroup() {
         rbtnPresencial.setToggleGroup(rBtnGroup);
@@ -63,17 +60,10 @@ public class PanelTallerController implements Initializable {
         });
     }
 
+    // Metodos Específicos
 
-    /**
-     * Configura el estado de los controles de cupo cuando se selecciona "Taller".
-     * Por defecto, habilita el checkbox y el campo de texto para el cupo.
-     * @param unCheckBox Checkbox de cupo máximo
-     * @param unTextField Campo de texto para ingresar el cupo
-     */
-    public void configurarCupo(CheckBox unCheckBox, TextField unTextField) {
-        unCheckBox.setSelected(true);
-        unCheckBox.setDisable(true);
-        unTextField.setDisable(false);
+    public boolean getEsPrecencial() {
+        return rbtnPresencial.isSelected();                 
     }
 
 }
