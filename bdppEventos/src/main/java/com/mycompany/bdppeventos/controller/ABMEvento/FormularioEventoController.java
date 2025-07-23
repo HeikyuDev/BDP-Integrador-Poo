@@ -14,8 +14,10 @@ import com.mycompany.bdppeventos.model.entities.TipoDeArte;
 import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 import com.mycompany.bdppeventos.model.enums.TipoCobertura;
 import com.mycompany.bdppeventos.model.enums.TipoEvento;
+import com.mycompany.bdppeventos.services.Evento.EventoServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
+import com.mycompany.bdppeventos.util.RepositorioContext;
 import com.mycompany.bdppeventos.util.StageManager;
 import com.mycompany.bdppeventos.view.Vista;
 
@@ -79,20 +81,27 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
     @FXML
     private AnchorPane contenedorDinamico;
 
-    // Controladores de paneles hijos (para lógica específica de cada tipo de
-    // evento)
+    // Controladores de paneles hijos (para lógica específica de cada tipo de evento)    
+
     private PanelExposicionController unPanelExposicionController;
     private PanelTallerController unPanelTallerController;
     private PanelConciertoController unPanelConciertoController;
     private PanelCicloCineController unPanelCicloCineController;
     private PanelFeriaController unPanelFeriaController;
 
+
+    // Servicio de Evento
+    private EventoServicio eventoServicio;
+
+    
     /**
      * Inicializa el controlador al cargar la vista FXML.
      * Carga los valores de los combos de estado y tipo de evento.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Seteo el Repositorio al Services
+        eventoServicio = new EventoServicio(RepositorioContext.getRepositorio());
         configuracionEnumEnCombo(cmbEstado, EstadoEvento.class);
         configuracionEnumEnCombo(cmbTipoEvento, TipoEvento.class);
     }
@@ -184,19 +193,16 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
 
             boolean tieneInscripcion = chkTieneInscripcion.isSelected();
 
-            // Datos específicos según tipo de evento, obtenidos con validación en cada
-            // panel
+            // Datos específicos según tipo de evento
+
             Object[] datosEspecificos = null;
             switch (tipoEvento) {
                 case EXPOSICION -> {
-                    TipoDeArte tipoDeArte = unPanelExposicionController.getTipoArteSeleccionado();
-                    if (tipoDeArte == null) {
-                        throw new IllegalArgumentException("Debe seleccionar un tipo de arte.");
-                    }
+                    TipoDeArte tipoDeArte = unPanelExposicionController.getTipoArteSeleccionado(); // Ya validado en el Controlador del Panel                    
                     datosEspecificos = new Object[] { tipoDeArte };
                 }
                 case TALLER -> {
-                    boolean esPresencial = unPanelTallerController.getEsPrecencial();
+                    boolean esPresencial = unPanelTallerController.getEsPrecencial(); 
                     datosEspecificos = new Object[] { esPresencial };
                 }
                 case CONCIERTO -> {
@@ -208,10 +214,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
                     datosEspecificos = new Object[] { esPago, monto };
                 }
                 case CICLO_DE_CINE -> {
-                    Proyeccion proyeccion = unPanelCicloCineController.getProyeccion();
-                    if (proyeccion == null) {
-                        throw new IllegalArgumentException("Debe seleccionar una proyección.");
-                    }
+                    Proyeccion proyeccion = unPanelCicloCineController.getProyeccion(); //Ya validado                    
                     boolean charlasPosteriores = unPanelCicloCineController.getCharlasPosteriores();
                     datosEspecificos = new Object[] { proyeccion, charlasPosteriores };
                 }
@@ -222,12 +225,14 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
                 }
             }
 
-            // Aquí iría la lógica para guardar el evento usando los datos recolectados...
+            
 
-            System.out.println("Datos específicos: " + java.util.Arrays.toString(datosEspecificos));
+            eventoServicio.altaEvento(nombre,ubicacion,fechaInicio,duracion,tieneCupo,cupoMaximo,tieneInscripcion,estado,tipoEvento,datosEspecificos);
+
+            
 
         } catch (IllegalArgumentException e) {
-            Alerta.mostrarError("Error: " + e.getMessage());
+            Alerta.mostrarError("Error Asegurese de ingresar datos validos: " + e.getMessage());
         } catch (Exception e) {
             Alerta.mostrarError("Error inesperado: " + e.getMessage());
             e.printStackTrace();

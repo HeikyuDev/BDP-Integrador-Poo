@@ -4,11 +4,9 @@ import java.util.List;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import java.util.Map;
 
 
 /**
@@ -83,18 +81,5 @@ public class Repositorio {
         return em.createQuery(consulta).getResultList();
     }
     
-    
-    // Método genérico para ejecutar una consulta JPQL con parámetros opcionales
-    public <T> List<T> buscarConQuery(String jpql, Map<String, Object> parametros, Class<T> claseResultado) {
-        Query query = this.em.createQuery(jpql, claseResultado);
-
-        // Carga de parámetros a la consulta
-        if (parametros != null) {
-            for (Map.Entry<String, Object> entry : parametros.entrySet()) {
-                query.setParameter(entry.getKey(), entry.getValue());
-            }
-        }
-
-        return query.getResultList();
-    }
+        
 }

@@ -22,13 +22,13 @@ public final class CicloDeCine extends Evento {
 
 
     /** Indica si el ciclo de cine incluye charlas posteriores a las proyecciones */
-    @Column(name = "charlas_posteriores", nullable = false)
+    @Column(name = "charlas_posteriores", nullable = true)
     private boolean charlasPosteriores;
 
 
     /** Lista de proyecciones asociadas al ciclo de cine (relación uno a muchos) */
     @ManyToOne    
-    @JoinColumn(name = "id_proyeccion", nullable = false)
+    @JoinColumn(name = "id_proyeccion", nullable = true)
     private Proyeccion unaProyeccion;
 
 

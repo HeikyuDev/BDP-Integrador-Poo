@@ -20,7 +20,7 @@ public final class Taller extends Evento {
 
 
     /** Indica si el taller es presencial (true) o virtual (false) */
-    @Column(name = "es_presencial", nullable = false)
+    @Column(name = "es_presencial", nullable = true)
     private boolean esPresencial;
     
 

@@ -20,11 +20,11 @@ public final class Concierto extends Evento {
 
 
     /** Indica si el concierto es pago (true) o gratuito (false) */
-    @Column(name = "es_pago", nullable = false)
+    @Column(name = "es_pago", nullable = true)
     private boolean esPago;
 
     /** Monto de la entrada si el concierto es pago (0 si es gratuito) */
-    @Column(name = "monto", nullable = false)
+    @Column(name = "monto", nullable = true)
     private double monto;
 
     

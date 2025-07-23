@@ -23,12 +23,12 @@ public final class Feria extends Evento {
 
 
     /** Cantidad de stands disponibles en la feria (no puede ser 0 ni negativo) */
-    @Column(name = "cantidad_stand", nullable = false)
+    @Column(name = "cantidad_stand", nullable = true)
     private int cantidadStands;
 
     /** Tipo de cobertura de la feria (enum, no nulo) */
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_cobertura", nullable = false, length = 20)
+    @Column(name = "tipo_cobertura", nullable = true, length = 20)
     private TipoCobertura tipoCobertura;
 
 

@@ -9,8 +9,8 @@ public abstract class CrudServicio<T> {
 
     
 
-    private Repositorio repositorio; // Repositorio para realizar operaciones de persistencia
-    private Class<T> clase; // Clase de las entidades que maneja este servicio
+    protected Repositorio repositorio; // Repositorio para realizar operaciones de persistencia
+    protected Class<T> clase; // Clase de las entidades que maneja este servicio
 
     // Constructor que inicializa el repositorio y la clase de las entidades
     public CrudServicio(Repositorio repositorio, Class<T> clase) {
@@ -91,11 +91,11 @@ public abstract class CrudServicio<T> {
     }
 
     // Métodos abstractos que deben ser implementados en las subclases
-    public abstract T validarEInsertar(Object... datos);
+    // public abstract T validarEInsertar(Object... datos);
 
-    public abstract void validarYModificar(T entidad, Object... datos);
+    // public abstract void validarYModificar(T entidad, Object... datos);
 
-    public abstract void validarYBorrar(T entidad);
+    // public abstract void validarYBorrar(T entidad);
 
     protected abstract boolean esInactivo(T entidad);
 
