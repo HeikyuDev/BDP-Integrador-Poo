@@ -57,6 +57,7 @@
                      <children>
                         <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#bajaPelicula" styleClass="baja-button" text="Baja" />
                         <Button fx:id="btnModificacion" mnemonicParsing="false" onAction="#modificacionPelicula" styleClass="modificacion-button" text="Modificacion" />
+                        <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelarEdicion" styleClass="baja-button" text="Cancelar" disable = "true"/>
                      </children>
                   </HBox>
                </children>

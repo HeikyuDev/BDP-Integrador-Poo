@@ -7,8 +7,10 @@ package com.mycompany.bdppeventos.controller.ABMEvento;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import com.mycompany.bdppeventos.model.entities.Evento;
 import com.mycompany.bdppeventos.model.entities.Proyeccion;
 import com.mycompany.bdppeventos.model.entities.TipoDeArte;
 import com.mycompany.bdppeventos.model.enums.EstadoEvento;
@@ -21,11 +23,14 @@ import com.mycompany.bdppeventos.util.RepositorioContext;
 import com.mycompany.bdppeventos.util.StageManager;
 import com.mycompany.bdppeventos.view.Vista;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
@@ -74,6 +79,13 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
     @FXML
     private CheckBox chkTieneInscripcion;
 
+    @FXML
+    private TableView<Evento> tablaEventos;
+
+    //Lista observable (VINCULADA AL TABLE VIEW)
+    private ObservableList<Evento> listaEventos = FXCollections.observableArrayList();
+
+
     /**
      * Contenedor dinámico donde se cargan los paneles específicos según el tipo de
      * evento
@@ -100,10 +112,18 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Seteo el Repositorio al Services
+        // Instancio el eventoServicio utilizando el Repositorio 
         eventoServicio = new EventoServicio(RepositorioContext.getRepositorio());
+
+        // Vinculo la Lista Observable con la tableView de la interfaz
+        tablaEventos.setItems(listaEventos);
+
+        // Realizo unas configuraciones en la interfaz        
         configuracionEnumEnCombo(cmbEstado, EstadoEvento.class);
-        configuracionEnumEnCombo(cmbTipoEvento, TipoEvento.class);
+        configuracionEnumEnCombo(cmbTipoEvento, TipoEvento.class);      
+        
+        // Actualizo la tabla con todos los datos obtenidos de la Base de datos "Evento"
+        actualizarTabla();
     }
 
     /**
@@ -136,6 +156,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
             case TALLER -> {
                 chkCupoMaximo.setSelected(true);
                 chkCupoMaximo.setDisable(true);
+                txtCupoMaximo.setDisable(false);
                 unPanelTallerController = StageManager.cambiarEscenaEnContenedorYObtenerControlador(contenedorDinamico,
                         Vista.PanelTaller);
             }
@@ -159,7 +180,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
     }
 
     /**
-     * Método para dar de alta un evento (a implementar).
+     * Método para dar de alta un evento 
      * Aquí se debe colocar la lógica para guardar el evento en la base de datos.
      */
 
@@ -229,7 +250,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
 
             eventoServicio.altaEvento(nombre,ubicacion,fechaInicio,duracion,tieneCupo,cupoMaximo,tieneInscripcion,estado,tipoEvento,datosEspecificos);
 
-            
+            Alerta.mostrarExito("Evento Registrado Exitosamente");
 
         } catch (IllegalArgumentException e) {
             Alerta.mostrarError("Error Asegurese de ingresar datos validos: " + e.getMessage());
@@ -242,5 +263,25 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
     private boolean esCampoVacio(String texto) {
         return texto == null || texto.trim().isEmpty();
     }
+
+    private void actualizarTabla() {
+    try {
+        // Limpiar la lista antes de agregar nuevos elementos
+        listaEventos.clear();
+        
+        // Obtener todos los eventos del servicio
+        List<Evento> eventos = eventoServicio.buscarTodos();
+        
+        // Verificar que la lista no sea null
+        if (eventos != null) {
+            listaEventos.addAll(eventos);
+        } else {
+            Alerta.mostrarError("No se pudieron cargar los eventos");
+        }
+    } catch (Exception e) {
+        Alerta.mostrarError("Error al cargar eventos: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
 
 }

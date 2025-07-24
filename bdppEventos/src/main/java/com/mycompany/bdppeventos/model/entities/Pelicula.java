@@ -1,7 +1,5 @@
 package com.mycompany.bdppeventos.model.entities;
 
-import java.util.List;
-
 import com.mycompany.bdppeventos.model.interfaces.Activable;
 
 import jakarta.persistence.Column;

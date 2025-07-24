@@ -1,13 +1,11 @@
 package com.mycompany.bdppeventos.services;
 
-import com.mycompany.bdppeventos.repository.Repositorio;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mycompany.bdppeventos.repository.Repositorio;
 
 public abstract class CrudServicio<T> {
-
-    
 
     protected Repositorio repositorio; // Repositorio para realizar operaciones de persistencia
     protected Class<T> clase; // Clase de las entidades que maneja este servicio
@@ -23,7 +21,7 @@ public abstract class CrudServicio<T> {
         var todos = this.repositorio.buscarTodos(clase); // Obtener todas las entidades de la clase
         var activos = new ArrayList<T>(); // Lista para almacenar solo las entidades activas
         for (var entidad : todos) {
-            if (!esInactivo(entidad)) {
+            if (estaActivo(entidad) == true) {
                 activos.add(entidad); // Añadir entidad activa a la lista
             }
         }
@@ -34,11 +32,11 @@ public abstract class CrudServicio<T> {
     public T buscarPorId(Object id) {
         var entidad = this.repositorio.buscar(clase, id); // Buscar la entidad por ID
         if (entidad != null) {
-            if (!esInactivo(entidad)) {
-                return entidad; // Retornar la entidad si es activa
+            if (estaActivo(entidad)) { // <-- Sin negación (!)
+                return entidad; // Retorna solo si está activa
             }
         }
-        return null; // Retornar null si la entidad es inactiva o no se encuentra
+        return null; // Retorna null si no existe o está inactiva
     }
 
     // Método para insertar una nueva entidad
@@ -49,7 +47,7 @@ public abstract class CrudServicio<T> {
 
             this.repositorio.confirmarTransaccion(); // Confirmar la transacción
         } catch (Exception e) {
-            this.repositorio.descartarTransaccion(); // Descartar la transacción en caso de error            
+            this.repositorio.descartarTransaccion(); // Descartar la transacción en caso de error
             throw e; // Volver a lanzar la excepción después de hacer rollback
         }
     }
@@ -63,7 +61,7 @@ public abstract class CrudServicio<T> {
                 this.repositorio.confirmarTransaccion(); // Confirmar la transacción
             }
         } catch (Exception e) {
-            this.repositorio.descartarTransaccion(); // Descartar la transacción en caso de error                        
+            this.repositorio.descartarTransaccion(); // Descartar la transacción en caso de error
             throw e; // Volver a lanzar la excepción después de hacer rollback
         }
     }
@@ -80,14 +78,14 @@ public abstract class CrudServicio<T> {
                 this.repositorio.descartarTransaccion(); // Descartar la transacción si la entidad es null
             }
         } catch (Exception e) {
-            this.repositorio.descartarTransaccion(); // Descartar la transacción en caso de error            
+            this.repositorio.descartarTransaccion(); // Descartar la transacción en caso de error
             throw e; // Volver a lanzar la excepción después de hacer rollback
         }
     }
 
     // Método para verificar si una entidad existe y está activa
     public boolean existe(T entidad, Object id) {
-        return buscarPorId(id) != null && !esInactivo(entidad);
+        return buscarPorId(id) != null && !estaActivo(entidad);
     }
 
     // Métodos abstractos que deben ser implementados en las subclases
@@ -97,7 +95,7 @@ public abstract class CrudServicio<T> {
 
     // public abstract void validarYBorrar(T entidad);
 
-    protected abstract boolean esInactivo(T entidad);
+    protected abstract boolean estaActivo(T entidad);
 
     protected abstract void marcarComoInactivo(T entidad);
 }

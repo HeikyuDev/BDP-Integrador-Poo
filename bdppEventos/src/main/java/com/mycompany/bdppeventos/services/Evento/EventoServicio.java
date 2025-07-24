@@ -19,12 +19,13 @@ import com.mycompany.bdppeventos.services.CrudServicio;
 public class EventoServicio extends CrudServicio<Evento> {
 
     public EventoServicio(Repositorio repositorio) {
+        // Inicializo el objeto con el constructor del padre pasandole el repositorio, y el evento
         super(repositorio, Evento.class);
     }
 
 
     @Override
-    protected  boolean esInactivo(Evento unEvento)
+    protected  boolean estaActivo(Evento unEvento)
     {
         return unEvento.getActivo();
     }
@@ -55,7 +56,7 @@ public class EventoServicio extends CrudServicio<Evento> {
                 unaExposicion.setCapacidadMaxima(cupoMaximo);
                 unaExposicion.setTieneInscripcion(tieneInscripcion);
                 unaExposicion.setUnTipoArte((TipoDeArte) datosEspecificos[0]);
-                insertar(unaExposicion);
+                this.insertar(unaExposicion);
             }
             case TALLER -> {
                 // Creamos la Subclase Taller
