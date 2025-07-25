@@ -54,5 +54,9 @@ public class FormularioTipoDeArteController implements Initializable {
     {
         // TODO: No Implementado
     }
+    
+    @FXML
+    private void cancelarEdicion() {        
+    }
 
 }

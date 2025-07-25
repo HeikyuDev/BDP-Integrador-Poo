@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="566.0" prefWidth="600.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMTipoDeArte.FormularioTipoDeArteController"> 
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="681.0" prefWidth="624.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMTipoDeArte.FormularioTipoDeArteController"> 
    <children>
       <HBox alignment="CENTER" prefHeight="33.0" prefWidth="600.0" styleClass="title-bar">
          <children>
@@ -35,21 +35,22 @@
             <Button fx:id="btnAltaTipoDeArte" mnemonicParsing="false" onAction="#altaTipoDeArte" prefHeight="39.0" prefWidth="205.0" styleClass="simple-button-bold" text="Alta de Tipo de arte" />
          </children>
       </HBox>
-      <VBox prefHeight="281.0" prefWidth="600.0" styleClass="main-section">
+      <VBox prefHeight="396.0" prefWidth="600.0" styleClass="main-section">
          <children>
-            <VBox prefHeight="236.0" prefWidth="569.0" styleClass="field-section">
+            <VBox prefHeight="345.0" prefWidth="569.0" styleClass="field-section">
                <children>
                   <Label styleClass="section-title" text="Datos Cargados" />
-                  <TableView fx:id="tblProyeccion" prefHeight="200.0" prefWidth="200.0" styleClass="form-tableview">
+                  <TableView fx:id="tblProyeccion" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="form-tableview">
                     <columns>
-                      <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
-                      <TableColumn fx:id="colNombre" prefWidth="86.66671752929688" text="NOMBRE"/>                        
+                      <TableColumn fx:id="colId" editable="false" prefWidth="154.0000057220459" reorderable="false" resizable="false" text="ID" />
+                      <TableColumn fx:id="colNombre" editable="false" prefWidth="404.0000457763672" reorderable="false" resizable="false" text="NOMBRE" />                        
                     </columns>
                   </TableView>
                   <HBox alignment="CENTER_RIGHT" prefHeight="41.0" prefWidth="537.0" spacing="20.0">
                      <children>
                         <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#bajaTipoDeArte" styleClass="baja-button" text="Baja" />
                         <Button fx:id="btnModificacion" mnemonicParsing="false" onAction="#modificacionTipoDeArte" styleClass="modificacion-button" text="Modificacion" />
+                        <Button fx:id="btnCancelar" disable="true" mnemonicParsing="false" onAction="#cancelarEdicion" styleClass="baja-button" text="Cancelar" />
                      </children>
                   </HBox>
                </children>

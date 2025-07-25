@@ -30,6 +30,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -44,6 +45,8 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
 
     // Elementos del Controlador (vinculados con FXML)
 
+    
+    
     /** ComboBox para seleccionar el estado del evento (usa enum EstadoEvento) */
     @FXML
     private ComboBox<EstadoEvento> cmbEstado;
@@ -112,7 +115,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Instancio el eventoServicio utilizando el Repositorio 
+        // Inicializo el eventoServicio utilizando el Repositorio 
         eventoServicio = new EventoServicio(RepositorioContext.getRepositorio());
 
         // Vinculo la Lista Observable con la tableView de la interfaz
@@ -246,7 +249,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
                 }
             }
 
-            
+    
 
             eventoServicio.altaEvento(nombre,ubicacion,fechaInicio,duracion,tieneCupo,cupoMaximo,tieneInscripcion,estado,tipoEvento,datosEspecificos);
 
@@ -260,6 +263,11 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
         }
     }
 
+    
+    @FXML
+    private void cancelarEdicion() {        
+    }
+    
     private boolean esCampoVacio(String texto) {
         return texto == null || texto.trim().isEmpty();
     }

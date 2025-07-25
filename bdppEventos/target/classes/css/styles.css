@@ -451,6 +451,7 @@
     -fx-background-color: white;
 }
 
+
 /* ========== TABLEVIEW ========== */
 .form-tableview {
     -fx-background-color: white;
@@ -458,7 +459,8 @@
     -fx-border-width: 1.5px;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
-    -fx-padding: 0;    
+    -fx-padding: 0;
+    -fx-snap-to-pixel: true; /* Evita que el contenido cambie de tamaño con el scroll */
 }
 
 /* Encabezados de columnas */
@@ -483,6 +485,7 @@
     -fx-border-color: transparent;
     -fx-font-family: "Inter", sans-serif;
     -fx-font-size: 13px;
+    -fx-cell-size: 40px; /* Alto mínimo para evitar cortes */
 }
 
 .form-tableview .table-row-cell:odd {
@@ -491,18 +494,39 @@
 
 .form-tableview .table-row-cell:selected {
     -fx-background-color: #e3e9ff;
-    -fx-text-fill: #2E4BC6;
 }
 
 /* Celdas */
 .form-tableview .table-cell {
-    -fx-padding: 8px 10px;
+    -fx-padding: 10px 10px;
     -fx-border-color: #f0f0f0;
     -fx-border-width: 0 0 1px 0;
     -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: #000000;
+    -fx-wrap-text: true;
 }
 
-/* Barra de scroll */
+/* Estilo cuando una celda está seleccionada */
+.form-tableview .table-cell:selected {
+    -fx-background-color: #e3e9ff;
+    -fx-text-fill: #2E4BC6;
+}
+
+/* Fix: texto del nodo interno en celdas seleccionadas */
+.form-tableview .table-row-cell:selected .table-cell {
+    -fx-text-fill: #2E4BC6;
+}
+
+.form-tableview .table-row-cell:selected .table-cell .text {
+    -fx-fill: #2E4BC6;
+}
+
+/* Hover */
+.form-tableview .table-row-cell:hover {
+    -fx-background-color: #f0f4ff;
+}
+
+/* Scrollbars */
 .form-tableview .scroll-bar:horizontal,
 .form-tableview .scroll-bar:vertical {
     -fx-background-color: transparent;
@@ -543,3 +567,34 @@
     -fx-border-color: #707070;
 }
 
+/* Configuración MÍNIMA para ScrollPane vertical */
+.scroll-pane-vertical {
+    -fx-hbar-policy: never;     /* Elimina scroll horizontal */
+    -fx-vbar-policy: always;    /* Fuerza scroll vertical visible */
+}
+
+/* Ajuste de velocidad ESSENCIAL */
+.scroll-pane-vertical .scroll-bar:vertical {
+    -fx-unit-increment: 150;     /* Velocidad rueda del mouse (recomendado 15-25) */
+    -fx-block-increment: 40;    /* Velocidad click en barra (recomendado 40-60) */
+}
+
+
+/* Borrar*/
+
+.scroll-pane-test {
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: always;
+    -fx-background-color: pink !important; /* Color llamativo */
+}
+
+.scroll-pane-test .scroll-bar:vertical {
+    -fx-unit-increment: 500px !important; /* Valor absurdamente alto */
+    -fx-block-increment: 1000px !important;
+    -fx-background-color: red !important;
+}
+
+.scroll-pane-test .scroll-bar:vertical .thumb {
+    -fx-background-color: blue !important;
+    -fx-min-width: 20px !important;
+}

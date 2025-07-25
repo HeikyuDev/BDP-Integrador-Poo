@@ -53,11 +53,7 @@ public class PeliculaServicio extends CrudServicio<Pelicula> {
             if (pelicula == null) {
                 throw new IllegalArgumentException("La película no es válida para modificar.");
             }
-
-            // Seteamos los atributos
-            pelicula.setTitulo(titulo); // Lanza una Excepcion si sale mal
-            pelicula.setDuracion(duracion); // Lanza una Excepcion si sale mal
-            
+                        
             // Validar que la película exista y esté activa
             Pelicula existente = buscarPorId(pelicula.getIdPelicula());
             if (existente == null) {
@@ -65,8 +61,8 @@ public class PeliculaServicio extends CrudServicio<Pelicula> {
             }
 
             // Actualizar datos
-            existente.setTitulo(pelicula.getTitulo());
-            existente.setDuracion(pelicula.getDuracion());
+            existente.setTitulo(titulo);
+            existente.setDuracion(duracion);
 
             // Guardar cambios en la base
             modificar(existente);

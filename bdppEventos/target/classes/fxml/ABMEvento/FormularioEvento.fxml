@@ -14,17 +14,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1017.0"
-    prefWidth="807.0" styleClass="scroll-bar" stylesheets="@../../css/styles.css"
-    vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/23.0.1"
-    xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
+<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1017.0" prefWidth="807.0" styleClass="scroll-pane-vertical" stylesheets="@../../css/styles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
     <content>
         <VBox prefWidth="728.0" styleClass="main-container">
             <children>
                 <!-- Header -->
-                <HBox fx:id="encabezadoHbox" alignment="CENTER" prefHeight="45.0"
-                    styleClass="title-bar">
+                <HBox fx:id="encabezadoHbox" alignment="CENTER" prefHeight="45.0" styleClass="title-bar">
                     <children>
                         <Label alignment="CENTER" styleClass="title-label" text="ABM Evento" />
                     </children>
@@ -43,19 +38,15 @@
                                     <children>
                                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <Label styleClass="form-label-required"
-                                                    text="Nombre *" />
-                                                <TextField fx:id="txtNombre"
-                                                    styleClass="form-textfield" />
+                                                <Label styleClass="form-label-required" text="Nombre *" />
+                                                <TextField fx:id="txtNombre" styleClass="form-textfield" />
                                             </children>
                                         </VBox>
 
                                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <Label styleClass="form-label-required"
-                                                    text="Ubicación *" />
-                                                <TextField fx:id="txtUbicacion"
-                                                    styleClass="form-textfield" />
+                                                <Label styleClass="form-label-required" text="Ubicación *" />
+                                                <TextField fx:id="txtUbicacion" styleClass="form-textfield" />
                                             </children>
                                         </VBox>
                                     </children>
@@ -66,19 +57,15 @@
                                     <children>
                                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <Label styleClass="form-label-required"
-                                                    text="Fecha de Inicio *" />
-                                                <DatePicker fx:id="dpFechaInicio"
-                                                    maxWidth="Infinity" styleClass="form-datepicker" />
+                                                <Label styleClass="form-label-required" text="Fecha de Inicio *" />
+                                                <DatePicker fx:id="dpFechaInicio" maxWidth="Infinity" styleClass="form-datepicker" />
                                             </children>
                                         </VBox>
 
                                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <Label styleClass="form-label-required"
-                                                    text="Duración (Horas) *" />
-                                                <TextField fx:id="txtDuracion"
-                                                    styleClass="form-textfield" />
+                                                <Label styleClass="form-label-required" text="Duración (Horas) *" />
+                                                <TextField fx:id="txtDuracion" styleClass="form-textfield" />
                                             </children>
                                         </VBox>
                                     </children>
@@ -87,18 +74,15 @@
                                 <!-- Estado -->
                                 <VBox spacing="8.0">
                                     <children>
-                                        <Label styleClass="form-label-required"
-                                            text="Estado del Evento *" />
-                                        <ComboBox fx:id="cmbEstado" prefWidth="429.0"
-                                            styleClass="form-combobox" />
+                                        <Label styleClass="form-label-required" text="Estado del Evento *" />
+                                        <ComboBox fx:id="cmbEstado" prefWidth="429.0" styleClass="form-combobox" />
                                     </children>
                                 </VBox>
                             </children>
                         </VBox>
 
                         <!-- Configuraciones - MAS A LA DERECHA -->
-                        <VBox prefHeight="170.0" prefWidth="315.0" spacing="22.0"
-                            styleClass="field-section-highlight" HBox.hgrow="ALWAYS">
+                        <VBox prefHeight="170.0" prefWidth="315.0" spacing="22.0" styleClass="field-section-highlight" HBox.hgrow="ALWAYS">
                             <children>
                                 <Label styleClass="section-title" text="Configuraciones">
                                     <opaqueInsets>
@@ -112,18 +96,13 @@
                                 <!-- Cupo Máximo -->
                                 <HBox alignment="CENTER_LEFT" spacing="12.0">
                                     <children>
-                                        <CheckBox fx:id="chkCupoMaximo"
-                                            onAction="#configuracionCupoMaximo"
-                                            styleClass="form-checkbox" />
-                                        <Label alignment="CENTER_LEFT" prefHeight="18.0"
-                                            prefWidth="119.0" styleClass="form-label"
-                                            text="Cupo Máximo">
+                                        <CheckBox fx:id="chkCupoMaximo" onAction="#configuracionCupoMaximo" styleClass="form-checkbox" />
+                                        <Label alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="119.0" styleClass="form-label" text="Cupo Máximo">
                                             <HBox.margin>
                                                 <Insets left="2.0" right="9.0" />
                                             </HBox.margin>
                                         </Label>
-                                        <TextField fx:id="txtCupoMaximo" disable="true"
-                                            prefWidth="110.0" styleClass="form-textfield" />
+                                        <TextField fx:id="txtCupoMaximo" disable="true" prefWidth="110.0" styleClass="form-textfield" />
                                     </children>
                                 </HBox>
 
@@ -131,14 +110,10 @@
                                 <HBox alignment="CENTER_LEFT" spacing="12.0" />
 
                                 <!-- Tiene Inscripción -->
-                                <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="279.0"
-                                    spacing="12.0">
+                                <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="279.0" spacing="12.0">
                                     <children>
-                                        <CheckBox fx:id="chkTieneInscripcion"
-                                            styleClass="form-checkbox" />
-                                        <Label alignment="CENTER_LEFT" prefHeight="18.0"
-                                            prefWidth="147.0" styleClass="form-label"
-                                            text="Tiene Inscripción">
+                                        <CheckBox fx:id="chkTieneInscripcion" styleClass="form-checkbox" />
+                                        <Label alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="147.0" styleClass="form-label" text="Tiene Inscripción">
                                             <HBox.margin>
                                                 <Insets left="2.0" right="9.0" />
                                             </HBox.margin>
@@ -157,26 +132,17 @@
                         <VBox spacing="8" styleClass="field-section"> <!-- Espaciado interno 8px -->
                             <children>
                                 <Label styleClass="section-title" text="Tipo De Evento" />
-                                <Label fx:id="lblTipoDeEvento" styleClass="form-label-required"
-                                    text="Tipo *" />
-                                <ComboBox fx:id="cmbTipoEvento" onAction="#onTipoEventoChanged"
-                                    prefHeight="35.0" prefWidth="430.0" styleClass="form-combobox" />
+                                <Label fx:id="lblTipoDeEvento" styleClass="form-label-required" text="Tipo *" />
+                                <ComboBox fx:id="cmbTipoEvento" onAction="#onTipoEventoChanged" prefHeight="35.0" prefWidth="430.0" styleClass="form-combobox" />
 
                                 <!-- Panel dinámico (sin cambios) -->
-                                <AnchorPane fx:id="contenedorDinamico" prefHeight="120.0"
-                                    styleClass="dynamic-container">
+                                <AnchorPane fx:id="contenedorDinamico" prefHeight="120.0" styleClass="dynamic-container">
                                     <children>
-                                        <VBox alignment="CENTER" layoutX="250.0" layoutY="30.0"
-                                            spacing="5.0" styleClass="field-section-accent"
-                                            AnchorPane.bottomAnchor="5.0"
-                                            AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0"
-                                            AnchorPane.topAnchor="5.0">
+                                        <VBox alignment="CENTER" layoutX="250.0" layoutY="30.0" spacing="5.0" styleClass="field-section-accent" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                             <children>
                                                 <Label styleClass="placeholder-icon" text="📅" />
-                                                <Label styleClass="placeholder-title"
-                                                    text="Tipo de Evento" />
-                                                <Label styleClass="placeholder-text"
-                                                    text="Seleccione un Tipo de Evento para continuar" />
+                                                <Label styleClass="placeholder-title" text="Tipo de Evento" />
+                                                <Label styleClass="placeholder-text" text="Seleccione un Tipo de Evento para continuar" />
                                             </children>
                                         </VBox>
                                     </children>
@@ -187,9 +153,7 @@
                         <!-- Botón (con margen superior ajustado) -->
                         <HBox alignment="CENTER_RIGHT">
                             <children>
-                                <Button fx:id="btnAlta" onAction="#altaEvento" prefHeight="39.0"
-                                    prefWidth="162.0" styleClass="simple-button-bold"
-                                    text="Dar de Alta" />
+                                <Button fx:id="btnAlta" onAction="#altaEvento" prefHeight="39.0" prefWidth="162.0" styleClass="simple-button-bold" text="Dar de Alta" />
                             </children>
                             <VBox.margin>
                                 <Insets top="7.0" />
@@ -208,69 +172,38 @@
                                         <Insets bottom="15.0" />
                                     </VBox.margin>
                                 </Label>
-                                <TableView fx:id="tablaEventos" prefHeight="247.0"
-                                    prefWidth="1300.0" styleClass="form-tableview" editable="false">
+                                <TableView fx:id="tablaEventos" editable="false" prefHeight="247.0" prefWidth="1300.0" styleClass="form-tableview">
                                     <columns>
-                                        <TableColumn fx:id="colNombre" text="Nombre"
-                                            reorderable="false" resizable="false" editable="false"
-                                            minWidth="100" prefWidth="150" maxWidth="200" />
+                                        <TableColumn fx:id="colNombre" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Nombre" />
 
-                                        <TableColumn fx:id="colUbicacion" text="Ubicación"
-                                            reorderable="false" resizable="false" editable="false"
-                                            minWidth="150" prefWidth="200" maxWidth="250" />
+                                        <TableColumn fx:id="colUbicacion" editable="false" maxWidth="250" minWidth="150" prefWidth="200" reorderable="false" resizable="false" text="Ubicación" />
 
-                                        <TableColumn fx:id="colFechaInicio" text="Fecha inicio"
-                                            reorderable="false" resizable="false" editable="false"
-                                            minWidth="100" prefWidth="150" maxWidth="200" />
+                                        <TableColumn fx:id="colFechaInicio" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Fecha inicio" />
 
-                                        <TableColumn fx:id="colDuracion" text="Duración Estimada"
-                                            reorderable="false" resizable="false" editable="false"
-                                            minWidth="100" prefWidth="150" maxWidth="200" />
+                                        <TableColumn fx:id="colDuracion" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Duración Estimada" />
 
-                                        <TableColumn fx:id="colEsPago" text="Es Pago"
-                                            reorderable="false" resizable="false" editable="false"
-                                            minWidth="100" prefWidth="150" maxWidth="200" />
+                                        <TableColumn fx:id="colEsPago" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Es Pago" />
 
-                                        <TableColumn fx:id="colTieneInscripcion"
-                                            text="Tiene Inscripción"
-                                            reorderable="false" resizable="false" editable="false"
-                                            minWidth="100" prefWidth="150" maxWidth="200" />
+                                        <TableColumn fx:id="colTieneInscripcion" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Tiene Inscripción" />
 
-                                        <TableColumn fx:id="colTieneCupo" text="Tiene Cupo"
-                                            reorderable="false" resizable="false" editable="false"
-                                            minWidth="100" prefWidth="150" maxWidth="200" />
+                                        <TableColumn fx:id="colTieneCupo" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Tiene Cupo" />
 
-                                        <TableColumn fx:id="colCapacidadMaxima"
-                                            text="Capacidad Máxima"
-                                            reorderable="false" resizable="false" editable="false"
-                                            minWidth="100" prefWidth="150" maxWidth="200" />
+                                        <TableColumn fx:id="colCapacidadMaxima" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Capacidad Máxima" />
 
-                                        <TableColumn fx:id="colTipo" text="Tipo"
-                                            reorderable="false" resizable="false" editable="false"
-                                            minWidth="100" prefWidth="150" maxWidth="200" />
+                                        <TableColumn fx:id="colTipo" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Tipo" />
 
-                                        <TableColumn fx:id="colMonto" text="Monto"
-                                            reorderable="false" resizable="false" editable="false"
-                                            minWidth="100" prefWidth="150" maxWidth="200" />
+                                        <TableColumn fx:id="colMonto" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Monto" />
 
-                                        <TableColumn fx:id="colCharlasPosteriores"
-                                            text="Charlas Posteriores"
-                                            reorderable="false" resizable="false" editable="false"
-                                            minWidth="100" prefWidth="150" maxWidth="200" />
+                                        <TableColumn fx:id="colCharlasPosteriores" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Charlas Posteriores" />
 
-                                        <TableColumn fx:id="colCantidadStands"
-                                            text="Cantidad de Stands"
-                                            reorderable="false" resizable="false" editable="false"
-                                            minWidth="100" prefWidth="150" maxWidth="200" />
+                                        <TableColumn fx:id="colCantidadStands" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Cantidad de Stands" />
                                     </columns>
                                 </TableView>
-                                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0"
-                                    spacing="20.0">
+                                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                                     <children>
-                                        <Button fx:id="btnBaja" mnemonicParsing="false"
-                                            styleClass="baja-button" text="Baja" />
-                                        <Button fx:id="btnModificacion" mnemonicParsing="false"
-                                            styleClass="modificacion-button" text="Modificacion" />
+                                        <Button fx:id="btnBaja" mnemonicParsing="false" styleClass="baja-button" text="Baja" />
+                                        <Button fx:id="btnModificacion" mnemonicParsing="false" styleClass="modificacion-button" text="Modificacion" />
+                                        <Button fx:id="btnCancelar" disable="true" mnemonicParsing="false" onAction="#cancelarEdicion" styleClass="baja-button" text="Cancelar" />
                                     </children>
                                 </HBox>
                             </children>

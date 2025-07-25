@@ -154,4 +154,9 @@ public class Pelicula implements Activable {
         this.activo = activo;
     }
 
+    @Override
+    public String toString() {
+        return "titulo: " + titulo + "- duracion: " + duracion;
+    }
+
 }

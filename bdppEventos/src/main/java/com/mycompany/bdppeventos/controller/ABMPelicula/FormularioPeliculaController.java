@@ -50,6 +50,11 @@ public class FormularioPeliculaController extends ConfiguracionIgu implements In
     // Variable de modificacion
     private Pelicula peliculaEnEdicion = null;
 
+    // Constante que tiene el valor del Texto del boton alta
+    private final String altaTxt = "Alta de Película";
+    
+    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Instanciamos la Pelicula servicios con el repositorio
@@ -97,10 +102,7 @@ public class FormularioPeliculaController extends ConfiguracionIgu implements In
             peliculaEnEdicion = null;
             limpiarCampos();
             actualizarTabla();
-            btnAltaPelicula.setText("Alta de Película");
-            btnModificacion.setDisable(false);
-            btnBaja.setDisable(false);
-            btnCancelar.setDisable(true);
+            configuracionFinaly(btnAltaPelicula,btnModificacion,btnBaja,btnCancelar,altaTxt);
         }
     }
 
@@ -130,21 +132,17 @@ public class FormularioPeliculaController extends ConfiguracionIgu implements In
 
     @FXML
     private void modificacionPelicula() {
+        // Obtenemos el objeto seleccionado
         Pelicula peliculaSeleccionada = tblPelicula.getSelectionModel().getSelectedItem();
+        // Validamos que no sea nulo
         if (peliculaSeleccionada == null) {
             Alerta.mostrarError("Debe seleccionar una película para modificar.");
-            return;
-        }
-        // Configuraciones de Elementos Graficos
-        btnAltaPelicula.setText("Guardar Cambios"); // Cambiamos el texto del boton a "Guardar Cambios"
-        btnModificacion.setDisable(true); // Desabilitamos el btn de modificacion para que el usuario no pueda volver a
-                                          // precionarlo
-        btnBaja.setDisable(true);
-        btnCancelar.setDisable(false);
+            return; // Si es nulo sale inmediatamente del metodo e informa al usuario
+        }        
+        configuracionBtnModificar(btnAltaPelicula, btnModificacion, btnBaja, btnCancelar);        
         // Cargar datos en los campos
         txtNombre.setText(peliculaSeleccionada.getTitulo());
         txtDuracion.setText(String.valueOf(peliculaSeleccionada.getDuracion()));
-
         // Guardar la película en edición
         peliculaEnEdicion = peliculaSeleccionada;
     }
@@ -153,10 +151,7 @@ public class FormularioPeliculaController extends ConfiguracionIgu implements In
     private void cancelarEdicion() {
         peliculaEnEdicion = null;
         limpiarCampos();
-        btnAltaPelicula.setText("Alta de Película");
-        btnModificacion.setDisable(false);
-        btnBaja.setDisable(false);
-        btnCancelar.setDisable(true); // Opcional: deshabilitar botón cancelar al salir edición
+        configuracionBtnCancelar(btnAltaPelicula, btnModificacion, btnBaja, btnCancelar, altaTxt);        
     }
 
     // Métodos auxiliares
@@ -165,7 +160,10 @@ public class FormularioPeliculaController extends ConfiguracionIgu implements In
             throw new IllegalArgumentException("Todos los campos son obligatorios");
         }
     }
-
+    
+    
+    // Metodos Especificos
+    
     private void limpiarCampos() {
         txtNombre.clear();
         txtDuracion.clear();
