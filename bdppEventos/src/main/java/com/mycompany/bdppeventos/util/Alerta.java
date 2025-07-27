@@ -48,7 +48,7 @@ public class Alerta {
         
         DialogPane dialogPane = alerta.getDialogPane();
         dialogPane.setContent(etiqueta);
-        dialogPane.setPrefWidth(400); // Ancho preferido para mostrar mejor el texto
+        dialogPane.setPrefWidth(500); // Ancho preferido para mostrar mejor el texto
         
         return alerta;
     }

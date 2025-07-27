@@ -142,8 +142,7 @@ public abstract class ConfiguracionIgu {
             return new SimpleStringProperty(mensajeVacio);
         }
 
-        String resultado = lista.stream()
-                .filter(Objects::nonNull) // Filtra elementos nulos
+        String resultado = lista.stream()                
                 .map(mapper)
                 .filter(s -> s != null && !s.isEmpty()) // Filtra strings vacíos
                 .collect(Collectors.joining(" - "));  // Delimitador fijo

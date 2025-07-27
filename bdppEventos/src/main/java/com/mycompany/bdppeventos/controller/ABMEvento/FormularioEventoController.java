@@ -106,8 +106,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
 
 
     // Servicio de Evento
-    private EventoServicio eventoServicio;
-
+    private EventoServicio eventoServicio;    
     
     /**
      * Inicializa el controlador al cargar la vista FXML.

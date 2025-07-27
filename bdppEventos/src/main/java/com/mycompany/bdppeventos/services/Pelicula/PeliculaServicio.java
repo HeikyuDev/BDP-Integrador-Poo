@@ -1,8 +1,11 @@
 package com.mycompany.bdppeventos.services.Pelicula;
 
 import com.mycompany.bdppeventos.model.entities.Pelicula;
+import com.mycompany.bdppeventos.model.entities.Proyeccion;
 import com.mycompany.bdppeventos.repository.Repositorio;
 import com.mycompany.bdppeventos.services.CrudServicio;
+import com.mycompany.bdppeventos.services.proyeccion.ProyeccionServicio;
+import java.util.List;
 
 public class PeliculaServicio extends CrudServicio<Pelicula> {
 
@@ -12,19 +15,15 @@ public class PeliculaServicio extends CrudServicio<Pelicula> {
         super(repositorio, Pelicula.class);
     }
 
+    
+    
     public void altaPelicula(String titulo, Double duracion) {
         try {
             // Crear la entidad
             Pelicula nuevaPelicula = new Pelicula();
             nuevaPelicula.setTitulo(titulo);
-            nuevaPelicula.setDuracion(duracion);
-
-            // Validar si ya existe una película activa con el mismo título
-            if (existe(nuevaPelicula, nuevaPelicula.getIdPelicula())) {
-                throw new IllegalStateException("La película ya existe.");
-            }
-
-            // Insertar en la base
+            nuevaPelicula.setDuracion(duracion);            
+            // Insertar en la base de datos
             insertar(nuevaPelicula);
 
         } catch (Exception e) {
@@ -32,21 +31,34 @@ public class PeliculaServicio extends CrudServicio<Pelicula> {
         }
     }
 
-    public void bajaPelicula(Integer idPelicula) throws Exception {
+    public void bajaPelicula(Integer idPelicula) {
+    try {
         Pelicula pelicula = buscarPorId(idPelicula);
         if (pelicula == null) {
             throw new IllegalArgumentException("La película no existe.");
         }
         if (!pelicula.getActivo()) {
-            throw new IllegalStateException("La película ya está dada de baja.");
+            throw new IllegalStateException("La película ya está dada de baja."); 
         }
 
-        // Marcar como inactivo (baja lógica)
-        marcarComoInactivo(pelicula);
+        // eliminamos esta película de todas las proyecciones asociadas
+        List<Proyeccion> todasLasProyecciones = repositorio.buscarTodos(Proyeccion.class);
+        for (Proyeccion proy : todasLasProyecciones) {
+            if (proy.getUnaListaPelicula().contains(pelicula)) {
+                proy.getUnaListaPelicula().remove(pelicula);
+                repositorio.modificar(proy); // Guardar el cambio en la proyección
+            }
+        }
 
-        // Guardar cambios en la base (update)
+        // Marcamos como inactiva la película
+        marcarComoInactivo(pelicula);
         modificar(pelicula);
+
+    } catch (Exception e) {
+        throw e;
     }
+}
+
 
     public void modificarPelicula(Pelicula pelicula, String titulo, double duracion) {
         try {

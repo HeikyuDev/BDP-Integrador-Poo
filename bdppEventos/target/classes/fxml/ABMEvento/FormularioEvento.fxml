@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1017.0" prefWidth="807.0" styleClass="scroll-pane-vertical" stylesheets="@../../css/styles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
+<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1093.0" prefWidth="807.0" styleClass="scroll-pane-vertical" stylesheets="@../../css/styles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
     <content>
         <VBox prefWidth="728.0" styleClass="main-container">
             <children>
@@ -163,9 +163,9 @@
                 </VBox>
 
                 <!-- Tabla de Datos -->
-                <VBox styleClass="main-section">
+                <VBox prefHeight="367.0" prefWidth="791.0" styleClass="main-section">
                     <children>
-                        <VBox prefHeight="271.0" prefWidth="774.0" styleClass="field-section">
+                        <VBox prefHeight="346.0" prefWidth="761.0" styleClass="field-section">
                             <children>
                                 <Label styleClass="section-title" text="Eventos Registrados">
                                     <VBox.margin>
