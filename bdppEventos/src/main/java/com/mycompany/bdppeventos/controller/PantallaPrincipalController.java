@@ -124,7 +124,7 @@ public class PantallaPrincipalController implements Initializable {
 
     @FXML
     private void cargarVistaGestionPersonas() {
-        StageManager.cambiarEscenaEnContenedor(centerContainer, Vista.FormularioPersona);
+        StageManager.cambiarEscenaEnContenedor(centerContainer, Vista.ListaDePersonas);
     }
 
     @FXML

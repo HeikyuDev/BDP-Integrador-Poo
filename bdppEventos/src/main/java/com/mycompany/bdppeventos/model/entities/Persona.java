@@ -70,9 +70,26 @@ public class Persona implements Activable {
         this.activo = true;
     }
 
+ /**
+     * Constructor para crear una persona con los datos básicos (DNI, nombre, apellido).
+     * Los campos opcionales (teléfono y correo) se pueden dejar como null.
+     * @param dni DNI de la persona
+     * @param nombre Nombre
+     * @param apellido Apellido
+     * @param telefono Teléfono de contacto (opcional)
+     * @param correoElectronico Correo electrónico (opcional)
+     */
+    public Persona(String dni, String nombre, String apellido, String telefono, String correoElectronico) {
+        this(); // Llama al constructor por defecto para inicializar activo
+        setDni(dni); // Usa el setter para validar el DNI
+        setNombre(nombre); // Usa el setter para validar el nombre
+        setApellido(apellido); // Usa el setter para validar el apellido
+        setTelefono(telefono); // Usa el setter para validar el teléfono
+        setCorreoElectronico(correoElectronico); // Usa el setter para validar el correo electrónico
+    }
 
     /**
-     * Constructor completo para inicializar todos los campos de la persona.
+     * Constructor completo para asignar una persona a una lista de participaciones.
      * @param dni DNI de la persona
      * @param nombre Nombre
      * @param apellido Apellido
@@ -89,7 +106,9 @@ public class Persona implements Activable {
         this.unaListaParticipacion = unaListaParticipacion;
         this.activo = true;
     }
-    
+
+   
+
     // Getters y Setters
 
     /**
