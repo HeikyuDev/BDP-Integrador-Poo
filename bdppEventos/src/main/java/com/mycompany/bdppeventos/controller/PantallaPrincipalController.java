@@ -94,14 +94,7 @@ public class PantallaPrincipalController implements Initializable {
         });
 
         btnMaximizar.setOnAction(e -> {
-            Stage stage = (Stage) btnMaximizar.getScene().getWindow();
-            if (stage.isMaximized()) {
-                stage.setMaximized(false);
-                btnMaximizar.setText("□");
-            } else {
-                stage.setMaximized(true);
-                btnMaximizar.setText("❐");
-            }
+            Stage stage = (Stage) btnMaximizar.getScene().getWindow();            
         });
     }
 
@@ -139,6 +132,6 @@ public class PantallaPrincipalController implements Initializable {
 
     @FXML
     private void cargarVistaVerParticipantes() {
-        // TODO: Implementar view
+        StageManager.cambiarEscenaEnContenedor(centerContainer, Vista.PanelVerParticipantes);
     }
 }

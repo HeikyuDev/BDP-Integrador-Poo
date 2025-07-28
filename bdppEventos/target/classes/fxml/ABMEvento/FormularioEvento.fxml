@@ -73,18 +73,10 @@
                                 </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                            <children>
-      
-                                      <!-- Estado -->
-                                      <VBox prefHeight="63.0" prefWidth="207.0" spacing="8.0">
-                                          <children>
-                                              <Label styleClass="form-label-required" text="Estado del Evento *" />
-                                              <ComboBox fx:id="cmbEstado" prefHeight="37.0" prefWidth="194.0" styleClass="form-combobox" />
-                                          </children>
-                                      </VBox>
-                              <VBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="207.0" spacing="8.0">
+                              <VBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="404.0" spacing="8.0">
                                  <children>
                                     <Label styleClass="form-label-required" text="Organizador/es *" />
-                                    <CheckComboBox fx:id="chkComboOrganizadores" prefHeight="23.0" prefWidth="191.0" />
+                                    <CheckComboBox fx:id="chkComboOrganizadores" prefHeight="23.0" prefWidth="403.0" />
                                  </children>
                               </VBox>
                            </children>
@@ -193,7 +185,7 @@
 
                                         <TableColumn fx:id="colDuracion" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Duración Estimada" />
 
-                                        <TableColumn fx:id="colEsPago" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Es Pago" />
+                                        <TableColumn fx:id="colEsPago" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Es Paga" />
 
                                         <TableColumn fx:id="colCantidadStands" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Cantidad de Stands" />
 
@@ -216,8 +208,8 @@
                                 </TableView>
                                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                                     <children>
-                                        <Button fx:id="btnBaja" mnemonicParsing="false" styleClass="baja-button" text="Baja" />
-                                        <Button fx:id="btnModificacion" mnemonicParsing="false" styleClass="modificacion-button" text="Modificacion" />
+                                        <Button fx:id="btnBaja" mnemonicParsing="false" styleClass="baja-button" text="Baja" onAction="#bajaEvento"/>
+                                        <Button fx:id="btnModificacion" mnemonicParsing="false" styleClass="modificacion-button" text="Modificacion" onAction="#modificacionEvento" />
                                         <Button fx:id="btnCancelar" disable="true" mnemonicParsing="false" onAction="#cancelarEdicion" styleClass="baja-button" text="Cancelar" />
                                     </children>
                                 </HBox>

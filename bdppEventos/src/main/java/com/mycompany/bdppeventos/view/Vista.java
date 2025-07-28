@@ -36,7 +36,11 @@ public enum Vista {
     
     // FXML de la seccion ABM Tipo De Arte
     
-    FormularioTipoDeArte("Formulario Tipo De Arte","ABMTipoDeArte/FormularioTipoDeArte");
+    FormularioTipoDeArte("Formulario Tipo De Arte","ABMTipoDeArte/FormularioTipoDeArte"),
+    
+    // FXML de la seccion de Ver Participantes
+    
+    PanelVerParticipantes("","VerParticipantes/VerParticipantes");
     
     private final String rutaFxml;  // Ruta relativa del archivo FXML que define la vista
     private final String titulo;

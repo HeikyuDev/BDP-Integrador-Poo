@@ -28,7 +28,7 @@ public class App extends Application {
     }
 
     @Override
-    public void start(@SuppressWarnings("exports") Stage stage) {
+    public void start(Stage stage) {
         // Establece el stage principal en StageManager
         StageManager.setStagePrincipal(stage);
 
