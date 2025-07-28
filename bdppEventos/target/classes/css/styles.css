@@ -402,6 +402,65 @@
     -fx-opacity: 0.7;
 }
 
+/* ========== CHECK COMBOBOX (ControlsFX) ========== */
+.form-checkcombo {
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+/* Botón principal del CheckComboBox */
+.form-checkcombo .combo-box-base {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4px;
+    -fx-border-width: 1.5px;
+    -fx-padding: 3px;
+}
+
+/* Hover del botón */
+.form-checkcombo:hover .combo-box-base {
+    -fx-border-color: #2E4BC6;
+}
+
+/* Lista desplegable */
+.form-checkcombo .list-cell {
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+/* Checkboxes dentro del popup */
+.form-checkcombo .check-box {
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+/* Caja del checkbox */
+.form-checkcombo .check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4px;
+    -fx-border-width: 1.5px;
+}
+
+/* Check seleccionado */
+.form-checkcombo .check-box:selected .mark {
+    -fx-background-color: #2E4BC6;
+}
+
+/* Hover sobre el checkbox */
+.form-checkcombo .check-box:hover .box {
+    -fx-border-color: #2E4BC6;
+}
+
+/* Estado deshabilitado */
+.form-checkcombo:disabled {
+    -fx-opacity: 0.7;
+}
+
+
 /* ========== DATEPICKERS ========== */
 .form-datepicker {
     -fx-background-color: white;

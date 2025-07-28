@@ -13,8 +13,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.CheckComboBox?>
 
-<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1017.0" prefWidth="807.0" styleClass="scroll-pane-vertical" stylesheets="@../../css/styles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
+<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1093.0" prefWidth="807.0" styleClass="scroll-pane-vertical" stylesheets="@../../css/styles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
     <content>
         <VBox prefWidth="728.0" styleClass="main-container">
             <children>
@@ -29,7 +30,7 @@
                 <HBox prefHeight="237.0" prefWidth="805.0" spacing="30.0" styleClass="main-section">
                     <children>
                         <!-- Datos del Evento - MAS COMPACTO -->
-                        <VBox prefHeight="303.0" spacing="20.0" styleClass="field-section">
+                        <VBox prefHeight="265.0" prefWidth="445.0" spacing="20.0" styleClass="field-section">
                             <children>
                                 <Label styleClass="section-title" text="Datos del Evento" />
 
@@ -58,7 +59,7 @@
                                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <Label styleClass="form-label-required" text="Fecha de Inicio *" />
-                                                <DatePicker fx:id="dpFechaInicio" maxWidth="Infinity" styleClass="form-datepicker" />
+                                                <DatePicker fx:id="dpFechaInicio" maxWidth="Infinity" prefHeight="33.0" prefWidth="179.0" styleClass="form-datepicker" />
                                             </children>
                                         </VBox>
 
@@ -70,14 +71,24 @@
                                         </VBox>
                                     </children>
                                 </HBox>
-
-                                <!-- Estado -->
-                                <VBox spacing="8.0">
-                                    <children>
-                                        <Label styleClass="form-label-required" text="Estado del Evento *" />
-                                        <ComboBox fx:id="cmbEstado" prefWidth="429.0" styleClass="form-combobox" />
-                                    </children>
-                                </VBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                           <children>
+      
+                                      <!-- Estado -->
+                                      <VBox prefHeight="63.0" prefWidth="207.0" spacing="8.0">
+                                          <children>
+                                              <Label styleClass="form-label-required" text="Estado del Evento *" />
+                                              <ComboBox fx:id="cmbEstado" prefHeight="37.0" prefWidth="194.0" styleClass="form-combobox" />
+                                          </children>
+                                      </VBox>
+                              <VBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="207.0" spacing="8.0">
+                                 <children>
+                                    <Label styleClass="form-label-required" text="Organizador/es *" />
+                                    <CheckComboBox fx:id="chkComboOrganizadores" prefHeight="23.0" prefWidth="191.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
                             </children>
                         </VBox>
 
@@ -163,9 +174,9 @@
                 </VBox>
 
                 <!-- Tabla de Datos -->
-                <VBox styleClass="main-section">
+                <VBox prefHeight="367.0" prefWidth="791.0" styleClass="main-section">
                     <children>
-                        <VBox prefHeight="271.0" prefWidth="774.0" styleClass="field-section">
+                        <VBox prefHeight="346.0" prefWidth="761.0" styleClass="field-section">
                             <children>
                                 <Label styleClass="section-title" text="Eventos Registrados">
                                     <VBox.margin>
@@ -184,6 +195,8 @@
 
                                         <TableColumn fx:id="colEsPago" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Es Pago" />
 
+                                        <TableColumn fx:id="colCantidadStands" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Cantidad de Stands" />
+
                                         <TableColumn fx:id="colTieneInscripcion" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Tiene Inscripción" />
 
                                         <TableColumn fx:id="colTieneCupo" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Tiene Cupo" />
@@ -195,8 +208,10 @@
                                         <TableColumn fx:id="colMonto" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Monto" />
 
                                         <TableColumn fx:id="colCharlasPosteriores" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Charlas Posteriores" />
-
-                                        <TableColumn fx:id="colCantidadStands" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Cantidad de Stands" />
+                              <TableColumn fx:id="colOrganizadores" editable="false" maxWidth="300.0" minWidth="100" prefWidth="200.0" reorderable="false" resizable="false" text="Organizador/es" />
+                              <TableColumn fx:id="colArtistas" editable="false" maxWidth="300.0" minWidth="100" prefWidth="200.0" reorderable="false" resizable="false" text="Artista" />
+                              <TableColumn fx:id="colCurador" editable="false" maxWidth="300.0" minWidth="100" prefWidth="200.0" reorderable="false" resizable="false" text="Curador" />
+                              <TableColumn fx:id="colInstructor" editable="false" maxWidth="300.0" minWidth="100" prefWidth="200.0" reorderable="false" resizable="false" text="Instructor" />
                                     </columns>
                                 </TableView>
                                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">

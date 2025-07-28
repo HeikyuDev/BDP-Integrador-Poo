@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="681.0" prefWidth="624.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMProyeccion.FormularioProyeccionController"> 
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="681.0" prefWidth="624.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMProyeccion.FormularioProyeccionController"> 
    <children>
       <HBox alignment="CENTER" prefHeight="33.0" prefWidth="600.0" styleClass="title-bar">
          <children>

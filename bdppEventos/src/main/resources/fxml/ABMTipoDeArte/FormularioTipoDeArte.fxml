@@ -40,7 +40,7 @@
             <VBox prefHeight="345.0" prefWidth="569.0" styleClass="field-section">
                <children>
                   <Label styleClass="section-title" text="Datos Cargados" />
-                  <TableView fx:id="tblProyeccion" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="form-tableview">
+                  <TableView fx:id="tblTipoDeArte" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="form-tableview">
                     <columns>
                       <TableColumn fx:id="colId" editable="false" prefWidth="154.0000057220459" reorderable="false" resizable="false" text="ID" />
                       <TableColumn fx:id="colNombre" editable="false" prefWidth="404.0000457763672" reorderable="false" resizable="false" text="NOMBRE" />                        

@@ -176,23 +176,22 @@ public class FormularioPeliculaController extends ConfiguracionIgu implements In
         colDuracion.setCellValueFactory(new PropertyValueFactory<Pelicula, Double>("duracion"));
     }
 
+     // Metodo Que obtiene todas las peliculas. 
+    
+
     private void actualizarTabla() {
         try {
-            // Limpiar la lista antes de agregar nuevos elementos
+            // Obtenemos todos los registros de la base de datos y la almacenamos en un a lista
+            List<Pelicula> lista = peliculaServicio.buscarTodos();            
+            // Limpiamos los elementos de la tabla
             listaPeliculas.clear();
-
-            // Obtener todos los eventos del servicio
-            List<Pelicula> peliculas = peliculaServicio.buscarTodos();
-
-            // Verificar que la lista no sea null
-            if (peliculas != null) {
-                listaPeliculas.addAll(peliculas);
-            } else {
-                Alerta.mostrarError("No se pudieron cargar los eventos");
-            }
+            // Convertimos la lista a una lista Observable y le asignamos a la variable Observable
+            // Que esta vinculado a la tabla
+            listaPeliculas.addAll(FXCollections.observableArrayList(lista));                        
+            // Actaulzamos la tabla
+            tblPelicula.refresh();                        
         } catch (Exception e) {
-            Alerta.mostrarError("Error al cargar eventos: " + e.getMessage());
-            e.printStackTrace();
+            Alerta.mostrarError("Ocurrio un Error inesperado:\n" + e.getMessage());
         }
     }
 

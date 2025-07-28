@@ -11,6 +11,7 @@ import com.mycompany.bdppeventos.util.StageManager;
 import com.mycompany.bdppeventos.view.Vista;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -87,17 +88,20 @@ public class FormularioProyeccionController extends ConfiguracionIgu implements 
         StageManager.abrirModal(Vista.FormularioPelicula);
         // Actualizamos el combo para registrar todas las posibles peliculas
         actualizarCheckCombo();
+        actualizarTabla();
     }
 
     @FXML
     private void altaProyeccion() {
-        try {
+        try {                        
             // Obtengo el nombre de la proyeccion de la interfaz
             String nombre = txtNombre.getText().trim();
-            // Obtengo la lista de peliculas seleciconadas por el usuario por el CheckComboBox
-            ObservableList<Pelicula> listaSeleccionados = FXCollections.observableArrayList();
-            listaSeleccionados = chkComboPeliculas.getCheckModel().getCheckedItems(); // Me devuelve solo las instancias que seleccione del CheckCombo
-
+            // Obtengo la lista Observable de peliculas seleciconadas por el usuario por el CheckComboBox
+            ObservableList<Pelicula> listaObservableSeleccionados = FXCollections.observableArrayList();
+            listaObservableSeleccionados = chkComboPeliculas.getCheckModel().getCheckedItems(); // Me devuelve solo las instancias que seleccione del CheckCombo
+            // Creo una ArrayList para que el tipo de Lista coincida con el del modelo "Proyeccion declara la lista de pelicula como List<Pelicula>"
+            List<Pelicula> listaSeleccionados = new ArrayList<>(listaObservableSeleccionados);
+            
             // Validamos los campos
             validarCampos(nombre, listaSeleccionados);  // Si falla retorna una excepcion          
 
@@ -105,11 +109,11 @@ public class FormularioProyeccionController extends ConfiguracionIgu implements 
                 // Si la Proyeccion en Edicion es NULL significa que es Alta
                 if (!Alerta.confirmarAccion(
                         "¿Guardar la proyeccion'" + nombre + "'")) {
-                    // Si el usuario preciona la opcion cancelar "Sale inmediatamente del metodo" 
+                    //Si el usuario preciona la opcion cancelar "Sale inmediatamente del metodo" 
                     return;
                 }
                 // LLamamos al metodo de Proyeccion Servicio "altaProyeccion" Para persistir la informacion
-                proyeccionServicio.altaProyeccion(nombre, listaSeleccionados);
+                proyeccionServicio.altaProyeccion(nombre, listaSeleccionados);                
                 Alerta.mostrarExito("Proyeccion registrada exitosamente");
             } else {
                 // Si la Proyeccion en Edicion es distinto de null significa que es Modificacion
@@ -128,7 +132,7 @@ public class FormularioProyeccionController extends ConfiguracionIgu implements 
         } finally {
             // Este bloque se ejecuta SIEMPRE (haya o no error)
             ProyeccionEnEdicion = null;
-            limpiarCampos();
+            limpiarCampos();            
             actualizarTabla();
             configuracionFinaly(btnAltaProyeccion, btnModificacion, btnBaja, btnCancelar, altaTxt);
             btnAgregarPelicula.setDisable(false);
@@ -219,7 +223,7 @@ public class FormularioProyeccionController extends ConfiguracionIgu implements 
         //,Y por ultimo le paso El mensaje que va a mostrar cuando un objeto no tenga asociado una lista o su listaes vacia
     }
 
-    private void validarCampos(String nombre, ObservableList<Pelicula> peliculas) {
+    private void validarCampos(String nombre, List<Pelicula> peliculas) {
         if (nombre == null || nombre.isBlank()) {
             throw new IllegalArgumentException("El nombre no puede estar vacío o ser nulo");
         }
@@ -234,41 +238,14 @@ public class FormularioProyeccionController extends ConfiguracionIgu implements 
             throw new IllegalArgumentException("No hay películas seleccionadas");
         }
     }
-
-    // Metodo Que obtiene todas las peliculas. 
-    private ObservableList<Pelicula> obtenerPeliculas() {
-        // 1. Obtenemos la lista del servicio
-        List<Pelicula> lista = peliculaServicio.buscarTodos();
-
-        // 2. Verificamos si la lista es nula
-        if (lista != null) {
-            // 3. Si no es nula, la convertimos a ObservableList
-            return FXCollections.observableArrayList(lista);
-        } else {
-            // 4. Si es nula, devolvemos una ObservableList vacía
-            return FXCollections.observableArrayList();
-        }
-    }
-
-    // Metodo Que obtiene todas las proyecciones activas
-    private ObservableList<Proyeccion> obtenerProyecciones() {
-        // 1. Obtenemos la lista del servicio
-        List<Proyeccion> lista = proyeccionServicio.buscarTodos();
-
-        // 2. Verificamos si la lista es nula
-        if (lista != null) {
-            // 3. Si no es nula, la convertimos a ObservableList
-            return FXCollections.observableArrayList(lista);
-        } else {
-            // 4. Si es nula, devolvemos una ObservableList vacía
-            return FXCollections.observableArrayList();
-        }
-    }
+   
 
     // Metodo Que actualiza al CheckComboBox
     private void actualizarCheckCombo() {
         try {
-            configuracionListaEnCheckCombo(chkComboPeliculas, obtenerPeliculas());
+            listaPeliculas.clear();
+            listaPeliculas.addAll(FXCollections.observableArrayList(peliculaServicio.buscarTodos()));
+            configuracionListaEnCheckCombo(chkComboPeliculas, listaPeliculas);
         } catch (Exception e) {
             Alerta.mostrarError("Ocurrio un Error inesperado:\n" + e.getMessage());
         }        
@@ -277,12 +254,25 @@ public class FormularioProyeccionController extends ConfiguracionIgu implements 
     // Metodo Que actualiza la Tabla de la seccion "Datos Cargados"
     private void actualizarTabla() {
         try {
-            // Limpiamos todos los registros de la tabla
-            tblProyeccion.getItems().clear();
-            // Obtenemos todos los registros de la base de datos y la almacenamos en un a lista
-            tblProyeccion.getItems().setAll(obtenerProyecciones());
+            // Obtener las proyecciones del servicio
+            List<Proyeccion> proyecciones = proyeccionServicio.buscarTodos();            
+            // Limpio los elementos anteriorses de la lista Observable
+            listaProyecciones.clear();
+            if(proyecciones == null || proyecciones.isEmpty())
+            {
+                // Si la proyeccion son vacias o nulas devuelvo uan lista vacia
+                listaProyecciones.addAll(FXCollections.observableArrayList());
+            }
+            else
+            {
+                // Sino
+                // Agregar todas las proyecciones a la lista observable
+                listaProyecciones.addAll(FXCollections.observableArrayList(proyecciones));
+            }            
+            // Forzar la actualización de la tabla
+            tblProyeccion.refresh();
         } catch (Exception e) {
-            Alerta.mostrarError("Ocurrio un Error inesperado:\n" + e.getMessage());
+            Alerta.mostrarError("Ocurrió un error al actualizar la tabla:\n" + e.getMessage());
         }
     }
 
