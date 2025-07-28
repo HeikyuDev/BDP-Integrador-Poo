@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mycompany.bdppeventos.model.entities.Persona;
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.repository.Repositorio;
 import com.mycompany.bdppeventos.services.CrudServicio;
 
@@ -17,20 +18,6 @@ public class PersonaServicio extends CrudServicio<Persona> {
     
     public PersonaServicio(Repositorio repositorio) {
         super(repositorio, Persona.class);
-    }
-
-    public void altaPersona(String nombre, String apellido, String email) {
-        // Implementación del método para dar de alta una nueva persona
-        // Aquí se llamaría al repositorio para insertar una nueva persona
-    }
-
-    public void modificarPersona(Integer id, String nombre, String apellido, String email) {
-        // Implementación del método para modificar una persona existente
-        // Aquí se llamaría al repositorio para actualizar los datos de la persona
-    }
-    public void bajaPersona(Integer id) {
-        // Implementación del método para dar de baja una persona
-        // Aquí se llamaría al repositorio para marcar la persona como inactiva
     }
 
     // Método para validar y crear una nueva persona
@@ -66,6 +53,75 @@ public class PersonaServicio extends CrudServicio<Persona> {
 
         insertar(nuevaPersona);
         return nuevaPersona;
+    }
+
+    // Método para validar y modificar una persona existente
+    public void validarYModificar(Persona persona, Object... datos) {
+        if (datos.length < 2 || datos.length > 5) {
+            throw new IllegalArgumentException("Número incorrecto de parámetros. Se requieren: nombre, apellido y opcionalmente teléfono y correo.");
+        }
+
+        String nombre = (String) datos[0];
+        String apellido = (String) datos[1];
+        String telefono = datos.length > 2 ? (String) datos[2] : null;
+        String correoElectronico = datos.length > 3 ? (String) datos[3] : null;
+
+        Persona aux = new Persona(); // para llenar los campos con los setters
+        List<String> errores = new ArrayList<>();
+
+        // validaciones para saber si los datos son correctos
+        try {
+            aux.setNombre(nombre);
+        } catch (IllegalArgumentException e) {
+            errores.add("Nombre inválido: " + e.getMessage());
+        }
+
+        try {
+            aux.setApellido(apellido);
+        } catch (IllegalArgumentException e) {
+            errores.add("Apellido inválido: " + e.getMessage());
+        }
+
+        try {
+            aux.setTelefono(telefono);
+        } catch (Exception e) {
+            errores.add("Teléfono inválido: " + e.getMessage());
+        }
+
+        try {
+            aux.setCorreoElectronico(correoElectronico);
+        } catch (Exception e) {
+            errores.add("Correo electrónico inválido: " + e.getMessage());
+        }
+
+        // Si hay errores, lanzamos una excepción con todos los mensajes
+        if (!errores.isEmpty()) {
+            throw new IllegalArgumentException(String.join("\n", errores));
+        }
+
+        // Asignar los valores validados a la persona
+        persona.setNombre(nombre);
+        persona.setApellido(apellido);
+        persona.setTelefono(telefono);
+        persona.setCorreoElectronico(correoElectronico);
+
+        if (persona.getUnaListaRoles() == null || persona.getUnaListaRoles().isEmpty()) {
+            List<TipoRol> roles = new ArrayList<>();
+            roles.add(TipoRol.getRolPorDefecto());
+            persona.setUnaListaRoles(roles);
+        }
+
+        // Guardar cambios en la base
+        modificar(persona);
+
+    }
+
+    // Método para dar de baja una persona
+    public void validarYBorrar(Persona persona) {
+        if (buscarPorId(persona.getDni()) == null) {
+            throw new IllegalArgumentException("La persona no existe.");
+        }
+        borrar(persona);
     }
 
     // Métodos abstractos requeridos por CrudServicio

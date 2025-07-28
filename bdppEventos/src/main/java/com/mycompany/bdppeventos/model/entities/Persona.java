@@ -1,11 +1,16 @@
 package com.mycompany.bdppeventos.model.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.model.interfaces.Activable;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -45,6 +50,16 @@ public class Persona implements Activable {
     @Column(name = "correo_electronico", length = 50, nullable = true)
     private String correoElectronico;
 
+    
+    /** Indica si la persona está activa (true) o dada de baja (false) */
+    @Column(name = "activo")
+    private Boolean activo;
+
+    /** Una persona puede tener uno o mas roles asignados */
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    @Column(name = "roles")
+    private List<TipoRol> unaListaRoles;
 
     /**
      * Relación uno a muchos: una persona puede tener muchas participaciones
@@ -52,27 +67,24 @@ public class Persona implements Activable {
      */
     @OneToMany(mappedBy = "unaPersona")    
     private List<Participacion> unaListaParticipacion;
-    
-    
-
-    /** Indica si la persona está activa (true) o dada de baja (false) */
-    @Column(name = "activo")
-    private Boolean activo;
 
 
     // Constructores
 
     /**
-     * Constructor por defecto. Marca la persona como activa.
+     * Constructor por defecto. Marca la persona como activa e inicializa roles.
      */
     public Persona() {
         // Al crear una nueva instancia siempre va a estar activo (Hasta que se de la baja)
         this.activo = true;
+        // Inicializar lista de roles con rol por defecto
+        this.unaListaRoles = new ArrayList<>();
+        this.unaListaRoles.add(TipoRol.getRolPorDefecto());
     }
 
  /**
      * Constructor para crear una persona con los datos básicos (DNI, nombre, apellido).
-     * Los campos opcionales (teléfono y correo) se pueden dejar como null.
+     * Los campos opcionales (teléfono, correo) se pueden dejar como null.
      * @param dni DNI de la persona
      * @param nombre Nombre
      * @param apellido Apellido
@@ -88,27 +100,6 @@ public class Persona implements Activable {
         setCorreoElectronico(correoElectronico); // Usa el setter para validar el correo electrónico
     }
 
-    /**
-     * Constructor completo para asignar una persona a una lista de participaciones.
-     * @param dni DNI de la persona
-     * @param nombre Nombre
-     * @param apellido Apellido
-     * @param telefono Teléfono de contacto
-     * @param correoElectronico Correo electrónico
-     * @param unaListaParticipacion Lista de participaciones
-     */
-    public Persona(String dni, String nombre, String apellido, String telefono, String correoElectronico, List<Participacion> unaListaParticipacion) {
-        this.dni = dni;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.telefono = telefono;
-        this.correoElectronico = correoElectronico;
-        this.unaListaParticipacion = unaListaParticipacion;
-        this.activo = true;
-    }
-
-   
-
     // Getters y Setters
 
     /**
@@ -117,7 +108,6 @@ public class Persona implements Activable {
     public String getDni() {
         return dni;
     }
-
 
     /**
      * Asigna el DNI, validando que no sea nulo, vacío, que no exceda 15 caracteres y que contenga solo números.
@@ -258,6 +248,64 @@ public class Persona implements Activable {
         this.unaListaParticipacion = unaListaParticipacion;
     }
 
+    /**
+     * Devuelve la lista de roles asociados a la persona.
+     */
+    public List<TipoRol> getUnaListaRoles() {
+        return unaListaRoles;
+    }
+
+    /**
+     * Asigna la lista de roles asociados a la persona.
+     * Si la lista está vacía o es null, asigna el rol por defecto.
+     * @param unaListaRoles Lista de roles
+     */
+    public void setUnaListaRoles(List<TipoRol> unaListaRoles) {
+        if (unaListaRoles == null || unaListaRoles.isEmpty()) {
+            // Si no se proporcionan roles, asignar rol por defecto
+            this.unaListaRoles = new ArrayList<>();
+            this.unaListaRoles.add(TipoRol.getRolPorDefecto());
+        } else {
+            this.unaListaRoles = unaListaRoles;
+        }
+    }
+
+    /**
+     * Agrega un rol a la persona sin quitar los existentes.
+     * @param rol Rol a agregar
+     */
+    public void agregarRol(TipoRol rol) {
+        if (this.unaListaRoles == null) {
+            this.unaListaRoles = new ArrayList<>();
+        }
+        if (!this.unaListaRoles.contains(rol)) {
+            this.unaListaRoles.add(rol);
+        }
+    }
+
+    /**
+     * Quita un rol de la persona. Si queda sin roles, asigna el rol por defecto.
+     * @param rol Rol a quitar
+     */
+    public void quitarRol(TipoRol rol) {
+        if (this.unaListaRoles != null) {
+            this.unaListaRoles.remove(rol);
+            // Si queda sin roles, asignar rol por defecto
+            if (this.unaListaRoles.isEmpty()) {
+                this.unaListaRoles.add(TipoRol.getRolPorDefecto());
+            }
+        }
+    }
+
+    /**
+     * Verifica si la persona tiene un rol específico.
+     * @param rol Rol a verificar
+     * @return true si tiene el rol, false si no
+     */
+    public boolean tieneRol(TipoRol rol) {
+        return this.unaListaRoles != null && this.unaListaRoles.contains(rol);
+    }
+
     
     
 
@@ -270,21 +318,40 @@ public class Persona implements Activable {
      * @return true si es válido, false si no
      */
     private boolean esEmailValido(String email) {
-        if (email == null) {
+        if (email == null || email.trim().isEmpty()) {
             return false;
         }
+        
+        String emailTrimmed = email.trim();
+        
         // Validaciones básicas: debe tener @ y al menos un punto después del @
-        if (!email.contains("@")) {
+        if (!emailTrimmed.contains("@")) {
             return false;
         }
-        String[] partes = email.split("@");
+        
+        String[] partes = emailTrimmed.split("@");
         if (partes.length != 2) {
             return false;
         }
+        
+        String usuario = partes[0];
         String dominio = partes[1];
-        if(!dominio.contains(".")) {
+        
+        // El usuario y dominio no pueden estar vacíos
+        if (usuario.isEmpty() || dominio.isEmpty()) {
             return false;
         }
+        
+        // El dominio debe tener al menos un punto
+        if (!dominio.contains(".")) {
+            return false;
+        }
+        
+        // Verificar que no termine o empiece con punto
+        if (dominio.startsWith(".") || dominio.endsWith(".")) {
+            return false;
+        }
+        
         return true;
     }
 
@@ -334,7 +401,15 @@ public class Persona implements Activable {
      */
     @Override
     public String toString() {
-        return "Persona{" + "dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", correoElectronico=" + correoElectronico + ", activo=" + activo + '}';
+        return "Persona{" + 
+               "dni='" + dni + '\'' + 
+               ", nombre='" + nombre + '\'' + 
+               ", apellido='" + apellido + '\'' + 
+               ", telefono='" + telefono + '\'' + 
+               ", correoElectronico='" + correoElectronico + '\'' + 
+               ", activo=" + activo + 
+               ", roles=" + unaListaRoles + 
+               '}';
     }
 
 
