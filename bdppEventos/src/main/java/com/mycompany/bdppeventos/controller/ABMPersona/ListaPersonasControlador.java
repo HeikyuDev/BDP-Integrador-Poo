@@ -79,12 +79,14 @@ public class ListaPersonasControlador implements Initializable{
     public void initialize(URL url, ResourceBundle resources) {
         inicializarTabla();
         inicializarFiltros();
+        System.out.println("✅ ListaPersonasControlador inicializado correctamente");
+
     }
 
      private void inicializarTabla() {
         try {
             servicio = new PersonaServicio(RepositorioContext.getRepositorio()); 
-
+            
             colDni.setCellValueFactory(new PropertyValueFactory<>("dni")); 
             colNombreCompleto.setCellValueFactory(cell -> {
                 Persona p = cell.getValue();
@@ -123,6 +125,8 @@ public class ListaPersonasControlador implements Initializable{
     void agregar() {
         try {
             List<Persona> nuevasPersonas = abrirFormulario(null);
+            System.out.println("🔍 DEBUG 1: Iniciando abrirFormulario");
+            
             if (nuevasPersonas != null && !nuevasPersonas.isEmpty()) {
                 for (Persona nueva : nuevasPersonas) {
                     if (!personasOriginales.contains(nueva)) {
@@ -214,14 +218,21 @@ public class ListaPersonasControlador implements Initializable{
 
     private List<Persona> abrirFormulario(Persona personaInicial) throws IOException {
         formulario = StageManager.cargarVistaConControlador(Vista.FormularioPersona.getRutaFxml());
+        System.out.println("🔍 DEBUG 2: Formulario cargado correctamente");
+
         FormularioPersonaControlador controladorFormulario = formulario.getKey();
+        System.out.println("🔍 DEBUG 3: Controlador del formulario obtenido");
         //Parent vistaFormulario = formulario.getValue();
 
         if (personaInicial != null) {
             controladorFormulario.setPersonaInicial(personaInicial);
+            System.out.println("🔍 DEBUG 4: Persona inicial establecida en el formulario");
         }
 
+        System.out.println("🔍 DEBUG 5: Abriendo modal del formulario");
         StageManager.abrirModal(Vista.FormularioPersona);
+        System.out.println("🔍 DEBUG 6: Modal del formulario abierto");
+        System.out.println("🔍 DEBUG 7: Esperando a que se cierre el modal");
         return controladorFormulario.getPersonas();
     }
 

@@ -61,11 +61,6 @@
         <TextField fx:id="txtApellido" promptText="Ingrese el Apellido" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <TextField fx:id="txtTelefono" promptText="Ingrese el Telefono" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <TextField fx:id="txtCorreo" promptText="Ingrese el email" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-        <Label text="Activo:" GridPane.columnIndex="2" GridPane.rowIndex="2">
-          <GridPane.margin>
-            <Insets left="15.0" />
-          </GridPane.margin>
-        </Label>
             <Label fx:id="lblRol" layoutX="294.0" layoutY="69.0" text="Rol:" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="15.0" />
@@ -78,7 +73,6 @@
       <children>
         <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardar" styleClass="alta-button-alt" text="Guardar" />
         <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" styleClass="alta-button-alt" text="Nuevo" />
-        <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiar" text="Limpiar" />
       </children>
       <VBox.margin>
         <Insets />
