@@ -45,8 +45,8 @@ public final class CicloDeCine extends Evento {
     }
 
     
-    public CicloDeCine(boolean charlasPosteriores, Proyeccion unaProyeccion, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Participacion> unaListaParticipacion) {    
-        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, unaListaParticipacion);
+    public CicloDeCine(boolean charlasPosteriores, Proyeccion unaProyeccion, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Persona> listaPersonas) {    
+        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, listaPersonas);
         this.charlasPosteriores = charlasPosteriores;
         this.unaProyeccion = unaProyeccion;
     }

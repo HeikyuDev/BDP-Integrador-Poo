@@ -67,7 +67,7 @@ public final class Taller extends Evento {
             boolean tieneInscripcion,
             String ubicacion,
             EstadoEvento estado,
-            List<Participacion> unaListaParticipacion
+            List<Persona> listaPersonas
     ) {
         super(
                 id,
@@ -79,7 +79,7 @@ public final class Taller extends Evento {
                 tieneInscripcion,
                 ubicacion,
                 estado,
-                unaListaParticipacion
+                listaPersonas
         );
         this.setEsPresencial(esPresencial);
     }

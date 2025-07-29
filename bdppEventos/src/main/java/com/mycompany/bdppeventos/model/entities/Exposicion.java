@@ -58,8 +58,8 @@ public final class Exposicion extends Evento {
      * @param estado Estado del evento
      * @param unaListaParticipacion Lista de participaciones
      */
-    public Exposicion(TipoDeArte unTipoArte, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Participacion> unaListaParticipacion) {
-        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, unaListaParticipacion);
+    public Exposicion(TipoDeArte unTipoArte, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Persona> listaPersonas) {
+        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, listaPersonas);
         this.setUnTipoArte(unTipoArte);
     }
 

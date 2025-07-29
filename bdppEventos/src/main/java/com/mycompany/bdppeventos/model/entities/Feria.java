@@ -67,8 +67,8 @@ public final class Feria extends Evento {
      * @param estado Estado del evento
      * @param unaListaParticipacion Lista de participaciones
      */
-    public Feria(int cantidadStands, TipoCobertura tipoCobertura, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Participacion> unaListaParticipacion) {
-        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, unaListaParticipacion);
+    public Feria(int cantidadStands, TipoCobertura tipoCobertura, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Persona> listaPersonas) {
+        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, listaPersonas);
         this.setCantidadStands(cantidadStands);
         this.setTipoCobertura(tipoCobertura);
     }

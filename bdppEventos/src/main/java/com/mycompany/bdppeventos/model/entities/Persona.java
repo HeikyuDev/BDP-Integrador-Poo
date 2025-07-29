@@ -12,7 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -24,33 +24,27 @@ import jakarta.persistence.Table;
 @Table(name = "personas")
 public class Persona implements Activable {
 
-
     /** DNI de la persona (clave primaria, máximo 15 caracteres) */
     @Id
     @Column(name = "dni", length = 15, nullable = false)
     private String dni;
 
-
     /** Nombre de la persona (máximo 35 caracteres, no nulo) */
     @Column(name = "nombre", length = 35, nullable = false)
     private String nombre;
-
 
     /** Apellido de la persona (máximo 35 caracteres, no nulo) */
     @Column(name = "apellido", length = 35, nullable = false)
     private String apellido;
 
-
     /** Teléfono de contacto (opcional, máximo 15 caracteres) */
     @Column(name = "telefono", length = 15, nullable = true)
     private String telefono;
-
 
     /** Correo electrónico de contacto (opcional, máximo 50 caracteres) */
     @Column(name = "correo_electronico", length = 50, nullable = true)
     private String correoElectronico;
 
-    
     /** Indica si la persona está activa (true) o dada de baja (false) */
     @Column(name = "activo")
     private Boolean activo;
@@ -65,9 +59,8 @@ public class Persona implements Activable {
      * Relación uno a muchos: una persona puede tener muchas participaciones
      * (eventos en los que participa)
      */
-    @OneToMany(mappedBy = "unaPersona")    
-    private List<Participacion> unaListaParticipacion;
-
+    @ManyToMany(mappedBy = "listaPersonas")
+    private List<Evento> listaEventos;
 
     // Constructores
 
@@ -75,20 +68,23 @@ public class Persona implements Activable {
      * Constructor por defecto. Marca la persona como activa e inicializa roles.
      */
     public Persona() {
-        // Al crear una nueva instancia siempre va a estar activo (Hasta que se de la baja)
+        // Al crear una nueva instancia siempre va a estar activo (Hasta que se de la
+        // baja)
         this.activo = true;
         // Inicializar lista de roles con rol por defecto
         this.unaListaRoles = new ArrayList<>();
         this.unaListaRoles.add(TipoRol.getRolPorDefecto());
     }
 
- /**
-     * Constructor para crear una persona con los datos básicos (DNI, nombre, apellido).
+    /**
+     * Constructor para crear una persona con los datos básicos (DNI, nombre,
+     * apellido).
      * Los campos opcionales (teléfono, correo) se pueden dejar como null.
-     * @param dni DNI de la persona
-     * @param nombre Nombre
-     * @param apellido Apellido
-     * @param telefono Teléfono de contacto (opcional)
+     * 
+     * @param dni               DNI de la persona
+     * @param nombre            Nombre
+     * @param apellido          Apellido
+     * @param telefono          Teléfono de contacto (opcional)
      * @param correoElectronico Correo electrónico (opcional)
      */
     public Persona(String dni, String nombre, String apellido, String telefono, String correoElectronico) {
@@ -110,15 +106,16 @@ public class Persona implements Activable {
     }
 
     /**
-     * Asigna el DNI, validando que no sea nulo, vacío, que no exceda 15 caracteres y que contenga solo números.
+     * Asigna el DNI, validando que no sea nulo, vacío, que no exceda 15 caracteres
+     * y que contenga solo números.
+     * 
      * @param dni DNI de la persona
      */
     public void setDni(String dni) {
         if (dni == null || dni.trim().isEmpty()) {
             throw new IllegalArgumentException("DNI no puede estar vacío");
-        }        
-        if(dni.trim().length() > 15)
-        {
+        }
+        if (dni.trim().length() > 15) {
             throw new IllegalArgumentException("Dni no puede exceder los 15 caracteres");
         }
         // Validar que solo contenga números
@@ -128,7 +125,6 @@ public class Persona implements Activable {
         this.dni = dni.trim();
     }
 
-
     /**
      * Devuelve el nombre de la persona.
      */
@@ -136,9 +132,9 @@ public class Persona implements Activable {
         return nombre;
     }
 
-
     /**
      * Asigna el nombre, validando que no sea nulo, vacío ni exceda 35 caracteres.
+     * 
      * @param nombre Nombre de la persona
      */
     public void setNombre(String nombre) {
@@ -151,7 +147,6 @@ public class Persona implements Activable {
         this.nombre = nombre.trim();
     }
 
-
     /**
      * Devuelve el apellido de la persona.
      */
@@ -159,9 +154,9 @@ public class Persona implements Activable {
         return apellido;
     }
 
-
     /**
      * Asigna el apellido, validando que no sea nulo, vacío ni exceda 35 caracteres.
+     * 
      * @param apellido Apellido de la persona
      */
     public void setApellido(String apellido) {
@@ -174,7 +169,6 @@ public class Persona implements Activable {
         this.apellido = apellido.trim();
     }
 
-
     /**
      * Devuelve el teléfono de contacto de la persona.
      */
@@ -182,27 +176,27 @@ public class Persona implements Activable {
         return telefono;
     }
 
-
     /**
      * Asigna el teléfono de contacto, validando formato y longitud si no es vacío.
+     * 
      * @param telefono Teléfono de contacto
      */
     public void setTelefono(String telefono) {
         // Teléfono es opcional, pero si viene debe ser válido
-        if (telefono != null && !telefono.trim().isEmpty()) {            
+        if (telefono != null && !telefono.trim().isEmpty()) {
             if (telefono.trim().length() > 15) {
                 throw new IllegalArgumentException("Teléfono no puede exceder 15 caracteres");
             }
-            //validar formato (solo números, espacios, guiones)
+            // validar formato (solo números, espacios, guiones)
             if (!telefono.trim().matches("[0-9 \\-+()]+")) {
-                throw new IllegalArgumentException("Teléfono solo puede tener números, espacios, guiones, + y paréntesis");
+                throw new IllegalArgumentException(
+                        "Teléfono solo puede tener números, espacios, guiones, + y paréntesis");
             }
             this.telefono = telefono.trim();
         } else {
-            this.telefono = null;  // Si viene vacío, guardar como null
+            this.telefono = null; // Si viene vacío, guardar como null
         }
     }
-
 
     /**
      * Devuelve el correo electrónico de la persona.
@@ -211,9 +205,9 @@ public class Persona implements Activable {
         return correoElectronico;
     }
 
-
     /**
      * Asigna el correo electrónico, validando formato y longitud si no es vacío.
+     * 
      * @param correoElectronico Correo electrónico
      */
     public void setCorreoElectronico(String correoElectronico) {
@@ -227,25 +221,24 @@ public class Persona implements Activable {
             }
             this.correoElectronico = correoElectronico.trim();
         } else {
-            this.correoElectronico = null;  // Si viene vacío, guardar como null
+            this.correoElectronico = null; // Si viene vacío, guardar como null
         }
     }
-       
 
     /**
      * Devuelve la lista de participaciones asociadas a la persona.
      */
-    public List<Participacion> getUnaListaParticipacion() {
-        return unaListaParticipacion;
+    public List<Evento> getListaEvento() {
+        return this.listaEventos;
     }
-
 
     /**
      * Asigna la lista de participaciones asociadas a la persona.
+     * 
      * @param unaListaParticipacion Lista de participaciones
      */
-    public void setUnaListaParticipacion(List<Participacion> unaListaParticipacion) {
-        this.unaListaParticipacion = unaListaParticipacion;
+    public void setUnaListaParticipacion(List<Evento> listaEventos) {
+        this.listaEventos = listaEventos;
     }
 
     /**
@@ -258,6 +251,7 @@ public class Persona implements Activable {
     /**
      * Asigna la lista de roles asociados a la persona.
      * Si la lista está vacía o es null, asigna el rol por defecto.
+     * 
      * @param unaListaRoles Lista de roles
      */
     public void setUnaListaRoles(List<TipoRol> unaListaRoles) {
@@ -272,6 +266,7 @@ public class Persona implements Activable {
 
     /**
      * Agrega un rol a la persona sin quitar los existentes.
+     * 
      * @param rol Rol a agregar
      */
     public void agregarRol(TipoRol rol) {
@@ -285,6 +280,7 @@ public class Persona implements Activable {
 
     /**
      * Quita un rol de la persona. Si queda sin roles, asigna el rol por defecto.
+     * 
      * @param rol Rol a quitar
      */
     public void quitarRol(TipoRol rol) {
@@ -299,6 +295,7 @@ public class Persona implements Activable {
 
     /**
      * Verifica si la persona tiene un rol específico.
+     * 
      * @param rol Rol a verificar
      * @return true si tiene el rol, false si no
      */
@@ -306,14 +303,12 @@ public class Persona implements Activable {
         return this.unaListaRoles != null && this.unaListaRoles.contains(rol);
     }
 
-    
-    
-
     // Métodos específicos
 
     /**
      * Valida el formato básico de un correo electrónico.
      * Debe contener un @ y al menos un punto después del @.
+     * 
      * @param email Correo electrónico a validar
      * @return true si es válido, false si no
      */
@@ -321,40 +316,39 @@ public class Persona implements Activable {
         if (email == null || email.trim().isEmpty()) {
             return false;
         }
-        
+
         String emailTrimmed = email.trim();
-        
+
         // Validaciones básicas: debe tener @ y al menos un punto después del @
         if (!emailTrimmed.contains("@")) {
             return false;
         }
-        
+
         String[] partes = emailTrimmed.split("@");
         if (partes.length != 2) {
             return false;
         }
-        
+
         String usuario = partes[0];
         String dominio = partes[1];
-        
+
         // El usuario y dominio no pueden estar vacíos
         if (usuario.isEmpty() || dominio.isEmpty()) {
             return false;
         }
-        
+
         // El dominio debe tener al menos un punto
         if (!dominio.contains(".")) {
             return false;
         }
-        
+
         // Verificar que no termine o empiece con punto
         if (dominio.startsWith(".") || dominio.endsWith(".")) {
             return false;
         }
-        
+
         return true;
     }
-
 
     // Métodos de la interfaz Activable
 
@@ -384,6 +378,7 @@ public class Persona implements Activable {
 
     /**
      * Asigna el estado activo/inactivo de la persona. No permite null.
+     * 
      * @param activo true para activo, false para inactivo
      */
     @Override
@@ -395,26 +390,25 @@ public class Persona implements Activable {
         this.activo = activo;
     }
 
-
     /**
      * Devuelve una representación en texto de la persona.
      */
     @Override
     public String toString() {
-        return "Persona{" + 
-               "dni='" + dni + '\'' + 
-               ", nombre='" + nombre + '\'' + 
-               ", apellido='" + apellido + '\'' + 
-               ", telefono='" + telefono + '\'' + 
-               ", correoElectronico='" + correoElectronico + '\'' + 
-               ", activo=" + activo + 
-               ", roles=" + unaListaRoles + 
-               '}';
+        return "Persona{" +
+                "dni='" + dni + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", correoElectronico='" + correoElectronico + '\'' +
+                ", activo=" + activo +
+                ", roles=" + unaListaRoles +
+                '}';
     }
-
 
     /**
      * Devuelve información personal resumida para mostrar en listados.
+     * 
      * @return Cadena con apellido, nombre y DNI
      */
     public String getInformacionPersonal() {

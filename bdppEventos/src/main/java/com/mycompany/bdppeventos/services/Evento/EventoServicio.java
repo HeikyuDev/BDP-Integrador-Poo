@@ -1,6 +1,8 @@
 package com.mycompany.bdppeventos.services.Evento;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.mycompany.bdppeventos.model.entities.CicloDeCine;
 import com.mycompany.bdppeventos.model.entities.Concierto;
@@ -19,114 +21,168 @@ import com.mycompany.bdppeventos.services.CrudServicio;
 public class EventoServicio extends CrudServicio<Evento> {
 
     public EventoServicio(Repositorio repositorio) {
-        // Inicializo el objeto con el constructor del padre pasandole el repositorio, y el evento
+        // Inicializo el objeto con el constructor del padre pasandole el repositorio, y
+        // el evento
         super(repositorio, Evento.class);
     }
 
-
     @Override
-    protected  boolean estaActivo(Evento unEvento)
-    {
+    protected boolean estaActivo(Evento unEvento) {
         return unEvento.getActivo();
     }
 
     @Override
-    protected  void marcarComoInactivo(Evento unEvento)
-    {
+    protected void marcarComoInactivo(Evento unEvento) {
         unEvento.desactivar();
     }
-
-    
 
     public void altaEvento(String nombre, String ubicacion, LocalDate fechaInicio, int duracion, boolean tieneCupo,
             int cupoMaximo, boolean tieneInscripcion, EstadoEvento estado, TipoEvento tipoEvento,
             Object[] datosEspecificos) {
-        try
-        {
-            switch (tipoEvento) { 
-            case EXPOSICION -> {
-                // Creamos la Subclase Exposicion
-                Exposicion unaExposicion = new Exposicion();
-                unaExposicion.setNombre(nombre);
-                unaExposicion.setUbicacion(ubicacion);
-                unaExposicion.setFechaInicio(fechaInicio);
-                unaExposicion.setDuracionEstimada(duracion);
-                unaExposicion.setEstado(estado);
-                unaExposicion.setTieneCupo(tieneCupo);
-                unaExposicion.setCapacidadMaxima(cupoMaximo);
-                unaExposicion.setTieneInscripcion(tieneInscripcion);
-                unaExposicion.setUnTipoArte((TipoDeArte) datosEspecificos[0]);
-                this.insertar(unaExposicion);
-            }
-            case TALLER -> {
-                // Creamos la Subclase Taller
-                Taller unTaller = new Taller();                
-                unTaller.setNombre(nombre);
-                unTaller.setUbicacion(ubicacion);
-                unTaller.setFechaInicio(fechaInicio);
-                unTaller.setDuracionEstimada(duracion);
-                unTaller.setEstado(estado);
-                unTaller.setTieneCupo(tieneCupo);
-                unTaller.setCapacidadMaxima(cupoMaximo);
-                unTaller.setTieneInscripcion(tieneInscripcion);
-                unTaller.setEsPresencial((boolean)datosEspecificos[0]);
-                this.insertar(unTaller);                
-            }
-            case CONCIERTO -> {
-                Concierto unConcierto = new Concierto();
-                unConcierto.setNombre(nombre);
-                unConcierto.setUbicacion(ubicacion);
-                unConcierto.setFechaInicio(fechaInicio);
-                unConcierto.setDuracionEstimada(duracion);
-                unConcierto.setEstado(estado);
-                unConcierto.setTieneCupo(tieneCupo);
-                unConcierto.setCapacidadMaxima(cupoMaximo);
-                unConcierto.setTieneInscripcion(tieneInscripcion);
-                unConcierto.setEsPago((boolean)datosEspecificos[0]);
-                unConcierto.setMonto((double)datosEspecificos[1]);
-                this.insertar(unConcierto);
-            }
-            case CICLO_DE_CINE ->
-            {
-                CicloDeCine unCicloDeCine = new CicloDeCine();
-                unCicloDeCine.setNombre(nombre);
-                unCicloDeCine.setUbicacion(ubicacion);
-                unCicloDeCine.setFechaInicio(fechaInicio);
-                unCicloDeCine.setDuracionEstimada(duracion);
-                unCicloDeCine.setEstado(estado);
-                unCicloDeCine.setTieneCupo(tieneCupo);
-                unCicloDeCine.setCapacidadMaxima(cupoMaximo);
-                unCicloDeCine.setTieneInscripcion(tieneInscripcion);
-                unCicloDeCine.setUnaProyeccion((Proyeccion)datosEspecificos[0]);
-                unCicloDeCine.setCharlasPosteriores((boolean)datosEspecificos[1]);
-                this.insertar(unCicloDeCine);
-            }
-            case FERIA ->
-            {
-                Feria unaFeria = new Feria();
-                unaFeria.setNombre(nombre);
-                unaFeria.setUbicacion(ubicacion);
-                unaFeria.setFechaInicio(fechaInicio);
-                unaFeria.setDuracionEstimada(duracion);
-                unaFeria.setEstado(estado);
-                unaFeria.setTieneCupo(tieneCupo);
-                unaFeria.setCapacidadMaxima(cupoMaximo);
-                unaFeria.setTieneInscripcion(tieneInscripcion);
-                unaFeria.setCantidadStands((int)datosEspecificos[0]);
-                unaFeria.setTipoCobertura((TipoCobertura)datosEspecificos[1]);
-                this.insertar(unaFeria);
-            }
+        try {
+            switch (tipoEvento) {
+                case EXPOSICION -> {
+                    // Creamos la Subclase Exposicion
+                    Exposicion unaExposicion = new Exposicion();
+                    unaExposicion.setNombre(nombre);
+                    unaExposicion.setUbicacion(ubicacion);
+                    unaExposicion.setFechaInicio(fechaInicio);
+                    unaExposicion.setDuracionEstimada(duracion);
+                    unaExposicion.setEstado(estado);
+                    unaExposicion.setTieneCupo(tieneCupo);
+                    unaExposicion.setCapacidadMaxima(cupoMaximo);
+                    unaExposicion.setTieneInscripcion(tieneInscripcion);
+                    unaExposicion.setUnTipoArte((TipoDeArte) datosEspecificos[0]);
+                    this.insertar(unaExposicion);
+                }
+                case TALLER -> {
+                    // Creamos la Subclase Taller
+                    Taller unTaller = new Taller();
+                    unTaller.setNombre(nombre);
+                    unTaller.setUbicacion(ubicacion);
+                    unTaller.setFechaInicio(fechaInicio);
+                    unTaller.setDuracionEstimada(duracion);
+                    unTaller.setEstado(estado);
+                    unTaller.setTieneCupo(tieneCupo);
+                    unTaller.setCapacidadMaxima(cupoMaximo);
+                    unTaller.setTieneInscripcion(tieneInscripcion);
+                    unTaller.setEsPresencial((boolean) datosEspecificos[0]);
+                    this.insertar(unTaller);
+                }
+                case CONCIERTO -> {
+                    Concierto unConcierto = new Concierto();
+                    unConcierto.setNombre(nombre);
+                    unConcierto.setUbicacion(ubicacion);
+                    unConcierto.setFechaInicio(fechaInicio);
+                    unConcierto.setDuracionEstimada(duracion);
+                    unConcierto.setEstado(estado);
+                    unConcierto.setTieneCupo(tieneCupo);
+                    unConcierto.setCapacidadMaxima(cupoMaximo);
+                    unConcierto.setTieneInscripcion(tieneInscripcion);
+                    unConcierto.setEsPago((boolean) datosEspecificos[0]);
+                    unConcierto.setMonto((double) datosEspecificos[1]);
+                    this.insertar(unConcierto);
+                }
+                case CICLO_DE_CINE -> {
+                    CicloDeCine unCicloDeCine = new CicloDeCine();
+                    unCicloDeCine.setNombre(nombre);
+                    unCicloDeCine.setUbicacion(ubicacion);
+                    unCicloDeCine.setFechaInicio(fechaInicio);
+                    unCicloDeCine.setDuracionEstimada(duracion);
+                    unCicloDeCine.setEstado(estado);
+                    unCicloDeCine.setTieneCupo(tieneCupo);
+                    unCicloDeCine.setCapacidadMaxima(cupoMaximo);
+                    unCicloDeCine.setTieneInscripcion(tieneInscripcion);
+                    unCicloDeCine.setUnaProyeccion((Proyeccion) datosEspecificos[0]);
+                    unCicloDeCine.setCharlasPosteriores((boolean) datosEspecificos[1]);
+                    this.insertar(unCicloDeCine);
+                }
+                case FERIA -> {
+                    Feria unaFeria = new Feria();
+                    unaFeria.setNombre(nombre);
+                    unaFeria.setUbicacion(ubicacion);
+                    unaFeria.setFechaInicio(fechaInicio);
+                    unaFeria.setDuracionEstimada(duracion);
+                    unaFeria.setEstado(estado);
+                    unaFeria.setTieneCupo(tieneCupo);
+                    unaFeria.setCapacidadMaxima(cupoMaximo);
+                    unaFeria.setTieneInscripcion(tieneInscripcion);
+                    unaFeria.setCantidadStands((int) datosEspecificos[0]);
+                    unaFeria.setTipoCobertura((TipoCobertura) datosEspecificos[1]);
+                    this.insertar(unaFeria);
+                }
 
-        }
-        }
-        catch(IllegalArgumentException e)
-        {
+            }
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
             throw e;
         }
-        catch(Exception e)
-        {
-            throw e;
+    }
+
+    public List<Exposicion> obtenerExposiciones() {
+        List<Evento> listaEventos = buscarTodos();
+        List<Exposicion> listaExposiciones = new ArrayList<>();
+
+        for (Evento unEvento : listaEventos) {
+            if (unEvento instanceof Exposicion) {
+                listaExposiciones.add((Exposicion) unEvento);
+            }
         }
+
+        return listaExposiciones;
+    }
+
+    public List<Feria> obtenerFerias() {
+        List<Evento> listaEventos = buscarTodos();
+        List<Feria> listaFerias = new ArrayList<>();
+
+        for (Evento unEvento : listaEventos) {
+            if (unEvento instanceof Feria) {
+                listaFerias.add((Feria) unEvento);
+            }
+        }
+
+        return listaFerias;
+    }
+
+    public List<Concierto> obtenerConciertos() {
+        List<Evento> listaEventos = buscarTodos();
+        List<Concierto> listaConciertos = new ArrayList<>();
+
+        for (Evento unEvento : listaEventos) {
+            if (unEvento instanceof Concierto) {
+                listaConciertos.add((Concierto) unEvento);
+            }
+        }
+
+        return listaConciertos;
+    }
+
+    public List<CicloDeCine> obtenerCiclosDeCine() {
+        List<Evento> listaEventos = buscarTodos();
+        List<CicloDeCine> listaCiclosDeCine = new ArrayList<>();
+
+        for (Evento unEvento : listaEventos) {
+            if (unEvento instanceof CicloDeCine) {
+                listaCiclosDeCine.add((CicloDeCine) unEvento);
+            }
+        }
+
+        return listaCiclosDeCine;
+    }
+
+    public List<Taller> obtenerTalleres() {
+        List<Evento> listaEventos = buscarTodos();
+        List<Taller> listaTalleres = new ArrayList<>();
+
+        for (Evento unEvento : listaEventos) {
+            if (unEvento instanceof Taller) {
+                listaTalleres.add((Taller) unEvento);
+            }
+        }
+
+        return listaTalleres;
     }
 
 }
