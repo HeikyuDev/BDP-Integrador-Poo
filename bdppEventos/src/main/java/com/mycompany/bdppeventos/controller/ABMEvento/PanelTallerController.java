@@ -6,38 +6,47 @@
  */
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
+import com.mycompany.bdppeventos.model.entities.Persona;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 
 public class PanelTallerController implements Initializable {
 
-    /**
-     * Inicializa el panel de taller al cargar la vista.
-     * Configura el ToggleGroup para los RadioButton de modalidad.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        configurarToggleGroup();
-    }
-
     // Controles
 
-    /**
-     * RadioButton para seleccionar modalidad presencial.
-     */
+    
     @FXML
     private RadioButton rbtnPresencial;
 
-    /**
-     * RadioButton para seleccionar modalidad virtual.
-     */
+   
     @FXML
     private RadioButton rbtnVirtual;
+    
+   
+    @FXML
+    private ComboBox<Persona> cmbInstructor;
+    
+    // Lista Observable asociada al Combo    
+    private ObservableList<Persona> listaInstructores = FXCollections.observableArrayList();
+    
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // Configuramos los Radios Buttons
+        configurarToggleGroup();
+        // Configuramos la lista Obserbable
+        cmbInstructor.setItems(listaInstructores);
+        // Actualziamos La Combo
+    }
+    
 
     /**
      * Grupo de botones para asegurar que solo se seleccione una modalidad a la vez.
@@ -52,7 +61,7 @@ public class PanelTallerController implements Initializable {
     private void configurarToggleGroup() {
         rbtnPresencial.setToggleGroup(rBtnGroup);
         rbtnVirtual.setToggleGroup(rBtnGroup);
-
+        rbtnPresencial.setSelected(true);
         rBtnGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             if (newToggle == null && oldToggle != null) {
                 oldToggle.setSelected(true);
@@ -64,6 +73,18 @@ public class PanelTallerController implements Initializable {
 
     public boolean getEsPrecencial() {
         return rbtnPresencial.isSelected();                 
+    }
+
+    Persona getInstructor() {
+        if (cmbInstructor == null || cmbInstructor.getSelectionModel() == null) {
+            throw new IllegalStateException("ComboBox no inicializado correctamente");
+        }
+
+        Persona unInstructor = cmbInstructor.getSelectionModel().getSelectedItem();
+        if (unInstructor == null) {
+            throw new IllegalArgumentException("Debe seleccionar un curador");
+        }
+        return unInstructor;
     }
 
 }

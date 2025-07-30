@@ -232,12 +232,8 @@ public class Persona implements Activable {
         return this.listaEventos;
     }
 
-    /**
-     * Asigna la lista de participaciones asociadas a la persona.
-     * 
-     * @param unaListaParticipacion Lista de participaciones
-     */
-    public void setUnaListaParticipacion(List<Evento> listaEventos) {
+    
+    public void setUnaListaEventos(List<Evento> listaEventos) {
         this.listaEventos = listaEventos;
     }
 
@@ -395,15 +391,7 @@ public class Persona implements Activable {
      */
     @Override
     public String toString() {
-        return "Persona{" +
-                "dni='" + dni + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", correoElectronico='" + correoElectronico + '\'' +
-                ", activo=" + activo +
-                ", roles=" + unaListaRoles +
-                '}';
+        return this.nombre +" "+ this.apellido + " DNI: "+this.dni;
     }
 
     /**
@@ -412,7 +400,7 @@ public class Persona implements Activable {
      * @return Cadena con apellido, nombre y DNI
      */
     public String getInformacionPersonal() {
-        return this.apellido + " " + this.nombre + "|DNI: " + this.dni;
+        return this.apellido + " " + this.nombre + " DNI: " + this.dni;
     }
 
 }

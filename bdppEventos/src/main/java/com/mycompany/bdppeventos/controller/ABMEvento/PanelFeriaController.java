@@ -44,21 +44,38 @@ public class PanelFeriaController extends ConfiguracionIgu implements Initializa
     // Metodos Especificos
 
     public int getCantidadStands() {
-        String cantidadTexto = txtCantidadStands.getText().trim();
-        if (cantidadTexto.isEmpty()) {
-            throw new IllegalArgumentException("Debe ingresar la cantidad de stands.");
-        }
+    StringBuilder mensajeError = new StringBuilder();
+    String cantidadTexto = txtCantidadStands.getText().trim();
+    
+    // Validar que no esté vacío
+    if (cantidadTexto.isEmpty()) {
+        mensajeError.append("• Debe ingresar la cantidad de stands.\n");
+    } else {
+        // Validar que sea un número válido
         try {
             int cantidad = Integer.parseInt(cantidadTexto);
+            
+            // Validar que sea mayor que cero
             if (cantidad <= 0) {
-                throw new IllegalArgumentException("La cantidad de stands debe ser mayor que cero.");
+                mensajeError.append("• La cantidad de stands debe ser mayor que cero.\n");
+            } else {
+                // Si todo está bien, retornar el valor
+                return cantidad;
             }
-            return cantidad;
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("La cantidad de stands debe ser un número entero válido.");
+            mensajeError.append("• La cantidad de stands debe ser un número entero válido.\n");
         }
     }
-
+    
+    // Si hay errores, lanzar la excepción
+    if (mensajeError.length() > 0) {
+        throw new IllegalArgumentException(mensajeError.toString());
+    }
+    
+    // Esta línea nunca debería ejecutarse, pero Java requiere un return
+    return 0;
+}
+        
     public TipoCobertura getTipoCobertura() {
         TipoCobertura tipo = cmbTipoCobertura.getSelectionModel().getSelectedItem();
         if (tipo == null) {

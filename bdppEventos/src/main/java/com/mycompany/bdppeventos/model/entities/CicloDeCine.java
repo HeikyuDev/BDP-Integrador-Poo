@@ -3,8 +3,6 @@ package com.mycompany.bdppeventos.model.entities;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.mycompany.bdppeventos.model.enums.EstadoEvento;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -45,8 +43,8 @@ public final class CicloDeCine extends Evento {
     }
 
     
-    public CicloDeCine(boolean charlasPosteriores, Proyeccion unaProyeccion, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Persona> listaPersonas) {    
-        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, listaPersonas);
+    public CicloDeCine(boolean charlasPosteriores, Proyeccion unaProyeccion, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, List<Persona> listaPersonas) {    
+        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, listaPersonas);
         this.charlasPosteriores = charlasPosteriores;
         this.unaProyeccion = unaProyeccion;
     }

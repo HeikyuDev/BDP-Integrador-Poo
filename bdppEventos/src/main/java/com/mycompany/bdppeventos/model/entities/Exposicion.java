@@ -3,8 +3,6 @@ package com.mycompany.bdppeventos.model.entities;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.mycompany.bdppeventos.model.enums.EstadoEvento;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -58,8 +56,8 @@ public final class Exposicion extends Evento {
      * @param estado Estado del evento
      * @param unaListaParticipacion Lista de participaciones
      */
-    public Exposicion(TipoDeArte unTipoArte, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado, List<Persona> listaPersonas) {
-        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, estado, listaPersonas);
+    public Exposicion(TipoDeArte unTipoArte, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, List<Persona> listaPersonas) {
+        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, listaPersonas);
         this.setUnTipoArte(unTipoArte);
     }
 

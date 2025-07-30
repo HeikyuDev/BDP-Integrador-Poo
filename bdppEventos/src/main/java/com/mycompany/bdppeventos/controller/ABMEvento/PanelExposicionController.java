@@ -5,6 +5,7 @@
  */
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
+import com.mycompany.bdppeventos.model.entities.Persona;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -28,6 +29,9 @@ public class PanelExposicionController implements Initializable {
     @FXML
     private ComboBox<TipoDeArte> cmbTipoArte;
     
+    @FXML
+    private ComboBox<Persona> cmbCurador;
+    
 
     /**
      * Botón para agregar un nuevo tipo de arte a la exposición.
@@ -37,6 +41,8 @@ public class PanelExposicionController implements Initializable {
     
     //lista Obserable
     private ObservableList<TipoDeArte> listaTiposDeArtes = FXCollections.observableArrayList();
+    private ObservableList<TipoDeArte> listaCuradores = FXCollections.observableArrayList();
+    
     
     //Servicios
     private TipoDeArteServicio tipoDeArteServicio;
@@ -77,15 +83,7 @@ public class PanelExposicionController implements Initializable {
     {
         cmbTipoArte.getSelectionModel().clearSelection();
     }
-    
-    public TipoDeArte getTipoArteSeleccionado() {
-        TipoDeArte tipo = cmbTipoArte.getSelectionModel().getSelectedItem();
-        if (tipo == null) {
-            throw new IllegalArgumentException("Debe seleccionar un tipo de arte");
-        }
-        return tipo;
-    }
-    
+           
     private ObservableList<TipoDeArte> obtenerTiposDeArte() {
         // 1. Obtenemos la lista del servicio
         List<TipoDeArte> lista = tipoDeArteServicio.buscarTodos();
@@ -103,9 +101,30 @@ public class PanelExposicionController implements Initializable {
     {
         try {
             // Obtenemos todos los registros de la base de datos y la almacenamos en un a lista
-            cmbTipoArte.getItems().setAll(obtenerTiposDeArte());
+            listaTiposDeArtes.setAll(obtenerTiposDeArte());
         } catch (Exception e) {
             Alerta.mostrarError("No se pudo Actualizar el ComboBox " + e.getMessage());
         }
     }
+
+     public TipoDeArte getTipoArteSeleccionado() {
+        TipoDeArte tipo = cmbTipoArte.getSelectionModel().getSelectedItem();
+        if (tipo == null) {
+            throw new IllegalArgumentException("Debe seleccionar un tipo de arte");
+        }
+        return tipo;
+    }
+     
+    public Persona getCurador() {
+        if (cmbCurador == null || cmbCurador.getSelectionModel() == null) {
+            throw new IllegalStateException("ComboBox no inicializado correctamente");
+        }
+
+        Persona unCurador = cmbCurador.getSelectionModel().getSelectedItem();
+        if (unCurador == null) {
+            throw new IllegalArgumentException("Debe seleccionar un curador");
+        }
+        return unCurador;
+    }
+
 }

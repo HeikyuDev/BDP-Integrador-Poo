@@ -8,8 +8,6 @@ package com.mycompany.bdppeventos.model.entities;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.mycompany.bdppeventos.model.enums.EstadoEvento;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -65,8 +63,7 @@ public final class Taller extends Evento {
             boolean tieneCupo,
             int capacidadMaxima,
             boolean tieneInscripcion,
-            String ubicacion,
-            EstadoEvento estado,
+            String ubicacion,            
             List<Persona> listaPersonas
     ) {
         super(
@@ -77,8 +74,7 @@ public final class Taller extends Evento {
                 tieneCupo,
                 capacidadMaxima,
                 tieneInscripcion,
-                ubicacion,
-                estado,
+                ubicacion,                
                 listaPersonas
         );
         this.setEsPresencial(esPresencial);

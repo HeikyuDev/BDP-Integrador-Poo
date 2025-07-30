@@ -86,24 +86,11 @@ public abstract class Evento implements Activable {
      */
     public Evento() {
         this.activo = true;
+        this.estado = EstadoEvento.PLANIFICADO;
     }
-
-    /**
-     * Constructor completo para inicializar todos los campos del evento.
-     * 
-     * @param id                    Identificador único
-     * @param nombre                Nombre del evento
-     * @param fechaInicio           Fecha de inicio
-     * @param duracionEstimada      Duración estimada
-     * @param tieneCupo             Si tiene cupo máximo
-     * @param capacidadMaxima       Capacidad máxima
-     * @param tieneInscripcion      Si requiere inscripción
-     * @param ubicacion             Ubicación física
-     * @param estado                Estado del evento
-     * @param unaListaParticipacion Lista de participaciones
-     */
+    
     public Evento(int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo,
-            int capacidadMaxima, boolean tieneInscripcion, String ubicacion, EstadoEvento estado,
+            int capacidadMaxima, boolean tieneInscripcion, String ubicacion,
             List<Persona> listaPersonas) {
         this.id = id;
         this.nombre = nombre;
@@ -113,8 +100,8 @@ public abstract class Evento implements Activable {
         this.capacidadMaxima = capacidadMaxima;
         this.tieneInscripcion = tieneInscripcion;
         this.ubicacion = ubicacion;
-        this.estado = estado;
-        this.listaPersonas = listaPersonas;
+        this.estado = EstadoEvento.PLANIFICADO;
+        this.listaPersonas = listaPersonas; 
         this.activo = true;
     }
 
@@ -308,7 +295,7 @@ public abstract class Evento implements Activable {
      * 
      * @param unaListaParticipacion Lista de participaciones
      */
-    public void setUnaListaParticipacion(List<Persona> listaPersonas) {
+    public void setUnaListaPersona(List<Persona> listaPersonas) {
         this.listaPersonas = listaPersonas;
     }
 

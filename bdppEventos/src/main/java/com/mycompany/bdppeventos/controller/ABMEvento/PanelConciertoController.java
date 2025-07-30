@@ -5,30 +5,31 @@
  */
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
+import com.mycompany.bdppeventos.model.entities.Persona;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import org.controlsfx.control.CheckComboBox;
 
 public class PanelConciertoController extends ConfiguracionIgu implements Initializable {
-
-    /**
-     * CheckBox para indicar si el concierto es pago.
-     */
+    
     @FXML
     private CheckBox chkEsPago;
-
-    /**
-     * Campo de texto asociado al CheckBox para ingresar información adicional si es
-     * pago.
-     */
+    
     @FXML
     private TextField txtEsPago;
+    
+    @FXML
+    private CheckComboBox<Persona> chkComboArtistas;
 
     /**
      * Inicializa el panel de concierto al cargar la vista.
@@ -74,6 +75,20 @@ public class PanelConciertoController extends ConfiguracionIgu implements Initia
         } else {
             throw new IllegalArgumentException("No se puede especificar el monto del evento si el mismo es gratuito.");
         }
+    }
+
+    public List<Persona> getArtistas() {
+        if (chkComboArtistas == null || chkComboArtistas.getCheckModel() == null) {
+            throw new IllegalStateException("CheckComboBox no inicializado correctamente");
+        }
+
+        ObservableList<Persona> listaObservableArtistas = chkComboArtistas.getCheckModel().getCheckedItems();
+
+        if (listaObservableArtistas == null || listaObservableArtistas.isEmpty()) {
+            throw new IllegalArgumentException("Debe seleccionar al menos un artista");
+        }
+
+        return new ArrayList<>(listaObservableArtistas);
     }
 
 }

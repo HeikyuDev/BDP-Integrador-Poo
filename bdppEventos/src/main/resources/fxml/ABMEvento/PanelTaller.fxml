@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="128.0" prefWidth="713.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelTallerController">
    <children>
       <HBox alignment="CENTER" prefHeight="29.0" prefWidth="453.0" spacing="2.0">
@@ -30,7 +28,7 @@
             <VBox prefHeight="99.0" prefWidth="506.0" spacing="8.0">
                <children>
                   <Label styleClass="form-label-required" text="Instructor*" />
-                  <ComboBox prefHeight="37.0" prefWidth="371.0" promptText="seleccione un Instructor" styleClass="form-combobox" />
+                  <ComboBox fx:id="cmbInstructor" prefHeight="37.0" prefWidth="371.0" promptText="seleccione un Instructor" styleClass="form-combobox" />
                </children>
             </VBox>
          </children>

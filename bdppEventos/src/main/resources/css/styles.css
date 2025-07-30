@@ -375,6 +375,33 @@
     -fx-text-fill: #999999;
 }
 
+/*Boton de Visualizacion*/
+
+/*BOTÓN DE VISUALIZACIÓN*/
+.visualizar-button {
+    -fx-background-color: #8B5CF6;  /* Morado profesional */
+    -fx-text-fill: white;
+    -fx-font-family: "Montserrat", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    -fx-min-width: 100px;
+}
+
+.visualizar-button:hover {
+    -fx-background-color: #7C3AED;  /* Morado más intenso */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 3);
+}
+
+.visualizar-button:pressed {
+    -fx-background-color: #6D28D9;  /* Morado más oscuro */
+    -fx-translate-y: 1px;
+}
+
 /* ========== CHECKBOXES ========== */
 .form-checkbox {
     -fx-font-family: "Inter", sans-serif;
@@ -511,40 +538,39 @@
 }
 
 
-/* ========== TABLEVIEW ========== */
+/* ========== TABLEVIEW ULTRA SIMPLE ========== */
 .form-tableview {
     -fx-background-color: white;
     -fx-border-color: #e0e0e0;
     -fx-border-width: 1.5px;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
-    -fx-padding: 0;
-    -fx-snap-to-pixel: true; /* Evita que el contenido cambie de tamaño con el scroll */
+    -fx-padding: 0; /* Sin padding interno */
 }
 
 /* Encabezados de columnas */
 .form-tableview .column-header,
 .form-tableview .column-header-background {
     -fx-background-color: #2E4BC6;
-    -fx-border-color: transparent;
     -fx-text-fill: white;
     -fx-font-family: "Montserrat", sans-serif;
-    -fx-font-weight: 200;
+    -fx-font-weight: 400; 
     -fx-font-size: 11px;
+    -fx-background-radius: 5px 5px 0 0;
+    -fx-border-width: 0; /* Sin bordes que causen separación */
+    -fx-padding: 0; /* Sin padding que cause separación */
 }
 
 .form-tableview .column-header .label {
     -fx-text-fill: white;
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 10px;
+    -fx-padding: 5px;
 }
 
 /* Filas */
 .form-tableview .table-row-cell {
-    -fx-border-color: transparent;
     -fx-font-family: "Inter", sans-serif;
-    -fx-font-size: 13px;
-    -fx-cell-size: 40px; /* Alto mínimo para evitar cortes */
+    -fx-font-size: 10px;
+    -fx-cell-size: 28px;
 }
 
 .form-tableview .table-row-cell:odd {
@@ -557,45 +583,17 @@
 
 /* Celdas */
 .form-tableview .table-cell {
-    -fx-padding: 10px 10px;
-    -fx-border-color: #f0f0f0;
-    -fx-border-width: 0 0 1px 0;
-    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 2px 4px;
     -fx-text-fill: #000000;
-    -fx-wrap-text: true;
 }
 
-/* Estilo cuando una celda está seleccionada */
 .form-tableview .table-cell:selected {
-    -fx-background-color: #e3e9ff;
     -fx-text-fill: #2E4BC6;
 }
 
-/* Fix: texto del nodo interno en celdas seleccionadas */
-.form-tableview .table-row-cell:selected .table-cell {
-    -fx-text-fill: #2E4BC6;
-}
 
-.form-tableview .table-row-cell:selected .table-cell .text {
-    -fx-fill: #2E4BC6;
-}
 
-/* Hover */
-.form-tableview .table-row-cell:hover {
-    -fx-background-color: #f0f4ff;
-}
-
-/* Scrollbars */
-.form-tableview .scroll-bar:horizontal,
-.form-tableview .scroll-bar:vertical {
-    -fx-background-color: transparent;
-}
-
-.form-tableview .scroll-bar .thumb {
-    -fx-background-color: #d0d0d0;
-    -fx-background-radius: 5px;
-}
-
+/*RADIOBUTTONS*/
 
 /* Estilo base para el RadioButton */
 .radio-button {

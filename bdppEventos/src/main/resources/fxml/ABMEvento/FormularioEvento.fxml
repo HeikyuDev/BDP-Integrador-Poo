@@ -175,41 +175,24 @@
                                         <Insets bottom="15.0" />
                                     </VBox.margin>
                                 </Label>
-                                <TableView fx:id="tablaEventos" editable="false" prefHeight="247.0" prefWidth="1300.0" styleClass="form-tableview">
+                                <TableView fx:id="tablaEventos" prefHeight="500.0" prefWidth="1300.0" styleClass="form-tableview" tableMenuButtonVisible="true">
                                     <columns>
-                                        <TableColumn fx:id="colNombre" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Nombre" />
-
-                                        <TableColumn fx:id="colUbicacion" editable="false" maxWidth="250" minWidth="150" prefWidth="200" reorderable="false" resizable="false" text="Ubicación" />
-
-                                        <TableColumn fx:id="colFechaInicio" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Fecha inicio" />
-
-                                        <TableColumn fx:id="colDuracion" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Duración Estimada" />
-
-                                        <TableColumn fx:id="colEsPago" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Es Paga" />
-
-                                        <TableColumn fx:id="colCantidadStands" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Cantidad de Stands" />
-
-                                        <TableColumn fx:id="colTieneInscripcion" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Tiene Inscripción" />
-
-                                        <TableColumn fx:id="colTieneCupo" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Tiene Cupo" />
-
-                                        <TableColumn fx:id="colCapacidadMaxima" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Capacidad Máxima" />
-
-                                        <TableColumn fx:id="colTipo" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Tipo" />
-
-                                        <TableColumn fx:id="colMonto" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Monto" />
-
-                                        <TableColumn fx:id="colCharlasPosteriores" editable="false" maxWidth="200" minWidth="100" prefWidth="150" reorderable="false" resizable="false" text="Charlas Posteriores" />
-                              <TableColumn fx:id="colOrganizadores" editable="false" maxWidth="300.0" minWidth="100" prefWidth="200.0" reorderable="false" resizable="false" text="Organizador/es" />
-                              <TableColumn fx:id="colArtistas" editable="false" maxWidth="300.0" minWidth="100" prefWidth="200.0" reorderable="false" resizable="false" text="Artista" />
-                              <TableColumn fx:id="colCurador" editable="false" maxWidth="300.0" minWidth="100" prefWidth="200.0" reorderable="false" resizable="false" text="Curador" />
-                              <TableColumn fx:id="colInstructor" editable="false" maxWidth="300.0" minWidth="100" prefWidth="200.0" reorderable="false" resizable="false" text="Instructor" />
-                                    </columns>
+                                        <TableColumn fx:id="colNombre" prefWidth="150.0" text="Nombre" />
+                                        <TableColumn fx:id="colUbicacion" prefWidth="200.0" text="Ubicación" />
+                                        <TableColumn fx:id="colFechaInicio" prefWidth="150.0" text="Fecha inicio" />
+                                        <TableColumn fx:id="colDuracion" prefWidth="75.0" text="Duración" />                                                                                
+                                        <TableColumn fx:id="colTieneInscripcion" prefWidth="50.0" text="Inscribible" />
+                                        <TableColumn fx:id="colTieneCupo" prefWidth="150.0" text="Tiene Cupo" />
+                                        <TableColumn fx:id="colCapacidadMaxima" prefWidth="150.0" text="Capacidad Máxima" />                                                                                                                                                                
+                                        <TableColumn fx:id="colOrganizadores" prefWidth="250.0" text="Organizador/es" /> 
+                                        <TableColumn fx:id="colTipo" prefWidth="100.0" text="Tipo"/>                                                                                                                       
+                                    </columns>                                    
                                 </TableView>
                                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                                     <children>
-                                        <Button fx:id="btnBaja" mnemonicParsing="false" styleClass="baja-button" text="Baja" onAction="#bajaEvento"/>
-                                        <Button fx:id="btnModificacion" mnemonicParsing="false" styleClass="modificacion-button" text="Modificacion" onAction="#modificacionEvento" />
+                              <Button fx:id="btnVisualizacion" mnemonicParsing="false" onAction="#visualizacionEvento" prefHeight="38.0" prefWidth="134.0" styleClass="visualizar-button" text="Visualizar" />
+                                        <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#bajaEvento" styleClass="baja-button" text="Baja" />
+                                        <Button fx:id="btnModificacion" mnemonicParsing="false" onAction="#modificacionEvento" styleClass="modificacion-button" text="Modificacion" />
                                         <Button fx:id="btnCancelar" disable="true" mnemonicParsing="false" onAction="#cancelarEdicion" styleClass="baja-button" text="Cancelar" />
                                     </children>
                                 </HBox>
