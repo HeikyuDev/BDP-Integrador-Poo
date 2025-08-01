@@ -30,6 +30,7 @@ com\mycompany\bdppeventos\model\entities\CicloDeCine.class
 com\mycompany\bdppeventos\services\Persona\PersonaServicio.class
 module-info.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelExposicionController.class
+com\mycompany\bdppeventos\controller\VerParticipantes\VerParticipantesController$1.class
 com\mycompany\bdppeventos\util\StageManager.class
 com\mycompany\bdppeventos\model\enums\TipoEvento.class
 com\mycompany\bdppeventos\model\enums\TipoRol.class

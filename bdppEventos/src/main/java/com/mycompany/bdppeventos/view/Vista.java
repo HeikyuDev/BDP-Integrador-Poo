@@ -7,7 +7,7 @@ public enum Vista {
 
 
     // FXML ventana principal
-    PantallaPrincipal("","PantallaPrincipal"),    
+    PantallaPrincipal("Eventos","PantallaPrincipal"),    
     
     // FXML de la seccion ABM eventos
     FormularioEvento("","ABMEvento/FormularioEvento"),

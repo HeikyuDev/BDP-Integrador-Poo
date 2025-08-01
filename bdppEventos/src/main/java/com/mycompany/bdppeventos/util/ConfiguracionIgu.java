@@ -1,7 +1,8 @@
 package com.mycompany.bdppeventos.util;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public abstract class ConfiguracionIgu {
             unTextfield.setDisable(true);
         }
     }
-    
+
     // Configuracion para el ScrollPane
     public static void configuracionScrollPane(ScrollPane scrollPane) {
         // Configuración básica
@@ -60,6 +61,7 @@ public abstract class ConfiguracionIgu {
         // Limpia Los elementos del combo antes
         combo.getItems().clear();
         // Obtiene todos los valores y los pone en el ComboBox:
+        combo.getItems().add(null);
         combo.getItems().addAll(enumClass.getEnumConstants());
     }
 
@@ -104,25 +106,27 @@ public abstract class ConfiguracionIgu {
     }
 
     // Configuracion del boton "Cancelar"
-    protected static void configuracionBtnCancelar(Button btnAlta, Button btnModificacion, Button btnBaja, Button btnCancelar, String textoAlta) {
+    protected static void configuracionBtnCancelar(Button btnAlta, Button btnModificacion, Button btnBaja,
+            Button btnCancelar, String textoAlta) {
         btnAlta.setText(textoAlta);
         btnModificacion.setDisable(false);
         btnBaja.setDisable(false);
         btnCancelar.setDisable(true);
     }
 
-    //Configuracion del boton "Modificar"
-    protected static void configuracionBtnModificar(Button btnAlta, Button btnModificacion, Button btnBaja, Button btnCancelar) {
+    // Configuracion del boton "Modificar"
+    protected static void configuracionBtnModificar(Button btnAlta, Button btnModificacion, Button btnBaja,
+            Button btnCancelar) {
         // Configuraciones de Elementos Graficos
         btnAlta.setText("Guardar Cambios"); // Cambiamos el texto del boton a "Guardar Cambios"
-        btnModificacion.setDisable(true); // Desabilitamos el btn de modificacion para que el usuario no pueda volver a  precionarlo                                          
+        btnModificacion.setDisable(true); // Desabilitamos el btn de modificacion para que el usuario no pueda volver a
+                                          // precionarlo
         btnBaja.setDisable(true);
         btnCancelar.setDisable(false);
     }
 
-
-    protected  static void configuracionFinaly(Button btnAlta, Button btnModificacion, Button btnBaja, Button btnCancelar, String txtBtnAlta)
-    {
+    protected static void configuracionFinaly(Button btnAlta, Button btnModificacion, Button btnBaja,
+            Button btnCancelar, String txtBtnAlta) {
         btnAlta.setText(txtBtnAlta);
         btnModificacion.setDisable(false);
         btnBaja.setDisable(false);
@@ -131,7 +135,7 @@ public abstract class ConfiguracionIgu {
 
     // Configuracion de Columnas "SetValueFactory"
     // Configuracion para listas
-   
+
     public static <T> SimpleStringProperty formatLista(
             List<T> lista, // <T> Tipo de Elemento de la lista
             Function<T, String> mapper, // mapper Funcion Para convertir cada elemento a String
@@ -142,26 +146,27 @@ public abstract class ConfiguracionIgu {
             return new SimpleStringProperty(mensajeVacio);
         }
 
-        String resultado = lista.stream()                
+        String resultado = lista.stream()
                 .map(mapper)
                 .filter(s -> s != null && !s.isEmpty()) // Filtra strings vacíos
-                .collect(Collectors.joining(" - "));  // Delimitador fijo
+                .collect(Collectors.joining(" - ")); // Delimitador fijo
 
         return new SimpleStringProperty(resultado);
     }
-    
+
     // Configuracion para Valores booleanos
-    public static <T> SimpleStringProperty formatBoolean(boolean valor, String mensajeVerdadero, String mensajeFalso)
-    {
-        if(valor == true)
-        {
+    public static <T> SimpleStringProperty formatBoolean(boolean valor, String mensajeVerdadero, String mensajeFalso) {
+        if (valor == true) {
             return new SimpleStringProperty(mensajeVerdadero);
-        }
-        else
-        {
+        } else {
             return new SimpleStringProperty(mensajeFalso);
         }
     }
+
+    public static SimpleStringProperty formatFecha(LocalDate fecha) {        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return new SimpleStringProperty(fecha.format(formatter));
+    }
     
- 
+
 }
