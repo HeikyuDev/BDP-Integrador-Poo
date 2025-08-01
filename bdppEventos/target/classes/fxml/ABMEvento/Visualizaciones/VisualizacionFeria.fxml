@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="280.0" prefWidth="532.0" styleClass="main-section" stylesheets="@../../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.VisualizacionController">
+   
+   <!-- Encabezado -->
+   <Label styleClass="section-title" text="Detalles de la Feria" />
+   
+   <!-- Contenido -->
+   <VBox spacing="10" styleClass="field-section">
+      <VBox spacing="5">
+         <Label styleClass="section-title" text="Cantidad de Stands:" />
+         <Label fx:id="cantidadStandsLabel" maxWidth="500" styleClass="value-label-long" text="[Cantidad de Stands]" wrapText="true">
+            <tooltip>
+                <Tooltip styleClass="long-tooltip" text="{tipoArteLabel.text}" />
+            </tooltip>
+         </Label>
+      </VBox>
+      
+      <VBox spacing="5">
+         <Label styleClass="section-title" text="Tipo Cobertura:" />
+         <Label fx:id="tipoCoberturaLabel" maxWidth="500" styleClass="value-label-long" text="[TipoCobertura]" wrapText="true">
+            <tooltip>
+                <Tooltip styleClass="long-tooltip" text="{curadorLabel.text}" />
+            </tooltip>
+         </Label>
+      </VBox>
+   </VBox>
+</VBox>

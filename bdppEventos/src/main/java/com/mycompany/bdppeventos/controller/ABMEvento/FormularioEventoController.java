@@ -1,6 +1,22 @@
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
-import com.mycompany.bdppeventos.model.entities.*;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import org.controlsfx.control.CheckComboBox;
+
+import com.mycompany.bdppeventos.model.entities.CicloDeCine;
+import com.mycompany.bdppeventos.model.entities.Concierto;
+import com.mycompany.bdppeventos.model.entities.Evento;
+import com.mycompany.bdppeventos.model.entities.Exposicion;
+import com.mycompany.bdppeventos.model.entities.Feria;
+import com.mycompany.bdppeventos.model.entities.Persona;
+import com.mycompany.bdppeventos.model.entities.Proyeccion;
+import com.mycompany.bdppeventos.model.entities.Taller;
+import com.mycompany.bdppeventos.model.entities.TipoDeArte;
 import com.mycompany.bdppeventos.model.enums.TipoCobertura;
 import com.mycompany.bdppeventos.model.enums.TipoEvento;
 import static com.mycompany.bdppeventos.model.enums.TipoEvento.CICLO_DE_CINE;
@@ -10,20 +26,28 @@ import static com.mycompany.bdppeventos.model.enums.TipoEvento.FERIA;
 import static com.mycompany.bdppeventos.model.enums.TipoEvento.TALLER;
 import com.mycompany.bdppeventos.services.Evento.EventoServicio;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
-import com.mycompany.bdppeventos.util.*;
+import com.mycompany.bdppeventos.util.Alerta;
+import com.mycompany.bdppeventos.util.ConfiguracionIgu;
+import com.mycompany.bdppeventos.util.RepositorioContext;
+import com.mycompany.bdppeventos.util.StageManager;
 import com.mycompany.bdppeventos.view.Vista;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import org.controlsfx.control.CheckComboBox;
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.*;
+import javafx.stage.Stage;
+import javafx.util.Pair;
 
 /**
  * Controlador principal para la gestión de eventos (CRUD).
@@ -77,6 +101,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
     private PanelConciertoController panelConciertoController;
     private PanelCicloCineController panelCicloCineController;
     private PanelFeriaController panelFeriaController;
+    private VisualizacionController visualizacionController;
     
     // Variable para modificación
     private Evento eventoEnEdicion = null;
@@ -289,25 +314,34 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
     }
 
     @FXML
-    private void visualizacionEvento() {
-        Evento eventoSeleccionado = tablaEventos.getSelectionModel().getSelectedItem();
-        if (eventoSeleccionado == null) {
-            Alerta.mostrarError(MENSAJE_ERROR_SELECCION);
-            return;
-        }
-
-        Vista vistaAAbrir = determinarVistaPorTipoEvento(eventoSeleccionado);
-        if (vistaAAbrir != null) {
-            VisualizacionController controller = StageManager.abrirModalConControlador(vistaAAbrir);
-            if (controller != null) {
-                controller.mostrarDatos(eventoSeleccionado);
-            }
-        } else {
-            Alerta.mostrarError("Tipo de evento no reconocido");
-        }
+private void visualizacionEvento() {
+    Evento eventoSeleccionado = tablaEventos.getSelectionModel().getSelectedItem();
+    if (eventoSeleccionado == null) {
+        Alerta.mostrarError(MENSAJE_ERROR_SELECCION);
+        return;
     }
 
-    private Vista determinarVistaPorTipoEvento(Evento evento) {
+    Vista vistaAAbrir = determinarVistaPorTipoEvento(eventoSeleccionado);
+    if (vistaAAbrir != null) {
+        // Preparar el modal y controlador SIN mostrar todavía
+        Pair<VisualizacionController, Stage> resultado = StageManager.prepararModalConControlador(vistaAAbrir);
+        
+        if (resultado != null) {
+            VisualizacionController controller = resultado.getKey();
+            Stage modalStage = resultado.getValue();
+            
+            // PRIMERO configurar los datos
+            controller.mostrarDatos(eventoSeleccionado);
+            
+            // DESPUÉS mostrar el modal con los datos ya configurados
+            StageManager.mostrarModalPreparado(modalStage);
+        }
+    } else {
+        Alerta.mostrarError("Tipo de evento no reconocido");
+    }
+}
+
+private Vista determinarVistaPorTipoEvento(Evento evento) {
         if (evento instanceof Exposicion) {
             return Vista.VisualizacionExposicion;
         } else if (evento instanceof Taller) {
@@ -321,6 +355,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
         }
         return null;
     }
+
 
     private void limpiarCampos()
     {
