@@ -5,6 +5,7 @@
  */
 package com.mycompany.bdppeventos.model.entities;
 
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -40,47 +41,6 @@ public final class Taller extends Evento {
     }
 
 
-    /**
-     * Constructor completo para inicializar todos los campos del taller.
-     * @param esPresencial true si es presencial, false si es virtual
-     * @param id Identificador único del evento
-     * @param nombre Nombre del evento
-     * @param fechaInicio Fecha de inicio
-     * @param duracionEstimada Duración estimada
-     * @param tieneCupo Si tiene cupo máximo
-     * @param capacidadMaxima Capacidad máxima
-     * @param tieneInscripcion Si requiere inscripción
-     * @param ubicacion Ubicación física
-     * @param estado Estado del evento
-     * @param unaListaParticipacion Lista de participaciones
-     */
-    public Taller(
-            boolean esPresencial,
-            int id,
-            String nombre,
-            LocalDate fechaInicio,
-            int duracionEstimada,
-            boolean tieneCupo,
-            int capacidadMaxima,
-            boolean tieneInscripcion,
-            String ubicacion,            
-            List<Persona> listaPersonas
-    ) {
-        super(
-                id,
-                nombre,
-                fechaInicio,
-                duracionEstimada,
-                tieneCupo,
-                capacidadMaxima,
-                tieneInscripcion,
-                ubicacion,                
-                listaPersonas
-        );
-        this.setEsPresencial(esPresencial);
-    }
-
-
     // Getters y Setters
 
     /**
@@ -96,6 +56,27 @@ public final class Taller extends Evento {
      */
     public void setEsPresencial(boolean esPresencial) {
         this.esPresencial = esPresencial;
+    }
+    
+    /**
+     * Obtiene el instructor del evento (si es un taller).
+     */
+    public Persona getInstructor() {
+        List<Persona> instructores = getPersonasPorRol(TipoRol.INSTRUCTOR);
+        return instructores.isEmpty() ? null : instructores.get(0);
+    }
+    
+    public String getModalidadTexto()
+    {
+        if(this.esPresencial == true)
+        {
+            return "Presencial";
+        }
+        else
+        {
+            return "Virtual";
+        }
+        
     }
 
 }

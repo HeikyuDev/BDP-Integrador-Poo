@@ -1,20 +1,20 @@
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
+import com.mycompany.bdppeventos.model.entities.CicloDeCine;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import com.mycompany.bdppeventos.model.entities.Proyeccion;
 import com.mycompany.bdppeventos.services.proyeccion.ProyeccionServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.RepositorioContext;
 import com.mycompany.bdppeventos.util.StageManager;
 import com.mycompany.bdppeventos.view.Vista;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 
@@ -29,6 +29,9 @@ public class PanelCicloCineController implements Initializable {
 
     @FXML
     private CheckBox ChkCharlasPosteriores;
+    
+    @FXML
+    private Button btnAgregarCiclo;
 
     // Servicios
     private ProyeccionServicio proyeccionServicio;
@@ -55,7 +58,7 @@ public class PanelCicloCineController implements Initializable {
 
     // ==Metodos Especificos==
 
-    private void limpiarCampos() {
+    protected void limpiarCampos() {
         cmbCiclo.getSelectionModel().clearSelection();
         ChkCharlasPosteriores.setSelected(false);
     }
@@ -97,5 +100,11 @@ public class PanelCicloCineController implements Initializable {
             Alerta.mostrarError("Error al actualizar proyecciones:" + e.getMessage());
         }
     }
+
+    void cargarDatos(CicloDeCine cicloDeCine) {        
+        cmbCiclo.setValue(cicloDeCine.getUnaProyeccion());
+        ChkCharlasPosteriores.setSelected(cicloDeCine.isCharlasPosteriores());
+    }
+
 
 }

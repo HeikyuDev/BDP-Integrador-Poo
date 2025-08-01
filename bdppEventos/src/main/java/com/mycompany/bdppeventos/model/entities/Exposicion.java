@@ -1,5 +1,7 @@
 package com.mycompany.bdppeventos.model.entities;
 
+import com.mycompany.bdppeventos.model.enums.TipoRol;
+import jakarta.persistence.Column;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,8 +24,7 @@ public final class Exposicion extends Evento {
     @ManyToOne
     @JoinColumn(name = "id_tipo_arte")
     TipoDeArte unTipoArte;
-
-
+      
     // Constructores
 
     /**
@@ -33,41 +34,9 @@ public final class Exposicion extends Evento {
         super();
     }
 
-    /**
-     * Constructor que recibe solo el tipo de arte.
-     * @param unTipoArte Tipo de arte de la exposición
-     */
-    public Exposicion(TipoDeArte unTipoArte) {
-        super();
-        this.setUnTipoArte(unTipoArte);
-    }
-
-    /**
-     * Constructor completo para inicializar todos los campos de la exposición.
-     * @param unTipoArte Tipo de arte de la exposición
-     * @param id Identificador único del evento
-     * @param nombre Nombre del evento
-     * @param fechaInicio Fecha de inicio
-     * @param duracionEstimada Duración estimada
-     * @param tieneCupo Si tiene cupo máximo
-     * @param capacidadMaxima Capacidad máxima
-     * @param tieneInscripcion Si requiere inscripción
-     * @param ubicacion Ubicación física
-     * @param estado Estado del evento
-     * @param unaListaParticipacion Lista de participaciones
-     */
-    public Exposicion(TipoDeArte unTipoArte, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, List<Persona> listaPersonas) {
-        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, listaPersonas);
-        this.setUnTipoArte(unTipoArte);
-    }
-
-    
+    // TODO: Hacer Contructor Con parametros           
     
     // Getters y Setters
-
-    /**
-     * Devuelve el tipo de arte asociado a la exposición.
-     */
     public TipoDeArte getUnTipoArte() {
         return unTipoArte;
     }
@@ -83,4 +52,14 @@ public final class Exposicion extends Evento {
             this.unTipoArte = unTipoArte;
         }
     }
+
+    /**
+     * Obtiene el curador del evento (si es una exposición).
+     */
+    public Persona getCurador() {
+        List<Persona> curadores = getPersonasPorRol(TipoRol.CURADOR);
+        return curadores.isEmpty() ? null : curadores.get(0);
+    }
+    
+    
 }

@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.mycompany.bdppeventos.model.enums.EstadoEvento;
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.model.interfaces.Activable;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,61 +13,80 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
- * Clase abstracta base para representar un Evento en el sistema.
- * Incluye atributos comunes y lógica de validación para todos los tipos de
- * eventos.
+ * Clase abstracta base para representar un Evento en el sistema. Incluye
+ * atributos comunes y lógica de validación para todos los tipos de eventos.
  * Implementa la interfaz Activable para permitir activar/desactivar el evento.
  */
 @Entity
 @Table(name = "eventos")
 public abstract class Evento implements Activable {
 
-    /** Identificador único del evento (clave primaria, autoincremental) */
+    /**
+     * Identificador único del evento (clave primaria, autoincremental)
+     */
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    /** Nombre del evento (máx 35 caracteres, no nulo) */
+    /**
+     * Nombre del evento (máx 35 caracteres, no nulo)
+     */
     @Column(name = "nombre", length = 35, nullable = false)
     private String nombre;
 
-    /** Fecha de inicio del evento (no nulo) */
+    /**
+     * Fecha de inicio del evento (no nulo)
+     */
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;
 
-    /** Duración estimada del evento en horas (no nulo, positivo) */
+    /**
+     * Duración estimada del evento en horas (no nulo, positivo)
+     */
     @Column(name = "duracion_estimada", nullable = false)
     private int duracionEstimada;
 
-    /** Indica si el evento tiene cupo máximo de participantes */
+    /**
+     * Indica si el evento tiene cupo máximo de participantes
+     */
     @Column(name = "tiene_cupo", nullable = false)
     private boolean tieneCupo;
 
-    /** Capacidad máxima de participantes (si tieneCupo es true) */
+    /**
+     * Capacidad máxima de participantes (si tieneCupo es true)
+     */
     @Column(name = "capacidad_maxima", nullable = false)
     private int capacidadMaxima;
 
-    /** Indica si el evento requiere inscripción previa */
+    /**
+     * Indica si el evento requiere inscripción previa
+     */
     @Column(name = "tiene_inscripcion", nullable = false)
     private boolean tieneInscripcion;
 
-    /** Ubicación física del evento (máx 50 caracteres, no nulo) */
+    /**
+     * Ubicación física del evento (máx 50 caracteres, no nulo)
+     */
     @Column(name = "ubicacion", length = 50, nullable = false)
     private String ubicacion;
 
-    /** Estado actual del evento (enum: ACTIVO, CANCELADO, FINALIZADO, etc.) */
+    /**
+     * Estado actual del evento (enum: ACTIVO, CANCELADO, FINALIZADO, etc.)
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false, length = 20)
     private EstadoEvento estado;
 
-    /** Indica si el evento está activo (lógico, para borrado suave) */
+    /**
+     * Indica si el evento está activo (lógico, para borrado suave)
+     */
     @Column(name = "activo", nullable = false)
     private boolean activo;
 
@@ -75,12 +94,10 @@ public abstract class Evento implements Activable {
      * Relación uno a muchos: un evento puede tener muchas participaciones
      * (personas inscriptas o asistentes)
      */
-    @ManyToMany
-    @JoinTable(name = "evento_persona", joinColumns = @JoinColumn(name = "evento_id"), inverseJoinColumns = @JoinColumn(name = "persona_id"))
-    private List<Persona> listaPersonas;
+    @OneToMany(mappedBy = "unEvento")
+    private List<Participacion> participaciones;
 
     // Constructores
-
     /**
      * Constructor por defecto. Marca el evento como activo.
      */
@@ -88,25 +105,8 @@ public abstract class Evento implements Activable {
         this.activo = true;
         this.estado = EstadoEvento.PLANIFICADO;
     }
-    
-    public Evento(int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo,
-            int capacidadMaxima, boolean tieneInscripcion, String ubicacion,
-            List<Persona> listaPersonas) {
-        this.id = id;
-        this.nombre = nombre;
-        this.fechaInicio = fechaInicio;
-        this.duracionEstimada = duracionEstimada;
-        this.tieneCupo = tieneCupo;
-        this.capacidadMaxima = capacidadMaxima;
-        this.tieneInscripcion = tieneInscripcion;
-        this.ubicacion = ubicacion;
-        this.estado = EstadoEvento.PLANIFICADO;
-        this.listaPersonas = listaPersonas; 
-        this.activo = true;
-    }
 
     // Getters y setters
-
     /**
      * Devuelve el identificador único del evento.
      */
@@ -124,7 +124,7 @@ public abstract class Evento implements Activable {
     /**
      * Asigna el nombre del evento, validando que no sea nulo ni exceda 35
      * caracteres.
-     * 
+     *
      * @param nombre Nombre del evento
      */
     public void setNombre(String nombre) {
@@ -145,9 +145,9 @@ public abstract class Evento implements Activable {
     }
 
     /**
-     * Asigna la fecha de inicio, validando que no sea nula ni anterior a la fecha
-     * actual.
-     * 
+     * Asigna la fecha de inicio, validando que no sea nula ni anterior a la
+     * fecha actual.
+     *
      * @param fechaInicio Fecha de inicio
      */
     public void setFechaInicio(LocalDate fechaInicio) {
@@ -169,7 +169,7 @@ public abstract class Evento implements Activable {
 
     /**
      * Asigna la duración estimada, validando que sea positiva.
-     * 
+     *
      * @param duracionEstimada Duración estimada
      */
     public void setDuracionEstimada(int duracionEstimada) {
@@ -188,9 +188,9 @@ public abstract class Evento implements Activable {
     }
 
     /**
-     * Asigna si el evento tiene cupo máximo. Si es false, la capacidad máxima se
-     * pone en 0.
-     * 
+     * Asigna si el evento tiene cupo máximo. Si es false, la capacidad máxima
+     * se pone en 0.
+     *
      * @param tieneCupo true si tiene cupo, false si no
      */
     public void setTieneCupo(boolean tieneCupo) {
@@ -208,16 +208,16 @@ public abstract class Evento implements Activable {
     }
 
     /**
-     * Asigna la capacidad máxima, validando que sea positiva y que tieneCupo sea
-     * true.
-     * 
+     * Asigna la capacidad máxima, validando que sea positiva y que tieneCupo
+     * sea true.
+     *
      * @param capacidadMaxima Capacidad máxima
      */
     public void setCapacidadMaxima(int capacidadMaxima) {
         if (this.tieneCupo == false && capacidadMaxima > 0) {
             throw new IllegalArgumentException("La capacidad maxima requiere que tieneCupo sea verdadero");
         }
-        if (capacidadMaxima <= 0) {
+        if (capacidadMaxima < 0) {
             throw new IllegalArgumentException("La capacidad maxima debe ser positiva");
         } else {
             this.capacidadMaxima = capacidadMaxima;
@@ -233,7 +233,7 @@ public abstract class Evento implements Activable {
 
     /**
      * Asigna si el evento requiere inscripción previa.
-     * 
+     *
      * @param tieneInscripcion true si requiere inscripción
      */
     public void setTieneInscripcion(boolean tieneInscripcion) {
@@ -250,7 +250,7 @@ public abstract class Evento implements Activable {
     /**
      * Asigna la ubicación física, validando que no sea nula ni exceda 50
      * caracteres.
-     * 
+     *
      * @param ubicacion Ubicación física
      */
     public void setUbicacion(String ubicacion) {
@@ -272,7 +272,7 @@ public abstract class Evento implements Activable {
 
     /**
      * Asigna el estado del evento, validando que no sea nulo.
-     * 
+     *
      * @param estado Estado del evento
      */
     public void setEstado(EstadoEvento estado) {
@@ -286,21 +286,76 @@ public abstract class Evento implements Activable {
     /**
      * Devuelve la lista de participaciones asociadas al evento.
      */
-    public List<Persona> getListaPersona() {
-        return this.listaPersonas;
+    public List<Participacion> getParticipaciones() {
+        return participaciones;
     }
 
     /**
      * Asigna la lista de participaciones asociadas al evento.
-     * 
+     *
      * @param unaListaParticipacion Lista de participaciones
      */
-    public void setUnaListaPersona(List<Persona> listaPersonas) {
-        this.listaPersonas = listaPersonas;
+    public void setParticipaciones(List<Participacion> participaciones) {
+        this.participaciones = participaciones;
+    }
+
+    /**
+     * Agrega una participación al evento.
+     */
+    public void agregarParticipacion(Participacion participacion) {
+        if (this.participaciones == null) {
+            this.participaciones = new ArrayList<>();
+        }
+        this.participaciones.add(participacion);
+        participacion.setEvento(this);
+    }
+
+    /**
+     * Quita una participación del evento.
+     */
+    public void quitarParticipacion(Participacion participacion) {
+        if (this.participaciones != null) {
+            this.participaciones.remove(participacion);
+            participacion.setEvento(null);
+        }
+    }
+
+    /**
+     * Obtiene todas las personas con un rol específico en este evento.
+     */
+    public List<Persona> getPersonasPorRol(TipoRol rol) {
+        if (this.participaciones == null) {
+            return new ArrayList<>();
+        }
+
+        return this.participaciones.stream()
+                .filter(p -> p.getRolEnEvento().equals(rol) && p.getActivo())
+                .map(Participacion::getPersona)
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Obtiene todos los organizadores del evento.
+     */
+    public List<Persona> getOrganizadores() {
+        return getPersonasPorRol(TipoRol.ORGANIZADOR);
+    }       
+
+    /**
+     * Verifica si una persona participa en el evento con un rol específico.
+     */
+    public boolean tienePersonaConRol(Persona persona, TipoRol rol) {
+        if (this.participaciones == null) {
+            return false;
+        }
+
+        return this.participaciones.stream()
+                .anyMatch(p -> p.getPersona().equals(persona)
+                && p.getRolEnEvento().equals(rol)
+                && p.getActivo());
     }
 
     // Métodos de la interfaz Activable
-
     /**
      * Activa el evento (lo marca como activo).
      */
@@ -327,7 +382,7 @@ public abstract class Evento implements Activable {
 
     /**
      * Asigna el estado activo/inactivo del evento. No permite null.
-     * 
+     *
      * @param activo true para activo, false para inactivo
      */
     @Override

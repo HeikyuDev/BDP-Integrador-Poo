@@ -177,8 +177,7 @@ public class FormularioProyeccionController extends ConfiguracionIgu implements 
 
         //  Configuramos la interfaz
         configuracionBtnModificar(btnAltaProyeccion, btnModificacion, btnBaja, btnCancelar);
-        txtNombre.setText(proyeccionSeleccionada.getNombre());
-        btnAgregarPelicula.setDisable(true);
+        txtNombre.setText(proyeccionSeleccionada.getNombre());        
 
         // Obtenemos las peliculas seleccionadas
         CheckModel<Pelicula> checkModel = chkComboPeliculas.getCheckModel(); 
@@ -201,8 +200,7 @@ public class FormularioProyeccionController extends ConfiguracionIgu implements 
     private void cancelarEdicion() {
         ProyeccionEnEdicion = null;
         limpiarCampos();
-        configuracionBtnCancelar(btnAltaProyeccion, btnModificacion, btnBaja, btnCancelar, altaTxt);
-        btnAgregarPelicula.setDisable(false);
+        configuracionBtnCancelar(btnAltaProyeccion, btnModificacion, btnBaja, btnCancelar, altaTxt);        
     }
 
     //===Metodos Especificos ===// 

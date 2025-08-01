@@ -1,5 +1,6 @@
 package com.mycompany.bdppeventos.model.entities;
 
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -47,26 +48,7 @@ public final class Concierto extends Evento {
         this.setMonto(monto);
     }
 
-    /**
-     * Constructor completo para inicializar todos los campos del concierto.
-     * @param esPago true si es pago, false si es gratuito
-     * @param monto Monto de la entrada
-     * @param id Identificador único del evento
-     * @param nombre Nombre del evento
-     * @param fechaInicio Fecha de inicio
-     * @param duracionEstimada Duración estimada
-     * @param tieneCupo Si tiene cupo máximo
-     * @param capacidadMaxima Capacidad máxima
-     * @param tieneInscripcion Si requiere inscripción
-     * @param ubicacion Ubicación física
-     * @param estado Estado del evento
-     * @param unaListaParticipacion Lista de participaciones
-     */
-    public Concierto(boolean esPago, double monto, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, List<Persona> listaPersonas) {
-        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, listaPersonas);
-        this.setEsPago(esPago);
-        this.setMonto(monto);
-    }
+    
       
 
     // Getters y Setters
@@ -110,5 +92,51 @@ public final class Concierto extends Evento {
             this.monto = monto;
         }
     }
+    
+    /**
+     * Obtiene todos los artistas del evento (si es un concierto).
+     */
+    public List<Persona> getArtistas() {
+        return getPersonasPorRol(TipoRol.ARTISTA);
+    }
 
+    public String getModalidadTexto()
+    {
+        if(this.isEsPago())
+        {
+            return "Pago";
+        }
+        else
+        {
+            return "Gratis";
+        }
+    }
+    
+    public String getInformacionPersonalArtistas() {
+    List<Persona> artistas = this.getArtistas();
+    
+    if (artistas == null || artistas.isEmpty()) {
+        return "No hay artistas asignados";
+    }
+    
+    StringBuilder informacion = new StringBuilder();
+    
+    for (int i = 0; i < artistas.size(); i++) {
+        Persona artista = artistas.get(i);
+        
+        // Construir la información del artista
+        informacion.append(artista.getNombre())
+                  .append(", ")
+                  .append(artista.getApellido())
+                  .append(" | DNI: ")
+                  .append(artista.getDni());
+        
+        // Agregar salto de línea si no es el último artista
+        if (i < artistas.size() - 1) {
+            informacion.append("\n");
+        }
+    }
+    
+    return informacion.toString();
+}
 }

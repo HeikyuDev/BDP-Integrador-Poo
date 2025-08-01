@@ -42,13 +42,7 @@ public final class CicloDeCine extends Evento {
         this.unaProyeccion = unaProyeccion;
     }
 
-    
-    public CicloDeCine(boolean charlasPosteriores, Proyeccion unaProyeccion, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, List<Persona> listaPersonas) {    
-        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, listaPersonas);
-        this.charlasPosteriores = charlasPosteriores;
-        this.unaProyeccion = unaProyeccion;
-    }
-
+        
                
     // Getters y Setters
 
@@ -75,5 +69,16 @@ public final class CicloDeCine extends Evento {
         this.unaProyeccion = unaProyeccion;
     }
 
+    public String getCharlasPosterioresTexto()
+    {
+        if(this.charlasPosteriores == true)
+        {
+            return "SI";
+        }
+        else 
+        {
+            return "NO";
+        }
+    }
     
 }

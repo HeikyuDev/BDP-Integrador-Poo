@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" styleClass="scroll-pane-vertical" >
+    <VBox alignment="CENTER" layoutX="250.0" layoutY="30.0" spacing="5.0" styleClass="field-section-accent" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+        <children>
+            <Label styleClass="placeholder-icon" text="📅" />
+            <Label styleClass="placeholder-title" text="Tipo de Evento" />
+            <Label styleClass="placeholder-text" text="Seleccione un Tipo de Evento para continuar" />
+        </children>
+    </VBox>
+</AnchorPane>

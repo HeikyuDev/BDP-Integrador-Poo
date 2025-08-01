@@ -159,6 +159,24 @@ public class StageManager {
             return null;
         }
     }
+    
+    // Agregar este método a tu clase StageManager
+// Abre un modal con la vista proporcionada y devuelve el controlador
+    public static <T> T abrirModalConControlador(Vista vista) {
+        Pair<T, Parent> resultado = cargarVistaConControlador(vista.getRutaFxml());
+        if (resultado != null) {
+            Parent root = resultado.getValue();
+            T controlador = resultado.getKey();
+
+            Stage modalStage = crearModalStage(vista);
+            mostrarModal(modalStage, root, vista);
+
+            return controlador;
+        } else {
+            Alerta.mostrarError("No se pudo cargar la vista con controlador: " + vista.getRutaFxml());
+            return null;
+        }
+    }
 
     // Establece el Stage principal de la aplicación
     public static void setStagePrincipal(Stage stage) {

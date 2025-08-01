@@ -13,57 +13,68 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.stream.Collectors;
 
 /**
- * Clase que representa una persona en el sistema.
- * Incluye datos personales, información de contacto y estado de actividad.
- * Implementa la interfaz Activable para permitir activar/desactivar la persona.
+ * Clase que representa una persona en el sistema. Incluye datos personales,
+ * información de contacto y estado de actividad. Implementa la interfaz
+ * Activable para permitir activar/desactivar la persona.
  */
 @Entity
 @Table(name = "personas")
 public class Persona implements Activable {
 
-    /** DNI de la persona (clave primaria, máximo 15 caracteres) */
+    /**
+     * DNI de la persona (clave primaria, máximo 15 caracteres)
+     */
     @Id
     @Column(name = "dni", length = 15, nullable = false)
     private String dni;
 
-    /** Nombre de la persona (máximo 35 caracteres, no nulo) */
+    /**
+     * Nombre de la persona (máximo 35 caracteres, no nulo)
+     */
     @Column(name = "nombre", length = 35, nullable = false)
     private String nombre;
 
-    /** Apellido de la persona (máximo 35 caracteres, no nulo) */
+    /**
+     * Apellido de la persona (máximo 35 caracteres, no nulo)
+     */
     @Column(name = "apellido", length = 35, nullable = false)
     private String apellido;
 
-    /** Teléfono de contacto (opcional, máximo 15 caracteres) */
+    /**
+     * Teléfono de contacto (opcional, máximo 15 caracteres)
+     */
     @Column(name = "telefono", length = 15, nullable = true)
     private String telefono;
 
-    /** Correo electrónico de contacto (opcional, máximo 50 caracteres) */
+    /**
+     * Correo electrónico de contacto (opcional, máximo 50 caracteres)
+     */
     @Column(name = "correo_electronico", length = 50, nullable = true)
     private String correoElectronico;
 
-    /** Indica si la persona está activa (true) o dada de baja (false) */
+    /**
+     * Indica si la persona está activa (true) o dada de baja (false)
+     */
     @Column(name = "activo")
     private Boolean activo;
 
-    /** Una persona puede tener uno o mas roles asignados */
+    /**
+     * Una persona puede tener uno o mas roles asignados
+     */
     @ElementCollection
     @Enumerated(EnumType.STRING)
     @Column(name = "roles")
     private List<TipoRol> unaListaRoles;
 
-    /**
-     * Relación uno a muchos: una persona puede tener muchas participaciones
-     * (eventos en los que participa)
-     */
-    @ManyToMany(mappedBy = "listaPersonas")
-    private List<Evento> listaEventos;
+    @OneToMany(mappedBy = "unaPersona")
+    private List<Participacion> participaciones;
 
     // Constructores
-
     /**
      * Constructor por defecto. Marca la persona como activa e inicializa roles.
      */
@@ -78,13 +89,13 @@ public class Persona implements Activable {
 
     /**
      * Constructor para crear una persona con los datos básicos (DNI, nombre,
-     * apellido).
-     * Los campos opcionales (teléfono, correo) se pueden dejar como null.
-     * 
-     * @param dni               DNI de la persona
-     * @param nombre            Nombre
-     * @param apellido          Apellido
-     * @param telefono          Teléfono de contacto (opcional)
+     * apellido). Los campos opcionales (teléfono, correo) se pueden dejar como
+     * null.
+     *
+     * @param dni DNI de la persona
+     * @param nombre Nombre
+     * @param apellido Apellido
+     * @param telefono Teléfono de contacto (opcional)
      * @param correoElectronico Correo electrónico (opcional)
      */
     public Persona(String dni, String nombre, String apellido, String telefono, String correoElectronico) {
@@ -97,7 +108,6 @@ public class Persona implements Activable {
     }
 
     // Getters y Setters
-
     /**
      * Devuelve el DNI de la persona.
      */
@@ -106,9 +116,9 @@ public class Persona implements Activable {
     }
 
     /**
-     * Asigna el DNI, validando que no sea nulo, vacío, que no exceda 15 caracteres
-     * y que contenga solo números.
-     * 
+     * Asigna el DNI, validando que no sea nulo, vacío, que no exceda 15
+     * caracteres y que contenga solo números.
+     *
      * @param dni DNI de la persona
      */
     public void setDni(String dni) {
@@ -133,8 +143,9 @@ public class Persona implements Activable {
     }
 
     /**
-     * Asigna el nombre, validando que no sea nulo, vacío ni exceda 35 caracteres.
-     * 
+     * Asigna el nombre, validando que no sea nulo, vacío ni exceda 35
+     * caracteres.
+     *
      * @param nombre Nombre de la persona
      */
     public void setNombre(String nombre) {
@@ -155,8 +166,9 @@ public class Persona implements Activable {
     }
 
     /**
-     * Asigna el apellido, validando que no sea nulo, vacío ni exceda 35 caracteres.
-     * 
+     * Asigna el apellido, validando que no sea nulo, vacío ni exceda 35
+     * caracteres.
+     *
      * @param apellido Apellido de la persona
      */
     public void setApellido(String apellido) {
@@ -177,8 +189,9 @@ public class Persona implements Activable {
     }
 
     /**
-     * Asigna el teléfono de contacto, validando formato y longitud si no es vacío.
-     * 
+     * Asigna el teléfono de contacto, validando formato y longitud si no es
+     * vacío.
+     *
      * @param telefono Teléfono de contacto
      */
     public void setTelefono(String telefono) {
@@ -206,8 +219,9 @@ public class Persona implements Activable {
     }
 
     /**
-     * Asigna el correo electrónico, validando formato y longitud si no es vacío.
-     * 
+     * Asigna el correo electrónico, validando formato y longitud si no es
+     * vacío.
+     *
      * @param correoElectronico Correo electrónico
      */
     public void setCorreoElectronico(String correoElectronico) {
@@ -226,15 +240,17 @@ public class Persona implements Activable {
     }
 
     /**
-     * Devuelve la lista de participaciones asociadas a la persona.
+     * Devuelve todas las participaciones de la persona.
      */
-    public List<Evento> getListaEvento() {
-        return this.listaEventos;
+    public List<Participacion> getParticipaciones() {
+        return participaciones;
     }
 
-    
-    public void setUnaListaEventos(List<Evento> listaEventos) {
-        this.listaEventos = listaEventos;
+    /**
+     * Asigna la lista de participaciones.
+     */
+    public void setParticipaciones(List<Participacion> participaciones) {
+        this.participaciones = participaciones;
     }
 
     /**
@@ -245,9 +261,9 @@ public class Persona implements Activable {
     }
 
     /**
-     * Asigna la lista de roles asociados a la persona.
-     * Si la lista está vacía o es null, asigna el rol por defecto.
-     * 
+     * Asigna la lista de roles asociados a la persona. Si la lista está vacía o
+     * es null, asigna el rol por defecto.
+     *
      * @param unaListaRoles Lista de roles
      */
     public void setUnaListaRoles(List<TipoRol> unaListaRoles) {
@@ -262,7 +278,7 @@ public class Persona implements Activable {
 
     /**
      * Agrega un rol a la persona sin quitar los existentes.
-     * 
+     *
      * @param rol Rol a agregar
      */
     public void agregarRol(TipoRol rol) {
@@ -275,8 +291,9 @@ public class Persona implements Activable {
     }
 
     /**
-     * Quita un rol de la persona. Si queda sin roles, asigna el rol por defecto.
-     * 
+     * Quita un rol de la persona. Si queda sin roles, asigna el rol por
+     * defecto.
+     *
      * @param rol Rol a quitar
      */
     public void quitarRol(TipoRol rol) {
@@ -291,7 +308,7 @@ public class Persona implements Activable {
 
     /**
      * Verifica si la persona tiene un rol específico.
-     * 
+     *
      * @param rol Rol a verificar
      * @return true si tiene el rol, false si no
      */
@@ -300,11 +317,10 @@ public class Persona implements Activable {
     }
 
     // Métodos específicos
-
     /**
-     * Valida el formato básico de un correo electrónico.
-     * Debe contener un @ y al menos un punto después del @.
-     * 
+     * Valida el formato básico de un correo electrónico. Debe contener un @ y
+     * al menos un punto después del @.
+     *
      * @param email Correo electrónico a validar
      * @return true si es válido, false si no
      */
@@ -346,8 +362,85 @@ public class Persona implements Activable {
         return true;
     }
 
-    // Métodos de la interfaz Activable
+    /**
+     * Agrega una participación a la persona.
+     */
+    public void agregarParticipacion(Participacion participacion) {
+        if (this.participaciones == null) {
+            this.participaciones = new ArrayList<>();
+        }
+        this.participaciones.add(participacion);
+        participacion.setPersona(this);
+    }
 
+    /**
+     * Quita una participación de la persona.
+     */
+    public void quitarParticipacion(Participacion participacion) {
+        if (this.participaciones != null) {
+            this.participaciones.remove(participacion);
+            participacion.setPersona(null);
+        }
+    }
+
+    /**
+     * Obtiene todos los eventos donde la persona tiene un rol específico.
+     */
+    public List<Evento> getEventosPorRol(TipoRol rol) {
+        if (this.participaciones == null) {
+            return new ArrayList<>();
+        }
+
+        return this.participaciones.stream()
+                .filter(p -> p.getRolEnEvento().equals(rol) && p.getActivo())
+                .map(Participacion::getEvento)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Obtiene todos los eventos donde la persona es organizadora.
+     */
+    public List<Evento> getEventosComoOrganizadora() {
+        return getEventosPorRol(TipoRol.ORGANIZADOR);
+    }
+
+    /**
+     * Obtiene todos los eventos donde la persona es artista.
+     */
+    public List<Evento> getEventosComoArtista() {
+        return getEventosPorRol(TipoRol.ARTISTA);
+    }
+
+    /**
+     * Obtiene todos los eventos donde la persona es curadora.
+     */
+    public List<Evento> getEventosComoCuradora() {
+        return getEventosPorRol(TipoRol.CURADOR);
+    }
+
+    /**
+     * Obtiene todos los eventos donde la persona es instructora.
+     */
+    public List<Evento> getEventosComoInstructora() {
+        return getEventosPorRol(TipoRol.INSTRUCTOR);
+    }
+
+    /**
+     * Verifica si la persona participa en un evento específico con un rol
+     * determinado.
+     */
+    public boolean participaEnEventoConRol(Evento evento, TipoRol rol) {
+        if (this.participaciones == null) {
+            return false;
+        }
+
+        return this.participaciones.stream()
+                .anyMatch(p -> p.getEvento().equals(evento)
+                && p.getRolEnEvento().equals(rol)
+                && p.getActivo());
+    }
+
+    // Métodos de la interfaz Activable
     /**
      * Activa la persona (la marca como activa).
      */
@@ -374,7 +467,7 @@ public class Persona implements Activable {
 
     /**
      * Asigna el estado activo/inactivo de la persona. No permite null.
-     * 
+     *
      * @param activo true para activo, false para inactivo
      */
     @Override
@@ -391,12 +484,12 @@ public class Persona implements Activable {
      */
     @Override
     public String toString() {
-        return this.nombre +" "+ this.apellido + " DNI: "+this.dni;
+        return this.nombre + " " + this.apellido + " DNI: " + this.dni;
     }
 
     /**
      * Devuelve información personal resumida para mostrar en listados.
-     * 
+     *
      * @return Cadena con apellido, nombre y DNI
      */
     public String getInformacionPersonal() {

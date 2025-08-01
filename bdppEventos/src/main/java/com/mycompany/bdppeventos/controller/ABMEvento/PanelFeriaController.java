@@ -5,6 +5,7 @@
  */
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
+import com.mycompany.bdppeventos.model.entities.Feria;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -75,6 +76,11 @@ public class PanelFeriaController extends ConfiguracionIgu implements Initializa
     // Esta línea nunca debería ejecutarse, pero Java requiere un return
     return 0;
 }
+    protected void limpiarCampos()
+    {
+        txtCantidadStands.setText("");
+        cmbTipoCobertura.getSelectionModel().clearSelection();
+    }
         
     public TipoCobertura getTipoCobertura() {
         TipoCobertura tipo = cmbTipoCobertura.getSelectionModel().getSelectedItem();
@@ -82,5 +88,10 @@ public class PanelFeriaController extends ConfiguracionIgu implements Initializa
             throw new IllegalArgumentException("Tipo de Cobertura inválido, por favor asegurese de seleccionar uno.");
         }
         return tipo;
+    }
+
+    void cargarDatos(Feria feria) {        
+        txtCantidadStands.setText(String.valueOf(feria.getCantidadStands()));
+        cmbTipoCobertura.setValue(feria.getTipoCobertura());
     }
 }

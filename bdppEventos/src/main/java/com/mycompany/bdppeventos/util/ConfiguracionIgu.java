@@ -163,6 +163,5 @@ public abstract class ConfiguracionIgu {
         }
     }
     
-    // Configuracion 
  
 }

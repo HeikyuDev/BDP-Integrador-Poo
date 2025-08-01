@@ -16,7 +16,15 @@ public enum Vista {
     PanelExposicion("","ABMEvento/PanelExposicion"),
     PanelFeria("","ABMEvento/PanelFeria"),
     PanelTaller("","ABMEvento/PanelTaller"),
+    PanelVacio("","ABMEvento/PanelVacio"),
     
+    // FXML DE LA VISUALIZACION DE LOS DATOS
+    
+    VisualizacionExposicion("Detalles de la Exposicion","ABMEvento/Visualizaciones/VisualizacionExposicion"),
+    VisualizacionTaller("Detalles del Taller","ABMEvento/Visualizaciones/VisualizacionTaller"),
+    VisualizacionConcierto("Detalles del Concierto","ABMEvento/Visualizaciones/VisualizacionConcierto"),
+    VisualizacionCicloCine("Detalles del Ciclo de Cine","ABMEvento/Visualizaciones/VisualizacionCicloDeCine"),
+    VisualizacionFeria("Detalles de la Feria","ABMEvento/Visualizaciones/VisualizacionFeria"),
     // FXML de la seccion  ABM Persona
     
     ListaDePersonas("","ABMPersona/ListaDePersonas"),
