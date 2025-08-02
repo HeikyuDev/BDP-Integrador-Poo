@@ -1,10 +1,11 @@
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
-import com.mycompany.bdppeventos.model.entities.Exposicion;
-import com.mycompany.bdppeventos.model.entities.Persona;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import com.mycompany.bdppeventos.model.entities.Exposicion;
+import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.entities.TipoDeArte;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.services.TipoDeArte.TipoDeArteServicio;
@@ -12,9 +13,6 @@ import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.RepositorioContext;
 import com.mycompany.bdppeventos.util.StageManager;
 import com.mycompany.bdppeventos.view.Vista;
-import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,9 +34,7 @@ public class PanelExposicionController implements Initializable {
     @FXML
     private Button btnAgregarTipoArte;
     
-    //lista Obserable
-    private ObservableList<TipoDeArte> listaTiposDeArtes = FXCollections.observableArrayList();
-    private ObservableList<Persona> listaCuradores = FXCollections.observableArrayList();
+    
     
     
     //Servicios
@@ -54,9 +50,7 @@ public class PanelExposicionController implements Initializable {
         //Inicializamos el tipoDeArteServicio
         tipoDeArteServicio = new TipoDeArteServicio(RepositorioContext.getRepositorio());
         personaServicio = new PersonaServicio(RepositorioContext.getRepositorio());
-        //Vinculamos la Observable List con la combo
-        cmbTipoArte.setItems(listaTiposDeArtes);
-        cmbCurador.setItems(listaCuradores);
+        //Vinculamos la Observable List con la combo        
         // Actualizamos la Combo
         actualizarCombos();
     }
@@ -109,7 +103,7 @@ public class PanelExposicionController implements Initializable {
         if (cmbCurador == null || cmbCurador.getSelectionModel() == null) {
             throw new IllegalStateException("ComboBox no inicializado correctamente");
         }
-
+        
         Persona unCurador = cmbCurador.getSelectionModel().getSelectedItem();
         if (unCurador == null) {
             throw new IllegalArgumentException("Debe seleccionar un curador");
@@ -127,7 +121,7 @@ public class PanelExposicionController implements Initializable {
     private void actualizarComboCuradores() {
         try {            
             List<Persona> curadores = personaServicio.buscarCuradores();
-            listaCuradores.setAll(curadores);
+            cmbCurador.getItems().setAll(curadores);
 
         } catch (Exception e) {
             System.err.println("Error al actualizar curadores: " + e.getMessage());
@@ -139,7 +133,7 @@ public class PanelExposicionController implements Initializable {
     {
         try {
             List<TipoDeArte> tiposDeArte = tipoDeArteServicio.buscarTodos();
-            listaTiposDeArtes.setAll(tiposDeArte);
+            cmbTipoArte.getItems().setAll(tiposDeArte);
         } catch (Exception e) {
             System.err.println("Error al actualizar los Tipo de Arte: " + e.getMessage());
             Alerta.mostrarError("No se pudieron cargar los Tipos de Arte: " + e.getMessage());

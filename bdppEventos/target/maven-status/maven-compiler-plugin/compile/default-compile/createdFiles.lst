@@ -32,6 +32,7 @@ module-info.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelExposicionController.class
 com\mycompany\bdppeventos\controller\VerParticipantes\VerParticipantesController$1.class
 com\mycompany\bdppeventos\util\StageManager.class
+com\mycompany\bdppeventos\controller\ABMEvento\VisualizacionController.class
 com\mycompany\bdppeventos\model\enums\TipoEvento.class
 com\mycompany\bdppeventos\model\enums\TipoRol.class
 com\mycompany\bdppeventos\controller\ABMEvento\FormularioEventoController.class

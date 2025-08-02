@@ -13,6 +13,7 @@ import com.mycompany.bdppeventos.model.entities.Feria;
 import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.entities.Taller;
 import com.mycompany.bdppeventos.model.enums.TipoEvento;
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.services.Evento.EventoServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
@@ -198,11 +199,27 @@ public class VerParticipantesController implements Initializable {
     }
 
     @FXML
-    private void verParticipantes() {
-        System.out.println("Participantes Mostrados");
-        // TODO: Implementar funcionalidad para mostrar participantes del evento
-        // seleccionado
+private void verParticipantes() {
+    try {
+        // Obtenemos el Evento seleccionado
+        Evento eventoSeleccionado = tblEvento.getSelectionModel().getSelectedItem();
+        
+        // Validamos que haya un evento seleccionado
+        if (eventoSeleccionado == null) {
+            Alerta.mostrarError("Debe seleccionar un evento para ver sus participantes");
+            return;
+        }
+        
+        // Obtenemos la lista de Participantes/Asistentes asociados a ese evento
+        List<Persona> listaParticipantesDelEvento = eventoSeleccionado.getPersonasPorRol(TipoRol.PARTICIPANTE);
+        listaParticipantes.setAll(listaParticipantesDelEvento);
+        tblParticipantes.refresh();
+        
+    } catch (Exception e) {
+        Alerta.mostrarError("Error al cargar los participantes: " + e.getMessage());
+        listaParticipantes.clear(); // Limpia la tabla en caso de error
     }
+}
 
-    // Metodos Especificos
+    
 }

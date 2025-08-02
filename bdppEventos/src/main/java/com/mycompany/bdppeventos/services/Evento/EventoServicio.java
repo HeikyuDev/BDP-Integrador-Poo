@@ -236,6 +236,9 @@ public class EventoServicio extends CrudServicio<Evento> {
                 participacionServicio.registrarCurador(exposicion, nuevoCurador);
             }
 
+            // Seteamos la lista de participaciones actuales al Evento
+            List<Participacion> listaParticipaciones = participacionServicio.buscarPorEvento(exposicion);
+            exposicion.setParticipaciones(listaParticipaciones);
             // Guardar cambios
             this.modificar(exposicion);
 
@@ -278,6 +281,9 @@ public class EventoServicio extends CrudServicio<Evento> {
                 participacionServicio.registrarInstructor(taller, nuevoInstructor);
             }
 
+            // Seteamos la lista de participaciones actuales al Evento
+            List<Participacion> listaParticipaciones = participacionServicio.buscarPorEvento(taller);
+            taller.setParticipaciones(listaParticipaciones);
             // Guardar cambios
             this.modificar(taller);
 
@@ -318,6 +324,9 @@ public class EventoServicio extends CrudServicio<Evento> {
                 actualizarArtistas(concierto, nuevosArtistas);
             }
 
+            // Seteamos la lista de participaciones actuales al Evento
+            List<Participacion> listaParticipaciones = participacionServicio.buscarPorEvento(concierto);
+            concierto.setParticipaciones(listaParticipaciones);
             // Guardar cambios
             this.modificar(concierto);
 
@@ -350,6 +359,9 @@ public class EventoServicio extends CrudServicio<Evento> {
                 actualizarOrganizadores(cicloCine, nuevosOrganizadores);
             }
 
+            // Seteamos la lista de participaciones actuales al Evento
+            List<Participacion> listaParticipaciones = participacionServicio.buscarPorEvento(cicloCine);
+            cicloCine.setParticipaciones(listaParticipaciones);
             // Guardar cambios
             this.modificar(cicloCine);
 
@@ -381,6 +393,10 @@ public class EventoServicio extends CrudServicio<Evento> {
             if (nuevosOrganizadores != null) {
                 actualizarOrganizadores(feria, nuevosOrganizadores);
             }
+
+            // Seteamos la lista de participaciones actuales al Evento
+            List<Participacion> listaParticipaciones = participacionServicio.buscarPorEvento(feria);
+            feria.setParticipaciones(listaParticipaciones);
 
             // Guardar cambios
             this.modificar(feria);

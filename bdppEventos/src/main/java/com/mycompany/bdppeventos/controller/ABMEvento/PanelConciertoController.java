@@ -91,6 +91,7 @@ public class PanelConciertoController extends ConfiguracionIgu implements Initia
     }
 
     public List<Persona> getArtistas() {
+        List<Persona> artistas; 
         if (chkComboArtistas == null || chkComboArtistas.getCheckModel() == null) {
             throw new IllegalStateException("CheckComboBox no inicializado correctamente");
         }
@@ -100,11 +101,11 @@ public class PanelConciertoController extends ConfiguracionIgu implements Initia
         if (listaObservableArtistas == null || listaObservableArtistas.isEmpty()) {
             throw new IllegalArgumentException("Debe seleccionar al menos un artista");
         }
-
-        return new ArrayList<>(listaObservableArtistas);
+        artistas = new ArrayList<>(listaObservableArtistas);
+        return  artistas;
     }
 
-    void cargarDatos(Concierto concierto) {
+    public void cargarDatos(Concierto concierto) {
         chkEsPago.setSelected(concierto.isEsPago());
 
         if (concierto.isEsPago()) {
