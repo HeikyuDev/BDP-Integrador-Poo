@@ -1,10 +1,12 @@
 package com.mycompany.bdppeventos.util;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import com.mycompany.bdppeventos.App;
 import com.mycompany.bdppeventos.view.Vista;
 
+import java.util.Map;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,6 +24,9 @@ public class StageManager {
     // Stage principal de la aplicación
     private static Stage stagePrincipal;
 
+    // Mapa para gestionar los modales abiertos, asociando títulos con Stages
+    private static Map<String, Stage> modalStages = new HashMap<>();
+    
 
     // Cambia la escena principal a la especificada por la vista proporcionada
     public static void cambiarEscena(Vista vista) {
@@ -133,6 +138,17 @@ public class StageManager {
         modalStage.setResizable(false);
         modalStage.getIcons().add(new Image(App.class.getResource("/images/logo.png").toExternalForm()));        
         modalStage.showAndWait(); // Muestra el modal y espera hasta que se cierre
+    }
+
+    // Cierra un modal asociado al título proporcionado
+    public static void cerrarModal(Vista vista) {
+        Stage modalStage = modalStages.get(vista.getTitulo()); // Obtiene el modal del mapa
+        if (modalStage != null) {
+            modalStage.close(); // Cierra el modal si existe
+            modalStages.remove(vista.getTitulo()); // Elimina el modal del mapa
+        } else {
+            Alerta.mostrarError("No se encontró un modal con el título: " + vista.getTitulo()); // Advierte si no se encuentra el modal
+        }
     }
 
     // Carga una vista FXML y devuelve el nodo raíz

@@ -80,6 +80,40 @@ public class Repositorio {
         // Ejecuto la consulta y obtengo el resultado como una lista de objetos
         return em.createQuery(consulta).getResultList();
     }
-    
+
+    // Metodos nuevos para verificar el estado del EntityManager
+    public boolean estaConectado() {
+    try {
+        return em != null && em.isOpen();
+    } catch (Exception e) {
+        return false;
+        }
+    }
+
+    // Método para probar la conexión
+    // En Repositorio.java
+    public void probarConexion() {
+        if (!estaConectado()) {
+            throw new RuntimeException("EntityManager no está disponible");
+        }
         
+        // ✅ USAR UNA CONSULTA JPQL VÁLIDA O SQL NATIVO
+        try {
+           // ✅ USAR SQL NATIVO QUE SIEMPRE FUNCIONA
+            em.createNativeQuery("SELECT 1 AS test").getResultList();
+            System.out.println("✅ Consulta de prueba ejecutada correctamente");
+            // Opción 2: O mejor aún, probar con una entidad real si existe
+            // em.createQuery("SELECT COUNT(p) FROM Persona p", Long.class).getSingleResult();
+            
+        } catch (Exception e) {
+        System.err.println("❌ Error en consulta de prueba: " + e.getMessage());
+        
+        // Si falla, podría ser que las tablas no existan
+        if (e.getMessage().contains("relation") && e.getMessage().contains("does not exist")) {
+            throw new RuntimeException("Las tablas no existen en la base de datos. Verifique persistence.xml", e);
+        }
+        
+        throw new RuntimeException("No se puede ejecutar consultas en la base de datos", e);
+    }
+}
 }
