@@ -30,7 +30,7 @@ import com.mycompany.bdppeventos.util.RepositorioContext;
 import com.mycompany.bdppeventos.util.StageManager;
 import com.mycompany.bdppeventos.view.Vista;
 
-public class ListaPersonasControlador implements Initializable{
+public class ListaPersonasControlador implements Initializable {
 
     // Columnas de la tabla
     @FXML
@@ -40,7 +40,7 @@ public class ListaPersonasControlador implements Initializable{
     @FXML
     private TableColumn<Persona, String> colNombreCompleto;
     @FXML
-    private TableColumn<Persona, TipoRol> colRol;
+    private TableColumn<Persona, String> colRol;
     @FXML
     private TableColumn<Persona, String> colTelefono;
 
@@ -66,14 +66,17 @@ public class ListaPersonasControlador implements Initializable{
     private Button btnModificar;
 
     // listas que vamos a usar para la tabla
-    private final ObservableList<Persona> personasOriginales = FXCollections.observableArrayList(); // contiene todas las personas
-    private final ObservableList<Persona> personasFiltradas = FXCollections.observableArrayList();  // contiene las personas filtradas por los criterios de búsqueda
+    private final ObservableList<Persona> personasOriginales = FXCollections.observableArrayList(); // contiene todas
+                                                                                                    // las personas
+    private final ObservableList<Persona> personasFiltradas = FXCollections.observableArrayList(); // contiene las
+                                                                                                   // personas filtradas
+                                                                                                   // por los criterios
+                                                                                                   // de búsqueda
     private final ObservableList<TipoRol> roles = FXCollections.observableArrayList();
 
     private PersonaServicio servicio;
 
     private Pair<FormularioPersonaControlador, Parent> formulario;
-    
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
@@ -83,38 +86,74 @@ public class ListaPersonasControlador implements Initializable{
 
     }
 
-     private void inicializarTabla() {
+    private void inicializarTabla() {
         try {
-            servicio = new PersonaServicio(RepositorioContext.getRepositorio()); 
-            
-            colDni.setCellValueFactory(new PropertyValueFactory<>("dni")); 
+            // ✅ debug 1: VERIFICAR QUE EL REPOSITORIO EXISTE
+            if (RepositorioContext.getRepositorio() == null) {
+                throw new RuntimeException(
+                        "El repositorio no está inicializado. Verifique que la aplicación se haya iniciado correctamente.");
+            }
+
+            System.out.println("✅ Repositorio disponible, creando PersonaServicio...");
+            servicio = new PersonaServicio(RepositorioContext.getRepositorio());
+
+            // ✅ PROBAR LA CONEXIÓN ANTES DE CONTINUAR
+            RepositorioContext.getRepositorio().probarConexion();
+            System.out.println("✅ Conexión a base de datos verificada");
+
+            // Configurar las columnas de la tabla
+            colDni.setCellValueFactory(new PropertyValueFactory<>("dni"));
             colNombreCompleto.setCellValueFactory(cell -> {
                 Persona p = cell.getValue();
-                return javafx.beans.binding.Bindings.createStringBinding(() ->
-                        p.getApellido() + ", " + p.getNombre());
+                return javafx.beans.binding.Bindings.createStringBinding(() -> p.getApellido() + ", " + p.getNombre());
             });
             colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
             colEmail.setCellValueFactory(new PropertyValueFactory<>("correoElectronico"));
-            colRol.setCellValueFactory(new PropertyValueFactory<>("rol")); // Asegúrate que exista
-            
+
+            // ✅ CORREGIR COLUMNA DE ROLES - Persona no tiene getRol()
+            colRol.setCellValueFactory(cell -> {
+                Persona p = cell.getValue();
+                return javafx.beans.binding.Bindings.createStringBinding(() -> {
+                    List<TipoRol> roles = p.getUnaListaRoles();
+                    if (roles == null || roles.isEmpty()) {
+                        return "Sin rol";
+                    }
+                    return roles.stream()
+                            .map(TipoRol::getDescripcion)
+                            .collect(java.util.stream.Collectors.joining(", "));
+                });
+            });
+
             personasOriginales.clear();
             personasFiltradas.clear();
 
+            // ✅ AQUÍ SE PROBARÁ REALMENTE LA CONEXIÓN
             // Cargar todas las personas al inicio
+            System.out.println("📊 Cargando personas desde la base de datos...");
+            List<Persona> todasLasPersonas = servicio.buscarTodos();
+            System.out.println("✅ Se cargaron " + todasLasPersonas.size() + " personas");
+
             personasOriginales.addAll(servicio.buscarTodos());
             personasFiltradas.setAll(personasOriginales);
             tblPersonas.setItems(personasFiltradas);
 
         } catch (Exception e) {
+            System.err.println("❌ Error al inicializar tabla: " + e.getMessage());
+            e.printStackTrace();
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("No se pudo cargar la tabla");
-            alert.setContentText(e.getMessage());
+            alert.setTitle("Error de Inicialización");
+            alert.setHeaderText("No se pudo cargar la tabla de personas");
+            alert.setContentText("Error: " + e.getMessage() +
+                    "\n\nPosibles causas:\n" +
+                    "• La base de datos no está conectada\n" +
+                    "• El repositorio no se inicializó correctamente\n" +
+                    "• Las tablas no existen en la base de datos");
             alert.showAndWait();
         }
     }
 
-     private void inicializarFiltros() {
+    private void inicializarFiltros() {
         roles.clear();
         // Asignar los roles disponibles al combo box
         roles.setAll(TipoRol.values());
@@ -123,10 +162,17 @@ public class ListaPersonasControlador implements Initializable{
 
     @FXML
     void agregar() {
+        System.out.println("🔍 DEBUG: Botón agregar presionado");
+
         try {
+            // ✅ VERIFICAR REPOSITORIO ANTES DE CONTINUAR
+            if (RepositorioContext.getRepositorio() == null) {
+                throw new RuntimeException("El repositorio no está disponible");
+            }
+
             List<Persona> nuevasPersonas = abrirFormulario(null);
             System.out.println("🔍 DEBUG 1: Iniciando abrirFormulario");
-            
+
             if (nuevasPersonas != null && !nuevasPersonas.isEmpty()) {
                 for (Persona nueva : nuevasPersonas) {
                     if (!personasOriginales.contains(nueva)) {
@@ -135,9 +181,17 @@ public class ListaPersonasControlador implements Initializable{
                     }
                 }
                 tblPersonas.refresh();
+                System.out.println("✅ Personas agregadas correctamente");
             }
         } catch (Exception e) {
-            LoggerFactory.getLogger(ListaPersonasControlador.class).error("Error al agregar persona", e);
+            System.err.println("❌ Error al agregar persona: " + e.getMessage());
+            e.printStackTrace();
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No se pudo agregar la persona");
+            alert.setContentText("Error: " + e.getMessage());
+            alert.showAndWait();
         }
     }
 
@@ -171,12 +225,14 @@ public class ListaPersonasControlador implements Initializable{
     @FXML
     void filtrar() {
         personasFiltradas.clear();
-        personasOriginales.stream()
-            .filter(p -> (txtDni.getText().isEmpty() || p.getDni().contains(txtDni.getText())) &&
-                         (txtNombreCompleto.getText().isEmpty() || (p.getNombre() + " " + p.getApellido()).toLowerCase().contains(txtNombreCompleto.getText().toLowerCase())) &&
-                         (cmbRol.getValue() == null || p.getUnaListaRoles().contains(cmbRol.getValue())))
-            .forEach(personasFiltradas::add);
-            tblPersonas.refresh();
+        personasOriginales.stream() // .stream() convierte la lista original en un Stream para aplicar operaciones funcionales
+                .filter(p -> (txtDni.getText().isEmpty() || p.getDni().contains(txtDni.getText())) &&
+                        (txtNombreCompleto.getText().isEmpty() || (p.getNombre() + " " + p.getApellido()).toLowerCase()
+                                .contains(txtNombreCompleto.getText().toLowerCase()))
+                        &&
+                        (cmbRol.getValue() == null || p.getUnaListaRoles().contains(cmbRol.getValue())))
+                .forEach(personasFiltradas::add); // cada persona que cumple los filtros se agrega a la lista filtrada
+        tblPersonas.refresh();
     }
 
     @FXML
@@ -205,7 +261,8 @@ public class ListaPersonasControlador implements Initializable{
                     tblPersonas.refresh();
                 }
             } catch (IOException e) {
-                LoggerFactory.getLogger(ListaPersonasControlador.class).error("Error al abrir el formulario de modificación", e);
+                LoggerFactory.getLogger(ListaPersonasControlador.class)
+                        .error("Error al abrir el formulario de modificación", e);
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -222,7 +279,6 @@ public class ListaPersonasControlador implements Initializable{
 
         FormularioPersonaControlador controladorFormulario = formulario.getKey();
         System.out.println("🔍 DEBUG 3: Controlador del formulario obtenido");
-        //Parent vistaFormulario = formulario.getValue();
 
         if (personaInicial != null) {
             controladorFormulario.setPersonaInicial(personaInicial);
@@ -235,6 +291,5 @@ public class ListaPersonasControlador implements Initializable{
         System.out.println("🔍 DEBUG 7: Esperando a que se cierre el modal");
         return controladorFormulario.getPersonas();
     }
-
 
 }
