@@ -30,10 +30,7 @@
             <property name="jakarta.persistence.jdbc.password" value="postgres"/>
             
             <!-- ========== CREACIÓN DE TABLAS - PRIMERA EJECUCIÓN ========== -->
-            <!-- ✅ Jakarta Persistence estándar -->
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
-            
-            <!-- ✅ EclipseLink específico -->
             <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/> 
             <property name="eclipselink.ddl-generation.output-mode" value="database"/>
             

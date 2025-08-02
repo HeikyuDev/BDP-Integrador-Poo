@@ -157,6 +157,48 @@
 }
 
 
+
+/* Estilo para labels con texto largo */
+.value-label-long {
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-wrap-text: true;
+    -fx-max-width: 500px;
+    -fx-pref-width: 500px;
+    -fx-padding: 5px 8px;
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 4px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-label-padding: 5px;
+}
+
+/* Tooltip para texto largo */
+.long-tooltip {
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 13px;
+    -fx-text-fill: #333333;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);
+    -fx-max-width: 600px;
+    -fx-wrap-text: true;
+}
+
+/* Ajustes para la disposición vertical */
+.field-section {
+    -fx-spacing: 15px;
+}
+
+.field-label {
+    -fx-font-weight: 600;
+    -fx-padding: 0 0 3px 5px;
+}
+
 /* SECCIONES */
 
 /* CONTENEDORES PRINCIPALES */

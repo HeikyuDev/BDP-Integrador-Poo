@@ -175,6 +175,55 @@ public class StageManager {
             return null;
         }
     }
+    
+    
+// Abre un modal con la vista proporcionada y devuelve el controlador
+    public static <T> T abrirModalConControlador(Vista vista) {
+        Pair<T, Parent> resultado = cargarVistaConControlador(vista.getRutaFxml());
+        if (resultado != null) {
+            Parent root = resultado.getValue();
+            T controlador = resultado.getKey();
+
+            Stage modalStage = crearModalStage(vista);
+            mostrarModal(modalStage, root, vista);
+
+            return controlador;
+        } else {
+            Alerta.mostrarError("No se pudo cargar la vista con controlador: " + vista.getRutaFxml());
+            return null;
+        }
+    }
+
+    // Método que carga el controlador pero NO muestra el modal todavía
+public static <T> Pair<T, Stage> prepararModalConControlador(Vista vista) {
+    Pair<T, Parent> resultado = cargarVistaConControlador(vista.getRutaFxml());
+    if (resultado != null) {
+        Parent root = resultado.getValue();
+        T controlador = resultado.getKey();
+        
+        Stage modalStage = crearModalStage(vista);
+        // Preparar la escena pero NO mostrar todavía
+        Scene escena = new Scene(root);
+        modalStage.setTitle(vista.getTitulo());
+        modalStage.setScene(escena);
+        modalStage.sizeToScene();
+        modalStage.centerOnScreen();
+        modalStage.setResizable(false);
+        modalStage.getIcons().add(new Image(App.class.getResource("/images/logo.png").toExternalForm()));
+        
+        return new Pair<>(controlador, modalStage);
+    } else {
+        Alerta.mostrarError("No se pudo cargar la vista con controlador: " + vista.getRutaFxml());
+        return null;
+    }
+}
+
+// Método para mostrar el modal ya preparado
+public static void mostrarModalPreparado(Stage modalStage) {
+    if (modalStage != null) {
+        modalStage.showAndWait();
+    }
+}
 
     // Establece el Stage principal de la aplicación
     public static void setStagePrincipal(Stage stage) {

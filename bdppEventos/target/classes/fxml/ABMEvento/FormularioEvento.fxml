@@ -141,13 +141,7 @@
                                 <!-- Panel dinámico (sin cambios) -->
                                 <AnchorPane fx:id="contenedorDinamico" prefHeight="120.0" styleClass="dynamic-container">
                                     <children>
-                                        <VBox alignment="CENTER" layoutX="250.0" layoutY="30.0" spacing="5.0" styleClass="field-section-accent" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                                            <children>
-                                                <Label styleClass="placeholder-icon" text="📅" />
-                                                <Label styleClass="placeholder-title" text="Tipo de Evento" />
-                                                <Label styleClass="placeholder-text" text="Seleccione un Tipo de Evento para continuar" />
-                                            </children>
-                                        </VBox>
+                                        
                                     </children>
                                 </AnchorPane>
                             </children>

@@ -30,6 +30,7 @@ public final class Feria extends Evento {
     @Column(name = "tipo_cobertura", nullable = true, length = 20)
     private TipoCobertura tipoCobertura;
 
+    
 
     // Constructores
 
@@ -47,27 +48,6 @@ public final class Feria extends Evento {
      */
     public Feria(int cantidadStands, TipoCobertura tipoCobertura) {
         super();
-        this.setCantidadStands(cantidadStands);
-        this.setTipoCobertura(tipoCobertura);
-    }
-
-    /**
-     * Constructor completo para inicializar todos los campos de la feria.
-     * @param cantidadStands Cantidad de stands
-     * @param tipoCobertura Tipo de cobertura
-     * @param id Identificador único del evento
-     * @param nombre Nombre del evento
-     * @param fechaInicio Fecha de inicio
-     * @param duracionEstimada Duración estimada
-     * @param tieneCupo Si tiene cupo máximo
-     * @param capacidadMaxima Capacidad máxima
-     * @param tieneInscripcion Si requiere inscripción
-     * @param ubicacion Ubicación física
-     * @param estado Estado del evento
-     * @param unaListaParticipacion Lista de participaciones
-     */
-    public Feria(int cantidadStands, TipoCobertura tipoCobertura, int id, String nombre, LocalDate fechaInicio, int duracionEstimada, boolean tieneCupo, int capacidadMaxima, boolean tieneInscripcion, String ubicacion, List<Persona> listaPersonas) {
-        super(id, nombre, fechaInicio, duracionEstimada, tieneCupo, capacidadMaxima, tieneInscripcion, ubicacion, listaPersonas);
         this.setCantidadStands(cantidadStands);
         this.setTipoCobertura(tipoCobertura);
     }

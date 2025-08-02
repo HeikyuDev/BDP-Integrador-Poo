@@ -5,31 +5,40 @@
  */
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
-import com.mycompany.bdppeventos.model.entities.Persona;
 import java.net.URL;
-import java.util.ResourceBundle;
-
-import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.ObservableList;
+import java.util.ResourceBundle;
 
+import org.controlsfx.control.CheckComboBox;
+
+import com.mycompany.bdppeventos.model.entities.Concierto;
+import com.mycompany.bdppeventos.model.entities.Persona;
+import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
+import com.mycompany.bdppeventos.util.Alerta;
+import com.mycompany.bdppeventos.util.ConfiguracionIgu;
+import com.mycompany.bdppeventos.util.RepositorioContext;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import org.controlsfx.control.CheckComboBox;
 
 public class PanelConciertoController extends ConfiguracionIgu implements Initializable {
-    
+
     @FXML
     private CheckBox chkEsPago;
-    
+
     @FXML
     private TextField txtEsPago;
-    
+
     @FXML
     private CheckComboBox<Persona> chkComboArtistas;
+
+    // Servicios
+    private PersonaServicio personaServicio;
 
     /**
      * Inicializa el panel de concierto al cargar la vista.
@@ -37,7 +46,11 @@ public class PanelConciertoController extends ConfiguracionIgu implements Initia
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO: agregar lógica de inicialización si es necesario
+
+        // Inicializamos la Persona Servicio
+        personaServicio = new PersonaServicio(RepositorioContext.getRepositorio());
+        // Actualizamos la combo de Artistas
+        actualizarCombo();
     }
 
     // Metodos de Controles
@@ -89,6 +102,54 @@ public class PanelConciertoController extends ConfiguracionIgu implements Initia
         }
 
         return new ArrayList<>(listaObservableArtistas);
+    }
+
+    void cargarDatos(Concierto concierto) {
+        chkEsPago.setSelected(concierto.isEsPago());
+
+        if (concierto.isEsPago()) {
+            txtEsPago.setDisable(false);
+            txtEsPago.setText(String.valueOf(concierto.getMonto()));
+        } else {
+            txtEsPago.setText("");
+        }
+
+        // Rellenamos la lista de Artistas. Colocando los seleccionados
+        List<Persona> artistas = concierto.getArtistas();
+        chkComboArtistas.getCheckModel().clearChecks();
+        for (Persona artista : artistas) {
+            chkComboArtistas.getCheckModel().check(artista);
+        }
+
+    }
+
+    private ObservableList<Persona> obtenerArtistas() {
+        List<Persona> lista = personaServicio.buscarArtistas();
+        // 2. Verificamos si la lista es nula
+        if (lista != null) {
+            // 3. Si no es nula, la convertimos a ObservableList
+            return FXCollections.observableArrayList(lista);
+        } else {
+            // 4. Si es nula, devolvemos una ObservableList vacía
+            return FXCollections.observableArrayList();
+        }
+    }
+
+    private void actualizarCombo() {
+        try {
+            // Borramos los elementos del CheckCombo
+            chkComboArtistas.getItems().clear();
+            // Cargamos el Combo con todas las proyecciones Activas
+            chkComboArtistas.getItems().setAll(obtenerArtistas());
+        } catch (Exception e) {
+            Alerta.mostrarError("Error al actualizar proyecciones:" + e.getMessage());
+        }
+    }
+
+    protected void limpiarCampos() {
+        chkComboArtistas.getCheckModel().clearChecks();
+        txtEsPago.setText("");
+        chkEsPago.setSelected(false);
     }
 
 }

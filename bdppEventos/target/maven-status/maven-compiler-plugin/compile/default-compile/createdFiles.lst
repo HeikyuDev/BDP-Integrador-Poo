@@ -1,3 +1,4 @@
+com\mycompany\bdppeventos\services\Participacion\ParticipacionServicio$1.class
 com\mycompany\bdppeventos\util\Alerta.class
 com\mycompany\bdppeventos\controller\ABMParticipante\InscribirParticipanteController.class
 com\mycompany\bdppeventos\controller\ABMProyeccion\FormularioProyeccionController.class
@@ -22,14 +23,16 @@ com\mycompany\bdppeventos\model\entities\Feria.class
 com\mycompany\bdppeventos\controller\VerParticipantes\VerParticipantesController.class
 com\mycompany\bdppeventos\controller\PantallaPrincipalController.class
 com\mycompany\bdppeventos\model\entities\Persona.class
-com\mycompany\bdppeventos\services\Evento\EventoServicio$1.class
 com\mycompany\bdppeventos\services\proyeccion\ProyeccionServicio.class
 com\mycompany\bdppeventos\controller\ABMPersona\ListaPersonasControlador.class
+com\mycompany\bdppeventos\services\Participacion\ParticipacionServicio.class
 com\mycompany\bdppeventos\model\entities\CicloDeCine.class
 com\mycompany\bdppeventos\services\Persona\PersonaServicio.class
 module-info.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelExposicionController.class
+com\mycompany\bdppeventos\controller\VerParticipantes\VerParticipantesController$1.class
 com\mycompany\bdppeventos\util\StageManager.class
+com\mycompany\bdppeventos\controller\ABMEvento\VisualizacionController.class
 com\mycompany\bdppeventos\model\enums\TipoEvento.class
 com\mycompany\bdppeventos\model\enums\TipoRol.class
 com\mycompany\bdppeventos\controller\ABMEvento\FormularioEventoController.class
@@ -37,6 +40,7 @@ com\mycompany\bdppeventos\model\entities\Proyeccion.class
 com\mycompany\bdppeventos\App.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelTallerController.class
 com\mycompany\bdppeventos\util\ConfiguracionIgu.class
+com\mycompany\bdppeventos\model\entities\Participacion.class
 com\mycompany\bdppeventos\controller\ABMTipoDeArte\FormularioTipoDeArteController.class
 com\mycompany\bdppeventos\model\entities\Taller.class
 com\mycompany\bdppeventos\controller\ABMPersona\FormularioPersonaControlador.class

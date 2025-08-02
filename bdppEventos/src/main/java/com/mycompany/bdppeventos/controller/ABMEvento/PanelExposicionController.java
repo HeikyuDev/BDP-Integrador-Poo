@@ -1,15 +1,12 @@
-
-/**
- * Controlador del panel de exposición para el ABM de eventos.
- * Permite gestionar la lógica asociada a la exposición, como agregar tipos de arte.
- */
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
+import com.mycompany.bdppeventos.model.entities.Exposicion;
 import com.mycompany.bdppeventos.model.entities.Persona;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.mycompany.bdppeventos.model.entities.TipoDeArte;
+import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.services.TipoDeArte.TipoDeArteServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.RepositorioContext;
@@ -41,11 +38,12 @@ public class PanelExposicionController implements Initializable {
     
     //lista Obserable
     private ObservableList<TipoDeArte> listaTiposDeArtes = FXCollections.observableArrayList();
-    private ObservableList<TipoDeArte> listaCuradores = FXCollections.observableArrayList();
+    private ObservableList<Persona> listaCuradores = FXCollections.observableArrayList();
     
     
     //Servicios
     private TipoDeArteServicio tipoDeArteServicio;
+    private PersonaServicio personaServicio;
 
     /**
      * Inicializa el panel de exposición al cargar la vista.
@@ -55,10 +53,12 @@ public class PanelExposicionController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //Inicializamos el tipoDeArteServicio
         tipoDeArteServicio = new TipoDeArteServicio(RepositorioContext.getRepositorio());
+        personaServicio = new PersonaServicio(RepositorioContext.getRepositorio());
         //Vinculamos la Observable List con la combo
         cmbTipoArte.setItems(listaTiposDeArtes);
+        cmbCurador.setItems(listaCuradores);
         // Actualizamos la Combo
-        actualizarCombo();
+        actualizarCombos();
     }
 
     // Metodos de Controles
@@ -74,40 +74,30 @@ public class PanelExposicionController implements Initializable {
         // Abrimos el Modal que nos permite hacer el ABM de Tipos de Arte
         StageManager.abrirModal(Vista.FormularioTipoDeArte);
         // Actualizamos la ComboBox
-        actualizarCombo();
+        actualizarCombos();
     }
 
     // Metodos específicos
     
-    private void limpiarCampos()
+    protected void limpiarCampos()
     {
         cmbTipoArte.getSelectionModel().clearSelection();
+        cmbCurador.getSelectionModel().clearSelection();
     }
            
-    private ObservableList<TipoDeArte> obtenerTiposDeArte() {
-        // 1. Obtenemos la lista del servicio
-        List<TipoDeArte> lista = tipoDeArteServicio.buscarTodos();
-        // 2. Verificamos si la lista es nula
-        if (lista != null) {
-            // 3. Si no es nula, la convertimos a ObservableList
-            return FXCollections.observableArrayList(lista);
-        } else {
-            // 4. Si es nula, devolvemos una ObservableList vacía
-            return FXCollections.observableArrayList();
-        }
-    }
-    
-    private void actualizarCombo()
-    {
+
+    private void actualizarCombos() {
         try {
-            // Obtenemos todos los registros de la base de datos y la almacenamos en un a lista
-            listaTiposDeArtes.setAll(obtenerTiposDeArte());
+            // Actualizar tipos de arte
+            actualizarComboTipoArte();
+            // Actualizar curadores
+            actualizarComboCuradores();
         } catch (Exception e) {
-            Alerta.mostrarError("No se pudo Actualizar el ComboBox " + e.getMessage());
+            Alerta.mostrarError("Error al actualizar combos: " + e.getMessage());
         }
     }
 
-     public TipoDeArte getTipoArteSeleccionado() {
+    public TipoDeArte getTipoArteSeleccionado() {
         TipoDeArte tipo = cmbTipoArte.getSelectionModel().getSelectedItem();
         if (tipo == null) {
             throw new IllegalArgumentException("Debe seleccionar un tipo de arte");
@@ -126,5 +116,35 @@ public class PanelExposicionController implements Initializable {
         }
         return unCurador;
     }
+
+    public void cargarDatos(Exposicion exposicion) {
+        // Obtengo el Tipo de Arte de la exposicion
+        cmbTipoArte.setValue(exposicion.getUnTipoArte());
+        // Obtengo el unico curador presente en la Exposicion
+        cmbCurador.setValue(exposicion.getCurador());
+    }
+
+    private void actualizarComboCuradores() {
+        try {            
+            List<Persona> curadores = personaServicio.buscarCuradores();
+            listaCuradores.setAll(curadores);
+
+        } catch (Exception e) {
+            System.err.println("Error al actualizar curadores: " + e.getMessage());
+            Alerta.mostrarError("No se pudieron cargar los curadores: " + e.getMessage());
+        }
+    }
+    
+    private void actualizarComboTipoArte()
+    {
+        try {
+            List<TipoDeArte> tiposDeArte = tipoDeArteServicio.buscarTodos();
+            listaTiposDeArtes.setAll(tiposDeArte);
+        } catch (Exception e) {
+            System.err.println("Error al actualizar los Tipo de Arte: " + e.getMessage());
+            Alerta.mostrarError("No se pudieron cargar los Tipos de Arte: " + e.getMessage());
+        }
+    }
+    
 
 }
