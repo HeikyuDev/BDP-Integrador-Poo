@@ -164,7 +164,7 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
     /**
      * Cuenta cuántas personas tienen un rol específico en un evento.
      */
-    public long contarPersonasPorRol(Evento evento, TipoRol rol) {
+    public int contarPersonasPorRol(Evento evento, TipoRol rol) {
         return buscarPorEventoYRol(evento, rol).size();
     }
 

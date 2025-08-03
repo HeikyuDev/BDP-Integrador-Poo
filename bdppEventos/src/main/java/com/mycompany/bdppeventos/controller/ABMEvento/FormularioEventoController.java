@@ -159,9 +159,8 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
     @FXML
     private void onTipoEventoChanged() {
         TipoEvento tipoSeleccionado = cmbTipoEvento.getSelectionModel().getSelectedItem();
-        if (tipoSeleccionado != null) {
-            cargarPanelEspecifico(tipoSeleccionado);
-        }
+        // Si el tipo Seleccionado es null "Muestra el panel Vacio"
+        cargarPanelEspecifico(tipoSeleccionado);        
     }
 
     /**
@@ -431,6 +430,13 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
 
     private void cargarPanelEspecifico(TipoEvento tipo) {
         try {
+            // Si tipo es null, mostrar panel vacío
+            if (tipo == null) {
+                StageManager.cambiarEscenaEnContenedor(contenedorDinamico, Vista.PanelVacio);
+                chkCupoMaximo.setDisable(false); 
+                return; // Salir del método
+            }
+
             switch (tipo) {
                 case EXPOSICION -> {
                     panelExposicionController = StageManager.cambiarEscenaEnContenedorYObtenerControlador(
