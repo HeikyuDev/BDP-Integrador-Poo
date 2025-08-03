@@ -48,7 +48,11 @@ public enum Vista {
     
     // FXML de la seccion de Ver Participantes
     
-    PanelVerParticipantes("","VerParticipantes/VerParticipantes");
+    PanelVerParticipantes("","VerParticipantes/VerParticipantes"),
+    
+    // FXML de la seccion de Inscribir Participante
+    
+    PanelInscribirParticipantes("","InscribirParticipantes/InscribirParticipantes");
     
     private final String rutaFxml;  // Ruta relativa del archivo FXML que define la vista
     private final String titulo;

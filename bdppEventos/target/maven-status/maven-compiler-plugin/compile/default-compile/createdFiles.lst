@@ -1,6 +1,5 @@
 com\mycompany\bdppeventos\services\Participacion\ParticipacionServicio$1.class
 com\mycompany\bdppeventos\util\Alerta.class
-com\mycompany\bdppeventos\controller\ABMParticipante\InscribirParticipanteController.class
 com\mycompany\bdppeventos\controller\ABMProyeccion\FormularioProyeccionController.class
 com\mycompany\bdppeventos\model\entities\Pelicula.class
 com\mycompany\bdppeventos\services\Evento\EventoServicio.class

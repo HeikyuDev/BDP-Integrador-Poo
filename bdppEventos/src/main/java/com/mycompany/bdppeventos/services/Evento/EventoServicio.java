@@ -514,5 +514,10 @@ public class EventoServicio extends CrudServicio<Evento> {
         }
         return listaEventosFiltrados;
     }
+    
+    public void inscribirParticipantes(Evento unEvento, Persona unaPersona)
+    {
+        // Agrego una Persona 
+    }
 
 }

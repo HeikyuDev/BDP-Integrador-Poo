@@ -24,7 +24,7 @@
          <HBox alignment="CENTER" styleClass="main-section" HBox.hgrow="ALWAYS">
             <VBox maxWidth="Infinity" spacing="10.0" styleClass="field-section" HBox.hgrow="ALWAYS">
                <children>
-                  <Label styleClass="nav-title-secondary" text="Eventos Planificados y Confirmados" />
+                  <Label styleClass="nav-title-secondary" text="Eventos Confirmados e Inscribibles"/>
 
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>

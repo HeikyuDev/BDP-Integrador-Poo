@@ -658,7 +658,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
                 .setCellValueFactory(cellData -> formatBoolean(cellData.getValue().isTieneInscripcion(), "SÍ", "NO"));
 
         // Columna de capacidad condicional
-        colCapacidadMaxima.setCellValueFactory(cellData -> configurarCapacidadMaxima(cellData.getValue()));
+        colCapacidadMaxima.setCellValueFactory(cellData -> ConfiguracionIgu.formatCupoMaximoEvent(cellData.getValue()));
 
         // Columna de organizadores
         colOrganizadores.setCellValueFactory(cellData -> {
@@ -669,15 +669,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
         // Columna de tipo de evento
         colTipo.setCellValueFactory(cellData -> obtenerTipoEvento(cellData.getValue()));
     }
-
-    // Métodos auxiliares para mejor legibilidad
-    private SimpleStringProperty configurarCapacidadMaxima(Evento evento) {
-        if (evento.isTieneCupo()) {
-            return new SimpleStringProperty(String.valueOf(evento.getCapacidadMaxima()));
-        } else {
-            return new SimpleStringProperty(TEXTO_LIMITADO);
-        }
-    }
+    
 
     private SimpleStringProperty obtenerTipoEvento(Evento evento) {
         if (evento instanceof Exposicion) {
