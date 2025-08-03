@@ -22,6 +22,7 @@ com\mycompany\bdppeventos\model\entities\Feria.class
 com\mycompany\bdppeventos\controller\VerParticipantes\VerParticipantesController.class
 com\mycompany\bdppeventos\controller\PantallaPrincipalController.class
 com\mycompany\bdppeventos\model\entities\Persona.class
+com\mycompany\bdppeventos\controller\InscribirParticipantes\InscribirParticipantesController$1.class
 com\mycompany\bdppeventos\services\proyeccion\ProyeccionServicio.class
 com\mycompany\bdppeventos\controller\ABMPersona\ListaPersonasControlador.class
 com\mycompany\bdppeventos\services\Participacion\ParticipacionServicio.class
