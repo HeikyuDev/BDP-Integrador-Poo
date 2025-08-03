@@ -1,6 +1,7 @@
 package com.mycompany.bdppeventos.util;
 
 import com.mycompany.bdppeventos.model.entities.Evento;
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -172,7 +173,7 @@ public abstract class ConfiguracionIgu {
     // Métodos auxiliares para mejor legibilidad
     public static SimpleStringProperty formatCupoMaximoEvent(Evento evento) {
         if (evento.isTieneCupo()) {
-            return new SimpleStringProperty(String.valueOf(evento.getCapacidadMaxima()));
+            return new SimpleStringProperty(String.valueOf(evento.getPersonasPorRol(TipoRol.PARTICIPANTE).size() + " / " +evento.getCapacidadMaxima()));
         } else {
             return new SimpleStringProperty("Ilimitado");
         }
