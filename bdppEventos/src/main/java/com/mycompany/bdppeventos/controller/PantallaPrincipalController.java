@@ -122,7 +122,7 @@ public class PantallaPrincipalController implements Initializable {
 
     @FXML
     private void cargarVistaInscribirParticipante() {
-        // TODO: Implementar view
+        StageManager.cambiarEscenaEnContenedor(centerContainer, Vista.PanelInscribirParticipantes);
     }
 
     @FXML

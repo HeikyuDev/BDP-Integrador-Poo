@@ -24,7 +24,7 @@ public class PersonaServicio extends CrudServicio<Persona> {
 
     // Método para validar y crear una nueva persona
     public Persona validarEInsertar(Object... datos) {
-        if (datos.length < 3 || datos.length > 5) {
+        if (datos.length < 3 || datos.length > 6) {
             throw new IllegalArgumentException(
                     "Número incorrecto de parámetros. Se requieren: DNI, nombre, apellido y opcionalmente teléfono y correo.");
         }
@@ -36,8 +36,11 @@ public class PersonaServicio extends CrudServicio<Persona> {
         String telefono = datos.length > 3 ? (String) datos[3] : null; // operador ternario, si es verdadero, asigna el
                                                                        // valor, si es falso, asigna null
         String correoElectronico = datos.length > 4 ? (String) datos[4] : null; // Si el correo electrónico no se
-                                                                                // proporciona, se asigna null
+        // proporciona, se asigna null
 
+        // Declaramos la lista de roles asociada a la nueva instancia de Persona        
+        List<TipoRol> listaRoles = (List<TipoRol>)datos[5];                
+        
         List<String> errores = new ArrayList<>();
 
         // Validar que el DNI no sea nulo o vacío
@@ -48,6 +51,8 @@ public class PersonaServicio extends CrudServicio<Persona> {
         Persona nuevaPersona = null; // declaro como null para evitar errores
         try {
             nuevaPersona = new Persona(dni, nombre, apellido, telefono, correoElectronico);
+            // Seteamos la lista de roles para Mantener persistencia en la relacion
+            nuevaPersona.setUnaListaRoles(listaRoles);
         } catch (IllegalArgumentException e) {
             errores.add(e.getMessage());
         }
@@ -194,5 +199,25 @@ public class PersonaServicio extends CrudServicio<Persona> {
                 .filter(p -> p.getUnaListaRoles().contains(TipoRol.ARTISTA))
                 .toList();
     }
+    
+    // Metodos para asignarle a una persona un rol, y persistir la informacion
+    public void asignarRol(Persona unaPersona, TipoRol rol) {
+    // Validar parámetros nulos
+    if (unaPersona == null || rol == null) {
+        throw new IllegalArgumentException("Persona y rol no pueden ser nulos");
+    }
+    
+    // Validar rol duplicado
+    if(unaPersona.getUnaListaRoles().contains(rol)) {
+        throw new IllegalArgumentException(
+            String.format("La persona %s ya tiene el rol %s asignado", 
+                         unaPersona.getInformacionPersonal(), rol.name())
+        );
+    }
+    
+    // Asignar rol y persistir
+    unaPersona.agregarRol(rol);
+    modificar(unaPersona);
+}
 
 }

@@ -358,10 +358,10 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
 
         // Validar estado del evento
         switch (evento.getEstado()) {
-            case PLANIFICADO, CONFIRMADO -> {
+            case  CONFIRMADO -> {
                 // Permitir inscripción
             }
-            case EN_EJECUCION, FINALIZADO, CANCELADO -> {
+            case PLANIFICADO,EN_EJECUCION, FINALIZADO, CANCELADO -> {
                 throw new IllegalArgumentException("No se pueden inscribir participantes a un evento " + 
                                                  evento.getEstado().toString().toLowerCase());
             }

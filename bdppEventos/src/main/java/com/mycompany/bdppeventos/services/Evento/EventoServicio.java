@@ -517,7 +517,20 @@ public class EventoServicio extends CrudServicio<Evento> {
     
     public void inscribirParticipantes(Evento unEvento, Persona unaPersona)
     {
-        // Agrego una Persona 
+        try {
+            // Innscribimos una Persona a un evento utilizando el tipo de Rol PARTICIPANTE
+            participacionServicio.inscribirParticipante(unEvento, unaPersona);
+            unEvento.setParticipaciones(participacionServicio.buscarPorEvento(unEvento));
+            this.modificar(unEvento);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    // Metodo orientado a determinar si una persona con X rol participa o no ya con ese rol en dicho evento
+    public boolean participaPorTipo(Evento unEvento, Persona unaPersona, TipoRol rol)
+    {
+        return participacionServicio.existeParticipacion(unEvento, unaPersona, rol);        
     }
 
 }

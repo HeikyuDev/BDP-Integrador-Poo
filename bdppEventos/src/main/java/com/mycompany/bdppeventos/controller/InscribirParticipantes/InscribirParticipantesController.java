@@ -15,6 +15,7 @@ import static com.mycompany.bdppeventos.model.enums.TipoEvento.FERIA;
 import static com.mycompany.bdppeventos.model.enums.TipoEvento.TALLER;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.services.Evento.EventoServicio;
+import com.mycompany.bdppeventos.services.Participacion.ParticipacionServicio;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
@@ -23,7 +24,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -36,6 +36,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 
 public class InscribirParticipantesController implements Initializable {
@@ -45,10 +46,10 @@ public class InscribirParticipantesController implements Initializable {
     private ComboBox<TipoEvento> cmbTipoEvento;
     
     @FXML
-    private TextField txtDNIParticipante;
+    private TextField txtDNIParticipante, txtNombre, txtApellido, txtTelefono, txtCorreo;
     
     @FXML
-    private HBox hboxDatosParticipante;
+    private VBox vboxDatos;
     
     @FXML
     private Button btnInscribir;
@@ -75,6 +76,7 @@ public class InscribirParticipantesController implements Initializable {
     // Servicios
     private EventoServicio eventoServicio;
     private PersonaServicio personaServicio;
+    private ParticipacionServicio participacionServicio;
     
     // FLAGS
     
@@ -85,6 +87,7 @@ public class InscribirParticipantesController implements Initializable {
         // Inicializamos los Servicios
         eventoServicio = new EventoServicio(RepositorioContext.getRepositorio());
         personaServicio = new PersonaServicio(RepositorioContext.getRepositorio());
+        participacionServicio = new ParticipacionServicio(RepositorioContext.getRepositorio());
 
         // Configuramos la IGU
         configurarTabla();
@@ -195,27 +198,40 @@ public class InscribirParticipantesController implements Initializable {
     private void estadoInicial()
     {
         // Desabulito el layout de ingreso de datos
-        hboxDatosParticipante.setDisable(true);
+        vboxDatos.setDisable(true);
         // Desabilito el btn de Inscripcion
         btnInscribir.setDisable(true);
     }
     
     private void limpiarCampos()
     {
+        txtDNIParticipante.clear();
+        txtNombre.clear();
+        txtApellido.clear();
+        txtTelefono.clear();
+        txtCorreo.clear();
         
+        estadoInicial();
     }
     
     @FXML
     private void verificarExistencia()
     {
-        try {
-            // Obtenemos el DNI del Participante ingresado en el TextField DNI
+        try {            
+        // Obtenemos el DNI del Participante ingresado en el TextField DNI
         String dniIngresado = txtDNIParticipante.getText().trim();
+        // Validamos si es valido el DNI ingresado
+        if(dniIngresado == null || dniIngresado.isEmpty())
+        {
+            throw new IllegalArgumentException("ErrOr: Por favor ingrese un DNI VALIDO");
+        }
+        
+        
         // Utilizando el PersonaServicio validamos si ya existe una entidad con Dicho dni
         if(personaServicio.buscarPorId(dniIngresado) == null)
         {
             // Si el DNI ingresado en el TextField no corresponde a una persona registrada en el sistema Habilita el campo de ingreso de datos
-            hboxDatosParticipante.setDisable(false);
+            vboxDatos.setDisable(false);
             Alerta.mostrarExito("El DNI ingresado no Corresponde a ninguna persona Registrada!!!");
             existeRegistro = false;
         }
@@ -247,24 +263,99 @@ public class InscribirParticipantesController implements Initializable {
                 return; // Sale inmediatamente del metodo
             }
             
+            // Si la Proyeccion en Edicion es NULL significa que es Alta
+                if (!Alerta.confirmarAccion(
+                        "¿Inscribir el Participante'" + txtDNIParticipante.getText().trim() + "'")) {
+                    //Si el usuario preciona la opcion cancelar "Sale inmediatamente del metodo" 
+                    return;
+                }
+            // 1. Si la persona Existe
             if(existeRegistro == true) // Valido si ya existe un participante con ese DNI
             {
                 // Obtenemos la Persona Existente.
-                Persona unaPersona = personaServicio.buscarPorId(txtDNIParticipante.getText().trim());
+                Persona unaPersona = personaServicio.buscarPorId(txtDNIParticipante.getText().trim());                                
+                // 1.0 Validamos: Si la persona ya esta inscripta. 
+                if(participacionServicio.existeParticipacion(eventoSeleccionado, unaPersona, TipoRol.PARTICIPANTE))
+                {
+                    throw new Exception("la persona: " + unaPersona.getInformacionPersonal() + "\nYa se encuentra inscripta en el evento");
+                }
+                // 1.1 Validamos: Si la persona Tiene el Rol de PARTICIPANTE
+                else if(unaPersona.getUnaListaRoles().contains(TipoRol.PARTICIPANTE))
+                {
+                    // Utilizamos el Evento Servicio para modificar las participaciones Asociadas al evento
+                    // Agregando esta neuva participacion con el rol de Asistente/Participante
+                    eventoServicio.inscribirParticipantes(eventoSeleccionado, unaPersona);    
+                    Alerta.mostrarExito("Inscripcion Realizada Correctamente");
+                }
+                else 
+                {
+                    // 1.2 La persona existe pero no tiene el Rol de Participante
+                    personaServicio.asignarRol(unaPersona, TipoRol.PARTICIPANTE);
+                    // Utilizamos el Evento Servicio para modificar las participaciones Asociadas al evento
+                    // Agregando esta neuva participacion con el rol de Asistente/Participante
+                    eventoServicio.inscribirParticipantes(eventoSeleccionado, unaPersona);  
+                    Alerta.mostrarExito("Inscripcion Realizada Correctamente");
+                }
+            }
+            else // Significa que no existe una persona con ese DNI "Por lo tanto se"
+                // habilita los campos para el ingreso y Creacion de una nueva persona"
+            {
+                // 2. La persona no existe, y se tiene que crear de 0 un Registro de persona asociando esa persona al rol de PARTICIPANTE
                 
-                //if(unaPersona.getUnaListaRoles().contains(TipoRol.PARTICIPANTE))
-                //{
-//                    unaPersona.agregarRol(TipoRol.PARTICIPANTE);
-//                 }
+                // 2.1 Obtenemos los datos de los respectivos Controles y Validamos
+                String Dni = txtDNIParticipante.getText().trim();
+                String nombre = txtNombre.getText().trim();
+                String apellido = txtApellido.getText().trim();
+                String telefono = txtTelefono.getText().trim();
+                String correo = txtCorreo.getText().trim();
+                
+                List<TipoRol> listaRol = new ArrayList<>();
+                listaRol.add(TipoRol.PARTICIPANTE);
+                
+                validarCamposObligatorios(Dni, nombre, apellido);
+                
+                // 2.2 Hacemos alta de la persona
+                Persona unaPersona = personaServicio.validarEInsertar(Dni, nombre, apellido, telefono, correo, listaRol);
+                eventoServicio.inscribirParticipantes(eventoSeleccionado, unaPersona);
+                Alerta.mostrarExito("Inscripcion Realizada Correctamente");
                 
             }
             
         } catch (IllegalArgumentException e) {
             Alerta.mostrarError("Error: Asegurese de Ingresar Datos Validos\nEvite Campos Obligatorios Vacios\n" + e.getMessage());
+            limpiarCampos();
         }
         catch (Exception e)
         {
             Alerta.mostrarError("Error: Ocurrio un Error inesperado\n" + e.getMessage());
+            limpiarCampos();
         }
     }
+  
+    private void validarCamposObligatorios(String DNI, String nombre, String apellido) {
+        StringBuilder sb = new StringBuilder();
+
+        // VALIDAMOS CAMPOS OBLIGATORIOS
+        if (DNI == null || DNI.trim().isEmpty()) {
+            sb.append("Error: DNI es un Campo OBLIGATORIO\n");
+        }
+        if (nombre == null || nombre.trim().isEmpty()) {
+            sb.append("Error: Nombre es un Campo OBLIGATORIO\n");
+        }
+        if (apellido == null || apellido.trim().isEmpty()) {
+            sb.append("Error: Apellido es un Campo OBLIGATORIO\n");
+        }
+
+        // Si hay errores, mostrar alerta y lanzar excepción
+        if (sb.length() > 0) {
+            try {
+                Alerta.mostrarError(sb.toString());
+            } catch (Exception e) {
+                // Si falla la alerta, al menos loggear el error
+                System.err.println("Error mostrando alerta: " + e.getMessage());
+            }
+            throw new IllegalArgumentException(sb.toString());
+        }
+    }
+
 }
