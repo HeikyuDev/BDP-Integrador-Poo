@@ -21,12 +21,12 @@ public class PantallaPrincipalController implements Initializable {
     // Elementos de la interfaz 
     @FXML
     private ToggleButton btnPanelAdmin, btnGestionEventos, btnGestionPersonas,
-            btnInscribirParticipante, btnCalendarioEventos, btnVerParticipantes;
+            btnInscribirParticipante, btnCalendarioEventos, btnVerParticipantes, btnControlEstado;
     @FXML
     private ImageView iconPanelAdmin, iconGestionEventos, iconGestionPersonas,
-            iconInscribirParticipante, iconCalendarioEventos, iconVerParticipantes;
+            iconInscribirParticipante, iconCalendarioEventos, iconVerParticipantes, iconControlEstado;
     @FXML
-    private Button btnMinimizar, btnMaximizar, btnCerrar;
+    private Button btnMinimizar, btnCerrar;
     @FXML
     private AnchorPane centerContainer;
 
@@ -48,6 +48,7 @@ public class PantallaPrincipalController implements Initializable {
         configurarIcono(btnInscribirParticipante, iconInscribirParticipante, "ParticipanteMas");
         configurarIcono(btnCalendarioEventos, iconCalendarioEventos, "CalendarioEventos");
         configurarIcono(btnVerParticipantes, iconVerParticipantes, "ParticipantesVista");
+        configurarIcono(btnControlEstado, iconControlEstado, "Control");
     }
 
     private void configurarIcono(ToggleButton boton, ImageView icono, String nombreBaseIcono) {
@@ -77,6 +78,7 @@ public class PantallaPrincipalController implements Initializable {
         btnInscribirParticipante.setToggleGroup(menuGroup);
         btnCalendarioEventos.setToggleGroup(menuGroup);
         btnVerParticipantes.setToggleGroup(menuGroup);
+        btnControlEstado.setToggleGroup(menuGroup);
 
         menuGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             if (newToggle == null && oldToggle != null) {
@@ -86,20 +88,19 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     private void configurarBotonesVentana() {
+        // Boton "X": Basicamnete cierra el programa
         btnCerrar.setOnAction(e -> System.exit(0));
-
+        // Boton "-": Basicamente minimiza
         btnMinimizar.setOnAction(e -> {
             Stage stage = (Stage) btnMinimizar.getScene().getWindow();
             stage.setIconified(true);
         });
-
-        btnMaximizar.setOnAction(e -> {
-            Stage stage = (Stage) btnMaximizar.getScene().getWindow();            
-        });
+        
     }
 
     private void seleccionarPanelAdminPorDefecto() {
         btnPanelAdmin.setSelected(true);
+        // De paso mostrar el panel
     }
 
     
@@ -113,6 +114,12 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     private void cargarVistaGestionEventos() {
         StageManager.cambiarEscenaEnContenedor(centerContainer, Vista.FormularioEvento);
+    }
+    
+    @FXML
+    private void cargarVistaControlEstado()
+    {
+        StageManager.cambiarEscenaEnContenedor(centerContainer, Vista.PanelControlEstado);
     }
 
     @FXML
