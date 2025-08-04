@@ -9,10 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane stylesheets="@../../css/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" 
-            fx:controller="com.mycompany.bdppeventos.controller.ControlEstado.ControlEstadoController">
+<AnchorPane stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ControlEstado.ControlEstadoController">
    <children>
-      <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+      <VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
          <children>
             <HBox alignment="CENTER" styleClass="title-bar">
                <children>
@@ -21,13 +20,12 @@
             </HBox>
             <VBox styleClass="main-section" VBox.vgrow="ALWAYS">
                <children>
-                  <VBox styleClass="field-section" VBox.vgrow="ALWAYS" spacing="10">
+                  <VBox spacing="10" styleClass="field-section" VBox.vgrow="ALWAYS">
                      <children>
                         <Label styleClass="nav-title-secondary" text="Eventos Registrados" />
                         <HBox alignment="CENTER_LEFT" spacing="20.0">
                            <children>
-                              <ComboBox fx:id="cmbEstado" HBox.hgrow="ALWAYS" promptText="seleccione un Estado" styleClass="form-combobox" />
-                              <Button fx:id="btnFiltrar" mnemonicParsing="false" onAction="#filtrarPorEstado" styleClass="simple-button-bold" text="Filtrar" />
+                              <ComboBox fx:id="cmbEstado" onAction="#filtrarPorEstado" promptText="Todos los Estados" styleClass="form-combobox" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <TableView fx:id="tblEvento" styleClass="form-tableview" VBox.vgrow="ALWAYS">

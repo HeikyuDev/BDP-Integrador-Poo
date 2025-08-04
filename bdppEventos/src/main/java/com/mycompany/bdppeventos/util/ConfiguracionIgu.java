@@ -3,6 +3,7 @@ package com.mycompany.bdppeventos.util;
 import com.mycompany.bdppeventos.model.entities.Evento;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Function;
@@ -22,13 +23,8 @@ import javafx.scene.control.TextField;
 
 public abstract class ConfiguracionIgu {
 
-    /**
-     * Clase dirigida a reutilizar metodos de las interfaces de la seccion "ABM
-     * EVENTOS". Permite centralizar la lógica de configuración de controles en
-     * los formularios de eventos.
-     */
-    // Configuraciion que permite que Cuando se precione un Checkbox se Habilie el
-    // txtfield
+    // === CONFIGURACIONES PARA LOS TEXTFIELDS ===
+    
     public void configuracionCheckTextfield(CheckBox unCheckbox, TextField unTextfield) {
         if (unCheckbox.isSelected()) {
             unTextfield.setDisable(false);
@@ -38,27 +34,10 @@ public abstract class ConfiguracionIgu {
             unTextfield.setDisable(true);
         }
     }
+    
 
-    // Configuracion para el ScrollPane
-    public static void configuracionScrollPane(ScrollPane scrollPane) {
-        // Configuración básica
-        scrollPane.setFitToWidth(true);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-
-        // Aplicar configuración después de que el ScrollPane esté en la escena
-        scrollPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
-            if (newScene != null) {
-                ScrollBar vScrollBar = (ScrollBar) scrollPane.lookup(".scroll-bar:vertical");
-                if (vScrollBar != null) {
-                    vScrollBar.setUnitIncrement(20);
-                    vScrollBar.setBlockIncrement(40);
-                }
-            }
-        });
-    }
-
-    // Configuracion que llena los comboBox, Pasandole un Enum
+    // === CONFIGURACION PARA LOS COMBOBOX/CHECKCOMBO ===
+    
     public static <T extends Enum<T>> void configuracionEnumEnCombo(ComboBox<T> combo, Class<T> enumClass) {
         // Limpia Los elementos del combo antes
         combo.getItems().clear();
@@ -107,6 +86,9 @@ public abstract class ConfiguracionIgu {
         checkCombo.getItems().setAll(itemsObservables);
     }
 
+    
+    // === CONFIGURACIONES DE BOTONES ===
+    
     // Configuracion del boton "Cancelar"
     protected static void configuracionBtnCancelar(Button btnAlta, Button btnModificacion, Button btnBaja,
             Button btnCancelar, String textoAlta) {
@@ -135,8 +117,7 @@ public abstract class ConfiguracionIgu {
         btnCancelar.setDisable(true);
     }
 
-    // Configuracion de Columnas "SetValueFactory"
-    // Configuracion para listas
+    // === CONFIGURACIONES PARA LAS COLUMNAS ===
 
     public static <T> SimpleStringProperty formatLista(
             List<T> lista, // <T> Tipo de Elemento de la lista
@@ -170,7 +151,7 @@ public abstract class ConfiguracionIgu {
         return new SimpleStringProperty(fecha.format(formatter));
     }
     
-    // Métodos auxiliares para mejor legibilidad
+    
     public static SimpleStringProperty formatCupoMaximoEvent(Evento evento) {
         if (evento.isTieneCupo()) {
             return new SimpleStringProperty(String.valueOf(evento.getPersonasPorRol(TipoRol.PARTICIPANTE).size() + " / " +evento.getCapacidadMaxima()));
@@ -179,5 +160,29 @@ public abstract class ConfiguracionIgu {
         }
     }
     
+    // === METODOS AUXILIARES ===
+    
+    public static LocalDate calcularFechaFin(LocalDate fechaInicio, double duracionHoras) {
+    System.out.println("=== PASO A PASO ===");
+    System.out.println("Fecha inicio: " + fechaInicio); // 4/8
+    System.out.println("Duración: " + duracionHoras + " horas"); // 3 horas
+    
+    // PASO 1: Convertir fecha a fecha-hora (medianoche del día)
+    LocalDateTime fechaHoraInicio = fechaInicio.atStartOfDay();
+    System.out.println("Fecha-hora inicio: " + fechaHoraInicio); // 4/8/2024 00:00
+    
+    // PASO 2: Sumar las horas de duración
+    long minutosTotales = Math.round(duracionHoras * 60);
+    System.out.println("Minutos a sumar: " + minutosTotales); // 180 minutos (3 * 60)
+    
+    LocalDateTime fechaHoraFin = fechaHoraInicio.plusMinutes(minutosTotales);
+    System.out.println("Fecha-hora fin: " + fechaHoraFin); // 4/8/2024 03:00
+    
+    // PASO 3: Extraer solo la fecha del resultado
+    LocalDate fechaFin = fechaHoraFin.toLocalDate();
+    System.out.println("Fecha fin: " + fechaFin); // 4/8 (¡MISMO DÍA!)
+    
+    return fechaFin;
+}
 
 }

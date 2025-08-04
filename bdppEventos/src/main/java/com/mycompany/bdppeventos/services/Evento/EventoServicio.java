@@ -532,5 +532,31 @@ public class EventoServicio extends CrudServicio<Evento> {
     {
         return participacionServicio.existeParticipacion(unEvento, unaPersona, rol);        
     }
+    
+    // Metodo para confirmar un EVento (Pasar de PLANIFICADO A CONFIRMADO)
+    public void confirmarEvento(Evento unEvento)
+    {
+        try {
+            // Seteamos el estado de Confirmado al evento
+            unEvento.setEstado(EstadoEvento.CONFIRMADO);
+            // Modificamos la instancia existente en la BD
+            modificar(unEvento);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    // Metodo para Cancelar un Evento (Pasar de PLANIFICADO/CONFIRMADO/EN_EJECUCION A CANCELADO)
+    public void cancelarEvento(Evento unEvento)
+    {
+        try {
+            // Seteamos el estado de Confirmado al evento
+            unEvento.setEstado(EstadoEvento.CANCELADO);
+            // Modificamos la instancia existente en la BD
+            modificar(unEvento);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
 }

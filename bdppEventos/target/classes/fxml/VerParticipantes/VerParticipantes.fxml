@@ -24,12 +24,11 @@
          <HBox alignment="CENTER" styleClass="main-section" HBox.hgrow="ALWAYS">
             <VBox maxWidth="Infinity" spacing="10.0" styleClass="field-section" HBox.hgrow="ALWAYS">
                <children>
-                  <Label styleClass="nav-title-secondary" text="Eventos Confirmados e Inscribibles"/>
+                  <Label styleClass="nav-title-secondary" text="Eventos Confirmados e Inscribibles" />
 
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
-                        <ComboBox fx:id="cmbTipoEvento" promptText="seleccione un Tipo de Evento" styleClass="form-combobox" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="btnFiltrar" onAction="#filtrarEvento" styleClass="simple-button-bold" text="Filtrar" />
+                        <ComboBox fx:id="cmbTipoEvento" onAction="#filtrarEvento" promptText="Todos los Tipos" styleClass="form-combobox" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
 

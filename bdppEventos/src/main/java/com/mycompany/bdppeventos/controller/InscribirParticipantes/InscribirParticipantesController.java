@@ -280,7 +280,7 @@ public class InscribirParticipantesController implements Initializable {
             
             // Confirmación de la acción
             if (!Alerta.confirmarAccion(
-                    "¿Inscribir el Participante '" + txtDNIParticipante.getText().trim() + "'?")) {
+                    "¿Inscribir el Participante con el DNI: '" + txtDNIParticipante.getText().trim() + "'?")) {
                 // Si el usuario presiona cancelar, sale inmediatamente del método 
                 return;
             }
