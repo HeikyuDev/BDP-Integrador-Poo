@@ -36,6 +36,7 @@ module com.mycompany.bdppeventos {
     opens com.mycompany.bdppeventos.controller.VerParticipantes to javafx.fxml, javafx.base;
     opens com.mycompany.bdppeventos.controller.InscribirParticipantes to javafx.fxml, javafx.base;
     opens com.mycompany.bdppeventos.controller.ControlEstado to javafx.fxml, javafx.base;
+    opens com.mycompany.bdppeventos.controller.PanelAdministracion to javafx.fxml, javafx.base;
     // ABRIR ENTIDADES PARA JPA
     opens com.mycompany.bdppeventos.model.entities to
             jakarta.persistence,

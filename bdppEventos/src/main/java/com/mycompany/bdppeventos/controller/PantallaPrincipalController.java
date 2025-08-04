@@ -100,7 +100,7 @@ public class PantallaPrincipalController implements Initializable {
 
     private void seleccionarPanelAdminPorDefecto() {
         btnPanelAdmin.setSelected(true);
-        // De paso mostrar el panel
+        StageManager.cambiarEscenaEnContenedor(centerContainer, Vista.PanelAdministracion);
     }
 
     
@@ -108,7 +108,7 @@ public class PantallaPrincipalController implements Initializable {
         
     @FXML
     private void cargarVistaPanelAdmin() {
-        // TODO: Implementar view
+        StageManager.cambiarEscenaEnContenedor(centerContainer, Vista.PanelAdministracion);
     }
 
     @FXML
