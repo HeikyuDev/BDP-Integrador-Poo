@@ -8,6 +8,7 @@ package com.mycompany.bdppeventos.controller.ABMEvento;
 
 import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.entities.Taller;
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.RepositorioContext;
@@ -113,7 +114,7 @@ public class PanelTallerController implements Initializable {
             
     private ObservableList<Persona> obtenerInstructores()
     {
-        List<Persona> lista = personaServicio.buscarInstructores();
+        List<Persona> lista = personaServicio.obtenerPersonasPorRol(TipoRol.INSTRUCTOR);
         // 2. Verificamos si la lista es nula
         if (lista != null) {
             // 3. Si no es nula, la convertimos a ObservableList

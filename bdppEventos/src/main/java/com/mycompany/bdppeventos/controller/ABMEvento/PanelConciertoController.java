@@ -14,6 +14,7 @@ import org.controlsfx.control.CheckComboBox;
 
 import com.mycompany.bdppeventos.model.entities.Concierto;
 import com.mycompany.bdppeventos.model.entities.Persona;
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
@@ -125,7 +126,7 @@ public class PanelConciertoController extends ConfiguracionIgu implements Initia
     }
 
     private ObservableList<Persona> obtenerArtistas() {
-        List<Persona> lista = personaServicio.buscarArtistas();
+        List<Persona> lista = personaServicio.obtenerPersonasPorRol(TipoRol.ARTISTA);
         // 2. Verificamos si la lista es nula
         if (lista != null) {
             // 3. Si no es nula, la convertimos a ObservableList

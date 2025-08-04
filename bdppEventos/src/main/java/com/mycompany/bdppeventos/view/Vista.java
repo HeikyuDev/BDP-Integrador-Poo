@@ -28,11 +28,7 @@ public enum Vista {
     // FXML de la seccion  ABM Persona
     
     ListaDePersonas("","ABMPersona/ListaDePersonas"),
-    FormularioPersona("","ABMPersona/FormularioPersona"),
-    
-    // FXML de la seccion Inscribir Participante
-    
-    InscribirParticipante("","ABMParticipante/InscribirParticipante"),
+    FormularioPersona("","ABMPersona/FormularioPersona"),        
     
     // FXML de la seccion ABM Proyeccion
     

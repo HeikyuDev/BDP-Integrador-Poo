@@ -171,34 +171,8 @@ public class PersonaServicio extends CrudServicio<Persona> {
         }
         
         throw new RuntimeException("No se pudieron cargar las personas desde la base de datos", e);
-    }
-}
-
-    // Metodos requeridos para Eventos
-
-    public List<Persona> buscarOrganizadores() {
-        return buscarTodos().stream()
-                .filter(p -> p.getUnaListaRoles().contains(TipoRol.ORGANIZADOR))
-                .toList();
-    }
-
-    public List<Persona> buscarCuradores() {
-        return buscarTodos().stream()
-                .filter(p -> p.getUnaListaRoles().contains(TipoRol.CURADOR))
-                .toList();
-    }
-
-    public List<Persona> buscarInstructores() {
-        return buscarTodos().stream()
-                .filter(p -> p.getUnaListaRoles().contains(TipoRol.INSTRUCTOR))
-                .toList();
-    }
-
-    public List<Persona> buscarArtistas() {
-        return buscarTodos().stream()
-                .filter(p -> p.getUnaListaRoles().contains(TipoRol.ARTISTA))
-                .toList();
-    }
+        }
+    }    
     
     // Metodos para asignarle a una persona un rol, y persistir la informacion
     public void asignarRol(Persona unaPersona, TipoRol rol) {
@@ -219,5 +193,11 @@ public class PersonaServicio extends CrudServicio<Persona> {
     unaPersona.agregarRol(rol);
     modificar(unaPersona);
 }
+
+    public List<Persona> obtenerPersonasPorRol(TipoRol unTipoRol) {
+        return buscarTodos().stream()
+                .filter(p -> p.getUnaListaRoles().contains(unTipoRol))
+                .toList();
+    }
 
 }

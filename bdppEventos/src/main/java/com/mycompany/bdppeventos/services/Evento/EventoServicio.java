@@ -20,6 +20,7 @@ import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.repository.Repositorio;
 import com.mycompany.bdppeventos.services.CrudServicio;
 import com.mycompany.bdppeventos.services.Participacion.ParticipacionServicio;
+import java.util.Arrays;
 
 /**
  * Servicio para gestionar eventos con métodos específicos para cada tipo
@@ -504,6 +505,8 @@ public class EventoServicio extends CrudServicio<Evento> {
         }
     }
 
+    /// === METODOS DE OBTENCION ===
+    
     public List<Evento> obtenerEventosConfirmadosInscribibles() {
         List<Evento> listaEventosFiltrados = new ArrayList<>();
 
@@ -514,7 +517,41 @@ public class EventoServicio extends CrudServicio<Evento> {
         }
         return listaEventosFiltrados;
     }
+
+    public List<Evento> obtenerEventosInscribiblesEnEstadosHabilitados() {
+        List<Evento> listaEventosFiltrados = new ArrayList<>();
+        List<EstadoEvento> estadosPermitidos = Arrays.asList(
+                EstadoEvento.CONFIRMADO,
+                EstadoEvento.EN_EJECUCION,
+                EstadoEvento.FINALIZADO,
+                EstadoEvento.CANCELADO
+        );
+
+        for (Evento unEvento : buscarTodos()) {
+            if (estadosPermitidos.contains(unEvento.getEstado()) && unEvento.isTieneInscripcion()) {
+                listaEventosFiltrados.add(unEvento);
+            }
+        }
+        return listaEventosFiltrados;
+    }
     
+    public List<Evento> obtenerEventosPorEstado(EstadoEvento unEstado)
+    {
+        // Declaramos una lista que contendra los eventos filtrados
+        List<Evento> listaEventosFiltrados = new ArrayList<>();
+        // Recorremos todos los eventos persistidos y Agregamos a la lista aquellos cuyo estado sea igual al pasado por parametro
+        for (Evento unEvento : buscarTodos()) {
+            if (unEvento.getEstado() == unEstado) {
+                listaEventosFiltrados.add(unEvento);
+            }
+        }
+        return listaEventosFiltrados;        
+    }
+    
+
+    
+    //=== METODOS ESPECIFICOS === 
+
     public void inscribirParticipantes(Evento unEvento, Persona unaPersona)
     {
         try {
@@ -558,5 +595,7 @@ public class EventoServicio extends CrudServicio<Evento> {
             throw e;
         }
     }
+    
+    
 
 }

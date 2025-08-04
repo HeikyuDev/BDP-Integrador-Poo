@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import com.mycompany.bdppeventos.model.entities.Exposicion;
 import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.entities.TipoDeArte;
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.services.TipoDeArte.TipoDeArteServicio;
 import com.mycompany.bdppeventos.util.Alerta;
@@ -120,7 +121,7 @@ public class PanelExposicionController implements Initializable {
 
     private void actualizarComboCuradores() {
         try {            
-            List<Persona> curadores = personaServicio.buscarCuradores();
+            List<Persona> curadores = personaServicio.obtenerPersonasPorRol(TipoRol.CURADOR);
             cmbCurador.getItems().setAll(curadores);
 
         } catch (Exception e) {

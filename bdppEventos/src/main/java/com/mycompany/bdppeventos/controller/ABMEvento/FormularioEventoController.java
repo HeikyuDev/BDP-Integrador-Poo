@@ -19,6 +19,7 @@ import com.mycompany.bdppeventos.model.entities.Taller;
 import com.mycompany.bdppeventos.model.entities.TipoDeArte;
 import com.mycompany.bdppeventos.model.enums.TipoCobertura;
 import com.mycompany.bdppeventos.model.enums.TipoEvento;
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.services.Evento.EventoServicio;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.util.Alerta;
@@ -612,7 +613,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
     private void actualizarComboOrganizadores() {
         // Utilizamos el servicio de Persona para obtener todos los organizadores
         // Registrados en el sistema.
-        configuracionListaEnCheckCombo(chkComboOrganizadores, personaServicio.buscarOrganizadores());
+        configuracionListaEnCheckCombo(chkComboOrganizadores, personaServicio.obtenerPersonasPorRol(TipoRol.ORGANIZADOR));
     }
 
     private void cambiarEscenaAExposicion() {

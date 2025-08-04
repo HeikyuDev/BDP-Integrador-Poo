@@ -91,7 +91,7 @@ public class VerParticipantesController implements Initializable {
 
     private void cargarTodosLosEventos() {
         try {
-            List<Evento> todosLosEventos = eventoServicio.obtenerEventosConfirmadosInscribibles();
+            List<Evento> todosLosEventos = eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados();
             listaEventos.setAll(todosLosEventos);
         } catch (Exception e) {
             Alerta.mostrarError("Error al cargar los eventos: " + e.getMessage());
@@ -154,41 +154,41 @@ public class VerParticipantesController implements Initializable {
     private List<Evento> obtenerListaPorTipo(TipoEvento unTipoEvento) {
         // Si es null, devolver todos los eventos
         if (unTipoEvento == null) {
-            return eventoServicio.obtenerEventosConfirmadosInscribibles();
+            return eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados();
         }
 
         List<Evento> listaEventoFiltrada = new ArrayList<>();
         switch (unTipoEvento) {
             case EXPOSICION -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosConfirmadosInscribibles()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados()) {
                     if (unEvento instanceof Exposicion) {
                         listaEventoFiltrada.add(unEvento);
                     }
                 }
             }
             case TALLER -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosConfirmadosInscribibles()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados()) {
                     if (unEvento instanceof Taller) {
                         listaEventoFiltrada.add(unEvento);
                     }
                 }
             }
             case CONCIERTO -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosConfirmadosInscribibles()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados()) {
                     if (unEvento instanceof Concierto) {
                         listaEventoFiltrada.add(unEvento);
                     }
                 }
             }
             case CICLO_DE_CINE -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosConfirmadosInscribibles()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados()) {
                     if (unEvento instanceof CicloDeCine) {
                         listaEventoFiltrada.add(unEvento);
                     }
                 }
             }
             case FERIA -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosConfirmadosInscribibles()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados()) {
                     if (unEvento instanceof Feria) {
                         listaEventoFiltrada.add(unEvento);
                     }
@@ -199,27 +199,33 @@ public class VerParticipantesController implements Initializable {
     }
 
     @FXML
-private void verParticipantes() {
-    try {
-        // Obtenemos el Evento seleccionado
-        Evento eventoSeleccionado = tblEvento.getSelectionModel().getSelectedItem();
-        
-        // Validamos que haya un evento seleccionado
-        if (eventoSeleccionado == null) {
-            Alerta.mostrarError("Debe seleccionar un evento para ver sus participantes");
-            return;
+    private void verParticipantes() {
+        try {
+            // Obtenemos el Evento seleccionado
+            Evento eventoSeleccionado = tblEvento.getSelectionModel().getSelectedItem();
+
+            // Validamos que haya un evento seleccionado
+            if (eventoSeleccionado == null) {
+                Alerta.mostrarError("Debe seleccionar un evento para ver sus participantes");
+                return;
+            }
+
+            // Obtenemos la lista de Participantes/Asistentes asociados a ese evento
+            List<Persona> listaParticipantesDelEvento = eventoSeleccionado.getPersonasPorRol(TipoRol.PARTICIPANTE);
+
+            if (!listaParticipantesDelEvento.isEmpty()) {
+                listaParticipantes.setAll(listaParticipantesDelEvento);
+            } else {
+                tblParticipantes.setPlaceholder(new Label("Este evento no tiene participantes inscriptos"));
+                listaParticipantes.clear(); // Limpiar por si había datos previos
+            }
+            tblParticipantes.refresh(); 
+
+        } catch (Exception e) {
+            Alerta.mostrarError("Error al cargar los participantes: " + e.getMessage());
+            listaParticipantes.clear(); // Limpia la tabla en caso de error
         }
-        
-        // Obtenemos la lista de Participantes/Asistentes asociados a ese evento
-        List<Persona> listaParticipantesDelEvento = eventoSeleccionado.getPersonasPorRol(TipoRol.PARTICIPANTE);
-        listaParticipantes.setAll(listaParticipantesDelEvento);
-        tblParticipantes.refresh();
-        
-    } catch (Exception e) {
-        Alerta.mostrarError("Error al cargar los participantes: " + e.getMessage());
-        listaParticipantes.clear(); // Limpia la tabla en caso de error
     }
-}
 
     
 }
