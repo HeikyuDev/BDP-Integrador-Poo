@@ -3,7 +3,6 @@ package com.mycompany.bdppeventos.controller.ABMEvento;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import com.mycompany.bdppeventos.model.entities.Exposicion;
 import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.entities.TipoDeArte;
@@ -14,10 +13,8 @@ import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.RepositorioContext;
 import com.mycompany.bdppeventos.util.StageManager;
 import com.mycompany.bdppeventos.view.Vista;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
 public class PanelExposicionController implements Initializable {
@@ -27,41 +24,20 @@ public class PanelExposicionController implements Initializable {
     
     @FXML
     private ComboBox<Persona> cmbCurador;
-    
-
-    /**
-     * Botón para agregar un nuevo tipo de arte a la exposición.
-     */
-    @FXML
-    private Button btnAgregarTipoArte;
-    
-    
-    
-    
+                        
     //Servicios
     private TipoDeArteServicio tipoDeArteServicio;
     private PersonaServicio personaServicio;
-
-    /**
-     * Inicializa el panel de exposición al cargar la vista.
-     * Aquí se puede agregar lógica de inicialización si es necesario.
-     */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //Inicializamos el tipoDeArteServicio
         tipoDeArteServicio = new TipoDeArteServicio(RepositorioContext.getRepositorio());
-        personaServicio = new PersonaServicio(RepositorioContext.getRepositorio());
-        //Vinculamos la Observable List con la combo        
+        personaServicio = new PersonaServicio(RepositorioContext.getRepositorio());                
         // Actualizamos la Combo
         actualizarCombos();
     }
-
-    // Metodos de Controles
-
-    /**
-     * Acción asociada al botón para agregar un tipo de arte.
-     * Actualmente solo imprime un mensaje por consola.
-     */
+   
     @FXML
     private void agregarTipoArte() {
         // Limpiamos los campos
@@ -111,7 +87,7 @@ public class PanelExposicionController implements Initializable {
         }
         return unCurador;
     }
-
+    
     public void cargarDatos(Exposicion exposicion) {
         // Obtengo el Tipo de Arte de la exposicion
         cmbTipoArte.setValue(exposicion.getUnTipoArte());
@@ -141,5 +117,4 @@ public class PanelExposicionController implements Initializable {
         }
     }
     
-
 }

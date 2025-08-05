@@ -4,13 +4,10 @@ import com.mycompany.bdppeventos.model.entities.Pelicula;
 import com.mycompany.bdppeventos.model.entities.Proyeccion;
 import com.mycompany.bdppeventos.repository.Repositorio;
 import com.mycompany.bdppeventos.services.CrudServicio;
-import com.mycompany.bdppeventos.services.proyeccion.ProyeccionServicio;
 import java.util.List;
 
 public class PeliculaServicio extends CrudServicio<Pelicula> {
-
-    // Inicializo los valores a traves del constructor de la clase padre
-    // "CrudServicio<Pelicula>"
+    
     public PeliculaServicio(Repositorio repositorio) {
         super(repositorio, Pelicula.class);
     }
@@ -25,7 +22,6 @@ public class PeliculaServicio extends CrudServicio<Pelicula> {
             nuevaPelicula.setDuracion(duracion);            
             // Insertar en la base de datos
             insertar(nuevaPelicula);
-
         } catch (Exception e) {
             throw e;
         }

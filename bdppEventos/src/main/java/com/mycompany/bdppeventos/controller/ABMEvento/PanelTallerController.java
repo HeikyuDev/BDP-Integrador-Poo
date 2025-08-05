@@ -1,9 +1,3 @@
-
-/**
- * Controlador del panel de taller para el ABM de eventos.
- * Gestiona la selección del tipo de modalidad (presencial o virtual) y la configuración
- * de los controles relacionados con el cupo del taller.
- */
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
 import com.mycompany.bdppeventos.model.entities.Persona;
@@ -17,7 +11,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -25,30 +18,23 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 
 public class PanelTallerController implements Initializable {
-
-    // Controles
-
-    
+        
     @FXML
-    private RadioButton rbtnPresencial;
+    private RadioButton rbtnPresencial, rbtnVirtual;
 
-   
-    @FXML
-    private RadioButton rbtnVirtual;
+    // ToggleGroup para que solo se pueda seleccionar una modalidad
+    private final ToggleGroup rBtnGroup = new ToggleGroup();
     
-   
     @FXML
     private ComboBox<Persona> cmbInstructor;
     
     // Servicios
-    private PersonaServicio personaServicio;
-    
-    
-    
-    
+    private PersonaServicio personaServicio;                
+        
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Inicializamos el servicios de Persona
         personaServicio = new PersonaServicio(RepositorioContext.getRepositorio());
         // Configuramos los Radios Buttons
         configurarToggleGroup();       
@@ -56,21 +42,14 @@ public class PanelTallerController implements Initializable {
         actualizarCombo();
     }
     
-
-    /**
-     * Grupo de botones para asegurar que solo se seleccione una modalidad a la vez.
-     */
-    private final ToggleGroup rBtnGroup = new ToggleGroup();
-
-    /**
-     * Configura el ToggleGroup para los RadioButton de modalidad.
-     * Si se deselecciona la opción actual, vuelve a seleccionarla para evitar que
-     * ambas queden desmarcadas.
-     */
+        
     private void configurarToggleGroup() {
+        // Agregamos los radio Buttons al ToggleGroup
         rbtnPresencial.setToggleGroup(rBtnGroup);
         rbtnVirtual.setToggleGroup(rBtnGroup);
+        // Dejamos seteados por defecto una modalidad
         rbtnPresencial.setSelected(true);
+        // previene que el grupo de radio buttons se quede sin selección
         rBtnGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             if (newToggle == null && oldToggle != null) {
                 oldToggle.setSelected(true);
@@ -84,7 +63,7 @@ public class PanelTallerController implements Initializable {
         return rbtnPresencial.isSelected();                 
     }
 
-    Persona getInstructor() {
+    public Persona getInstructor() {
         if (cmbInstructor == null || cmbInstructor.getSelectionModel() == null) {
             throw new IllegalStateException("ComboBox no inicializado correctamente");
         }
@@ -96,8 +75,13 @@ public class PanelTallerController implements Initializable {
         return unInstructor;
     }
 
-    void cargarDatos(Taller taller) {
+    public void cargarDatos(Taller taller) {
         // Determinamos si es Virtual o no
+        if(taller == null)
+        {
+            throw new NullPointerException("Error: No se reconoce el taller");
+        }        
+        
         if (taller.isEsPresencial())
         {
             rbtnPresencial.setSelected(true);

@@ -5,9 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import org.controlsfx.control.CheckComboBox;
-
 import com.mycompany.bdppeventos.model.entities.CicloDeCine;
 import com.mycompany.bdppeventos.model.entities.Concierto;
 import com.mycompany.bdppeventos.model.entities.Evento;
@@ -27,7 +25,6 @@ import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import com.mycompany.bdppeventos.util.RepositorioContext;
 import com.mycompany.bdppeventos.util.StageManager;
 import com.mycompany.bdppeventos.view.Vista;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -45,27 +42,18 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-/**
- * Controlador principal para la gestión de eventos (CRUD).
- * Maneja el formulario de eventos y la tabla de visualización.
- */
-public class FormularioEventoController extends ConfiguracionIgu implements Initializable {
+public class FormularioEventoController implements Initializable {
 
-    // ===============================
-    // CONSTANTES
-    // ===============================
+    // === CONSTANTES ===    
     private static final String MENSAJE_EXITO_ALTA = "Evento registrado exitosamente";
     private static final String MENSAJE_EXITO_MODIFICACION = "Evento modificado exitosamente";
     private static final String MENSAJE_EXITO_ELIMINACION = "Evento eliminado correctamente";
     private static final String MENSAJE_ERROR_ELIMINACION = "Error: No se pudo eliminar el Evento";
     private static final String MENSAJE_ERROR_SELECCION = "Debe seleccionar un evento";
     private static final String TEXTO_BOTON_ALTA = "Dar de Alta";
-    private static final String TEXTO_LIMITADO = "Ilimitado";
     private static final String TEXTO_SIN_ORGANIZADORES = "Sin Organizadores";
 
-    // ===============================
-    // ELEMENTOS FXML
-    // ===============================
+    // === ELEMENTOS FXML ===    
     @FXML
     private CheckBox chkCupoMaximo, chkTieneInscripcion;
     @FXML
@@ -92,9 +80,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
     @FXML
     private AnchorPane contenedorDinamico;
 
-    // ===============================
-    // ATRIBUTOS DE INSTANCIA
-    // ===============================
+    // === ATRIBUTOS DE INSTANCIA ===
     private final ObservableList<Evento> listaEventos = FXCollections.observableArrayList();
 
     // Servicios
@@ -111,63 +97,56 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
     // Variable para modificación
     private Evento eventoEnEdicion = null;
 
-    //
-    /**
-     * Inicializa el controlador al cargar la vista FXML. Carga los valores de
-     * los combos de estado y tipo de evento.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Inicializo los servicios que se utilizaran {Evento - Persona}
         inicializarServicios();
+        // Inicializo el panel que se va a mostrar por defecto
         inicializarContenedorDinamico();
+        // Configuro la tabla y los combos
         configurarInterfaz();
+        // Actualizo la tabla de eventos registrados "Activos" y la Combo de Organizadores
         actualizarDatos();
     }
 
+    // Metodo Utilizado para inicializar los servicios que se van a utilizar
     private void inicializarServicios() {
         eventoServicio = new EventoServicio(RepositorioContext.getRepositorio());
         personaServicio = new PersonaServicio(RepositorioContext.getRepositorio());
     }
 
+    // Metodo utilizado para configurar componentes de Interfaz
     private void configurarInterfaz() {
         tablaEventos.setItems(listaEventos);
-        configuracionEnumEnCombo(cmbTipoEvento, TipoEvento.class);
+        ConfiguracionIgu.configuracionEnumEnCombo(cmbTipoEvento, TipoEvento.class);
         configurarColumnas();
     }
 
+    // Metodo Utilizado para actualizar tanto los datos de la tabla de eventos como los de la combo de Organizadores
     private void actualizarDatos() {
         actualizarTabla();
         actualizarComboOrganizadores();
     }
 
+    // Metodo utilizado para mostrar un panel por defecto 
     private void inicializarContenedorDinamico() {
         StageManager.cambiarEscenaEnContenedor(contenedorDinamico, Vista.PanelVacio);
     }
 
-    /**
-     * Configura la relación entre el CheckBox de cupo máximo y el TextField
-     * asociado. Se llama cuando el usuario interactúa con el CheckBox.
-     */
     @FXML
     private void configuracionCupoMaximo() {
-        configuracionCheckTextfield(chkCupoMaximo, txtCupoMaximo);
+        // Configuracion que permite que cuando se seleccione un CheckBox se pueda escribir en un textfield
+        ConfiguracionIgu.configuracionCheckTextfield(chkCupoMaximo, txtCupoMaximo);
     }
 
-    /**
-     * Maneja el cambio de selección en el ComboBox de tipo de evento. Carga el
-     * panel correspondiente y ajusta los controles según el tipo seleccionado.
-     */
     @FXML
     private void onTipoEventoChanged() {
+        // Configuracion utilizada para que se cambie de panel en base a la seleccion del combo
         TipoEvento tipoSeleccionado = cmbTipoEvento.getSelectionModel().getSelectedItem();
         // Si el tipo Seleccionado es null "Muestra el panel Vacio"
-        cargarPanelEspecifico(tipoSeleccionado);        
+        cargarPanelEspecifico(tipoSeleccionado);
     }
 
-    /**
-     * Método para dar de alta un evento Aquí se debe colocar la lógica para
-     * guardar el evento en la base de datos.
-     */
     @FXML
     private void altaEvento() {
         try {
@@ -190,6 +169,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
             validarCamposBase(nombre, ubicacion, fechaInicio, duracion, unTipoEvento, organizadoresSeleccionados,
                     tieneCupo, cupoMax);
 
+            // Realizamos las conversiones necesarias
             int duracionEstimada = Integer.parseInt(duracion);
 
             if (tieneCupo) {
@@ -211,9 +191,8 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
         } finally {
             // Este bloque se ejecuta SIEMPRE (haya o no error)
             eventoEnEdicion = null;
-            limpiarCampos();
             actualizarTabla();
-            configuracionFinaly(btnAlta, btnModificacion, btnBaja, btnCancelar, TEXTO_BOTON_ALTA);
+            ConfiguracionIgu.configuracionFinaly(btnAlta, btnModificacion, btnBaja, btnCancelar, TEXTO_BOTON_ALTA);
             btnVisualizacion.setDisable(false);
             cmbTipoEvento.setDisable(false);
         }
@@ -221,74 +200,93 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
 
     @FXML
     private void modificacionEvento() {
-        Evento eventoSeleccionado = tablaEventos.getSelectionModel().getSelectedItem();
-        if (eventoSeleccionado == null) {
-            Alerta.mostrarError(MENSAJE_ERROR_SELECCION);
-            return;
+        try {
+            // Obtengo evento seleccionado del ComboBox
+            Evento eventoSeleccionado = tablaEventos.getSelectionModel().getSelectedItem();
+            if (eventoSeleccionado == null) {
+                // Si no se selecciona un evento del combo muestro un Error
+                Alerta.mostrarError(MENSAJE_ERROR_SELECCION);
+                return;
+            }
+
+            // Configurar interfaz para modificación
+            ConfiguracionIgu.configuracionBtnModificar(btnAlta, btnModificacion, btnBaja, btnCancelar);
+            btnVisualizacion.setDisable(true);
+
+            // Cargar datos del evento seleccionado {Mostrar en pantalla lo que ingreso el usuario}
+            cargarDatosEvento(eventoSeleccionado);
+            // Guardar referencia para edición
+            eventoEnEdicion = eventoSeleccionado;
+            // ProyeccionEnEdicion = proyeccionSeleccionada;
+        } catch (Exception e) {
+            Alerta.mostrarError("Ocurrio un Error inesperado: " + e.getMessage());
         }
-
-        // Configurar interfaz para modificación
-        configuracionBtnModificar(btnAlta, btnModificacion, btnBaja, btnCancelar);
-        btnVisualizacion.setDisable(true);
-
-        // Cargar datos del evento seleccionado
-        cargarDatosEvento(eventoSeleccionado);
-        // Guardar referencia para edición
-        eventoEnEdicion = eventoSeleccionado;
-        // ProyeccionEnEdicion = proyeccionSeleccionada;
     }
 
     private void cargarDatosEvento(Evento evento) {
-        // Datos básicos
-        txtNombre.setText(evento.getNombre());
-        txtUbicacion.setText(evento.getUbicacion());
-        dpFechaInicio.setValue(evento.getFechaInicio());
-        txtDuracion.setText(String.valueOf(evento.getDuracionEstimada()));
-        chkCupoMaximo.setSelected(evento.isTieneCupo());
-        chkTieneInscripcion.setSelected(evento.isTieneInscripcion());
+        try {
 
-        if (evento.isTieneCupo()) {
-            txtCupoMaximo.setText(String.valueOf(evento.getCapacidadMaxima()));
-        }
+            // Validamos si el evento es nulo
+            if (evento == null) {
+                // Validamos si el evento es nulo
+                Alerta.mostrarError("Error: No se puede cargar un evento nulo");
+                return;
+            }
+            // Datos básicos
+            txtNombre.setText(evento.getNombre());
+            txtUbicacion.setText(evento.getUbicacion());
+            dpFechaInicio.setValue(evento.getFechaInicio());
+            txtDuracion.setText(String.valueOf(evento.getDuracionEstimada()));
+            chkCupoMaximo.setSelected(evento.isTieneCupo());
+            chkTieneInscripcion.setSelected(evento.isTieneInscripcion());
 
-        // Cargar organizadores
-        List<Persona> organizadores = evento.getOrganizadores();
-        chkComboOrganizadores.getCheckModel().clearChecks();
-        for (Persona organizador : organizadores) {
-            chkComboOrganizadores.getCheckModel().check(organizador);
-        }
+            if (evento.isTieneCupo()) {
+                txtCupoMaximo.setText(String.valueOf(evento.getCapacidadMaxima()));
+            }
 
-        // Determinar la Visibilidad de elementos
-        if (evento.isTieneCupo()) {
-            txtCupoMaximo.setDisable(false);
-        }
+            // Cargar organizadores
+            List<Persona> organizadores = evento.getOrganizadores();
+            chkComboOrganizadores.getCheckModel().clearChecks();
+            for (Persona organizador : organizadores) {
+                chkComboOrganizadores.getCheckModel().check(organizador);
+            }
 
-        // Determinar tipo y cargar panel específico
-        if (evento instanceof Exposicion) {
-            cmbTipoEvento.setValue(TipoEvento.EXPOSICION);
-            cmbTipoEvento.setDisable(true);
-            cambiarEscenaAExposicion();
-            panelExposicionController.cargarDatos((Exposicion) evento);
-        } else if (evento instanceof Taller) {
-            cmbTipoEvento.setValue(TipoEvento.TALLER);
-            cmbTipoEvento.setDisable(true);
-            cambiarEscenaATaller();
-            panelTallerController.cargarDatos((Taller) evento);
-        } else if (evento instanceof Concierto) {
-            cmbTipoEvento.setValue(TipoEvento.CONCIERTO);
-            cmbTipoEvento.setDisable(true);
-            cambiarEscenaAConcierto();
-            panelConciertoController.cargarDatos((Concierto) evento);
-        } else if (evento instanceof CicloDeCine) {
-            cmbTipoEvento.setValue(TipoEvento.CICLO_DE_CINE);
-            cmbTipoEvento.setDisable(true);
-            cambiarEscenaACicloDeCine();
-            panelCicloCineController.cargarDatos((CicloDeCine) evento);
-        } else if (evento instanceof Feria) {
-            cmbTipoEvento.setValue(TipoEvento.FERIA);
-            cmbTipoEvento.setDisable(true);
-            cambiarEscenaAFeria();
-            panelFeriaController.cargarDatos((Feria) evento);
+            // Determinar la Visibilidad de elementos
+            if (evento.isTieneCupo()) {
+                txtCupoMaximo.setDisable(false);
+            }
+
+            // Determinar tipo y cargar panel específico
+            if (evento instanceof Exposicion) {
+                cmbTipoEvento.setValue(TipoEvento.EXPOSICION);
+                cmbTipoEvento.setDisable(true);
+                cambiarEscenaAExposicion();
+                panelExposicionController.cargarDatos((Exposicion) evento);
+            } else if (evento instanceof Taller) {
+                cmbTipoEvento.setValue(TipoEvento.TALLER);
+                cmbTipoEvento.setDisable(true);
+                cambiarEscenaATaller();
+                panelTallerController.cargarDatos((Taller) evento);
+            } else if (evento instanceof Concierto) {
+                cmbTipoEvento.setValue(TipoEvento.CONCIERTO);
+                cmbTipoEvento.setDisable(true);
+                cambiarEscenaAConcierto();
+                panelConciertoController.cargarDatos((Concierto) evento);
+            } else if (evento instanceof CicloDeCine) {
+                cmbTipoEvento.setValue(TipoEvento.CICLO_DE_CINE);
+                cmbTipoEvento.setDisable(true);
+                cambiarEscenaACicloDeCine();
+                panelCicloCineController.cargarDatos((CicloDeCine) evento);
+            } else if (evento instanceof Feria) {
+                cmbTipoEvento.setValue(TipoEvento.FERIA);
+                cmbTipoEvento.setDisable(true);
+                cambiarEscenaAFeria();
+                panelFeriaController.cargarDatos((Feria) evento);
+            }
+        } catch (IllegalArgumentException e) {
+            Alerta.mostrarError("Error: Asegurese de ingresar datos Validos");
+        } catch (Exception e) {
+            Alerta.mostrarError("Ocurrio un Error Inesperado");
         }
     }
 
@@ -320,13 +318,14 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
         eventoEnEdicion = null;
         limpiarCampos();
         actualizarTabla();
-        configuracionBtnCancelar(btnAlta, btnModificacion, btnBaja, btnCancelar, TEXTO_BOTON_ALTA);
+        ConfiguracionIgu.configuracionBtnCancelar(btnAlta, btnModificacion, btnBaja, btnCancelar, TEXTO_BOTON_ALTA);
         btnVisualizacion.setDisable(false);
         cmbTipoEvento.setDisable(false);
     }
 
     @FXML
     private void visualizacionEvento() {
+        // Obtengo el evento seleccionado de la tabla
         Evento eventoSeleccionado = tablaEventos.getSelectionModel().getSelectedItem();
         if (eventoSeleccionado == null) {
             Alerta.mostrarError(MENSAJE_ERROR_SELECCION);
@@ -353,6 +352,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
         }
     }
 
+    // Metodo utilizado para determinar a que subclase corresponde el parametro
     private Vista determinarVistaPorTipoEvento(Evento evento) {
         if (evento instanceof Exposicion) {
             return Vista.VisualizacionExposicion;
@@ -368,6 +368,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
         return null;
     }
 
+    // Metodo utilizado para limpiar los campos de la IGU
     private void limpiarCampos() {
         txtNombre.clear();
         txtUbicacion.clear();
@@ -381,6 +382,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
         inicializarContenedorDinamico();
     }
 
+    // Metodo utilizado para validar los datos que el usuario ingresa
     private void validarCamposBase(String txtNombre, String txtUbicacion, LocalDate fechaInicio,
             String txtDuracion, TipoEvento tipo, List<Persona> organizadores, boolean tieneCupo, String cupoMax) {
         StringBuilder mensajeError = new StringBuilder();
@@ -429,12 +431,13 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
         }
     }
 
+    // Metodo utilziado para mostrar un determinado panel dependiendo del tipo de evento
     private void cargarPanelEspecifico(TipoEvento tipo) {
         try {
             // Si tipo es null, mostrar panel vacío
             if (tipo == null) {
                 StageManager.cambiarEscenaEnContenedor(contenedorDinamico, Vista.PanelVacio);
-                chkCupoMaximo.setDisable(false); 
+                chkCupoMaximo.setDisable(false);
                 return; // Salir del método
             }
 
@@ -468,7 +471,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
                 }
             }
         } catch (Exception e) {
-            Alerta.mostrarError("Error cargando el formulario específico");
+            Alerta.mostrarError("Error cargando el formulario específico: " + e.getMessage());
         }
     }
 
@@ -523,7 +526,6 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
                             cantidadStands, tipoCobertura);
                 }
             }
-
             Alerta.mostrarExito(MENSAJE_EXITO_ALTA);
             limpiarCampos();
         } catch (Exception e) {
@@ -595,6 +597,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
 
     private void actualizarTabla() {
         try {
+            // Obtengo todos los eventos de la BD
             List<Evento> eventos = eventoServicio.buscarTodos();
             if (eventos != null) {
                 listaEventos.setAll(FXCollections.observableArrayList(eventos));
@@ -613,7 +616,7 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
     private void actualizarComboOrganizadores() {
         // Utilizamos el servicio de Persona para obtener todos los organizadores
         // Registrados en el sistema.
-        configuracionListaEnCheckCombo(chkComboOrganizadores, personaServicio.obtenerPersonasPorRol(TipoRol.ORGANIZADOR));
+        ConfiguracionIgu.configuracionListaEnCheckCombo(chkComboOrganizadores, personaServicio.obtenerPersonasPorRol(TipoRol.ORGANIZADOR));
     }
 
     private void cambiarEscenaAExposicion() {
@@ -659,10 +662,10 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
                 .setCellValueFactory(cellData -> ConfiguracionIgu.formatFecha(cellData.getValue().getFechaInicio()));
 
         // Columnas booleanas
-        colTieneCupo.setCellValueFactory(cellData -> formatBoolean(cellData.getValue().isTieneCupo(), "SÍ", "NO"));
+        colTieneCupo.setCellValueFactory(cellData -> ConfiguracionIgu.formatBoolean(cellData.getValue().isTieneCupo(), "SÍ", "NO"));
 
         colTieneInscripcion
-                .setCellValueFactory(cellData -> formatBoolean(cellData.getValue().isTieneInscripcion(), "SÍ", "NO"));
+                .setCellValueFactory(cellData -> ConfiguracionIgu.formatBoolean(cellData.getValue().isTieneInscripcion(), "SÍ", "NO"));
 
         // Columna de capacidad condicional
         colCapacidadMaxima.setCellValueFactory(cellData -> ConfiguracionIgu.formatCupoMaximoEvent(cellData.getValue()));
@@ -670,13 +673,12 @@ public class FormularioEventoController extends ConfiguracionIgu implements Init
         // Columna de organizadores
         colOrganizadores.setCellValueFactory(cellData -> {
             List<Persona> organizadores = cellData.getValue().getOrganizadores();
-            return formatLista(organizadores, Persona::getInformacionPersonal, TEXTO_SIN_ORGANIZADORES);
+            return ConfiguracionIgu.formatLista(organizadores, Persona::getInformacionPersonal, TEXTO_SIN_ORGANIZADORES);
         });
 
         // Columna de tipo de evento
         colTipo.setCellValueFactory(cellData -> obtenerTipoEvento(cellData.getValue()));
     }
-    
 
     private SimpleStringProperty obtenerTipoEvento(Evento evento) {
         if (evento instanceof Exposicion) {

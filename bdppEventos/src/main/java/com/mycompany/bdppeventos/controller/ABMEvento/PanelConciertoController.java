@@ -1,17 +1,10 @@
-
-/**
- * Controlador del panel de concierto para el ABM de eventos.
- * Permite gestionar la lógica asociada a los conciertos, como la configuración de si es pago o no.
- */
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import org.controlsfx.control.CheckComboBox;
-
 import com.mycompany.bdppeventos.model.entities.Concierto;
 import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
@@ -19,7 +12,6 @@ import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import com.mycompany.bdppeventos.util.RepositorioContext;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,7 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
-public class PanelConciertoController extends ConfiguracionIgu implements Initializable {
+public class PanelConciertoController  implements Initializable {
 
     @FXML
     private CheckBox chkEsPago;
@@ -40,11 +32,7 @@ public class PanelConciertoController extends ConfiguracionIgu implements Initia
 
     // Servicios
     private PersonaServicio personaServicio;
-
-    /**
-     * Inicializa el panel de concierto al cargar la vista.
-     * Aquí se puede agregar lógica de inicialización si es necesario.
-     */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -54,15 +42,10 @@ public class PanelConciertoController extends ConfiguracionIgu implements Initia
         actualizarCombo();
     }
 
-    // Metodos de Controles
-
-    /**
-     * Acción asociada al control para configurar si el concierto es pago.
-     * Llama a la función utilitaria para enlazar el CheckBox y el TextField.
-     */
     @FXML
     private void configurarEsPago() {
-        configuracionCheckTextfield(chkEsPago, txtEsPago);
+        // Configuracion que permite escritura en Textfield si se selecciona el checkBox
+        ConfiguracionIgu.configuracionCheckTextfield(chkEsPago, txtEsPago);
     }
 
     // Metodos específicos
@@ -150,7 +133,7 @@ public class PanelConciertoController extends ConfiguracionIgu implements Initia
 
     protected void limpiarCampos() {
         chkComboArtistas.getCheckModel().clearChecks();
-        txtEsPago.setText("");
+        txtEsPago.clear();
         chkEsPago.setSelected(false);
     }
 

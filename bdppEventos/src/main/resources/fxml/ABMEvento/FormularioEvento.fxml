@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1093.0" prefWidth="807.0" styleClass="scroll-pane-vertical" stylesheets="@../../css/styles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
+<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1093.0" prefWidth="807.0" styleClass="scroll-pane-vertical" stylesheets="@../../css/styles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
     <content>
         <VBox prefWidth="728.0" styleClass="main-container">
             <children>
@@ -40,14 +40,14 @@
                                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <Label styleClass="form-label-required" text="Nombre *" />
-                                                <TextField fx:id="txtNombre" styleClass="form-textfield" />
+                                                <TextField fx:id="txtNombre" promptText="ingrese el nombre" styleClass="form-textfield" />
                                             </children>
                                         </VBox>
 
                                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <Label styleClass="form-label-required" text="Ubicación *" />
-                                                <TextField fx:id="txtUbicacion" styleClass="form-textfield" />
+                                                <TextField fx:id="txtUbicacion" promptText="ingrese la ubicacion" styleClass="form-textfield" />
                                             </children>
                                         </VBox>
                                     </children>
@@ -59,14 +59,14 @@
                                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <Label styleClass="form-label-required" text="Fecha de Inicio *" />
-                                                <DatePicker fx:id="dpFechaInicio" maxWidth="Infinity" prefHeight="33.0" prefWidth="179.0" styleClass="form-datepicker" />
+                                                <DatePicker fx:id="dpFechaInicio" maxWidth="Infinity" prefHeight="33.0" prefWidth="179.0" promptText="dd/mm/yyyy" styleClass="form-datepicker" />
                                             </children>
                                         </VBox>
 
                                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <Label styleClass="form-label-required" text="Duración (Horas) *" />
-                                                <TextField fx:id="txtDuracion" styleClass="form-textfield" />
+                                                <TextField fx:id="txtDuracion" promptText="ingrese la duracion" styleClass="form-textfield" />
                                             </children>
                                         </VBox>
                                     </children>
@@ -136,7 +136,7 @@
                             <children>
                                 <Label styleClass="section-title" text="Tipo De Evento" />
                                 <Label fx:id="lblTipoDeEvento" styleClass="form-label-required" text="Tipo *" />
-                                <ComboBox fx:id="cmbTipoEvento" onAction="#onTipoEventoChanged" prefHeight="35.0" prefWidth="430.0" styleClass="form-combobox" />
+                                <ComboBox fx:id="cmbTipoEvento" onAction="#onTipoEventoChanged" prefHeight="35.0" prefWidth="430.0" promptText="Seleccione un Tipo" styleClass="form-combobox" />
 
                                 <!-- Panel dinámico (sin cambios) -->
                                 <AnchorPane fx:id="contenedorDinamico" prefHeight="120.0" styleClass="dynamic-container">
@@ -150,7 +150,7 @@
                         <!-- Botón (con margen superior ajustado) -->
                         <HBox alignment="CENTER_RIGHT">
                             <children>
-                                <Button fx:id="btnAlta" onAction="#altaEvento" prefHeight="39.0" prefWidth="162.0" styleClass="simple-button-bold" text="Dar de Alta" />
+                                <Button fx:id="btnAlta" onAction="#altaEvento" prefHeight="39.0" prefWidth="214.0" styleClass="simple-button-bold" text="Dar de Alta" />
                             </children>
                             <VBox.margin>
                                 <Insets top="7.0" />
@@ -169,17 +169,17 @@
                                         <Insets bottom="15.0" />
                                     </VBox.margin>
                                 </Label>
-                                <TableView fx:id="tablaEventos" prefHeight="500.0" prefWidth="1300.0" styleClass="form-tableview" tableMenuButtonVisible="true">
+                                <TableView fx:id="tablaEventos" prefHeight="500.0" prefWidth="1300.0" styleClass="form-tableview">
                                     <columns>
-                                        <TableColumn fx:id="colNombre" prefWidth="150.0" text="Nombre" />
-                                        <TableColumn fx:id="colUbicacion" prefWidth="200.0" text="Ubicación" />
-                                        <TableColumn fx:id="colFechaInicio" prefWidth="150.0" text="Fecha inicio" />
-                                        <TableColumn fx:id="colDuracion" prefWidth="75.0" text="Duración" />                                                                                
-                                        <TableColumn fx:id="colTieneInscripcion" prefWidth="50.0" text="Inscribible" />
-                                        <TableColumn fx:id="colTieneCupo" prefWidth="150.0" text="Tiene Cupo" />
-                                        <TableColumn fx:id="colCapacidadMaxima" prefWidth="150.0" text="Capacidad Máxima" />                                                                                                                                                                
-                                        <TableColumn fx:id="colOrganizadores" prefWidth="250.0" text="Organizador/es" /> 
-                                        <TableColumn fx:id="colTipo" prefWidth="100.0" text="Tipo"/>                                                                                                                       
+                                        <TableColumn fx:id="colNombre" editable="false" prefWidth="150.0" sortable="false" text="Nombre" />
+                                        <TableColumn fx:id="colUbicacion" editable="false" prefWidth="200.0" sortable="false" text="Ubicación" />
+                                        <TableColumn fx:id="colFechaInicio" editable="false" prefWidth="150.0" sortable="false" text="Fecha inicio" />
+                                        <TableColumn fx:id="colDuracion" editable="false" prefWidth="75.0" sortable="false" text="Duración" />                                                                                
+                                        <TableColumn fx:id="colTieneInscripcion" editable="false" prefWidth="92.66668701171875" sortable="false" text="Inscribible" />
+                                        <TableColumn fx:id="colTieneCupo" editable="false" prefWidth="107.333251953125" sortable="false" text="Tiene Cupo" />
+                                        <TableColumn fx:id="colCapacidadMaxima" editable="false" prefWidth="150.0" sortable="false" text="Capacidad Máxima" />                                                                                                                                                                
+                                        <TableColumn fx:id="colOrganizadores" editable="false" prefWidth="300.0" sortable="false" text="Organizador/es" /> 
+                                        <TableColumn fx:id="colTipo" editable="false" prefWidth="100.0" sortable="false" text="Tipo" />                                                                                                                       
                                     </columns>                                    
                                 </TableView>
                                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">

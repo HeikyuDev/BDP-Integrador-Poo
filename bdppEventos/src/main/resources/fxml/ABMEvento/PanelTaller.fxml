@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="128.0" prefWidth="713.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelTallerController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="128.0" prefWidth="713.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelTallerController">
    <children>
       <HBox alignment="CENTER" prefHeight="29.0" prefWidth="453.0" spacing="2.0">
          <children>

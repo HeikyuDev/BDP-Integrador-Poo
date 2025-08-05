@@ -94,10 +94,5 @@ public class PanelAdministracionController implements Initializable {
             Alerta.mostrarError("Ocurrio un Error inesperado: " + e.getMessage());
             return "0";
         }
-    }
-    
-   
-    
-    
-    
+    }                   
 }

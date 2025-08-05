@@ -6,7 +6,6 @@ import com.mycompany.bdppeventos.model.entities.Proyeccion;
 import com.mycompany.bdppeventos.repository.Repositorio;
 import com.mycompany.bdppeventos.services.CrudServicio;
 import java.util.List;
-import javafx.collections.ObservableList;
 
 
 public class ProyeccionServicio extends CrudServicio<Proyeccion>{
@@ -15,8 +14,7 @@ public class ProyeccionServicio extends CrudServicio<Proyeccion>{
     public ProyeccionServicio(Repositorio repositorio) {
         super(repositorio, Proyeccion.class);
     }
-    
-    // ALTA
+        
     public void altaProyeccion(String nombre, List<Pelicula> listaPeliculas)
     {
         try {
@@ -26,21 +24,18 @@ public class ProyeccionServicio extends CrudServicio<Proyeccion>{
             unaProyeccion.setNombre(nombre);
             unaProyeccion.setUnaListaPelicula(listaPeliculas);
             // Guardamos la instancia en Base de Datos
-            insertar(unaProyeccion);
-            // Refrescar la entidad recién insertada 
-            repositorio.refrescar(unaProyeccion);
+            insertar(unaProyeccion);            
         } catch (Exception e) {
             throw e; // Lanzamos la excepcion al controlador de la vista
         }
     }
     
-    //MODIFICACION
-        public void modificarProyeccion(Proyeccion proyeccion, String nombre, List<Pelicula> listaPelicula) {
+    public void modificarProyeccion(Proyeccion proyeccion, String nombre, List<Pelicula> listaPelicula) {
         try {
             if (proyeccion == null) {
                 throw new IllegalArgumentException("La Proyeccion no es válida para modificar.");
             }
-                                    
+
             // Validar que la película exista y esté activa
             Proyeccion existente = buscarPorId(proyeccion.getIdProyeccion());
             if (existente == null) {
@@ -57,8 +52,7 @@ public class ProyeccionServicio extends CrudServicio<Proyeccion>{
             throw e;
         }
     }
-        
-    // BAJA
+    
     public void bajaProyeccion(Integer idProyeccion) {
         try {
             Proyeccion proyeccion = buscarPorId(idProyeccion);
@@ -88,8 +82,6 @@ public class ProyeccionServicio extends CrudServicio<Proyeccion>{
             throw e;
         }
     }
-
-        
     
     // Metodos Abstractos 
     @Override

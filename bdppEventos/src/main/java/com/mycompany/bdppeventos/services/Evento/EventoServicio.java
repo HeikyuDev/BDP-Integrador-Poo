@@ -415,15 +415,19 @@ public class EventoServicio extends CrudServicio<Evento> {
     private void configurarEventoBase(Evento evento, String nombre, String ubicacion,
             LocalDate fechaInicio, int duracion, boolean tieneCupo, int cupoMaximo,
             boolean tieneInscripcion) {
-        evento.setNombre(nombre);
-        evento.setUbicacion(ubicacion);
-        evento.setFechaInicio(fechaInicio);
-        evento.setDuracionEstimada(duracion);
-        evento.setTieneCupo(tieneCupo);
-        if (tieneCupo) {
-            evento.setCapacidadMaxima(cupoMaximo);
+        try {
+            evento.setNombre(nombre);
+            evento.setUbicacion(ubicacion);
+            evento.setFechaInicio(fechaInicio);
+            evento.setDuracionEstimada(duracion);
+            evento.setTieneCupo(tieneCupo);
+            if (tieneCupo) {
+                evento.setCapacidadMaxima(cupoMaximo);
+            }
+            evento.setTieneInscripcion(tieneInscripcion);
+        } catch (Exception e) {
+            throw e;
         }
-        evento.setTieneInscripcion(tieneInscripcion);
     }
 
     /**
@@ -446,7 +450,7 @@ public class EventoServicio extends CrudServicio<Evento> {
                 try {
                     participacionServicio.crearParticipacion(evento, nuevoOrganizador, TipoRol.ORGANIZADOR);
                 } catch (IllegalArgumentException e) {
-                    // Ya existe la participación, continuar
+                    throw e;
                 }
             }
         }
@@ -456,25 +460,29 @@ public class EventoServicio extends CrudServicio<Evento> {
      * Actualiza la lista de artistas de un concierto
      */
     private void actualizarArtistas(Concierto concierto, List<Persona> nuevosArtistas) {
-        // Obtener artistas actuales
-        List<Persona> artistasActuales = concierto.getArtistas();
+        try {
+            // Obtener artistas actuales
+            List<Persona> artistasActuales = concierto.getArtistas();
 
-        // Eliminar artistas que ya no están en la nueva lista
-        for (Persona artistaActual : artistasActuales) {
-            if (!nuevosArtistas.contains(artistaActual)) {
-                participacionServicio.eliminarParticipacion(concierto, artistaActual, TipoRol.ARTISTA);
-            }
-        }
-
-        // Agregar nuevos artistas
-        for (Persona nuevoArtista : nuevosArtistas) {
-            if (!artistasActuales.contains(nuevoArtista)) {
-                try {
-                    participacionServicio.crearParticipacion(concierto, nuevoArtista, TipoRol.ARTISTA);
-                } catch (IllegalArgumentException e) {
-                    // Ya existe la participación, continuar
+            // Eliminar artistas que ya no están en la nueva lista
+            for (Persona artistaActual : artistasActuales) {
+                if (!nuevosArtistas.contains(artistaActual)) {
+                    participacionServicio.eliminarParticipacion(concierto, artistaActual, TipoRol.ARTISTA);
                 }
             }
+
+            // Agregar nuevos artistas
+            for (Persona nuevoArtista : nuevosArtistas) {
+                if (!artistasActuales.contains(nuevoArtista)) {
+                    try {
+                        participacionServicio.crearParticipacion(concierto, nuevoArtista, TipoRol.ARTISTA);
+                    } catch (IllegalArgumentException e) {
+                        // Ya existe la participación, continuar
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw e;
         }
     }
 
@@ -484,8 +492,13 @@ public class EventoServicio extends CrudServicio<Evento> {
     public void baja(int eventoId) {
         try {
             Evento evento = this.buscarPorId(eventoId);
+
             if (evento == null) {
                 throw new IllegalArgumentException("No se encontró el evento con ID: " + eventoId);
+            }
+
+            if (!evento.getActivo()) {
+                throw new IllegalStateException("El Evento ya está dado de baja.");
             }
 
             // 1. Primero dar de baja todas las participaciones asociadas al evento
@@ -495,11 +508,7 @@ public class EventoServicio extends CrudServicio<Evento> {
             marcarComoInactivo(evento);
 
             // 3. Guardar los cambios del evento
-            modificar(evento);
-
-            // Log informativo (opcional)
-            System.out.println("Evento eliminado. Participaciones afectadas: " + participacionesEliminadas);
-
+            modificar(evento);          
         } catch (Exception e) {
             throw new RuntimeException("Error al eliminar el evento: " + e.getMessage(), e);
         }
@@ -508,44 +517,56 @@ public class EventoServicio extends CrudServicio<Evento> {
     /// === METODOS DE OBTENCION ===
     
     public List<Evento> obtenerEventosConfirmadosInscribibles() {
-        List<Evento> listaEventosFiltrados = new ArrayList<>();
+        try {
+            List<Evento> listaEventosFiltrados = new ArrayList<>();
 
-        for (Evento unEvento : buscarTodos()) {
-            if (unEvento.getEstado() == EstadoEvento.CONFIRMADO && unEvento.isTieneInscripcion()) {
-                listaEventosFiltrados.add(unEvento);
+            for (Evento unEvento : buscarTodos()) {
+                if (unEvento.getEstado() == EstadoEvento.CONFIRMADO && unEvento.isTieneInscripcion()) {
+                    listaEventosFiltrados.add(unEvento);
+                }
             }
+            return listaEventosFiltrados;
+        } catch (Exception e) {
+            throw e;
         }
-        return listaEventosFiltrados;
     }
 
     public List<Evento> obtenerEventosInscribiblesEnEstadosHabilitados() {
-        List<Evento> listaEventosFiltrados = new ArrayList<>();
-        List<EstadoEvento> estadosPermitidos = Arrays.asList(
-                EstadoEvento.CONFIRMADO,
-                EstadoEvento.EN_EJECUCION,
-                EstadoEvento.FINALIZADO,
-                EstadoEvento.CANCELADO
-        );
+        try {
+            List<Evento> listaEventosFiltrados = new ArrayList<>();
+            List<EstadoEvento> estadosPermitidos = Arrays.asList(
+                    EstadoEvento.CONFIRMADO,
+                    EstadoEvento.EN_EJECUCION,
+                    EstadoEvento.FINALIZADO,
+                    EstadoEvento.CANCELADO
+            );
 
-        for (Evento unEvento : buscarTodos()) {
-            if (estadosPermitidos.contains(unEvento.getEstado()) && unEvento.isTieneInscripcion()) {
-                listaEventosFiltrados.add(unEvento);
+            for (Evento unEvento : buscarTodos()) {
+                if (estadosPermitidos.contains(unEvento.getEstado()) && unEvento.isTieneInscripcion()) {
+                    listaEventosFiltrados.add(unEvento);
+                }
             }
+            return listaEventosFiltrados;
+        } catch (Exception e) {
+            throw e;
         }
-        return listaEventosFiltrados;
     }
     
-    public List<Evento> obtenerEventosPorEstado(EstadoEvento unEstado)
-    {
-        // Declaramos una lista que contendra los eventos filtrados
-        List<Evento> listaEventosFiltrados = new ArrayList<>();
-        // Recorremos todos los eventos persistidos y Agregamos a la lista aquellos cuyo estado sea igual al pasado por parametro
-        for (Evento unEvento : buscarTodos()) {
-            if (unEvento.getEstado() == unEstado) {
-                listaEventosFiltrados.add(unEvento);
+    public List<Evento> obtenerEventosPorEstado(EstadoEvento unEstado) {
+        try {
+            // Declaramos una lista que contendra los eventos filtrados
+            List<Evento> listaEventosFiltrados = new ArrayList<>();
+            // Recorremos todos los eventos persistidos y Agregamos a la lista aquellos cuyo estado sea igual al pasado por parametro
+            for (Evento unEvento : buscarTodos()) {
+                if (unEvento.getEstado() == unEstado) {
+                    listaEventosFiltrados.add(unEvento);
+                }
             }
+            return listaEventosFiltrados;
+        } catch (Exception e) {
+            throw e;
         }
-        return listaEventosFiltrados;        
+
     }
     
 
@@ -594,8 +615,5 @@ public class EventoServicio extends CrudServicio<Evento> {
         } catch (Exception e) {
             throw e;
         }
-    }
-    
-    
-
+    }        
 }

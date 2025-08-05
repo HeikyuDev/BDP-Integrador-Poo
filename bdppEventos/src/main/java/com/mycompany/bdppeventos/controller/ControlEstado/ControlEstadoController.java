@@ -159,10 +159,15 @@ public class ControlEstadoController implements Initializable {
             {
                 throw new IllegalArgumentException("Se debe seleccionar un Evento para poder Cancelarlo");
             }
-            // Validamos si esta en estado Planificado
+            // Validamos si esta en estado Finalizado
             if(eventoSeleccionado.getEstado().equals(EstadoEvento.FINALIZADO))
             {
                 throw new IllegalArgumentException("No se puede cancelar un Evento Finalizado");
+            }
+            // Validamos si ya esta cancelado
+            if(eventoSeleccionado.getEstado().equals(EstadoEvento.CANCELADO))
+            {
+                throw new IllegalArgumentException("Este evento ya esta cancelado");
             }
             // Confirmación de la acción
             if (!Alerta.confirmarAccion("¿Cancelar Evento: '" + eventoSeleccionado.getNombre() + "'?")) {

@@ -14,7 +14,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 
@@ -28,10 +27,7 @@ public class PanelCicloCineController implements Initializable {
     private ObservableList<Proyeccion> listaProyeccion = FXCollections.observableArrayList();
 
     @FXML
-    private CheckBox ChkCharlasPosteriores;
-    
-    @FXML
-    private Button btnAgregarCiclo;
+    private CheckBox ChkCharlasPosteriores;        
 
     // Servicios
     private ProyeccionServicio proyeccionServicio;

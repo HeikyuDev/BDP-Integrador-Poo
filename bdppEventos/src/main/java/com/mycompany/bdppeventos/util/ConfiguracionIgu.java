@@ -25,7 +25,7 @@ public abstract class ConfiguracionIgu {
 
     // === CONFIGURACIONES PARA LOS TEXTFIELDS ===
     
-    public void configuracionCheckTextfield(CheckBox unCheckbox, TextField unTextfield) {
+    public static void configuracionCheckTextfield(CheckBox unCheckbox, TextField unTextfield) {
         if (unCheckbox.isSelected()) {
             unTextfield.setDisable(false);
             unTextfield.setEditable(true);
@@ -90,7 +90,7 @@ public abstract class ConfiguracionIgu {
     // === CONFIGURACIONES DE BOTONES ===
     
     // Configuracion del boton "Cancelar"
-    protected static void configuracionBtnCancelar(Button btnAlta, Button btnModificacion, Button btnBaja,
+    public static void configuracionBtnCancelar(Button btnAlta, Button btnModificacion, Button btnBaja,
             Button btnCancelar, String textoAlta) {
         btnAlta.setText(textoAlta);
         btnModificacion.setDisable(false);
@@ -99,7 +99,7 @@ public abstract class ConfiguracionIgu {
     }
 
     // Configuracion del boton "Modificar"
-    protected static void configuracionBtnModificar(Button btnAlta, Button btnModificacion, Button btnBaja,
+    public static void configuracionBtnModificar(Button btnAlta, Button btnModificacion, Button btnBaja,
             Button btnCancelar) {
         // Configuraciones de Elementos Graficos
         btnAlta.setText("Guardar Cambios"); // Cambiamos el texto del boton a "Guardar Cambios"
@@ -109,7 +109,7 @@ public abstract class ConfiguracionIgu {
         btnCancelar.setDisable(false);
     }
 
-    protected static void configuracionFinaly(Button btnAlta, Button btnModificacion, Button btnBaja,
+    public static void configuracionFinaly(Button btnAlta, Button btnModificacion, Button btnBaja,
             Button btnCancelar, String txtBtnAlta) {
         btnAlta.setText(txtBtnAlta);
         btnModificacion.setDisable(false);

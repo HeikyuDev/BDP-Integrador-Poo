@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="173.0" prefWidth="795.0" spacing="5.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelConciertoController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="173.0" prefWidth="795.0" spacing="5.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.PanelConciertoController">
     <children>
         <HBox alignment="CENTER" prefHeight="30.0" prefWidth="453.0" spacing="18.0">
             <children>
@@ -28,9 +28,9 @@
                   <TextField fx:id="txtEsPago" disable="true" editable="false" styleClass="form-textfield" />
                </children>
             </HBox>
-            <VBox prefHeight="77.0" prefWidth="433.0" spacing="5.0" styleClass="form-label-required">
+            <VBox prefHeight="77.0" prefWidth="433.0" spacing="5.0">
                <children>
-                  <Label text="Artista/s*" />
+                  <Label styleClass="form-label-required" text="Artista/s*" />
                   <CheckComboBox fx:id="chkComboArtistas" prefHeight="27.0" prefWidth="411.0" />
                </children>
             </VBox>
