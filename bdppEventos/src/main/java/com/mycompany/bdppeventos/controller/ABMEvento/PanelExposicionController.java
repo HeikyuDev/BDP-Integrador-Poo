@@ -39,13 +39,11 @@ public class PanelExposicionController implements Initializable {
     }
    
     @FXML
-    private void agregarTipoArte() {
-        // Limpiamos los campos
-        limpiarCampos();
+    private void agregarTipoArte() {        
         // Abrimos el Modal que nos permite hacer el ABM de Tipos de Arte
         StageManager.abrirModal(Vista.FormularioTipoDeArte);
         // Actualizamos la ComboBox
-        actualizarCombos();
+        actualizarComboTipoArte();
     }
 
     // Metodos específicos

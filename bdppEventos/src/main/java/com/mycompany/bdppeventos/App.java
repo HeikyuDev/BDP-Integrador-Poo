@@ -1,6 +1,7 @@
 package com.mycompany.bdppeventos;
 
 import com.mycompany.bdppeventos.repository.Repositorio;
+import com.mycompany.bdppeventos.services.Evento.EventoServicio;
 import com.mycompany.bdppeventos.util.RepositorioContext;
 import com.mycompany.bdppeventos.util.StageManager;
 import com.mycompany.bdppeventos.view.Vista;
@@ -18,9 +19,7 @@ public class App extends Application {
             // Crea una instancia de EntityManagerFactory utilizando una unidad de
             // persistencia definida
             var emf = Persistence.createEntityManagerFactory("EventosPU");
-
-            // Establece el repositorio en AppConfig usando la instancia del
-            // EntityManagerFactory
+           
             System.out.println("📦 Creando repositorio...");
             RepositorioContext.setRepositorio(new Repositorio(emf));
 
@@ -40,6 +39,10 @@ public class App extends Application {
         // Establece el stage principal en StageManager
         StageManager.setStagePrincipal(stage);
 
+        // 1) Actualiza estados justo al arrancar
+        EventoServicio eventoServicio = new EventoServicio(RepositorioContext.getRepositorio());
+        eventoServicio.actualizarEstadoEventos();
+        
         // Cambia la escena a la vista de Pantalla Principal
         StageManager.cambiarEscena(Vista.PantallaPrincipal);
     }

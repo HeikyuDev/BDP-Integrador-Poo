@@ -158,6 +158,10 @@ public abstract class Evento implements Activable {
         if (fechaInicio.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha de inicio debe ser posterior a la fecha actual");
         }
+        if(fechaInicio.isEqual(LocalDate.now()))
+        {
+            this.estado = EstadoEvento.EN_EJECUCION;
+        }        
         this.fechaInicio = fechaInicio;
     }
 

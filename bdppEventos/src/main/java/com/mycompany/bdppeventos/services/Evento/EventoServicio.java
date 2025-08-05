@@ -20,6 +20,7 @@ import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.repository.Repositorio;
 import com.mycompany.bdppeventos.services.CrudServicio;
 import com.mycompany.bdppeventos.services.Participacion.ParticipacionServicio;
+import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import java.util.Arrays;
 
 /**
@@ -566,8 +567,9 @@ public class EventoServicio extends CrudServicio<Evento> {
         } catch (Exception e) {
             throw e;
         }
-
     }
+    
+    
     
 
     
@@ -590,10 +592,9 @@ public class EventoServicio extends CrudServicio<Evento> {
     {
         return participacionServicio.existeParticipacion(unEvento, unaPersona, rol);        
     }
-    
+
     // Metodo para confirmar un EVento (Pasar de PLANIFICADO A CONFIRMADO)
-    public void confirmarEvento(Evento unEvento)
-    {
+    public void confirmarEvento(Evento unEvento) {
         try {
             // Seteamos el estado de Confirmado al evento
             unEvento.setEstado(EstadoEvento.CONFIRMADO);
@@ -603,10 +604,9 @@ public class EventoServicio extends CrudServicio<Evento> {
             throw e;
         }
     }
-    
+
     // Metodo para Cancelar un Evento (Pasar de PLANIFICADO/CONFIRMADO/EN_EJECUCION A CANCELADO)
-    public void cancelarEvento(Evento unEvento)
-    {
+    public void cancelarEvento(Evento unEvento) {
         try {
             // Seteamos el estado de Confirmado al evento
             unEvento.setEstado(EstadoEvento.CANCELADO);
@@ -615,5 +615,33 @@ public class EventoServicio extends CrudServicio<Evento> {
         } catch (Exception e) {
             throw e;
         }
-    }        
+    }
+
+    // Funcionalidad: ACTUAALIZAR ESTADOS
+    // Este metodo esta orientado a actualzar el estado de los eventos de forma automatica
+    // Suiguiendo estos criterios:
+    // 1. FechaInicioEvento == FechaActual -> Estado = EN_EJECUCION
+    // 2. fechaInicio < fechaActual -> Estado = FINALIZADO
+    
+    
+    // FALTA AJUSTARR !!!!!!!! 
+    
+    public void actualizarEstadoEventos() {
+        LocalDate hoy = LocalDate.now();
+        for (Evento ev : buscarTodos()) {
+            LocalDate inicio = ev.getFechaInicio();
+            LocalDate fin = ConfiguracionIgu.calcularFechaFin(inicio, ev.getDuracionEstimada());
+
+            if (!hoy.isBefore(inicio) && !hoy.isAfter(fin)) {
+                // inicio <= hoy <= fin
+                ev.setEstado(EstadoEvento.EN_EJECUCION);
+            } else if (hoy.isAfter(fin)) {
+                // hoy > fin
+                ev.setEstado(EstadoEvento.FINALIZADO);
+            }
+            // si hoy < inicio, no hacemos nada (sigue el estado que tuviera)
+
+            modificar(ev);
+        }
+    }
 }

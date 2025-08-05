@@ -88,27 +88,32 @@ public class FormularioPeliculaController  implements Initializable {
                     return; 
                 }
                 // Llamamos al servicio de peliculas para que cree el objeto y lo persista
-                peliculaServicio.altaPelicula(titulo, duracion);
-                limpiarCampos();
+                peliculaServicio.altaPelicula(titulo, duracion);                
                 Alerta.mostrarExito("Película registrada exitosamente");
+                // Limpiamos los campos
+                limpiarCampos();
+                // Actualizamos la tabla para que impacten los cambios
+                actualizarTabla();
             } else {
                 if (!Alerta.confirmarAccion("¿Modificar la película '" + peliculaEnEdicion.getTitulo() + "'?")) {
                     return;
                 }
-                peliculaServicio.modificarPelicula(peliculaEnEdicion, titulo, duracion);
-                limpiarCampos();
+                peliculaServicio.modificarPelicula(peliculaEnEdicion, titulo, duracion);                
                 Alerta.mostrarExito("Película modificada exitosamente");
+                // Asigno a pelicula en edicion el valor de null para indicar que vuelve al estaod inicial
+                peliculaEnEdicion = null;
+                // Limpio los campos
+                limpiarCampos();
+                // Actualizo la tabla
+                actualizarTabla();
+                // Configuro la Igu a su estado base
+                ConfiguracionIgu.configuracionBase(btnAltaPelicula, btnModificacion, btnBaja, btnCancelar, altaTxt);
             }
         } catch (IllegalArgumentException e) {
             Alerta.mostrarError(e.getMessage());            
         } catch (Exception e) {
             Alerta.mostrarError("Error al guardar: " + e.getMessage());            
-        } finally {
-            // Este bloque se ejecuta SIEMPRE (haya o no error)
-            peliculaEnEdicion = null;
-            actualizarTabla();
-            ConfiguracionIgu.configuracionFinaly(btnAltaPelicula, btnModificacion, btnBaja, btnCancelar, altaTxt);
-        }
+        } 
     }
 
     @FXML

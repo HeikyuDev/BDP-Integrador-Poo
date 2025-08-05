@@ -73,27 +73,32 @@ public class FormularioTipoDeArteController implements Initializable {
                         "¿Guardar el Tipo de Arte '" + nombre + "'?")) {
                     return;
                 }
-                tipoDeArteServicio.altaTipoDeArte(nombre);
+                tipoDeArteServicio.altaTipoDeArte(nombre);                
+                Alerta.mostrarExito("Tipo de Arte registrado exitosamente"); 
+                // Limpiamos todos los campos
                 limpiarCampos();
-                Alerta.mostrarExito("Tipo de Arte registrado exitosamente");                
+                // Actualizamos la tabla, para que impacten la modificacion
+                actualizarTabla();
             } else {
                 if (!Alerta.confirmarAccion("¿Modificar el Tipo de Arte'" + tipoDeArteEnEdicion.getNombre() + "'?")) {
                     return;
                 }
-                tipoDeArteServicio.modificarTipoDeArte(tipoDeArteEnEdicion, nombre);
-                limpiarCampos();
+                tipoDeArteServicio.modificarTipoDeArte(tipoDeArteEnEdicion, nombre);                
                 Alerta.mostrarExito("Tipo De Arte modificado exitosamente");
+                // Asignamos a tipoDeArteEnEdicion el valor null, volviendo al estado inicial
+                tipoDeArteEnEdicion = null;
+                // Limpiamos todos los campos
+                limpiarCampos();
+                // Actualizamos la tabla, para que impacten la modificacion
+                actualizarTabla();
+                // Configuramos la igu para que vuelva al estado base
+                ConfiguracionIgu.configuracionBase(btnAltaTipoDeArte, btnModificacion, btnBaja, btnCancelar, altaTxt);
             }
         } catch (IllegalArgumentException e) {
             Alerta.mostrarError(e.getMessage());            
         } catch (Exception e) {
             Alerta.mostrarError("Error al guardar: " + e.getMessage());            
-        } finally {
-            // Este bloque se ejecuta SIEMPRE (haya o no error)
-            tipoDeArteEnEdicion = null;            
-            actualizarTabla();
-            ConfiguracionIgu.configuracionFinaly(btnAltaTipoDeArte, btnModificacion, btnBaja, btnCancelar, altaTxt);
-        }
+        } 
     }
 
     @FXML

@@ -180,22 +180,19 @@ public class FormularioEventoController implements Initializable {
                 realizarAlta(nombre, ubicacion, fechaInicio, duracionEstimada, tieneCupo, cupoMaximo, tieneInscripcion,
                         organizadoresSeleccionados, unTipoEvento);
             } else {
+                // Realizo la modificacion de la instancia existente, estableciendo los nuevos valore
                 realizarModificacion(nombre, ubicacion, fechaInicio, duracionEstimada, tieneCupo, cupoMaximo,
                         tieneInscripcion, organizadoresSeleccionados, unTipoEvento);
+                
+                
             }
         } catch (IllegalArgumentException e) {
             Alerta.mostrarError("Error en los datos: " + e.getMessage());
+            return;
         } catch (Exception e) {
             Alerta.mostrarError("Error inesperado: " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            // Este bloque se ejecuta SIEMPRE (haya o no error)
-            eventoEnEdicion = null;
-            actualizarTabla();
-            ConfiguracionIgu.configuracionFinaly(btnAlta, btnModificacion, btnBaja, btnCancelar, TEXTO_BOTON_ALTA);
-            btnVisualizacion.setDisable(false);
-            cmbTipoEvento.setDisable(false);
-        }
+        } 
     }
 
     @FXML
@@ -425,6 +422,7 @@ public class FormularioEventoController implements Initializable {
         if (tieneCupo && (cupoMax == null || cupoMax.trim().isEmpty())) {
             mensajeError.append("• Si se selecciona que tiene cupo se debe ingresar el cupo máximo.\n");
         }
+                
 
         if (mensajeError.length() > 0) {
             throw new IllegalArgumentException(mensajeError.toString());
@@ -526,8 +524,12 @@ public class FormularioEventoController implements Initializable {
                             cantidadStands, tipoCobertura);
                 }
             }
-            Alerta.mostrarExito(MENSAJE_EXITO_ALTA);
+            Alerta.mostrarExito(MENSAJE_EXITO_ALTA);   
+            // Limpio los campos
             limpiarCampos();
+            // Actualizo la tabla
+            actualizarTabla();
+            
         } catch (Exception e) {
             Alerta.mostrarError("No se pudo Realizar El Alta del Evento " + e.getMessage());
         }
@@ -587,9 +589,20 @@ public class FormularioEventoController implements Initializable {
                             tieneCupo, cupoMaximo, tieneInscripcion, organizadoresSeleccionados,
                             cantidadStands, tipoCobertura);
                 }
-            }
-            Alerta.mostrarExito(MENSAJE_EXITO_MODIFICACION);
+            }            
+            Alerta.mostrarExito(MENSAJE_EXITO_MODIFICACION);  
+            // Limpio los campos
             limpiarCampos();
+            // Establesco que la variable de edicion como null, indicando que vuelve a ser ALTA
+            eventoEnEdicion = null;
+            // Actualizamos la tabla para que impacten los cambios (La modificacion del registro)
+            actualizarTabla();            
+            // Configuramos el estado base
+            ConfiguracionIgu.configuracionBase(btnAlta, btnModificacion, btnBaja, btnCancelar, TEXTO_BOTON_ALTA);
+            // Ajustes adicionales de igu
+            btnVisualizacion.setDisable(false);
+            cmbTipoEvento.setDisable(false);            
+            txtCupoMaximo.setDisable(true);
         } catch (Exception e) {
             Alerta.mostrarError("No se pudo modificar el Evento " + e.getMessage());
         }

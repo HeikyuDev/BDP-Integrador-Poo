@@ -148,7 +148,9 @@ public class PersonaServicio extends CrudServicio<Persona> {
         }
     }
 
-    @Override
+    // Comentado por aahora
+    
+    /* @Override
     public List<Persona> buscarTodos() {
     try {
         if (repositorio == null) {
@@ -172,7 +174,7 @@ public class PersonaServicio extends CrudServicio<Persona> {
         
         throw new RuntimeException("No se pudieron cargar las personas desde la base de datos", e);
         }
-    }    
+    }    */
     
     // Metodos para asignarle a una persona un rol, y persistir la informacion
     public void asignarRol(Persona unaPersona, TipoRol rol) {

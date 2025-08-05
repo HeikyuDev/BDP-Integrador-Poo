@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="681.0" prefWidth="624.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMPelicula.FormularioPeliculaController"> 
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="681.0" prefWidth="624.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMPelicula.FormularioPeliculaController"> 
    <children>
       <HBox alignment="CENTER" prefHeight="33.0" prefWidth="600.0" styleClass="title-bar">
          <children>
@@ -46,11 +46,11 @@
             <VBox prefHeight="345.0" prefWidth="569.0" styleClass="field-section">
                <children>
                   <Label styleClass="section-title" text="Datos Cargados" />
-                  <TableView fx:id="tblPelicula" prefHeight="200.0" prefWidth="200.0" styleClass="form-tableview" editable="false">
+                  <TableView fx:id="tblPelicula"  styleClass="form-tableview" editable="false">
                     <columns>
-                      <TableColumn fx:id="colId" prefWidth="125.33334922790527" text="ID" reorderable="false" resizable="false" editable="false"/>
-                      <TableColumn fx:id="colNombre" prefWidth="233.99998474121094" text="NOMBRE" reorderable="false" resizable="false" editable="false"/>
-                        <TableColumn fx:id="colDuracion" prefWidth="197.33340454101562" text="DURACION" reorderable="false" resizable="false" editable="false"/>
+                      <TableColumn fx:id="colId"  text="ID" reorderable="false"  editable="false"/>
+                      <TableColumn fx:id="colNombre"  text="NOMBRE" reorderable="false"  editable="false"/>
+                      <TableColumn fx:id="colDuracion"  text="DURACION" reorderable="false"  editable="false"/>
                     </columns>
                   </TableView>
                   <HBox alignment="CENTER_RIGHT" prefHeight="41.0" prefWidth="537.0" spacing="20.0">

@@ -71,20 +71,17 @@ public abstract class ConfiguracionIgu {
 
     // Configuracion Que llena un CheckCombobox pasandole una lista
     public static <T> void configuracionListaEnCheckCombo(CheckComboBox<T> checkCombo, List<T> lista) {
-        // Limpiar elementos existentes
-        checkCombo.getItems().clear();
+    // 1) Limpia los checks anteriores
+    checkCombo.getCheckModel().clearChecks();
 
-        // Crear ObservableList a partir de la lista recibida
-        ObservableList<T> itemsObservables;
-        if (lista != null) {
-            itemsObservables = FXCollections.observableArrayList(lista);
-        } else {
-            itemsObservables = FXCollections.observableArrayList();
-        }
+    // 2) Limpia los elementos existentes
+    checkCombo.getItems().clear();
 
-        // Asignar los items al CheckComboBox
-        checkCombo.getItems().setAll(itemsObservables);
+    // 3) Pasa la lista a ObservableList y la asigna
+    if (lista != null) {
+        checkCombo.getItems().setAll(FXCollections.observableArrayList(lista));
     }
+}
 
     
     // === CONFIGURACIONES DE BOTONES ===
@@ -109,7 +106,7 @@ public abstract class ConfiguracionIgu {
         btnCancelar.setDisable(false);
     }
 
-    public static void configuracionFinaly(Button btnAlta, Button btnModificacion, Button btnBaja,
+    public static void configuracionBase(Button btnAlta, Button btnModificacion, Button btnBaja,
             Button btnCancelar, String txtBtnAlta) {
         btnAlta.setText(txtBtnAlta);
         btnModificacion.setDisable(false);
@@ -162,26 +159,14 @@ public abstract class ConfiguracionIgu {
     
     // === METODOS AUXILIARES ===
     
-    public static LocalDate calcularFechaFin(LocalDate fechaInicio, double duracionHoras) {
-    System.out.println("=== PASO A PASO ===");
-    System.out.println("Fecha inicio: " + fechaInicio); // 4/8
-    System.out.println("Duración: " + duracionHoras + " horas"); // 3 horas
-    
+    public static LocalDate calcularFechaFin(LocalDate fechaInicio, double duracionHoras) {                
     // PASO 1: Convertir fecha a fecha-hora (medianoche del día)
-    LocalDateTime fechaHoraInicio = fechaInicio.atStartOfDay();
-    System.out.println("Fecha-hora inicio: " + fechaHoraInicio); // 4/8/2024 00:00
-    
+    LocalDateTime fechaHoraInicio = fechaInicio.atStartOfDay();        
     // PASO 2: Sumar las horas de duración
-    long minutosTotales = Math.round(duracionHoras * 60);
-    System.out.println("Minutos a sumar: " + minutosTotales); // 180 minutos (3 * 60)
-    
-    LocalDateTime fechaHoraFin = fechaHoraInicio.plusMinutes(minutosTotales);
-    System.out.println("Fecha-hora fin: " + fechaHoraFin); // 4/8/2024 03:00
-    
+    long minutosTotales = Math.round(duracionHoras * 60);        
+    LocalDateTime fechaHoraFin = fechaHoraInicio.plusMinutes(minutosTotales);        
     // PASO 3: Extraer solo la fecha del resultado
-    LocalDate fechaFin = fechaHoraFin.toLocalDate();
-    System.out.println("Fecha fin: " + fechaFin); // 4/8 (¡MISMO DÍA!)
-    
+    LocalDate fechaFin = fechaHoraFin.toLocalDate();        
     return fechaFin;
 }
 

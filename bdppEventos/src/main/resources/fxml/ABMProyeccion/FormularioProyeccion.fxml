@@ -50,9 +50,9 @@
                   <Label styleClass="section-title" text="Datos Cargados" />
                   <TableView fx:id="tblProyeccion" editable="false" prefHeight="200.0" prefWidth="685.0" styleClass="form-tableview">
                     <columns>
-                      <TableColumn fx:id="colId" editable="false" prefWidth="60.66665458679199" reorderable="false" resizable="false" text="ID" />
-                      <TableColumn fx:id="colNombre" editable="false" prefWidth="128.66669464111328" reorderable="false" resizable="false" text="NOMBRE" />
-                        <TableColumn fx:id="colPeliculas" editable="false" prefWidth="400.0" reorderable="false" resizable="false" text="PELICULAS" />
+                      <TableColumn fx:id="colId" editable="false"  reorderable="false"  text="ID" />
+                      <TableColumn fx:id="colNombre" editable="false"  reorderable="false"  text="NOMBRE" />
+                        <TableColumn fx:id="colPeliculas" editable="false"  reorderable="false"  text="PELICULAS" />
                     </columns>
                   </TableView>
                   <HBox alignment="CENTER_RIGHT" prefHeight="41.0" prefWidth="537.0" spacing="20.0">

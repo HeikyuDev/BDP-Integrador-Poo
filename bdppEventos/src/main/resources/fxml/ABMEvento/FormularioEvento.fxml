@@ -171,15 +171,15 @@
                                 </Label>
                                 <TableView fx:id="tablaEventos" prefHeight="500.0" prefWidth="1300.0" styleClass="form-tableview">
                                     <columns>
-                                        <TableColumn fx:id="colNombre" editable="false" prefWidth="150.0" sortable="false" text="Nombre" />
-                                        <TableColumn fx:id="colUbicacion" editable="false" prefWidth="200.0" sortable="false" text="Ubicación" />
-                                        <TableColumn fx:id="colFechaInicio" editable="false" prefWidth="150.0" sortable="false" text="Fecha inicio" />
-                                        <TableColumn fx:id="colDuracion" editable="false" prefWidth="75.0" sortable="false" text="Duración" />                                                                                
-                                        <TableColumn fx:id="colTieneInscripcion" editable="false" prefWidth="92.66668701171875" sortable="false" text="Inscribible" />
-                                        <TableColumn fx:id="colTieneCupo" editable="false" prefWidth="107.333251953125" sortable="false" text="Tiene Cupo" />
-                                        <TableColumn fx:id="colCapacidadMaxima" editable="false" prefWidth="150.0" sortable="false" text="Capacidad Máxima" />                                                                                                                                                                
-                                        <TableColumn fx:id="colOrganizadores" editable="false" prefWidth="300.0" sortable="false" text="Organizador/es" /> 
-                                        <TableColumn fx:id="colTipo" editable="false" prefWidth="100.0" sortable="false" text="Tipo" />                                                                                                                       
+                                        <TableColumn fx:id="colNombre" editable="false" prefWidth="150.0" sortable="true" text="NOMBRE" reorderable="false"  />
+                                        <TableColumn fx:id="colUbicacion" editable="false" prefWidth="200.0" sortable="false" text="UBICACIÓN" reorderable="false"  />
+                                        <TableColumn fx:id="colFechaInicio" editable="false" prefWidth="150.0" sortable="false" text="FECHA INICIO" reorderable="false"  />
+                                        <TableColumn fx:id="colDuracion" editable="false" prefWidth="75.0" sortable="false" text="DURACIÓN" reorderable="false"  />                                                                                
+                                        <TableColumn fx:id="colTieneInscripcion" editable="false" prefWidth="92.66668701171875" sortable="false" text="INSCRIBIBLE" reorderable="false"  />
+                                        <TableColumn fx:id="colTieneCupo" editable="false" prefWidth="107.333251953125" sortable="false" text="TIENE CUPO" reorderable="false"  />
+                                        <TableColumn fx:id="colCapacidadMaxima" editable="false" prefWidth="150.0" sortable="false" text="CAPACIDAD MAXIMA" reorderable="false"  />                                                                                                                                                                
+                                        <TableColumn fx:id="colOrganizadores" editable="false" prefWidth="300.0" sortable="false" text="ORGANIZADOR/ES" reorderable="false"  /> 
+                                        <TableColumn fx:id="colTipo" editable="false" prefWidth="100.0" sortable="false" text="TIPO" reorderable="false"  />                                                                                                                       
                                     </columns>                                    
                                 </TableView>
                                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">

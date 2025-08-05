@@ -43,9 +43,7 @@ public class PanelCicloCineController implements Initializable {
     }
 
     @FXML
-    private void agregarCiclo() {
-        // Limpiamos los Campos
-        limpiarCampos();
+    private void agregarCiclo() {        
         // Abrimos el Modal del ABM de Proyeccion
         StageManager.abrirModal(Vista.FormularioProyeccion);
         // Actualizamos el Combo para ver todas las proyecciones

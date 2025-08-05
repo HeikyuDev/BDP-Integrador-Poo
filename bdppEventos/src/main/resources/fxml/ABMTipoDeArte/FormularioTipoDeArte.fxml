@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="681.0" prefWidth="624.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMTipoDeArte.FormularioTipoDeArteController"> 
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="681.0" prefWidth="624.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMTipoDeArte.FormularioTipoDeArteController"> 
    <children>
       <HBox alignment="CENTER" prefHeight="33.0" prefWidth="600.0" styleClass="title-bar">
          <children>
@@ -42,8 +42,8 @@
                   <Label styleClass="section-title" text="Datos Cargados" />
                   <TableView fx:id="tblTipoDeArte" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="form-tableview">
                     <columns>
-                      <TableColumn fx:id="colId" editable="false" prefWidth="154.0000057220459" reorderable="false" resizable="false" text="ID" />
-                      <TableColumn fx:id="colNombre" editable="false" prefWidth="404.0000457763672" reorderable="false" resizable="false" text="NOMBRE" />                        
+                      <TableColumn fx:id="colId" editable="false"  reorderable="false"  text="ID" />
+                      <TableColumn fx:id="colNombre" editable="false"  reorderable="false"  text="NOMBRE" />                        
                     </columns>
                   </TableView>
                   <HBox alignment="CENTER_RIGHT" prefHeight="41.0" prefWidth="537.0" spacing="20.0">
