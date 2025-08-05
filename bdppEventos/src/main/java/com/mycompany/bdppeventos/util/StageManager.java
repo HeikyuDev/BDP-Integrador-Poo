@@ -112,13 +112,19 @@ public class StageManager {
     }
 
     
-
     // Abre un modal con la vista proporcionada
     public static void abrirModal(Vista vista) {
         Parent root = cargarVista(vista.getRutaFxml());
         Stage modalStage = crearModalStage(vista); // Crea un nuevo Stage para el modal
         mostrarModal(modalStage, root, vista); // Muestra el modal
     }
+
+    // Abre un modal con la vista proporcionada y el nodo raíz
+    public static void abrirModal(Vista vista, Parent root) {
+    Stage modalStage = crearModalStage(vista);
+    mostrarModal(modalStage, root, vista);
+}
+
 
     // Crea un nuevo Stage para el modal
     private static Stage crearModalStage(Vista vista) {

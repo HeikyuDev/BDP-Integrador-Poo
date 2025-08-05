@@ -10,10 +10,6 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 import java.util.List;
 import org.controlsfx.control.CheckComboBox;
-import org.controlsfx.validation.Severity;
-import org.controlsfx.validation.ValidationSupport;
-import org.controlsfx.validation.Validator;
-
 import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
@@ -77,8 +73,13 @@ public class FormularioPersonaControlador {
         // Configurar el CheckComboBox
         configurarCheckComboBox();
 
-        personaInicial = null;
+        //personaInicial = null;
         nuevasPersonas.clear();
+
+        // eliominar esto, es para saber si se carga 2 veces el formulario
+        System.out.println("🛑 FormularioPersonaControlador hashCode: " + this.hashCode());
+
+        
 
     }
 
@@ -193,5 +194,22 @@ public class FormularioPersonaControlador {
             }
         }
     }
+
+    private Persona personaEditando;
+
+
+    public void cargarPersona(Persona persona) {
+    this.personaEditando = persona;
+
+    // Cargamos los datos en los campos del formulario
+    txtNombre.setText(persona.getNombre());
+    txtApellido.setText(persona.getApellido());
+    txtDni.setText(String.valueOf(persona.getDni()));
+    txtCorreo.setText(persona.getCorreoElectronico());
+
+    // Si usás más campos como ComboBox de rol, género, etc., también cargalos acá
+    // ejemplo: rolComboBox.setValue(persona.getRol());
+}
+
 
 }

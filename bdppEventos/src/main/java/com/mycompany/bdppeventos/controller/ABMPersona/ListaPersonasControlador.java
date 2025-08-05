@@ -15,7 +15,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Pair;
 
 import java.io.IOException;
-import java.lang.System.Logger;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -75,8 +74,6 @@ public class ListaPersonasControlador implements Initializable {
     private final ObservableList<TipoRol> roles = FXCollections.observableArrayList();
 
     private PersonaServicio servicio;
-
-    private Pair<FormularioPersonaControlador, Parent> formulario;
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
@@ -246,6 +243,7 @@ public class ListaPersonasControlador implements Initializable {
     @FXML
     void modificar(ActionEvent event) {
         Persona personaSeleccionada = tblPersonas.getSelectionModel().getSelectedItem();
+        System.out.println("🔍 DEBUG: Modificar persona seleccionada: " + personaSeleccionada);
 
         if (personaSeleccionada != null) {
             try {
@@ -273,23 +271,21 @@ public class ListaPersonasControlador implements Initializable {
         }
     }
 
-    private List<Persona> abrirFormulario(Persona personaInicial) throws IOException {
-        formulario = StageManager.cargarVistaConControlador(Vista.FormularioPersona.getRutaFxml());
-        System.out.println("🔍 DEBUG 2: Formulario cargado correctamente");
+    private List<Persona> abrirFormulario(Persona personaSeleccionada) throws IOException {
+        // Cargamos el controlador y el Parent (vista)
+        Pair<FormularioPersonaControlador, Parent> formulario =
+            StageManager.cargarVistaConControlador(Vista.FormularioPersona.getRutaFxml());
 
-        FormularioPersonaControlador controladorFormulario = formulario.getKey();
-        System.out.println("🔍 DEBUG 3: Controlador del formulario obtenido");
+        // Le pasamos la persona seleccionada al formulario (modo edición)
+        formulario.getKey().cargarPersona(personaSeleccionada);
 
-        if (personaInicial != null) {
-            controladorFormulario.setPersonaInicial(personaInicial);
-            System.out.println("🔍 DEBUG 4: Persona inicial establecida en el formulario");
-        }
+        // Abrimos el modal pasando directamente el Parent ya cargado (misma instancia)
+        StageManager.abrirModal(Vista.FormularioPersona, formulario.getValue());
+        
+        // Retornamos las personas procesadas en el formulario
+        return formulario.getKey().getPersonas();
+    }   
 
-        System.out.println("🔍 DEBUG 5: Abriendo modal del formulario");
-        StageManager.abrirModal(Vista.FormularioPersona);
-        System.out.println("🔍 DEBUG 6: Modal del formulario abierto");
-        System.out.println("🔍 DEBUG 7: Esperando a que se cierre el modal");
-        return controladorFormulario.getPersonas();
-    }
-
+    
 }
+

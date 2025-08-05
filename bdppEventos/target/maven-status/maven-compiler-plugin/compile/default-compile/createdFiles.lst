@@ -15,6 +15,7 @@ com\mycompany\bdppeventos\model\enums\EstadoEvento.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelConciertoController.class
 com\mycompany\bdppeventos\controller\ABMPelicula\FormularioPeliculaController.class
 com\mycompany\bdppeventos\model\entities\Concierto.class
+com\mycompany\bdppeventos\controller\ControlEstado\ControlEstadoController.class
 com\mycompany\bdppeventos\model\interfaces\Activable.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelCicloCineController.class
 com\mycompany\bdppeventos\model\entities\TipoDeArte.class
@@ -31,6 +32,7 @@ com\mycompany\bdppeventos\model\entities\CicloDeCine.class
 com\mycompany\bdppeventos\services\Persona\PersonaServicio.class
 module-info.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelExposicionController.class
+com\mycompany\bdppeventos\controller\PanelAdministracion\PanelAdministracionController.class
 com\mycompany\bdppeventos\controller\VerParticipantes\VerParticipantesController$1.class
 com\mycompany\bdppeventos\util\StageManager.class
 com\mycompany\bdppeventos\controller\ABMEvento\VisualizacionController.class

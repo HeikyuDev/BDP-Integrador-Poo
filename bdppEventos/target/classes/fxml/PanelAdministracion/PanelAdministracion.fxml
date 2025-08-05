@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane stylesheets="@../../css/paneladministracion.css" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            xmlns="http://javafx.com/javafx/17.0.2" 
+            fx:controller="com.mycompany.bdppeventos.controller.PanelAdministracion.PanelAdministracionController">
+   
+   <children>
+      <VBox styleClass="admin-panel-container" spacing="20.0"
+            AnchorPane.topAnchor="0.0" 
+            AnchorPane.bottomAnchor="0.0" 
+            AnchorPane.leftAnchor="0.0" 
+            AnchorPane.rightAnchor="0.0">
+         
+         <!-- Título principal alineado a la izquierda -->
+         <HBox alignment="CENTER_LEFT">
+            <children>
+               <Label text="Bienvenidos a Eventos" styleClass="admin-welcome-title" />
+            </children>
+         </HBox>
+               
+               <!-- Contenedor de secciones -->
+               <VBox styleClass="admin-sections-container">
+                  
+                  <!-- Sección Eventos -->
+                  <VBox spacing="15.0">
+                     <children>
+                        <Label text="Eventos" styleClass="admin-section-title" />
+                        
+                        <HBox styleClass="admin-cards-container">
+                           <children>
+                              <!-- Tarjeta 1: Total Eventos -->
+                              <VBox styleClass="admin-card" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="lblNumeroTotalEventos" text="0" styleClass="admin-card-number" />
+                                    <Label text="Total Eventos" styleClass="admin-card-description" />
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Tarjeta 2: Eventos Confirmados -->
+                              <VBox styleClass="admin-card" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="lblNumeroEventosConfirmados" text="0" styleClass="admin-card-number" />
+                                    <Label text="Eventos Confirmados" styleClass="admin-card-description" />
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Tarjeta 3: Eventos Planificados -->
+                              <VBox styleClass="admin-card" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="lblNumeroEventosPlanificados" text="0" styleClass="admin-card-number" />
+                                    <Label text="Eventos Planificados" styleClass="admin-card-description" />
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Tarjeta 4: Eventos En Ejecucion -->
+                              <VBox styleClass="admin-card" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="lblNumeroEventosEnEjecucion" text="0" styleClass="admin-card-number" />
+                                    <Label text="Eventos En Ejecucion" styleClass="admin-card-description" />
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Tarjeta 5: Eventos Finalizados  -->
+                              <VBox styleClass="admin-card" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="lblNumeroEventosFinalizados" text="0" styleClass="admin-card-number" />
+                                    <Label text="Eventos Finalizados" styleClass="admin-card-description" />
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Tarjeta 6: Eventos Cancelados -->
+                              <VBox styleClass="admin-card" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="lblNumeroEventosCancelados" text="0" styleClass="admin-card-number" />
+                                    <Label text="Eventos Cancelados" styleClass="admin-card-description" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  
+                  <!-- Sección Personas -->
+                  <VBox spacing="15.0">
+                     <children>
+                        <Label text="Personas" styleClass="admin-section-title" />
+                        
+                        <HBox styleClass="admin-cards-container">
+                           <children>
+                              <!-- Tarjeta 1: Total Personas -->
+                              <VBox styleClass="admin-card" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="lblNumeroTotalPersonas" text="0" styleClass="admin-card-number" />
+                                    <Label text="Total Personas" styleClass="admin-card-description" />
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Tarjeta 2: Organizadores -->
+                              <VBox styleClass="admin-card" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="lblNumeroOrganizadores" text="0" styleClass="admin-card-number" />
+                                    <Label text="Organizadores" styleClass="admin-card-description" />
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Tarjeta 3: Curadores -->
+                              <VBox styleClass="admin-card" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="lblNumeroCuradores" text="0" styleClass="admin-card-number" />
+                                    <Label text="Curadores" styleClass="admin-card-description" />
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Tarjeta 4: Instructores -->
+                              <VBox styleClass="admin-card" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="lblNumeroInstructores" text="0" styleClass="admin-card-number" />
+                                    <Label text="Instructores" styleClass="admin-card-description" />
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Tarjeta 5: Artistas -->
+                              <VBox styleClass="admin-card" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="lblNumeroArtistas" text="0" styleClass="admin-card-number" />
+                                    <Label text="Artistas" styleClass="admin-card-description" />
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Tarjeta 6: Participantes -->
+                              <VBox styleClass="admin-card" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="lblNumeroParticipantes" text="0" styleClass="admin-card-number" />
+                                    <Label text="Participantes" styleClass="admin-card-description" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  
+               </VBox>
+            </VBox>      
+   </children>
+</AnchorPane>
