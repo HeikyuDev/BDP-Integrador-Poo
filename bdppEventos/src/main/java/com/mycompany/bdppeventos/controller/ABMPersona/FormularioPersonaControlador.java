@@ -115,8 +115,7 @@ public class FormularioPersonaControlador {
             if (personaInicial == null) {
                 // Crear nueva persona
                 Persona nuevaPersona = personaServicio.validarEInsertar(dni, nombre, apellido, telefono,
-                        correoElectronico);
-                nuevaPersona.setUnaListaRoles(rolesSeleccionados);
+                        correoElectronico, rolesSeleccionados);
                 nuevasPersonas.add(nuevaPersona);
 
                 Alerta.mostrarExito("Persona creada exitosamente");
@@ -155,33 +154,25 @@ public class FormularioPersonaControlador {
         chkCmbRol.getCheckModel().clearChecks(); // Limpiar selección de roles
     }
 
-    // metodo para inicializar el controlador
-    public void setPersonaInicial(Persona personaInicial) {
-        this.personaInicial = personaInicial;
-        if (personaInicial != null) {
-            autocompletarCampos();
-            txtDni.setDisable(true); // Deshabilitar campo DNI si es edición
-            btnNuevo.setDisable(true); // Deshabilitar botón "Nuevo" si es edición
-        }
-    }
-
     public List<Persona> getPersonas() {
         return nuevasPersonas;
 
     }
 
-    private void autocompletarCampos() {
-        if (personaInicial != null) {
-            txtDni.setText(personaInicial.getDni());
-            txtNombre.setText(personaInicial.getNombre());
-            txtApellido.setText(personaInicial.getApellido());
-            txtTelefono.setText(personaInicial.getTelefono() != null ? personaInicial.getTelefono() : "");
-            txtCorreo.setText(
-                    personaInicial.getCorreoElectronico() != null ? personaInicial.getCorreoElectronico() : "");
-
-            // ✅ CONFIGURAR ROLES EN EL CHECKCOMBOBOX (excluyendo SIN_ROL)
+    public void cargarPersona(Persona persona) {
+        this.personaInicial = persona;
+        
+        if (persona != null) {
+            // Cargamos los datos en los campos del formulario
+            txtNombre.setText(persona.getNombre());
+            txtApellido.setText(persona.getApellido());
+            txtDni.setText(String.valueOf(persona.getDni()));
+            txtCorreo.setText(persona.getCorreoElectronico() != null ? persona.getCorreoElectronico() : "");
+            txtTelefono.setText(persona.getTelefono() != null ? persona.getTelefono() : "");
+            
+            // Cargar roles en el CheckComboBox
             chkCmbRol.getCheckModel().clearChecks();
-            List<TipoRol> rolesPersona = personaInicial.getUnaListaRoles();
+            List<TipoRol> rolesPersona = persona.getUnaListaRoles();
             if (rolesPersona != null && !rolesPersona.isEmpty()) {
                 for (TipoRol rol : rolesPersona) {
                     // Solo marcar roles que NO sean SIN_ROL
@@ -189,27 +180,18 @@ public class FormularioPersonaControlador {
                         chkCmbRol.getCheckModel().check(rol);
                     }
                 }
-                // Si la persona solo tiene SIN_ROL, no marcar nada (queda vacío = SIN_ROL
-                // implícito)
             }
+            
+            // Deshabilitar campo DNI y botón "Nuevo" si es edición
+            txtDni.setDisable(true);
+            btnNuevo.setDisable(true);
+        } else {
+            // Limpiar formulario para nueva persona
+            nuevo(null);
+            txtDni.setDisable(false);
+            btnNuevo.setDisable(false);
         }
     }
-
-    private Persona personaEditando;
-
-
-    public void cargarPersona(Persona persona) {
-    this.personaEditando = persona;
-
-    // Cargamos los datos en los campos del formulario
-    txtNombre.setText(persona.getNombre());
-    txtApellido.setText(persona.getApellido());
-    txtDni.setText(String.valueOf(persona.getDni()));
-    txtCorreo.setText(persona.getCorreoElectronico());
-
-    // Si usás más campos como ComboBox de rol, género, etc., también cargalos acá
-    // ejemplo: rolComboBox.setValue(persona.getRol());
-}
 
 
 }

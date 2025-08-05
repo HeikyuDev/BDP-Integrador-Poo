@@ -26,7 +26,7 @@ public class PersonaServicio extends CrudServicio<Persona> {
     public Persona validarEInsertar(Object... datos) {
         if (datos.length < 3 || datos.length > 6) {
             throw new IllegalArgumentException(
-                    "Número incorrecto de parámetros. Se requieren: DNI, nombre, apellido y opcionalmente teléfono y correo.");
+                    "Número incorrecto de parámetros. Se requieren: DNI, nombre, apellido y opcionalmente teléfono, correo y roles.");
         }
 
         String dni = (String) datos[0];
@@ -39,7 +39,13 @@ public class PersonaServicio extends CrudServicio<Persona> {
         // proporciona, se asigna null
 
         // Declaramos la lista de roles asociada a la nueva instancia de Persona        
-        List<TipoRol> listaRoles = (List<TipoRol>)datos[5];                
+        @SuppressWarnings("unchecked")
+        List<TipoRol> listaRoles = datos.length > 5 ? (List<TipoRol>)datos[5] : new ArrayList<>();
+        
+        // Si no se proporcionaron roles, asignar SIN_ROL por defecto
+        if (listaRoles.isEmpty()) {
+            listaRoles.add(TipoRol.SIN_ROL);
+        }                
         
         List<String> errores = new ArrayList<>();
 
