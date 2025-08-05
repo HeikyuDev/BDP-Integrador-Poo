@@ -618,30 +618,45 @@ public class EventoServicio extends CrudServicio<Evento> {
     }
 
     // Funcionalidad: ACTUAALIZAR ESTADOS
-    // Este metodo esta orientado a actualzar el estado de los eventos de forma automatica
-    // Suiguiendo estos criterios:
-    // 1. FechaInicioEvento == FechaActual -> Estado = EN_EJECUCION
-    // 2. fechaInicio < fechaActual -> Estado = FINALIZADO
-    
-    
-    // FALTA AJUSTARR !!!!!!!! 
-    
-    public void actualizarEstadoEventos() {
-        LocalDate hoy = LocalDate.now();
-        for (Evento ev : buscarTodos()) {
-            LocalDate inicio = ev.getFechaInicio();
-            LocalDate fin = ConfiguracionIgu.calcularFechaFin(inicio, ev.getDuracionEstimada());
+    // Este metodo esta orientado a actualzar el estado de los eventos de forma automatica                
+public void actualizarEstadoEventos() {
+    LocalDate hoy = LocalDate.now();
 
-            if (!hoy.isBefore(inicio) && !hoy.isAfter(fin)) {
-                // inicio <= hoy <= fin
-                ev.setEstado(EstadoEvento.EN_EJECUCION);
-            } else if (hoy.isAfter(fin)) {
-                // hoy > fin
-                ev.setEstado(EstadoEvento.FINALIZADO);
+    for (Evento unEvento : buscarTodos()) {
+        LocalDate inicio = unEvento.getFechaInicio();
+        LocalDate fin = ConfiguracionIgu.calcularFechaFin(inicio, unEvento.getDuracionEstimada());
+        EstadoEvento estado = unEvento.getEstado();
+
+        // Si el evento está planificado y la fecha actual supera la fecha de fin,
+        // significa que nunca se confirmó ni ejecutó, por lo tanto se cancela.
+        if (estado == EstadoEvento.PLANIFICADO) {
+            if (hoy.isAfter(fin)) {
+                unEvento.setEstado(EstadoEvento.CANCELADO);
             }
-            // si hoy < inicio, no hacemos nada (sigue el estado que tuviera)
-
-            modificar(ev);
+        } 
+        // Si el evento está confirmado:
+        // - Y la fecha actual está entre la fecha de inicio y fin (inclusive), pasa a EN_EJECUCION.
+        // - O si la fecha actual ya superó la fecha de fin, se marca como FINALIZADO.
+        else if (estado == EstadoEvento.CONFIRMADO) {
+            if (!hoy.isBefore(inicio) && !hoy.isAfter(fin)) {
+                unEvento.setEstado(EstadoEvento.EN_EJECUCION);
+            } else if (hoy.isAfter(fin)) {
+                unEvento.setEstado(EstadoEvento.FINALIZADO);
+            }
+        } 
+        // Si el evento está en ejecución y la fecha actual ya superó la fecha de fin,
+        // se marca como FINALIZADO.
+        else if (estado == EstadoEvento.EN_EJECUCION) {
+            if (hoy.isAfter(fin)) {
+                unEvento.setEstado(EstadoEvento.FINALIZADO);
+            }
         }
+
+        // Se actualiza el evento en la base de datos 
+        modificar(unEvento);
     }
 }
+
+}
+
+
