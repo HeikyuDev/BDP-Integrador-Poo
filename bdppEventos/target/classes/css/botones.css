@@ -1,0 +1,47 @@
+.color-vars {
+    -color-principal: #3498db;
+    -rojo: #e74c3c;
+    -amarillo: #f1c40f;
+}
+
+
+/* Botones personalizados */
+.btn-personalizado{
+    -fx-background-color: -color-principal;
+    -fx-min-width: 100px;
+    -fx-pref-width: 100px;
+    -fx-text-fill: white;
+    -fx-font-size: 1em;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent;
+    -fx-border-radius: 5px;
+    -fx-padding: 10;
+    -fx-opacity: 0.8;
+    -fx-transition: opacity 0.3s;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    
+}
+
+.btn-personalizado:hover, .btn-personalizado:focused{
+    -fx-cursor: hand;
+    -fx-opacity: 1;
+}
+.btn-personalizado:pressed{
+    -fx-opacity: 0.8;
+}
+
+/* Acciones */
+.acciones-contenedor{
+    -fx-alignment: center;
+    -fx-flex-align: center;
+}
+
+/* acciones (agregar, modificar y eliminar) */
+.acciones-contenedor .btn-personalizado.eliminar{
+    -fx-background-color: -rojo;
+}
+.acciones-contenedor .btn-personalizado.modificar{
+    -fx-text-fill: black;
+    -fx-background-color: -amarillo;
+}

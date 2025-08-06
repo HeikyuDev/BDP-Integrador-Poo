@@ -1,5 +1,11 @@
 package com.mycompany.bdppeventos.controller.InscribirParticipantes;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import com.mycompany.bdppeventos.model.entities.CicloDeCine;
 import com.mycompany.bdppeventos.model.entities.Concierto;
 import com.mycompany.bdppeventos.model.entities.Evento;
@@ -9,11 +15,6 @@ import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.entities.Taller;
 import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 import com.mycompany.bdppeventos.model.enums.TipoEvento;
-import static com.mycompany.bdppeventos.model.enums.TipoEvento.CICLO_DE_CINE;
-import static com.mycompany.bdppeventos.model.enums.TipoEvento.CONCIERTO;
-import static com.mycompany.bdppeventos.model.enums.TipoEvento.EXPOSICION;
-import static com.mycompany.bdppeventos.model.enums.TipoEvento.FERIA;
-import static com.mycompany.bdppeventos.model.enums.TipoEvento.TALLER;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.services.Evento.EventoServicio;
 import com.mycompany.bdppeventos.services.Participacion.ParticipacionServicio;
@@ -21,11 +22,7 @@ import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import com.mycompany.bdppeventos.util.RepositorioContext;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

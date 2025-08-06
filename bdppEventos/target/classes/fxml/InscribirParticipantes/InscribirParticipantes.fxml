@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.InscribirParticipantes.InscribirParticipantesController">
+   <children>
+      <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+         <!-- Título -->
+         <HBox alignment="CENTER" styleClass="title-bar">
+            <children>
+               <Label styleClass="title-label" text="Inscribir Participantes" />
+            </children>
+         </HBox>
+
+         <!-- Sección de eventos -->
+         <VBox alignment="CENTER" styleClass="main-section" HBox.hgrow="ALWAYS">
+            <VBox maxWidth="Infinity" spacing="10.0" styleClass="field-section" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label styleClass="nav-title-secondary" text="Eventos Inscribibles" />
+
+                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <children>
+                        <ComboBox fx:id="cmbTipoEvento" onAction="#filtrarEvento" promptText="Todos los Tipos" styleClass="form-combobox" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+
+                  <TableView fx:id="tblEvento" prefHeight="236.0" prefWidth="981.0" styleClass="form-tableview" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="colNombre" prefWidth="229.333345413208" text="Nombre" />
+                        <TableColumn fx:id="colUbicacion" prefWidth="292.66664123535156" text="Ubicacion" />
+                        <TableColumn fx:id="colFechaInicio" prefWidth="228.0" text="Fecha De Inicio" />
+                        <TableColumn fx:id="colCupo" prefWidth="228.0" text="Cupo " />
+                     </columns>
+                  </TableView>
+
+                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <children>
+                        <Label styleClass="form-label-required" text="DNI:  *" />
+                        <TextField fx:id="txtDNIParticipante" prefHeight="31.0" prefWidth="242.0" promptText="Ingrese el DNI del Participante" styleClass="form-textfield" />
+                        <Button fx:id="btnVerificar" onAction="#verificarExistencia" styleClass="simple-button-bold" text="Verificar" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox fx:id="vboxDatos" disable="true" prefHeight="200.0" prefWidth="100.0" styleClass="field-section">
+               <children>
+                  <Label styleClass="nav-title-secondary" text="Datos del Participante" />
+                  <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="981.0" spacing="20.0">
+                     <children>
+                        <Label styleClass="form-label-required" text="nombre: *" />
+                        <TextField fx:id="txtNombre" prefHeight="31.0" prefWidth="358.0" promptText="ingrese el nombre del Participante" styleClass="form-textfield" />
+                        <Label styleClass="form-label-required" text="Apellido: *" />
+                        <TextField fx:id="txtApellido" prefHeight="31.0" prefWidth="358.0" promptText="Ingrese el Apellido del Participante" styleClass="form-textfield" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="981.0" spacing="20.0">
+                     <children>
+                        <Label styleClass="form-label" text="Teléfono: " />
+                        <TextField fx:id="txtTelefono" prefHeight="31.0" prefWidth="358.0" promptText="ingrese el nombre del Participante" styleClass="form-textfield" />
+                        <Label styleClass="form-label" text="Correo: " />
+                        <TextField fx:id="txtCorreo" prefHeight="31.0" prefWidth="358.0" promptText="Ingrese el Apellido del Participante" styleClass="form-textfield" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="1013.0">
+               <children>
+                  <Button fx:id="btnInscribir" disable="true" mnemonicParsing="false" onAction="#inscribirParticipante" prefHeight="23.0" prefWidth="133.0" styleClass="simple-button-bold" text="Inscribir" />
+               </children>
+            </HBox>
+         </VBox>         
+
+      </VBox>
+   </children>
+</AnchorPane>

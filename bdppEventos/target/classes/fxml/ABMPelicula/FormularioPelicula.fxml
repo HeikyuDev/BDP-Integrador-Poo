@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="681.0" prefWidth="624.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMPelicula.FormularioPeliculaController"> 
+   <children>
+      <HBox alignment="CENTER" prefHeight="33.0" prefWidth="600.0" styleClass="title-bar">
+         <children>
+            <Label styleClass="title-label" text="ABM PELÍCULA" />
+         </children>
+      </HBox>
+      <VBox prefHeight="170.0" prefWidth="600.0" styleClass="main-section">
+         <children>
+            <VBox prefHeight="161.0" prefWidth="600.0" styleClass="field-section">
+               <children>
+                  <Label styleClass="section-title" text="Datos de la Película" />
+                  <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="569.0" spacing="10.0">
+                     <children>
+                        <Label styleClass="form-label-required" text="Nombre: *" />
+                        <TextField fx:id="txtNombre" prefHeight="31.0" prefWidth="349.0" promptText="ingrese el nombre de la proyeccion" styleClass="form-textfield" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="4.0">
+                     <children>
+                        <Label styleClass="form-label-required" text="Duración: *" />
+                        <TextField fx:id="txtDuracion" prefHeight="31.0" prefWidth="349.0" promptText="ingrese la duracion de la pelicula" styleClass="form-textfield" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="583.0" styleClass="main-section">
+         <children>
+            <Button fx:id="btnAltaPelicula" mnemonicParsing="false" onAction="#altaPelicula" prefHeight="39.0" prefWidth="205.0" styleClass="simple-button-bold" text="Alta de Película" />
+         </children>
+      </HBox>
+      <VBox prefHeight="396.0" prefWidth="600.0" styleClass="main-section">
+         <children>
+            <VBox prefHeight="345.0" prefWidth="569.0" styleClass="field-section">
+               <children>
+                  <Label styleClass="section-title" text="Datos Cargados" />
+                  <TableView fx:id="tblPelicula"  styleClass="form-tableview" editable="false">
+                    <columns>
+                      <TableColumn fx:id="colId"  text="ID" reorderable="false"  editable="false"/>
+                      <TableColumn fx:id="colNombre"  text="NOMBRE" reorderable="false"  editable="false"/>
+                      <TableColumn fx:id="colDuracion"  text="DURACION" reorderable="false"  editable="false"/>
+                    </columns>
+                  </TableView>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="41.0" prefWidth="537.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#bajaPelicula" styleClass="baja-button" text="Baja" />
+                        <Button fx:id="btnModificacion" mnemonicParsing="false" onAction="#modificacionPelicula" styleClass="modificacion-button" text="Modificacion" />
+                        <Button fx:id="btnCancelar" disable="true" mnemonicParsing="false" onAction="#cancelarEdicion" styleClass="baja-button" text="Cancelar" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>
