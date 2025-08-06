@@ -370,9 +370,8 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
         return crearParticipacion(evento, persona, TipoRol.PARTICIPANTE);
     }
  
-    public int eliminarTodasLasParticipacionesDelEvento(Evento evento) {
-        List<Participacion> participaciones = buscarPorEvento(evento);
-        int eliminadas = 0;
+    public void eliminarTodasLasParticipacionesDelEvento(Evento evento) {
+        List<Participacion> participaciones = buscarPorEvento(evento);        
 
         for (Participacion participacion : participaciones) {
             if (participacion.getActivo()) {
@@ -380,12 +379,9 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
                 marcarComoInactivo(participacion);
 
                 // Guardar cambios en la base (update)
-                modificar(participacion);
-                eliminadas++;
+                modificar(participacion);                
             }
-        }
-
-        return eliminadas;
+        }        
     }
                    
 }

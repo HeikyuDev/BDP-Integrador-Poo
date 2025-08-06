@@ -1,10 +1,10 @@
 package com.mycompany.bdppeventos.services.Evento;
 
-import com.mycompany.bdppeventos.dto.DatosComunesEvento;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mycompany.bdppeventos.dto.DatosComunesEvento;
 import com.mycompany.bdppeventos.model.entities.CicloDeCine;
 import com.mycompany.bdppeventos.model.entities.Concierto;
 import com.mycompany.bdppeventos.model.entities.Evento;
@@ -22,7 +22,7 @@ import com.mycompany.bdppeventos.repository.Repositorio;
 import com.mycompany.bdppeventos.services.CrudServicio;
 import com.mycompany.bdppeventos.services.Participacion.ParticipacionServicio;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
-import java.util.Arrays;
+
 
 /**
  * Servicio para gestionar eventos con métodos específicos para cada tipo
@@ -470,7 +470,7 @@ public class EventoServicio extends CrudServicio<Evento> {
             }
 
             // 1. Primero dar de baja todas las participaciones asociadas al evento
-            int participacionesEliminadas = participacionServicio.eliminarTodasLasParticipacionesDelEvento(evento);
+            participacionServicio.eliminarTodasLasParticipacionesDelEvento(evento);
 
             // 2. Luego marcar el evento como inactivo (baja lógica)
             marcarComoInactivo(evento);
