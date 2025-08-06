@@ -1,5 +1,6 @@
 package com.mycompany.bdppeventos.services.Evento;
 
+import com.mycompany.bdppeventos.dto.DatosComunesEvento;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,25 +51,22 @@ public class EventoServicio extends CrudServicio<Evento> {
     /**
      * Crea una nueva exposición
      */
-    public void altaExposicion(String nombre, String ubicacion, LocalDate fechaInicio, int duracion,
-            boolean tieneCupo, int cupoMaximo, boolean tieneInscripcion, List<Persona> organizadores,
-            TipoDeArte tipoArte, Persona curador) {
-
+    public void altaExposicion(DatosComunesEvento datosComunes ,TipoDeArte tipoArte, Persona curador) {
         try {
-            // 1. Crear la exposición
+            // 1. Crear la exposición sin las participaciones
             Exposicion exposicion = new Exposicion();
-            configurarEventoBase(exposicion, nombre, ubicacion, fechaInicio, duracion,
-                    tieneCupo, cupoMaximo, tieneInscripcion);
+            configurarEventoBase(exposicion, datosComunes);
             exposicion.setUnTipoArte(tipoArte);
 
             // 2. Guardar el evento
             this.insertar(exposicion);
 
             // 3. Crear participaciones
-            participacionServicio.registrarOrganizadores(exposicion, organizadores);
+            participacionServicio.registrarOrganizadores(exposicion, datosComunes.organizadores());
             participacionServicio.registrarCurador(exposicion, curador);
             List<Participacion> listaParticipaciones = participacionServicio.buscarPorEvento(exposicion);
             exposicion.setParticipaciones(listaParticipaciones);
+            
             // 4. Actualizar evento para sincronizar relaciones
             this.modificar(exposicion);
 
@@ -80,22 +78,18 @@ public class EventoServicio extends CrudServicio<Evento> {
     /**
      * Crea un nuevo taller
      */
-    public void altaTaller(String nombre, String ubicacion, LocalDate fechaInicio, int duracion,
-            boolean tieneCupo, int cupoMaximo, boolean tieneInscripcion, List<Persona> organizadores,
-            boolean esPresencial, Persona instructor) {
-
+    public void altaTaller(DatosComunesEvento datosComunes,boolean esPresencial, Persona instructor) {
         try {
             // 1. Crear el taller
             Taller taller = new Taller();
-            configurarEventoBase(taller, nombre, ubicacion, fechaInicio, duracion,
-                    tieneCupo, cupoMaximo, tieneInscripcion);
+            configurarEventoBase(taller, datosComunes);
             taller.setEsPresencial(esPresencial);
 
             // 2. Guardar el evento
             this.insertar(taller);
 
             // 3. Crear participaciones
-            participacionServicio.registrarOrganizadores(taller, organizadores);
+            participacionServicio.registrarOrganizadores(taller, datosComunes.organizadores());
             participacionServicio.registrarInstructor(taller, instructor);
             List<Participacion> listaParticipaciones = participacionServicio.buscarPorEvento(taller);
             taller.setParticipaciones(listaParticipaciones);
@@ -110,15 +104,12 @@ public class EventoServicio extends CrudServicio<Evento> {
     /**
      * Crea un nuevo concierto
      */
-    public void altaConcierto(String nombre, String ubicacion, LocalDate fechaInicio, int duracion,
-            boolean tieneCupo, int cupoMaximo, boolean tieneInscripcion, List<Persona> organizadores,
-            boolean esPago, double monto, List<Persona> artistas) {
+    public void altaConcierto(DatosComunesEvento datosComunes,boolean esPago, double monto, List<Persona> artistas) {
 
         try {
             // 1. Crear el concierto
             Concierto concierto = new Concierto();
-            configurarEventoBase(concierto, nombre, ubicacion, fechaInicio, duracion,
-                    tieneCupo, cupoMaximo, tieneInscripcion);
+            configurarEventoBase(concierto, datosComunes);
             concierto.setEsPago(esPago);
             if (esPago) {
                 concierto.setMonto(monto);
@@ -128,7 +119,7 @@ public class EventoServicio extends CrudServicio<Evento> {
             this.insertar(concierto);
 
             // 3. Crear participaciones
-            participacionServicio.registrarOrganizadores(concierto, organizadores);
+            participacionServicio.registrarOrganizadores(concierto, datosComunes.organizadores());
             participacionServicio.registrarArtistas(concierto, artistas);
 
             List<Participacion> listaParticipaciones = participacionServicio.buscarPorEvento(concierto);
@@ -144,15 +135,12 @@ public class EventoServicio extends CrudServicio<Evento> {
     /**
      * Crea un nuevo ciclo de cine
      */
-    public void altaCicloCine(String nombre, String ubicacion, LocalDate fechaInicio, int duracion,
-            boolean tieneCupo, int cupoMaximo, boolean tieneInscripcion, List<Persona> organizadores,
-            Proyeccion proyeccion, boolean charlasPosteriores) {
+    public void altaCicloCine(DatosComunesEvento datosComunes,Proyeccion proyeccion, boolean charlasPosteriores) {
 
         try {
             // 1. Crear el ciclo de cine
             CicloDeCine cicloCine = new CicloDeCine();
-            configurarEventoBase(cicloCine, nombre, ubicacion, fechaInicio, duracion,
-                    tieneCupo, cupoMaximo, tieneInscripcion);
+            configurarEventoBase(cicloCine, datosComunes);
             cicloCine.setUnaProyeccion(proyeccion);
             cicloCine.setCharlasPosteriores(charlasPosteriores);
 
@@ -160,7 +148,7 @@ public class EventoServicio extends CrudServicio<Evento> {
             this.insertar(cicloCine);
 
             // 3. Crear participaciones (solo organizadores)
-            participacionServicio.registrarOrganizadores(cicloCine, organizadores);
+            participacionServicio.registrarOrganizadores(cicloCine, datosComunes.organizadores());
             List<Participacion> listaParticipaciones = participacionServicio.buscarPorEvento(cicloCine);
             cicloCine.setParticipaciones(listaParticipaciones);
             // 4. Actualizar evento para sincronizar relaciones
@@ -174,15 +162,12 @@ public class EventoServicio extends CrudServicio<Evento> {
     /**
      * Crea una nueva feria
      */
-    public void altaFeria(String nombre, String ubicacion, LocalDate fechaInicio, int duracion,
-            boolean tieneCupo, int cupoMaximo, boolean tieneInscripcion, List<Persona> organizadores,
-            int cantidadStands, TipoCobertura tipoCobertura) {
+    public void altaFeria(DatosComunesEvento datosComunes,int cantidadStands, TipoCobertura tipoCobertura) {
 
         try {
             // 1. Crear la feria
             Feria feria = new Feria();
-            configurarEventoBase(feria, nombre, ubicacion, fechaInicio, duracion,
-                    tieneCupo, cupoMaximo, tieneInscripcion);
+            configurarEventoBase(feria, datosComunes);
             feria.setCantidadStands(cantidadStands);
             feria.setTipoCobertura(tipoCobertura);
 
@@ -190,7 +175,7 @@ public class EventoServicio extends CrudServicio<Evento> {
             this.insertar(feria);
 
             // 3. Crear participaciones (solo organizadores)
-            participacionServicio.registrarOrganizadores(feria, organizadores);
+            participacionServicio.registrarOrganizadores(feria, datosComunes.organizadores());
             List<Participacion> listaParticipaciones = participacionServicio.buscarPorEvento(feria);
             feria.setParticipaciones(listaParticipaciones);
 
@@ -207,9 +192,7 @@ public class EventoServicio extends CrudServicio<Evento> {
     /**
      * Modifica una exposición existente
      */
-    public void modificarExposicion(int eventoId, String nombre, String ubicacion, LocalDate fechaInicio,
-            int duracion, boolean tieneCupo, int cupoMaximo, boolean tieneInscripcion,
-            List<Persona> nuevosOrganizadores, TipoDeArte tipoArte, Persona nuevoCurador) {
+    public void modificarExposicion(int eventoId, DatosComunesEvento datosComunes, TipoDeArte tipoArte, Persona nuevoCurador) {
 
         try {
             Exposicion exposicion = (Exposicion) this.buscarPorId(eventoId);
@@ -218,13 +201,12 @@ public class EventoServicio extends CrudServicio<Evento> {
             }
 
             // Actualizar datos básicos
-            configurarEventoBase(exposicion, nombre, ubicacion, fechaInicio, duracion,
-                    tieneCupo, cupoMaximo, tieneInscripcion);
+            configurarEventoBase(exposicion, datosComunes);
             exposicion.setUnTipoArte(tipoArte);
 
             // Actualizar participaciones si es necesario
-            if (nuevosOrganizadores != null) {
-                actualizarOrganizadores(exposicion, nuevosOrganizadores);
+            if (datosComunes.organizadores() != null) {
+                actualizarOrganizadores(exposicion, datosComunes.organizadores());
             }
 
             // Actualizar curador si cambió
@@ -252,9 +234,7 @@ public class EventoServicio extends CrudServicio<Evento> {
     /**
      * Modificar un Taller Existente
      */
-    public void modificarTaller(int eventoId, String nombre, String ubicacion, LocalDate fechaInicio,
-            int duracion, boolean tieneCupo, int cupoMaximo, boolean tieneInscripcion,
-            List<Persona> nuevosOrganizadores, boolean esPresencial, Persona nuevoInstructor) {
+    public void modificarTaller(int eventoId, DatosComunesEvento datosComunes, boolean esPresencial, Persona nuevoInstructor) {
 
         try {
             Taller taller = (Taller) this.buscarPorId(eventoId);
@@ -263,13 +243,12 @@ public class EventoServicio extends CrudServicio<Evento> {
             }
 
             // Actualizar datos básicos
-            configurarEventoBase(taller, nombre, ubicacion, fechaInicio, duracion,
-                    tieneCupo, cupoMaximo, tieneInscripcion);
+            configurarEventoBase(taller, datosComunes);
             taller.setEsPresencial(esPresencial);
 
             // Actualizar participaciones si es necesario
-            if (nuevosOrganizadores != null) {
-                actualizarOrganizadores(taller, nuevosOrganizadores);
+            if (datosComunes.organizadores() != null) {
+                actualizarOrganizadores(taller, datosComunes.organizadores());
             }
 
             // Actualizar Instructor si cambió
@@ -297,9 +276,7 @@ public class EventoServicio extends CrudServicio<Evento> {
     /**
      * Modificar un Concierto Existente
      */
-    public void modificarConcierto(int eventoId, String nombre, String ubicacion, LocalDate fechaInicio,
-            int duracion, boolean tieneCupo, int cupoMaximo, boolean tieneInscripcion,
-            List<Persona> nuevosOrganizadores, boolean esPago, double monto, List<Persona> nuevosArtistas) {
+    public void modificarConcierto(int eventoId, DatosComunesEvento datosComunes, boolean esPago, double monto, List<Persona> nuevosArtistas) {
 
         try {
             Concierto concierto = (Concierto) this.buscarPorId(eventoId);
@@ -308,20 +285,18 @@ public class EventoServicio extends CrudServicio<Evento> {
             }
 
             // Actualizar datos básicos
-            configurarEventoBase(concierto, nombre, ubicacion, fechaInicio, duracion,
-                    tieneCupo, cupoMaximo, tieneInscripcion);
+            configurarEventoBase(concierto, datosComunes);
             concierto.setEsPago(esPago);
             if (esPago) {
                 concierto.setMonto(monto);
             }
 
             // Actualizar participaciones si es necesario
-            if (nuevosOrganizadores != null) {
-                actualizarOrganizadores(concierto, nuevosOrganizadores);
+            if (datosComunes.organizadores() != null) {
+                actualizarOrganizadores(concierto, datosComunes.organizadores());
             }
 
-            // Actualizar Artistas si cambiaron
-            List<Persona> artistasActuales = concierto.getArtistas();
+            // Actualizar Artistas si cambiaron            
             if (nuevosArtistas != null) {
                 actualizarArtistas(concierto, nuevosArtistas);
             }
@@ -340,9 +315,7 @@ public class EventoServicio extends CrudServicio<Evento> {
     /**
      * Modificar un Ciclo de Cine Existente
      */
-    public void modificarCicloCine(int eventoId, String nombre, String ubicacion, LocalDate fechaInicio,
-            int duracion, boolean tieneCupo, int cupoMaximo, boolean tieneInscripcion,
-            List<Persona> nuevosOrganizadores, Proyeccion proyeccion, boolean charlasPosteriores) {
+    public void modificarCicloCine(int eventoId, DatosComunesEvento datosComunes, Proyeccion proyeccion, boolean charlasPosteriores) {
 
         try {
             CicloDeCine cicloCine = (CicloDeCine) this.buscarPorId(eventoId);
@@ -351,14 +324,13 @@ public class EventoServicio extends CrudServicio<Evento> {
             }
 
             // Actualizar datos básicos
-            configurarEventoBase(cicloCine, nombre, ubicacion, fechaInicio, duracion,
-                    tieneCupo, cupoMaximo, tieneInscripcion);
+            configurarEventoBase(cicloCine, datosComunes);
             cicloCine.setUnaProyeccion(proyeccion);
             cicloCine.setCharlasPosteriores(charlasPosteriores);
 
             // Actualizar participaciones si es necesario
-            if (nuevosOrganizadores != null) {
-                actualizarOrganizadores(cicloCine, nuevosOrganizadores);
+            if (datosComunes.organizadores() != null) {
+                actualizarOrganizadores(cicloCine, datosComunes.organizadores());
             }
 
             // Seteamos la lista de participaciones actuales al Evento
@@ -375,9 +347,7 @@ public class EventoServicio extends CrudServicio<Evento> {
     /**
      * Modificar una Feria Existente
      */
-    public void modificarFeria(int eventoId, String nombre, String ubicacion, LocalDate fechaInicio,
-            int duracion, boolean tieneCupo, int cupoMaximo, boolean tieneInscripcion,
-            List<Persona> nuevosOrganizadores, int cantidadStands, TipoCobertura tipoCobertura) {
+    public void modificarFeria(int eventoId, DatosComunesEvento datosComunes, int cantidadStands, TipoCobertura tipoCobertura) {
 
         try {
             Feria feria = (Feria) this.buscarPorId(eventoId);
@@ -386,14 +356,13 @@ public class EventoServicio extends CrudServicio<Evento> {
             }
 
             // Actualizar datos básicos
-            configurarEventoBase(feria, nombre, ubicacion, fechaInicio, duracion,
-                    tieneCupo, cupoMaximo, tieneInscripcion);
+            configurarEventoBase(feria, datosComunes);
             feria.setCantidadStands(cantidadStands);
             feria.setTipoCobertura(tipoCobertura);
 
             // Actualizar participaciones si es necesario
-            if (nuevosOrganizadores != null) {
-                actualizarOrganizadores(feria, nuevosOrganizadores);
+            if (datosComunes.organizadores() != null) {
+                actualizarOrganizadores(feria, datosComunes.organizadores());
             }
 
             // Seteamos la lista de participaciones actuales al Evento
@@ -413,19 +382,17 @@ public class EventoServicio extends CrudServicio<Evento> {
     /**
      * Configura las propiedades base comunes a todos los eventos
      */
-    private void configurarEventoBase(Evento evento, String nombre, String ubicacion,
-            LocalDate fechaInicio, int duracion, boolean tieneCupo, int cupoMaximo,
-            boolean tieneInscripcion) {
+    private void configurarEventoBase(Evento evento, DatosComunesEvento datosComunes) {
         try {
-            evento.setNombre(nombre);
-            evento.setUbicacion(ubicacion);
-            evento.setFechaInicio(fechaInicio);
-            evento.setDuracionEstimada(duracion);
-            evento.setTieneCupo(tieneCupo);
-            if (tieneCupo) {
-                evento.setCapacidadMaxima(cupoMaximo);
+            evento.setNombre(datosComunes.nombre());
+            evento.setUbicacion(datosComunes.ubicacion());
+            evento.setFechaInicio(datosComunes.fechaInicio());
+            evento.setDuracionEstimada(datosComunes.duracion());
+            evento.setTieneCupo(datosComunes.tieneCupo());
+            if (datosComunes.tieneCupo()) {
+                evento.setCapacidadMaxima(datosComunes.cupoMaximo());
             }
-            evento.setTieneInscripcion(tieneInscripcion);
+            evento.setTieneInscripcion(datosComunes.tieneInscripcion());
         } catch (Exception e) {
             throw e;
         }
@@ -516,62 +483,37 @@ public class EventoServicio extends CrudServicio<Evento> {
     }
 
     /// === METODOS DE OBTENCION ===
-    
-    public List<Evento> obtenerEventosConfirmadosInscribibles() {
-        try {
-            List<Evento> listaEventosFiltrados = new ArrayList<>();
-
-            for (Evento unEvento : buscarTodos()) {
-                if (unEvento.getEstado() == EstadoEvento.CONFIRMADO && unEvento.isTieneInscripcion()) {
-                    listaEventosFiltrados.add(unEvento);
-                }
-            }
-            return listaEventosFiltrados;
-        } catch (Exception e) {
-            throw e;
+        
+    public List<Evento> obtenerEventosPorEstado(List<EstadoEvento> estados, boolean inscribible) {
+        // Validación de entrada
+        if (estados == null || estados.isEmpty()) {
+            return new ArrayList<>();
         }
-    }
 
-    public List<Evento> obtenerEventosInscribiblesEnEstadosHabilitados() {
-        try {
-            List<Evento> listaEventosFiltrados = new ArrayList<>();
-            List<EstadoEvento> estadosPermitidos = Arrays.asList(
-                    EstadoEvento.CONFIRMADO,
-                    EstadoEvento.EN_EJECUCION,
-                    EstadoEvento.FINALIZADO,
-                    EstadoEvento.CANCELADO
-            );
+        List<Evento> eventosFiltrados = new ArrayList<>();
 
-            for (Evento unEvento : buscarTodos()) {
-                if (estadosPermitidos.contains(unEvento.getEstado()) && unEvento.isTieneInscripcion()) {
-                    listaEventosFiltrados.add(unEvento);
-                }
+        for (Evento evento : buscarTodos()) {
+            // Verificar que el evento y su estado no sean null
+            if (evento == null || evento.getEstado() == null) {
+                continue;
             }
-            return listaEventosFiltrados;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-    
-    public List<Evento> obtenerEventosPorEstado(EstadoEvento unEstado) {
-        try {
-            // Declaramos una lista que contendra los eventos filtrados
-            List<Evento> listaEventosFiltrados = new ArrayList<>();
-            // Recorremos todos los eventos persistidos y Agregamos a la lista aquellos cuyo estado sea igual al pasado por parametro
-            for (Evento unEvento : buscarTodos()) {
-                if (unEvento.getEstado() == unEstado) {
-                    listaEventosFiltrados.add(unEvento);
-                }
-            }
-            return listaEventosFiltrados;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-    
-    
-    
 
+            // Verificar si está en los estados deseados
+            if (!estados.contains(evento.getEstado())) {
+                continue;
+            }
+
+            // Si requiere inscripción, verificar que la tenga
+            if (inscribible && !evento.isTieneInscripcion()) {
+                continue;
+            }
+
+            eventosFiltrados.add(evento);
+        }
+
+        return eventosFiltrados;
+    }
+                    
     
     //=== METODOS ESPECIFICOS === 
 

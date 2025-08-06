@@ -10,6 +10,7 @@ C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\
 C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\ABMProyeccion\FormularioProyeccionController.java
 C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\Participacion.java
 C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\view\Vista.java
+C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\interfaces\PanelEvento.java
 C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\ABMEvento\PanelConciertoController.java
 C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\VerParticipantes\VerParticipantesController.java
 C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\entities\Feria.java
@@ -30,6 +31,7 @@ C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\
 C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\model\enums\EstadoEvento.java
 C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\test\PersonaServicioTest.java
 C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\ABMTipoDeArte\FormularioTipoDeArteController.java
+C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\dto\DatosComunesEvento.java
 C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\controller\ABMEvento\PanelTallerController.java
 C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\services\Evento\EventoServicio.java
 C:\Users\elnah\OneDrive\Escritorio\CLINACION REO\BDP-Integrador-Poo\bdppEventos\src\main\java\com\mycompany\bdppeventos\test\RepositorioMock.java

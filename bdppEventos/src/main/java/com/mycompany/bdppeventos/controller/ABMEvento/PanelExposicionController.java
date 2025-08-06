@@ -7,6 +7,7 @@ import com.mycompany.bdppeventos.model.entities.Exposicion;
 import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.entities.TipoDeArte;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
+import com.mycompany.bdppeventos.model.interfaces.PanelEvento;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.services.TipoDeArte.TipoDeArteServicio;
 import com.mycompany.bdppeventos.util.Alerta;
@@ -17,7 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 
-public class PanelExposicionController implements Initializable {
+public class PanelExposicionController implements Initializable, PanelEvento<Exposicion> {
 
     @FXML
     private ComboBox<TipoDeArte> cmbTipoArte;
@@ -47,13 +48,7 @@ public class PanelExposicionController implements Initializable {
     }
 
     // Metodos específicos
-    
-    protected void limpiarCampos()
-    {
-        cmbTipoArte.getSelectionModel().clearSelection();
-        cmbCurador.getSelectionModel().clearSelection();
-    }
-           
+                   
 
     private void actualizarCombos() {
         try {
@@ -85,13 +80,7 @@ public class PanelExposicionController implements Initializable {
         }
         return unCurador;
     }
-    
-    public void cargarDatos(Exposicion exposicion) {
-        // Obtengo el Tipo de Arte de la exposicion
-        cmbTipoArte.setValue(exposicion.getUnTipoArte());
-        // Obtengo el unico curador presente en la Exposicion
-        cmbCurador.setValue(exposicion.getCurador());
-    }
+        
 
     private void actualizarComboCuradores() {
         try {            
@@ -115,4 +104,41 @@ public class PanelExposicionController implements Initializable {
         }
     }
     
+    // METODOS DE LA INTERFAZ PanelEvento<T>
+    
+    @Override
+    public void limpiarCampos()
+    {
+        cmbTipoArte.getSelectionModel().clearSelection();
+        cmbCurador.getSelectionModel().clearSelection();
+    }
+    
+    @Override
+    public void cargarDatos(Exposicion exposicion) {
+        // Validamos si la exposision es nula
+        if (exposicion == null) {
+            throw new NullPointerException("La exposición no puede ser nula");
+        }
+        // Obtengo el Tipo de Arte de la exposicion
+        cmbTipoArte.setValue(exposicion.getUnTipoArte());
+        // Obtengo el unico curador presente en la Exposicion
+        cmbCurador.setValue(exposicion.getCurador());
+    }
+    
+    @Override
+    public void validar() {
+    StringBuilder errores = new StringBuilder();
+
+    if (cmbTipoArte.getSelectionModel().getSelectedItem() == null) {
+        errores.append("• Debe seleccionar un tipo de arte.\n");
+    }
+
+    if (cmbCurador.getSelectionModel().getSelectedItem() == null) {
+        errores.append("• Debe seleccionar un curador.\n");
+    }
+
+    if (errores.length() > 0) {
+        throw new IllegalArgumentException(errores.toString());
+    }
+}
 }

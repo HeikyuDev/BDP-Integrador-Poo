@@ -8,17 +8,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import org.controlsfx.control.CheckComboBox;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 
 public abstract class ConfiguracionIgu {
@@ -84,16 +80,7 @@ public abstract class ConfiguracionIgu {
 }
 
     
-    // === CONFIGURACIONES DE BOTONES ===
-    
-    // Configuracion del boton "Cancelar"
-    public static void configuracionBtnCancelar(Button btnAlta, Button btnModificacion, Button btnBaja,
-            Button btnCancelar, String textoAlta) {
-        btnAlta.setText(textoAlta);
-        btnModificacion.setDisable(false);
-        btnBaja.setDisable(false);
-        btnCancelar.setDisable(true);
-    }
+    // === CONFIGURACIONES DE BOTONES ===        
 
     // Configuracion del boton "Modificar"
     public static void configuracionBtnModificar(Button btnAlta, Button btnModificacion, Button btnBaja,

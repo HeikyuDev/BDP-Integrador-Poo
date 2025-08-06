@@ -1,5 +1,6 @@
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
+import com.mycompany.bdppeventos.dto.DatosComunesEvento;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -108,11 +109,18 @@ public class FormularioEventoController implements Initializable {
         // Actualizo la tabla de eventos registrados "Activos" y la Combo de Organizadores
         actualizarDatos();
     }
+    
+    // === METODOS DE CONFIGURACION ===
 
     // Metodo Utilizado para inicializar los servicios que se van a utilizar
     private void inicializarServicios() {
         eventoServicio = new EventoServicio(RepositorioContext.getRepositorio());
         personaServicio = new PersonaServicio(RepositorioContext.getRepositorio());
+    }
+    
+    // Metodo utilizado para mostrar un panel por defecto 
+    private void inicializarContenedorDinamico() {
+        StageManager.cambiarEscenaEnContenedor(contenedorDinamico, Vista.PanelVacio);
     }
 
     // Metodo utilizado para configurar componentes de Interfaz
@@ -121,18 +129,77 @@ public class FormularioEventoController implements Initializable {
         ConfiguracionIgu.configuracionEnumEnCombo(cmbTipoEvento, TipoEvento.class);
         configurarColumnas();
     }
+    
+    // Metodo utilizado para Establecer el formato de como de van a mostrar los datos en las columnas
+    private void configurarColumnas() {
+        // Columnas básicas
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colUbicacion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
+        colDuracion.setCellValueFactory(new PropertyValueFactory<>("duracionEstimada"));
+        // Columna de fecha formateada
+        colFechaInicio
+                .setCellValueFactory(cellData -> ConfiguracionIgu.formatFecha(cellData.getValue().getFechaInicio()));
+        // Columnas booleanas
+        colTieneCupo.setCellValueFactory(cellData -> ConfiguracionIgu.formatBoolean(cellData.getValue().isTieneCupo(), "SÍ", "NO"));
+        colTieneInscripcion
+                .setCellValueFactory(cellData -> ConfiguracionIgu.formatBoolean(cellData.getValue().isTieneInscripcion(), "SÍ", "NO"));
+        // Columna de capacidad condicional
+        colCapacidadMaxima.setCellValueFactory(cellData -> ConfiguracionIgu.formatCupoMaximoEvent(cellData.getValue()));
+        // Columna de organizadores
+        colOrganizadores.setCellValueFactory(cellData -> {
+            List<Persona> organizadores = cellData.getValue().getOrganizadores();
+            return ConfiguracionIgu.formatLista(organizadores, Persona::getInformacionPersonal, TEXTO_SIN_ORGANIZADORES);
+        });
+        // Columna de tipo de evento
+        colTipo.setCellValueFactory(cellData -> obtenerTipoEvento(cellData.getValue()));
+    }
+    // Metodo utilizado para formatear el tipo de evento
+    private SimpleStringProperty obtenerTipoEvento(Evento evento) {
+        if (evento instanceof Exposicion) {
+            return new SimpleStringProperty(TipoEvento.EXPOSICION.getDescripcion());
+        } else if (evento instanceof Taller) {
+            return new SimpleStringProperty(TipoEvento.TALLER.getDescripcion());
+        } else if (evento instanceof Concierto) {
+            return new SimpleStringProperty(TipoEvento.CONCIERTO.getDescripcion());
+        } else if (evento instanceof CicloDeCine) {
+            return new SimpleStringProperty(TipoEvento.CICLO_DE_CINE.getDescripcion());
+        } else if (evento instanceof Feria) {
+            return new SimpleStringProperty(TipoEvento.FERIA.getDescripcion());
+        } else {
+            return new SimpleStringProperty("-");
+        }
+    }    
 
     // Metodo Utilizado para actualizar tanto los datos de la tabla de eventos como los de la combo de Organizadores
     private void actualizarDatos() {
         actualizarTabla();
         actualizarComboOrganizadores();
     }
-
-    // Metodo utilizado para mostrar un panel por defecto 
-    private void inicializarContenedorDinamico() {
-        StageManager.cambiarEscenaEnContenedor(contenedorDinamico, Vista.PanelVacio);
+    
+    private void actualizarTabla() {
+        try {
+            // Obtengo todos los eventos de la BD
+            List<Evento> eventos = eventoServicio.buscarTodos();
+            if (eventos != null) {
+                listaEventos.setAll(FXCollections.observableArrayList(eventos));
+                tablaEventos.refresh();
+            } else {
+                listaEventos.clear();
+                Alerta.mostrarError("No se pudieron cargar los eventos");
+            }
+        } catch (Exception e) {
+            listaEventos.clear();
+            Alerta.mostrarError("Error al cargar eventos: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-
+    
+    private void actualizarComboOrganizadores() {        
+        ConfiguracionIgu.configuracionListaEnCheckCombo(chkComboOrganizadores, personaServicio.obtenerPersonasPorRol(TipoRol.ORGANIZADOR));
+    }    
+    
+    // === METODOS DE CONTROLES ===
+    
     @FXML
     private void configuracionCupoMaximo() {
         // Configuracion que permite que cuando se seleccione un CheckBox se pueda escribir en un textfield
@@ -146,53 +213,86 @@ public class FormularioEventoController implements Initializable {
         // Si el tipo Seleccionado es null "Muestra el panel Vacio"
         cargarPanelEspecifico(tipoSeleccionado);
     }
+    
+    // Metodo utilziado para mostrar un determinado panel dependiendo del tipo de evento
+    private void cargarPanelEspecifico(TipoEvento tipo) {
+        try {
+            // Si tipo es null, mostrar panel vacío
+            if (tipo == null) {
+                StageManager.cambiarEscenaEnContenedor(contenedorDinamico, Vista.PanelVacio);
+                chkCupoMaximo.setDisable(false);
+                return; // Salir del método
+            }                       
+            
+            switch (tipo) {
+                case EXPOSICION -> panelExposicionController = cambiarEscena(Vista.PanelExposicion, false);                                    
+                case TALLER -> panelTallerController = cambiarEscena(Vista.PanelTaller, true);                
+                case CONCIERTO -> panelConciertoController = cambiarEscena(Vista.PanelConcierto, false);                
+                case CICLO_DE_CINE -> panelCicloCineController = cambiarEscena(Vista.PanelCicloCine, false);                
+                case FERIA -> panelFeriaController = cambiarEscena(Vista.PanelFeria, false);         
+            }
+        } catch (Exception e) {
+            Alerta.mostrarError("Error cargando el formulario específico: " + e.getMessage());
+        }
+    }
+    
+    // Metodo Genérico que me retorna el controlador
+    private <T> T cambiarEscena(Vista vista, boolean esTaller) {
+        if (esTaller) {
+            // Solo para TALLER: forzar selección y deshabilitar
+            chkCupoMaximo.setSelected(true);
+            chkCupoMaximo.setDisable(true);
+            txtCupoMaximo.setDisable(false);
+        } else {
+            // Para otros: solo habilitar (mantener estado actual)
+            chkCupoMaximo.setDisable(false);
+            // txtCupoMaximo.setDisable(!chkCupoMaximo.isSelected());
+        }
+
+        return StageManager.cambiarEscenaEnContenedorYObtenerControlador(contenedorDinamico, vista);
+    }
 
     @FXML
     private void altaEvento() {
         try {
-            // Obtener datos básicos
+            // Obtener datos básicos desde la UI
             String nombre = txtNombre.getText().trim();
             String ubicacion = txtUbicacion.getText().trim();
             LocalDate fechaInicio = dpFechaInicio.getValue();
-            String duracion = txtDuracion.getText().trim();
+            String duracionStr = txtDuracion.getText().trim();
             boolean tieneCupo = chkCupoMaximo.isSelected();
-            String cupoMax = txtCupoMaximo.getText().trim();
-            int cupoMaximo = 0;
+            String cupoMaxStr = txtCupoMaximo.getText().trim();
             boolean tieneInscripcion = chkTieneInscripcion.isSelected();
 
-            // Obtener organizadores seleccionados
             List<Persona> organizadoresSeleccionados = new ArrayList<>(
-                    chkComboOrganizadores.getCheckModel().getCheckedItems());
+                    chkComboOrganizadores.getCheckModel().getCheckedItems()
+            );
             TipoEvento unTipoEvento = cmbTipoEvento.getSelectionModel().getSelectedItem();
 
-            // Validar campos base
-            validarCamposBase(nombre, ubicacion, fechaInicio, duracion, unTipoEvento, organizadoresSeleccionados,
-                    tieneCupo, cupoMax);
+            // Validar campos (esto lanza excepción si hay errores)
+            validarCamposBase(nombre, ubicacion, fechaInicio, duracionStr, unTipoEvento,
+                    organizadoresSeleccionados, tieneCupo, cupoMaxStr);
 
-            // Realizamos las conversiones necesarias
-            int duracionEstimada = Integer.parseInt(duracion);
+            // Conversión segura (ya fue validado)
+            int duracionEstimada = Integer.parseInt(duracionStr);
+            int cupoMaximo = tieneCupo ? Integer.parseInt(cupoMaxStr) : 0;
 
-            if (tieneCupo) {
-                cupoMaximo = Integer.parseInt(cupoMax);
-            }
-
-            if (eventoEnEdicion == null) { // ALTA
-                realizarAlta(nombre, ubicacion, fechaInicio, duracionEstimada, tieneCupo, cupoMaximo, tieneInscripcion,
-                        organizadoresSeleccionados, unTipoEvento);
+            // Creamos un DTO que tendra los datos comunes del Evento base            
+            DatosComunesEvento datosComunes = new DatosComunesEvento(nombre,ubicacion,fechaInicio,duracionEstimada,tieneCupo,
+                    cupoMaximo,tieneInscripcion,organizadoresSeleccionados);
+            
+            // Decidir si es alta o modificación
+            if (eventoEnEdicion == null) {
+                realizarAlta(datosComunes, unTipoEvento);
             } else {
-                // Realizo la modificacion de la instancia existente, estableciendo los nuevos valore
-                realizarModificacion(nombre, ubicacion, fechaInicio, duracionEstimada, tieneCupo, cupoMaximo,
-                        tieneInscripcion, organizadoresSeleccionados, unTipoEvento);
-                
-                
+                realizarModificacion(datosComunes, unTipoEvento);
             }
         } catch (IllegalArgumentException e) {
-            Alerta.mostrarError("Error en los datos: " + e.getMessage());
-            return;
+            Alerta.mostrarError("Error en los datos:\n" + e.getMessage());
         } catch (Exception e) {
             Alerta.mostrarError("Error inesperado: " + e.getMessage());
             e.printStackTrace();
-        } 
+        }
     }
 
     @FXML
@@ -222,7 +322,6 @@ public class FormularioEventoController implements Initializable {
 
     private void cargarDatosEvento(Evento evento) {
         try {
-
             // Validamos si el evento es nulo
             if (evento == null) {
                 // Validamos si el evento es nulo
@@ -254,30 +353,25 @@ public class FormularioEventoController implements Initializable {
             }
 
             // Determinar tipo y cargar panel específico
-            if (evento instanceof Exposicion) {
-                cmbTipoEvento.setValue(TipoEvento.EXPOSICION);
-                cmbTipoEvento.setDisable(true);
-                cambiarEscenaAExposicion();
+            if (evento instanceof Exposicion) {                
+                configurarCmbTipoEvento(TipoEvento.EXPOSICION);
+                panelExposicionController = cambiarEscena(Vista.PanelExposicion, false);
                 panelExposicionController.cargarDatos((Exposicion) evento);
             } else if (evento instanceof Taller) {
-                cmbTipoEvento.setValue(TipoEvento.TALLER);
-                cmbTipoEvento.setDisable(true);
-                cambiarEscenaATaller();
+                configurarCmbTipoEvento(TipoEvento.TALLER);
+                panelTallerController = cambiarEscena(Vista.PanelTaller, true);
                 panelTallerController.cargarDatos((Taller) evento);
             } else if (evento instanceof Concierto) {
-                cmbTipoEvento.setValue(TipoEvento.CONCIERTO);
-                cmbTipoEvento.setDisable(true);
-                cambiarEscenaAConcierto();
+                configurarCmbTipoEvento(TipoEvento.CONCIERTO);
+                panelConciertoController = cambiarEscena(Vista.PanelConcierto, false);
                 panelConciertoController.cargarDatos((Concierto) evento);
             } else if (evento instanceof CicloDeCine) {
-                cmbTipoEvento.setValue(TipoEvento.CICLO_DE_CINE);
-                cmbTipoEvento.setDisable(true);
-                cambiarEscenaACicloDeCine();
+                configurarCmbTipoEvento(TipoEvento.CICLO_DE_CINE);
+                panelCicloCineController = cambiarEscena(Vista.PanelCicloCine, false);
                 panelCicloCineController.cargarDatos((CicloDeCine) evento);
             } else if (evento instanceof Feria) {
-                cmbTipoEvento.setValue(TipoEvento.FERIA);
-                cmbTipoEvento.setDisable(true);
-                cambiarEscenaAFeria();
+                configurarCmbTipoEvento(TipoEvento.FERIA);
+                panelFeriaController = cambiarEscena(Vista.PanelFeria, false);
                 panelFeriaController.cargarDatos((Feria) evento);
             }
         } catch (IllegalArgumentException e) {
@@ -285,6 +379,11 @@ public class FormularioEventoController implements Initializable {
         } catch (Exception e) {
             Alerta.mostrarError("Ocurrio un Error Inesperado");
         }
+    }
+    
+    private void configurarCmbTipoEvento(TipoEvento unTipoEvento) {
+        cmbTipoEvento.setValue(unTipoEvento);
+        cmbTipoEvento.setDisable(true);
     }
 
     @FXML
@@ -312,12 +411,8 @@ public class FormularioEventoController implements Initializable {
 
     @FXML
     private void cancelarEdicion() {
-        eventoEnEdicion = null;
-        limpiarCampos();
-        actualizarTabla();
-        ConfiguracionIgu.configuracionBtnCancelar(btnAlta, btnModificacion, btnBaja, btnCancelar, TEXTO_BOTON_ALTA);
-        btnVisualizacion.setDisable(false);
-        cmbTipoEvento.setDisable(false);
+        // Configuracion que deja la pantalla en el estado inicial {ALTA}
+        configuracionBase();
     }
 
     @FXML
@@ -363,6 +458,194 @@ public class FormularioEventoController implements Initializable {
             return Vista.VisualizacionFeria;
         }
         return null;
+    }            
+    
+    // === MODULOS DE ALTA Y MODIFICACION 
+
+    private void realizarAlta(DatosComunesEvento datosComunes,TipoEvento unTipoEvento) {        
+        try {
+            //Validar datos especificos del tipo de evento
+            validarDatosPorTipo(unTipoEvento);
+            // Confirmacion alta
+            if (!Alerta.confirmarAccion("¿Guardar el Evento '" + datosComunes.nombre() + "'?")) {
+            return;
+            }
+            // Ejecutar alta segun el tipo
+            altaEventoPorTipo(unTipoEvento, datosComunes);            
+            // Mostrar Mensaje de Exito
+            Alerta.mostrarExito(MENSAJE_EXITO_ALTA);   
+            // Limpio los campos
+            limpiarCampos();
+            // Actualizo la tabla
+            actualizarTabla();
+            
+        } catch (Exception e) {
+            Alerta.mostrarError("No se pudo Realizar El Alta del Evento " + e.getMessage());
+        }
+    }
+    
+    private void altaEventoPorTipo(TipoEvento tipo, DatosComunesEvento datosComunes) {
+        switch (tipo) {
+            case EXPOSICION -> {
+                // Obtenemos los datos espécificos de la exposicion
+                TipoDeArte tipoDeArte = panelExposicionController.getTipoArteSeleccionado();
+                Persona curador = panelExposicionController.getCurador();
+                // Llamamos al metodo del Servicio que persiste el alta de la exposicion
+                eventoServicio.altaExposicion(datosComunes, tipoDeArte, curador);
+            }
+            case TALLER -> {
+                // Obtenemos los datos espécificos del taller
+                boolean esPresencial = panelTallerController.getEsPrecencial();
+                Persona instructor = panelTallerController.getInstructor();
+                // Llamamos al metodo del Servicio que persiste el alta del taller
+                eventoServicio.altaTaller(datosComunes, esPresencial, instructor);
+            }
+            case CONCIERTO -> {
+                // Obtenemos los datos espécificos del Concierto
+                List<Persona> artistas = panelConciertoController.getArtistas();
+                boolean esPago = panelConciertoController.getEsPago();
+                double monto = esPago ? panelConciertoController.getMonto() : 0.0;
+                // Llamamos al metodo del Servicio que persiste el alta del concierto
+                eventoServicio.altaConcierto(datosComunes, esPago, monto, artistas);
+            }
+            case CICLO_DE_CINE -> {
+                // Obtenemos los datos espécificos del Ciclo de Cine
+                Proyeccion proyeccion = panelCicloCineController.getProyeccion();
+                boolean charlasPosteriores = panelCicloCineController.getCharlasPosteriores();
+                // Llamamos al metodo del Servicio que persiste el alta del Ciclo de Cine
+                eventoServicio.altaCicloCine(datosComunes, proyeccion, charlasPosteriores);
+            }
+            case FERIA -> {
+                // Obtenemos los datos espécificos de la feria
+                int cantidadStands = panelFeriaController.getCantidadStands();
+                TipoCobertura tipoCobertura = panelFeriaController.getTipoCobertura();
+                // Llamamos al metodo del Servicio que persiste el alta de la Feria
+                eventoServicio.altaFeria(datosComunes, cantidadStands, tipoCobertura);
+            }
+        }
+    }        
+
+    private void realizarModificacion(DatosComunesEvento datosComunes,TipoEvento unTipoEvento) {                        
+        try {
+            // Validar datos específicos del tipo de evento
+            validarDatosPorTipo(unTipoEvento);            
+            // Confirmar modificación
+            if (!Alerta.confirmarAccion("¿Modificar el evento '" + eventoEnEdicion.getNombre() + "'?")) {
+                return;
+            }            
+            // Ejecutar modificación según tipo
+            modificarEventoPorTipo(unTipoEvento, datosComunes);
+            // Mostrar Mensaje de Exito
+            Alerta.mostrarExito(MENSAJE_EXITO_MODIFICACION);  
+            // Dejamos la escena en su estado inicial
+            configuracionBase();
+        } catch (Exception e) {
+            Alerta.mostrarError("No se pudo modificar el Evento " + e.getMessage());
+        }
+    }
+    
+    private void modificarEventoPorTipo(TipoEvento tipo, DatosComunesEvento datosComunes) {
+        switch (tipo) {
+            case EXPOSICION -> {
+                // Obtenemos los datos espécificos de la exposicion
+                TipoDeArte tipoDeArte = panelExposicionController.getTipoArteSeleccionado();
+                Persona curador = panelExposicionController.getCurador();
+                // Llamamos al metodo del Servicio que persiste la modificacion de la exposicion
+                eventoServicio.modificarExposicion(eventoEnEdicion.getId(), datosComunes, tipoDeArte, curador);
+            }
+            case TALLER -> {
+                // Obtenemos los datos espécificos del taller
+                boolean esPresencial = panelTallerController.getEsPrecencial();
+                Persona instructor = panelTallerController.getInstructor();
+                // Llamamos al metodo del Servicio que persiste la modificacion del taller
+                eventoServicio.modificarTaller(eventoEnEdicion.getId(), datosComunes, esPresencial, instructor);
+            }
+            case CONCIERTO -> {
+                // Obtenemos los datos espécificos del Concierto
+                List<Persona> artistas = panelConciertoController.getArtistas();
+                boolean esPago = panelConciertoController.getEsPago();
+                double monto = esPago ? panelConciertoController.getMonto() : 0.0;
+                // Llamamos al metodo del Servicio que persiste la modificacion del concierto
+                eventoServicio.modificarConcierto(eventoEnEdicion.getId(), datosComunes , esPago, monto, artistas);
+            }
+            case CICLO_DE_CINE -> {
+                // Obtenemos los datos espécificos del Ciclo de Cine
+                Proyeccion proyeccion = panelCicloCineController.getProyeccion();
+                boolean charlasPosteriores = panelCicloCineController.getCharlasPosteriores();
+                // Llamamos al metodo del Servicio que persiste la modificacion del Ciclo de Cine
+                eventoServicio.modificarCicloCine(eventoEnEdicion.getId(), datosComunes , proyeccion, charlasPosteriores);
+            }
+            case FERIA -> {
+                // Obtenemos los datos espécificos de la feria
+                int cantidadStands = panelFeriaController.getCantidadStands();
+                TipoCobertura tipoCobertura = panelFeriaController.getTipoCobertura();
+                // Llamamos al metodo del Servicio que persiste la modificacion de la Feria
+                eventoServicio.modificarFeria(eventoEnEdicion.getId(), datosComunes, cantidadStands, tipoCobertura);
+            }
+        }
+    }    
+    
+    // === METODOS AUXILIARES === 
+                       
+    // Metodo utilizado para validar los datos que el usuario ingresa
+    private void validarCamposBase(String txtNombre, String txtUbicacion, LocalDate fechaInicio,
+            String txtDuracion, TipoEvento tipo, List<Persona> organizadores, boolean tieneCupo, String cupoMax) {
+
+        StringBuilder mensajeError = new StringBuilder();
+
+        if (txtNombre == null || txtNombre.isBlank()) {
+            mensajeError.append("• El nombre es obligatorio.\n");
+        }
+
+        if (txtUbicacion == null || txtUbicacion.isBlank()) {
+            mensajeError.append("• La ubicación es obligatoria.\n");
+        }
+
+        if (fechaInicio == null) {
+            mensajeError.append("• La fecha de inicio es obligatoria.\n");
+        } else if (fechaInicio.isBefore(LocalDate.now())) {
+            mensajeError.append("• La fecha de inicio no puede ser anterior a hoy.\n");
+        }
+
+        if (txtDuracion == null || txtDuracion.isBlank()) {
+            mensajeError.append("• La duración es obligatoria.\n");
+        } else {
+            try {
+                int duracion = Integer.parseInt(txtDuracion);
+                if (duracion <= 0) {
+                    mensajeError.append("• La duración debe ser mayor a cero.\n");
+                }
+            } catch (NumberFormatException e) {
+                mensajeError.append("• La duración debe ser un número válido.\n");
+            }
+        }
+
+        if (tipo == null) {
+            mensajeError.append("• Debe seleccionar un tipo de evento.\n");
+        }
+
+        if (organizadores == null || organizadores.isEmpty()) {
+            mensajeError.append("• Debe seleccionar al menos un organizador.\n");
+        }
+
+        if (tieneCupo) {
+            if (cupoMax == null || cupoMax.isBlank()) {
+                mensajeError.append("• Si se indica que tiene cupo, debe especificar el cupo máximo.\n");
+            } else {
+                try {
+                    int cupo = Integer.parseInt(cupoMax);
+                    if (cupo <= 0) {
+                        mensajeError.append("• El cupo máximo debe ser mayor a cero.\n");
+                    }
+                } catch (NumberFormatException e) {
+                    mensajeError.append("• El cupo máximo debe ser un número válido.\n");
+                }
+            }
+        }
+
+        if (mensajeError.length() > 0) {
+            throw new IllegalArgumentException(mensajeError.toString());
+        }
     }
 
     // Metodo utilizado para limpiar los campos de la IGU
@@ -378,334 +661,31 @@ public class FormularioEventoController implements Initializable {
         cmbTipoEvento.setValue(null);
         inicializarContenedorDinamico();
     }
-
-    // Metodo utilizado para validar los datos que el usuario ingresa
-    private void validarCamposBase(String txtNombre, String txtUbicacion, LocalDate fechaInicio,
-            String txtDuracion, TipoEvento tipo, List<Persona> organizadores, boolean tieneCupo, String cupoMax) {
-        StringBuilder mensajeError = new StringBuilder();
-
-        if (txtNombre == null || txtNombre.trim().isEmpty()) {
-            mensajeError.append("• El nombre es obligatorio y no puede estar vacío.\n");
-        }
-
-        if (txtUbicacion == null || txtUbicacion.trim().isEmpty()) {
-            mensajeError.append("• La ubicación es obligatoria y no puede estar vacía.\n");
-        }
-
-        if (fechaInicio == null) {
-            mensajeError.append("• La fecha de inicio es obligatoria.\n");
-        } else if (fechaInicio.isBefore(LocalDate.now())) {
-            mensajeError.append("• La fecha de inicio no puede ser anterior a hoy.\n");
-        }
-
-        if (txtDuracion == null || txtDuracion.trim().isEmpty()) {
-            mensajeError.append("• La duración es obligatoria.\n");
-        } else {
-            try {
-                int duracion = Integer.parseInt(txtDuracion);
-                if (duracion <= 0) {
-                    mensajeError.append("• La duración debe ser un número positivo.\n");
-                }
-            } catch (NumberFormatException e) {
-                mensajeError.append("• La duración debe ser un número válido.\n");
-            }
-        }
-
-        if (tipo == null) {
-            mensajeError.append("• Debe seleccionar un tipo de evento.\n");
-        }
-
-        if (organizadores == null || organizadores.isEmpty()) {
-            mensajeError.append("• Debe seleccionar al menos un organizador.\n");
-        }
-
-        if (tieneCupo && (cupoMax == null || cupoMax.trim().isEmpty())) {
-            mensajeError.append("• Si se selecciona que tiene cupo se debe ingresar el cupo máximo.\n");
-        }
-                
-
-        if (mensajeError.length() > 0) {
-            throw new IllegalArgumentException(mensajeError.toString());
+    
+    private void validarDatosPorTipo(TipoEvento tipo) {
+        switch (tipo) {
+            case EXPOSICION ->
+                panelExposicionController.validar();
+            case TALLER ->
+                panelTallerController.validar();
+            case CONCIERTO ->
+                panelConciertoController.validar();
+            case CICLO_DE_CINE ->
+                panelCicloCineController.validar();
+            case FERIA ->
+                panelFeriaController.validar();
         }
     }
-
-    // Metodo utilziado para mostrar un determinado panel dependiendo del tipo de evento
-    private void cargarPanelEspecifico(TipoEvento tipo) {
-        try {
-            // Si tipo es null, mostrar panel vacío
-            if (tipo == null) {
-                StageManager.cambiarEscenaEnContenedor(contenedorDinamico, Vista.PanelVacio);
-                chkCupoMaximo.setDisable(false);
-                return; // Salir del método
-            }
-
-            switch (tipo) {
-                case EXPOSICION -> {
-                    panelExposicionController = StageManager.cambiarEscenaEnContenedorYObtenerControlador(
-                            contenedorDinamico, Vista.PanelExposicion);
-                    chkCupoMaximo.setDisable(false);
-                }
-                case TALLER -> {
-                    panelTallerController = StageManager.cambiarEscenaEnContenedorYObtenerControlador(
-                            contenedorDinamico, Vista.PanelTaller);
-                    chkCupoMaximo.setSelected(true);
-                    chkCupoMaximo.setDisable(true);
-                    txtCupoMaximo.setDisable(false);
-                }
-                case CONCIERTO -> {
-                    panelConciertoController = StageManager.cambiarEscenaEnContenedorYObtenerControlador(
-                            contenedorDinamico, Vista.PanelConcierto);
-                    chkCupoMaximo.setDisable(false);
-                }
-                case CICLO_DE_CINE -> {
-                    panelCicloCineController = StageManager.cambiarEscenaEnContenedorYObtenerControlador(
-                            contenedorDinamico, Vista.PanelCicloCine);
-                    chkCupoMaximo.setDisable(false);
-                }
-                case FERIA -> {
-                    panelFeriaController = StageManager.cambiarEscenaEnContenedorYObtenerControlador(
-                            contenedorDinamico, Vista.PanelFeria);
-                    chkCupoMaximo.setDisable(false);
-                }
-            }
-        } catch (Exception e) {
-            Alerta.mostrarError("Error cargando el formulario específico: " + e.getMessage());
-        }
+    
+    private void configuracionBase() {
+        eventoEnEdicion = null;
+        limpiarCampos();
+        actualizarTabla();
+        ConfiguracionIgu.configuracionBase(btnAlta, btnModificacion, btnBaja, btnCancelar, TEXTO_BOTON_ALTA);
+        // Ajustes adicionales de igu
+        btnVisualizacion.setDisable(false);
+        cmbTipoEvento.setDisable(false);
+        txtCupoMaximo.setDisable(true);
     }
 
-    private void realizarAlta(String nombre, String ubicacion, LocalDate fechaInicio, int duracionEstimada,
-            boolean tieneCupo, int cupoMaximo, boolean tieneInscripcion, List<Persona> organizadoresSeleccionados,
-            TipoEvento unTipoEvento) {
-        if (!Alerta.confirmarAccion("¿Guardar el Evento '" + nombre + "'?")) {
-            return;
-        }
-
-        try {
-            // Llamar al servicio según el tipo de evento
-            switch (unTipoEvento) {
-                case EXPOSICION -> {
-                    TipoDeArte tipoDeArte = panelExposicionController.getTipoArteSeleccionado();
-                    Persona curador = panelExposicionController.getCurador();
-                    eventoServicio.altaExposicion(nombre, ubicacion, fechaInicio, duracionEstimada,
-                            tieneCupo, cupoMaximo, tieneInscripcion, organizadoresSeleccionados,
-                            tipoDeArte, curador);
-                }
-                case TALLER -> {
-                    boolean esPresencial = panelTallerController.getEsPrecencial();
-                    Persona instructor = panelTallerController.getInstructor();
-
-                    eventoServicio.altaTaller(nombre, ubicacion, fechaInicio, duracionEstimada,
-                            tieneCupo, cupoMaximo, tieneInscripcion, organizadoresSeleccionados,
-                            esPresencial, instructor);
-                }
-                case CONCIERTO -> {
-                    List<Persona> artistas = panelConciertoController.getArtistas();
-                    boolean esPago = panelConciertoController.getEsPago();
-                    double monto = esPago ? panelConciertoController.getMonto() : 0.0;
-
-                    eventoServicio.altaConcierto(nombre, ubicacion, fechaInicio, duracionEstimada,
-                            tieneCupo, cupoMaximo, tieneInscripcion, organizadoresSeleccionados,
-                            esPago, monto, artistas);
-                }
-                case CICLO_DE_CINE -> {
-                    Proyeccion proyeccion = panelCicloCineController.getProyeccion();
-                    boolean charlasPosteriores = panelCicloCineController.getCharlasPosteriores();
-
-                    eventoServicio.altaCicloCine(nombre, ubicacion, fechaInicio, duracionEstimada,
-                            tieneCupo, cupoMaximo, tieneInscripcion, organizadoresSeleccionados,
-                            proyeccion, charlasPosteriores);
-                }
-                case FERIA -> {
-                    int cantidadStands = panelFeriaController.getCantidadStands();
-                    TipoCobertura tipoCobertura = panelFeriaController.getTipoCobertura();
-
-                    eventoServicio.altaFeria(nombre, ubicacion, fechaInicio, duracionEstimada,
-                            tieneCupo, cupoMaximo, tieneInscripcion, organizadoresSeleccionados,
-                            cantidadStands, tipoCobertura);
-                }
-            }
-            Alerta.mostrarExito(MENSAJE_EXITO_ALTA);   
-            // Limpio los campos
-            limpiarCampos();
-            // Actualizo la tabla
-            actualizarTabla();
-            
-        } catch (Exception e) {
-            Alerta.mostrarError("No se pudo Realizar El Alta del Evento " + e.getMessage());
-        }
-    }
-
-    private void realizarModificacion(String nombre, String ubicacion, LocalDate fechaInicio, int duracionEstimada,
-            boolean tieneCupo, int cupoMaximo, boolean tieneInscripcion, List<Persona> organizadoresSeleccionados,
-            TipoEvento unTipoEvento) {
-        if (!Alerta.confirmarAccion("¿Modificar El evento '" + eventoEnEdicion.getNombre() + "'?")) {
-            return;
-        }
-        try {
-            switch (unTipoEvento) {
-                case EXPOSICION -> {
-                    TipoDeArte tipoDeArte = panelExposicionController.getTipoArteSeleccionado();
-                    Persona curador = panelExposicionController.getCurador();
-
-                    eventoServicio.modificarExposicion(eventoEnEdicion.getId(), nombre, ubicacion, fechaInicio,
-                            duracionEstimada, tieneCupo,
-                            cupoMaximo, tieneInscripcion, organizadoresSeleccionados, tipoDeArte, curador);
-
-                }
-                case TALLER -> {
-                    boolean esPresencial = panelTallerController.getEsPrecencial();
-                    Persona instructor = panelTallerController.getInstructor();
-
-                    eventoServicio.modificarTaller(eventoEnEdicion.getId(), nombre, ubicacion, fechaInicio,
-                            duracionEstimada,
-                            tieneCupo, cupoMaximo, tieneInscripcion, organizadoresSeleccionados,
-                            esPresencial, instructor);
-                }
-                case CONCIERTO -> {
-                    List<Persona> artistas = panelConciertoController.getArtistas();
-                    boolean esPago = panelConciertoController.getEsPago();
-                    double monto = esPago ? panelConciertoController.getMonto() : 0.0;
-
-                    eventoServicio.modificarConcierto(eventoEnEdicion.getId(), nombre, ubicacion, fechaInicio,
-                            duracionEstimada,
-                            tieneCupo, cupoMaximo, tieneInscripcion, organizadoresSeleccionados,
-                            esPago, monto, artistas);
-                }
-                case CICLO_DE_CINE -> {
-                    Proyeccion proyeccion = panelCicloCineController.getProyeccion();
-                    boolean charlasPosteriores = panelCicloCineController.getCharlasPosteriores();
-
-                    eventoServicio.modificarCicloCine(eventoEnEdicion.getId(), nombre, ubicacion, fechaInicio,
-                            duracionEstimada,
-                            tieneCupo, cupoMaximo, tieneInscripcion, organizadoresSeleccionados,
-                            proyeccion, charlasPosteriores);
-                }
-                case FERIA -> {
-                    int cantidadStands = panelFeriaController.getCantidadStands();
-                    TipoCobertura tipoCobertura = panelFeriaController.getTipoCobertura();
-
-                    eventoServicio.modificarFeria(eventoEnEdicion.getId(), nombre, ubicacion, fechaInicio,
-                            duracionEstimada,
-                            tieneCupo, cupoMaximo, tieneInscripcion, organizadoresSeleccionados,
-                            cantidadStands, tipoCobertura);
-                }
-            }            
-            Alerta.mostrarExito(MENSAJE_EXITO_MODIFICACION);  
-            // Limpio los campos
-            limpiarCampos();
-            // Establesco que la variable de edicion como null, indicando que vuelve a ser ALTA
-            eventoEnEdicion = null;
-            // Actualizamos la tabla para que impacten los cambios (La modificacion del registro)
-            actualizarTabla();            
-            // Configuramos el estado base
-            ConfiguracionIgu.configuracionBase(btnAlta, btnModificacion, btnBaja, btnCancelar, TEXTO_BOTON_ALTA);
-            // Ajustes adicionales de igu
-            btnVisualizacion.setDisable(false);
-            cmbTipoEvento.setDisable(false);            
-            txtCupoMaximo.setDisable(true);
-        } catch (Exception e) {
-            Alerta.mostrarError("No se pudo modificar el Evento " + e.getMessage());
-        }
-    }
-
-    private void actualizarTabla() {
-        try {
-            // Obtengo todos los eventos de la BD
-            List<Evento> eventos = eventoServicio.buscarTodos();
-            if (eventos != null) {
-                listaEventos.setAll(FXCollections.observableArrayList(eventos));
-                tablaEventos.refresh();
-            } else {
-                listaEventos.clear();
-                Alerta.mostrarError("No se pudieron cargar los eventos");
-            }
-        } catch (Exception e) {
-            listaEventos.clear();
-            Alerta.mostrarError("Error al cargar eventos: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private void actualizarComboOrganizadores() {
-        // Utilizamos el servicio de Persona para obtener todos los organizadores
-        // Registrados en el sistema.
-        ConfiguracionIgu.configuracionListaEnCheckCombo(chkComboOrganizadores, personaServicio.obtenerPersonasPorRol(TipoRol.ORGANIZADOR));
-    }
-
-    private void cambiarEscenaAExposicion() {
-        chkCupoMaximo.setDisable(false);
-        panelExposicionController = StageManager.cambiarEscenaEnContenedorYObtenerControlador(contenedorDinamico,
-                Vista.PanelExposicion);
-    }
-
-    private void cambiarEscenaATaller() {
-        chkCupoMaximo.setSelected(true);
-        chkCupoMaximo.setDisable(true);
-        txtCupoMaximo.setDisable(false);
-        panelTallerController = StageManager.cambiarEscenaEnContenedorYObtenerControlador(contenedorDinamico,
-                Vista.PanelTaller);
-    }
-
-    private void cambiarEscenaAConcierto() {
-        chkCupoMaximo.setDisable(false);
-        panelConciertoController = StageManager
-                .cambiarEscenaEnContenedorYObtenerControlador(contenedorDinamico, Vista.PanelConcierto);
-    }
-
-    private void cambiarEscenaACicloDeCine() {
-        chkCupoMaximo.setDisable(false);
-        panelCicloCineController = StageManager
-                .cambiarEscenaEnContenedorYObtenerControlador(contenedorDinamico, Vista.PanelCicloCine);
-    }
-
-    private void cambiarEscenaAFeria() {
-        chkCupoMaximo.setDisable(false);
-        panelFeriaController = StageManager.cambiarEscenaEnContenedorYObtenerControlador(contenedorDinamico,
-                Vista.PanelFeria);
-    }
-
-    private void configurarColumnas() {
-        // Columnas básicas
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colUbicacion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
-        colDuracion.setCellValueFactory(new PropertyValueFactory<>("duracionEstimada"));
-
-        // Columna de fecha formateada
-        colFechaInicio
-                .setCellValueFactory(cellData -> ConfiguracionIgu.formatFecha(cellData.getValue().getFechaInicio()));
-
-        // Columnas booleanas
-        colTieneCupo.setCellValueFactory(cellData -> ConfiguracionIgu.formatBoolean(cellData.getValue().isTieneCupo(), "SÍ", "NO"));
-
-        colTieneInscripcion
-                .setCellValueFactory(cellData -> ConfiguracionIgu.formatBoolean(cellData.getValue().isTieneInscripcion(), "SÍ", "NO"));
-
-        // Columna de capacidad condicional
-        colCapacidadMaxima.setCellValueFactory(cellData -> ConfiguracionIgu.formatCupoMaximoEvent(cellData.getValue()));
-
-        // Columna de organizadores
-        colOrganizadores.setCellValueFactory(cellData -> {
-            List<Persona> organizadores = cellData.getValue().getOrganizadores();
-            return ConfiguracionIgu.formatLista(organizadores, Persona::getInformacionPersonal, TEXTO_SIN_ORGANIZADORES);
-        });
-
-        // Columna de tipo de evento
-        colTipo.setCellValueFactory(cellData -> obtenerTipoEvento(cellData.getValue()));
-    }
-
-    private SimpleStringProperty obtenerTipoEvento(Evento evento) {
-        if (evento instanceof Exposicion) {
-            return new SimpleStringProperty(TipoEvento.EXPOSICION.getDescripcion());
-        } else if (evento instanceof Taller) {
-            return new SimpleStringProperty(TipoEvento.TALLER.getDescripcion());
-        } else if (evento instanceof Concierto) {
-            return new SimpleStringProperty(TipoEvento.CONCIERTO.getDescripcion());
-        } else if (evento instanceof CicloDeCine) {
-            return new SimpleStringProperty(TipoEvento.CICLO_DE_CINE.getDescripcion());
-        } else if (evento instanceof Feria) {
-            return new SimpleStringProperty(TipoEvento.FERIA.getDescripcion());
-        } else {
-            return new SimpleStringProperty("-");
-        }
-    }
 }
