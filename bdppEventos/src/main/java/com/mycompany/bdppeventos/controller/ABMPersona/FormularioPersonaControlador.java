@@ -10,10 +10,6 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 import java.util.List;
 import org.controlsfx.control.CheckComboBox;
-import org.controlsfx.validation.Severity;
-import org.controlsfx.validation.ValidationSupport;
-import org.controlsfx.validation.Validator;
-
 import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
@@ -77,8 +73,13 @@ public class FormularioPersonaControlador {
         // Configurar el CheckComboBox
         configurarCheckComboBox();
 
-        personaInicial = null;
+        //personaInicial = null;
         nuevasPersonas.clear();
+
+        // eliominar esto, es para saber si se carga 2 veces el formulario
+        System.out.println("🛑 FormularioPersonaControlador hashCode: " + this.hashCode());
+
+        
 
     }
 
@@ -114,8 +115,7 @@ public class FormularioPersonaControlador {
             if (personaInicial == null) {
                 // Crear nueva persona
                 Persona nuevaPersona = personaServicio.validarEInsertar(dni, nombre, apellido, telefono,
-                        correoElectronico);
-                nuevaPersona.setUnaListaRoles(rolesSeleccionados);
+                        correoElectronico, rolesSeleccionados);
                 nuevasPersonas.add(nuevaPersona);
 
                 Alerta.mostrarExito("Persona creada exitosamente");
@@ -154,33 +154,25 @@ public class FormularioPersonaControlador {
         chkCmbRol.getCheckModel().clearChecks(); // Limpiar selección de roles
     }
 
-    // metodo para inicializar el controlador
-    public void setPersonaInicial(Persona personaInicial) {
-        this.personaInicial = personaInicial;
-        if (personaInicial != null) {
-            autocompletarCampos();
-            txtDni.setDisable(true); // Deshabilitar campo DNI si es edición
-            btnNuevo.setDisable(true); // Deshabilitar botón "Nuevo" si es edición
-        }
-    }
-
     public List<Persona> getPersonas() {
         return nuevasPersonas;
 
     }
 
-    private void autocompletarCampos() {
-        if (personaInicial != null) {
-            txtDni.setText(personaInicial.getDni());
-            txtNombre.setText(personaInicial.getNombre());
-            txtApellido.setText(personaInicial.getApellido());
-            txtTelefono.setText(personaInicial.getTelefono() != null ? personaInicial.getTelefono() : "");
-            txtCorreo.setText(
-                    personaInicial.getCorreoElectronico() != null ? personaInicial.getCorreoElectronico() : "");
-
-            // ✅ CONFIGURAR ROLES EN EL CHECKCOMBOBOX (excluyendo SIN_ROL)
+    public void cargarPersona(Persona persona) {
+        this.personaInicial = persona;
+        
+        if (persona != null) {
+            // Cargamos los datos en los campos del formulario
+            txtNombre.setText(persona.getNombre());
+            txtApellido.setText(persona.getApellido());
+            txtDni.setText(String.valueOf(persona.getDni()));
+            txtCorreo.setText(persona.getCorreoElectronico() != null ? persona.getCorreoElectronico() : "");
+            txtTelefono.setText(persona.getTelefono() != null ? persona.getTelefono() : "");
+            
+            // Cargar roles en el CheckComboBox
             chkCmbRol.getCheckModel().clearChecks();
-            List<TipoRol> rolesPersona = personaInicial.getUnaListaRoles();
+            List<TipoRol> rolesPersona = persona.getUnaListaRoles();
             if (rolesPersona != null && !rolesPersona.isEmpty()) {
                 for (TipoRol rol : rolesPersona) {
                     // Solo marcar roles que NO sean SIN_ROL
@@ -188,10 +180,18 @@ public class FormularioPersonaControlador {
                         chkCmbRol.getCheckModel().check(rol);
                     }
                 }
-                // Si la persona solo tiene SIN_ROL, no marcar nada (queda vacío = SIN_ROL
-                // implícito)
             }
+            
+            // Deshabilitar campo DNI y botón "Nuevo" si es edición
+            txtDni.setDisable(true);
+            btnNuevo.setDisable(true);
+        } else {
+            // Limpiar formulario para nueva persona
+            nuevo(null);
+            txtDni.setDisable(false);
+            btnNuevo.setDisable(false);
         }
     }
+
 
 }
