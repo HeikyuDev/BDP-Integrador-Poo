@@ -58,8 +58,35 @@ public class FormularioTipoDeArteController implements Initializable {
         // Actualizamos la tabla para mostrar Los tipos de Arte Actualizados
         actualizarTabla();
     }
+    
+    // === METODOS DE INICIALIZACION ===
 
-    // Metodos de Controles
+    private void configurarTablaYColumnas()
+    {
+        configurarTabla();
+        configurarColumnas();
+    }
+
+    private void configurarColumnas() {
+        // Definimos como cada columna representa los datos ("Lo que muestra") DEFINIMOS EL QUÉ Y EL CÓMO
+        colId.setCellValueFactory(new PropertyValueFactory<TipoDeArte, Integer>("idTipoArte"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<TipoDeArte, String>("nombre"));
+    }
+
+    private void configurarTabla() {
+        // Aplica política de ajuste automático
+        tblTipoDeArte.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        // Configurar texto para tablas vacías
+        tblTipoDeArte.setPlaceholder(new Label("No Hay Tipos de Arte para mostrar"));
+
+        // Simula proporciones para tblEvento 
+        colId.setMaxWidth(1f * Integer.MAX_VALUE * 40); 
+        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 60);                         
+    }
+        
+    // === METODOS DE CONTROLES === 
+    
     @FXML
     private void altaTipoDeArte() {
         try {
@@ -85,14 +112,7 @@ public class FormularioTipoDeArteController implements Initializable {
                 }
                 tipoDeArteServicio.modificarTipoDeArte(tipoDeArteEnEdicion, nombre);                
                 Alerta.mostrarExito("Tipo De Arte modificado exitosamente");
-                // Asignamos a tipoDeArteEnEdicion el valor null, volviendo al estado inicial
-                tipoDeArteEnEdicion = null;
-                // Limpiamos todos los campos
-                limpiarCampos();
-                // Actualizamos la tabla, para que impacten la modificacion
-                actualizarTabla();
-                // Configuramos la igu para que vuelva al estado base
-                ConfiguracionIgu.configuracionBase(btnAltaTipoDeArte, btnModificacion, btnBaja, btnCancelar, altaTxt);
+                configuracionEstadoBase();
             }
         } catch (IllegalArgumentException e) {
             Alerta.mostrarError(e.getMessage());            
@@ -142,14 +162,12 @@ public class FormularioTipoDeArteController implements Initializable {
 
     @FXML
     private void cancelarEdicion() {
-        tipoDeArteEnEdicion = null;
-        limpiarCampos();
-        ConfiguracionIgu.configuracionBtnCancelar(btnAltaTipoDeArte, btnModificacion, btnBaja, btnCancelar, altaTxt);
+        configuracionEstadoBase();
     }
 
-    // ==Metodos Especificos==
-    private void limpiarCampos() {
-        // Limpiamos el texto que esta en el TextField
+    // === METODOS ESPECIFICOS ===
+    
+    private void limpiarCampos() {        
         txtNombre.clear();
     }
 
@@ -172,29 +190,16 @@ public class FormularioTipoDeArteController implements Initializable {
         } catch (Exception e) {
             Alerta.mostrarError("Ocurrio un Error inesperado:\n" + e.getMessage());
         }
-    }
+    }        
     
-    private void configurarTablaYColumnas()
-    {
-        configurarTabla();
-        configurarColumnas();
-    }
-
-    private void configurarColumnas() {
-        // Definimos como cada columna representa los datos ("Lo que muestra") DEFINIMOS EL QUÉ Y EL CÓMO
-        colId.setCellValueFactory(new PropertyValueFactory<TipoDeArte, Integer>("idTipoArte"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<TipoDeArte, String>("nombre"));
-    }
-
-    private void configurarTabla() {
-        // Aplica política de ajuste automático
-        tblTipoDeArte.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        // Configurar texto para tablas vacías
-        tblTipoDeArte.setPlaceholder(new Label("No Hay Tipos de Arte para mostrar"));
-
-        // Simula proporciones para tblEvento 
-        colId.setMaxWidth(1f * Integer.MAX_VALUE * 40); 
-        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 60);                         
+    private void configuracionEstadoBase() {
+        // Asignamos a tipoDeArteEnEdicion el valor null, volviendo al estado inicial
+        tipoDeArteEnEdicion = null;
+        // Limpiamos todos los campos
+        limpiarCampos();
+        // Actualizamos la tabla, para que impacten la modificacion
+        actualizarTabla();
+        // Configuramos la igu para que vuelva al estado base
+        ConfiguracionIgu.configuracionBase(btnAltaTipoDeArte, btnModificacion, btnBaja, btnCancelar, altaTxt);
     }
 }

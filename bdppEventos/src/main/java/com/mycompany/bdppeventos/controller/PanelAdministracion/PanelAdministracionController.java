@@ -10,12 +10,12 @@ import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.RepositorioContext;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-
 
 public class PanelAdministracionController implements Initializable {
 
@@ -67,8 +67,9 @@ public class PanelAdministracionController implements Initializable {
                 // Retornamos la cantidad de registros existentes en la bd
                 return String.valueOf(listaFiltrada.size());
             } else // Si el estado pasado como parametro es distinto de null
-            {
-                listaFiltrada = eventoServicio.obtenerEventosPorEstado(unEstado);
+            {                
+                List<EstadoEvento> estado = Arrays.asList(unEstado);
+                listaFiltrada = eventoServicio.obtenerEventosPorEstado(estado, false);
                 return String.valueOf(listaFiltrada.size());
             }
         } catch (Exception e) {

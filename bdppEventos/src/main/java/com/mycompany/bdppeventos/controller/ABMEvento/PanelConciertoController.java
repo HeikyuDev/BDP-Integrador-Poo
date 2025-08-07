@@ -8,6 +8,7 @@ import org.controlsfx.control.CheckComboBox;
 import com.mycompany.bdppeventos.model.entities.Concierto;
 import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
+import com.mycompany.bdppeventos.model.interfaces.PanelEvento;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
@@ -19,7 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
-public class PanelConciertoController  implements Initializable {
+public class PanelConciertoController  implements Initializable, PanelEvento<Concierto> {
 
     @FXML
     private CheckBox chkEsPago;
@@ -88,26 +89,7 @@ public class PanelConciertoController  implements Initializable {
         artistas = new ArrayList<>(listaObservableArtistas);
         return  artistas;
     }
-
-    public void cargarDatos(Concierto concierto) {
-        chkEsPago.setSelected(concierto.isEsPago());
-
-        if (concierto.isEsPago()) {
-            txtEsPago.setDisable(false);
-            txtEsPago.setText(String.valueOf(concierto.getMonto()));
-        } else {
-            txtEsPago.setText("");
-        }
-
-        // Rellenamos la lista de Artistas. Colocando los seleccionados
-        List<Persona> artistas = concierto.getArtistas();
-        chkComboArtistas.getCheckModel().clearChecks();
-        for (Persona artista : artistas) {
-            chkComboArtistas.getCheckModel().check(artista);
-        }
-
-    }
-
+       
     private ObservableList<Persona> obtenerArtistas() {
         List<Persona> lista = personaServicio.obtenerPersonasPorRol(TipoRol.ARTISTA);
         // 2. Verificamos si la lista es nula
@@ -131,10 +113,66 @@ public class PanelConciertoController  implements Initializable {
         }
     }
 
-    protected void limpiarCampos() {
+    // METODOS DE LA INTERFAZ PanelEvento<>
+    
+    @Override
+    public void limpiarCampos() {
         chkComboArtistas.getCheckModel().clearChecks();
         txtEsPago.clear();
         chkEsPago.setSelected(false);
+    }
+    
+    @Override
+    public void validar() {
+        StringBuilder errores = new StringBuilder();
+
+        // Validar artistas
+        List<Persona> artistas = chkComboArtistas.getCheckModel().getCheckedItems();
+        if (artistas == null || artistas.isEmpty()) {
+            errores.append("• Debe seleccionar al menos un artista.\n");
+        }
+
+        // Validar monto si es pago
+        if (chkEsPago.isSelected()) {
+            String textoMonto = txtEsPago.getText().trim();
+            if (textoMonto.isEmpty()) {
+                errores.append("• Debe ingresar un monto si el evento es pago.\n");
+            } else {
+                try {
+                    double monto = Double.parseDouble(textoMonto);
+                    if (monto <= 0) {
+                        errores.append("• El monto debe ser mayor que cero.\n");
+                    }
+                } catch (NumberFormatException e) {
+                    errores.append("• El monto ingresado no es válido. Debe ser un número.\n");
+                }
+            }
+        }
+
+        if (errores.length() > 0) {
+            throw new IllegalArgumentException(errores.toString());
+        }
+    }
+
+    
+    @Override
+    public void cargarDatos(Concierto concierto) {
+        chkEsPago.setSelected(concierto.isEsPago());
+
+        if (concierto.isEsPago()) {
+            txtEsPago.setDisable(false);
+            txtEsPago.setText(String.valueOf(concierto.getMonto()));
+        } else {
+            txtEsPago.setText("");
+        }
+
+        // Rellenamos la lista de Artistas. Colocando los seleccionados
+        List<Persona> artistas = concierto.getArtistas();
+        chkComboArtistas.getCheckModel().clearChecks();
+        for (Persona artista : artistas) {
+            chkComboArtistas.getCheckModel().check(artista);
+        }
+
     }
 
 }

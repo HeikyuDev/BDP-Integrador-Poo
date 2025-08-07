@@ -12,12 +12,14 @@ import com.mycompany.bdppeventos.model.entities.Exposicion;
 import com.mycompany.bdppeventos.model.entities.Feria;
 import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.entities.Taller;
+import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 import com.mycompany.bdppeventos.model.enums.TipoEvento;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.services.Evento.EventoServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import com.mycompany.bdppeventos.util.RepositorioContext;
+import java.util.Arrays;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -70,6 +72,9 @@ public class VerParticipantesController implements Initializable {
 
     // Servicios
     private EventoServicio eventoServicio;
+    
+    // CONSTANTE DE FILTRO    
+    private final List<EstadoEvento> estados = Arrays.asList(EstadoEvento.CONFIRMADO, EstadoEvento.EN_EJECUCION, EstadoEvento.FINALIZADO);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -91,7 +96,7 @@ public class VerParticipantesController implements Initializable {
 
     private void cargarTodosLosEventos() {
         try {
-            List<Evento> todosLosEventos = eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados();
+            List<Evento> todosLosEventos = eventoServicio.obtenerEventosPorEstado(estados, true);
             listaEventos.setAll(todosLosEventos);
         } catch (Exception e) {
             Alerta.mostrarError("Error al cargar los eventos: " + e.getMessage());
@@ -154,41 +159,41 @@ public class VerParticipantesController implements Initializable {
     private List<Evento> obtenerListaPorTipo(TipoEvento unTipoEvento) {
         // Si es null, devolver todos los eventos
         if (unTipoEvento == null) {
-            return eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados();
+            return eventoServicio.obtenerEventosPorEstado(estados, true);
         }
 
         List<Evento> listaEventoFiltrada = new ArrayList<>();
         switch (unTipoEvento) {
             case EXPOSICION -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(estados, true)) {
                     if (unEvento instanceof Exposicion) {
                         listaEventoFiltrada.add(unEvento);
                     }
                 }
             }
             case TALLER -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(estados, true)) {
                     if (unEvento instanceof Taller) {
                         listaEventoFiltrada.add(unEvento);
                     }
                 }
             }
             case CONCIERTO -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(estados, true)) {
                     if (unEvento instanceof Concierto) {
                         listaEventoFiltrada.add(unEvento);
                     }
                 }
             }
             case CICLO_DE_CINE -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(estados, true)) {
                     if (unEvento instanceof CicloDeCine) {
                         listaEventoFiltrada.add(unEvento);
                     }
                 }
             }
             case FERIA -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosInscribiblesEnEstadosHabilitados()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(estados, true)) {
                     if (unEvento instanceof Feria) {
                         listaEventoFiltrada.add(unEvento);
                     }

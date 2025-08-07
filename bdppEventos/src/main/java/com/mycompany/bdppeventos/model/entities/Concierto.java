@@ -1,8 +1,8 @@
 package com.mycompany.bdppeventos.model.entities;
 
-import com.mycompany.bdppeventos.model.enums.TipoRol;
-import java.time.LocalDate;
 import java.util.List;
+
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

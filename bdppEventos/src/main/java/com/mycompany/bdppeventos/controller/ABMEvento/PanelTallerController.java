@@ -1,8 +1,10 @@
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
+
 import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.entities.Taller;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
+import com.mycompany.bdppeventos.model.interfaces.PanelEvento;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.RepositorioContext;
@@ -17,7 +19,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 
-public class PanelTallerController implements Initializable {
+public class PanelTallerController implements Initializable, PanelEvento<Taller> {
         
     @FXML
     private RadioButton rbtnPresencial, rbtnVirtual;
@@ -70,31 +72,12 @@ public class PanelTallerController implements Initializable {
 
         Persona unInstructor = cmbInstructor.getSelectionModel().getSelectedItem();
         if (unInstructor == null) {
-            throw new IllegalArgumentException("Debe seleccionar un curador");
+            throw new IllegalArgumentException("Debe seleccionar un Instructor");
         }
         return unInstructor;
     }
 
-    public void cargarDatos(Taller taller) {
-        // Determinamos si es Virtual o no
-        if(taller == null)
-        {
-            throw new NullPointerException("Error: No se reconoce el taller");
-        }        
-        
-        if (taller.isEsPresencial())
-        {
-            rbtnPresencial.setSelected(true);
-            rbtnVirtual.setSelected(false);
-        }
-        else
-        {
-            rbtnPresencial.setSelected(false);
-            rbtnVirtual.setSelected(true);
-        }
-        // Metodo que Obtiene la persona que ejerce el rol de Instructor en el Evento
-        cmbInstructor.setValue(taller.getInstructor());        
-    }
+    
             
     private ObservableList<Persona> obtenerInstructores()
     {
@@ -120,8 +103,47 @@ public class PanelTallerController implements Initializable {
         }
     }
     
-    protected void limpiarCampos()
+    // METODOS DE LA INTERFAZ PanelEvento<T>
+    
+    @Override
+    public void limpiarCampos()
     {
         cmbInstructor.getSelectionModel().clearSelection();
     }
+    
+    @Override
+    public void validar() {
+        StringBuilder errores = new StringBuilder();
+
+        if (cmbInstructor.getSelectionModel().getSelectedItem() == null) {
+            errores.append("• Debe seleccionar un instructor.\n");
+        }
+
+        if (errores.length() > 0) {
+            throw new IllegalArgumentException(errores.toString());
+        }
+    }
+    
+    @Override
+    public void cargarDatos(Taller taller) {
+        // Determinamos si es Virtual o no
+        if(taller == null)
+        {
+            throw new NullPointerException("Error: No se reconoce el taller");
+        }        
+        
+        if (taller.isEsPresencial())
+        {
+            rbtnPresencial.setSelected(true);
+            rbtnVirtual.setSelected(false);
+        }
+        else
+        {
+            rbtnPresencial.setSelected(false);
+            rbtnVirtual.setSelected(true);
+        }
+        // Metodo que Obtiene la persona que ejerce el rol de Instructor en el Evento
+        cmbInstructor.setValue(taller.getInstructor());        
+    }
+    
 }

@@ -5,8 +5,6 @@
  */
 package com.mycompany.bdppeventos.model.entities;
 
-import java.time.LocalDate;
-import java.util.List;
 
 import com.mycompany.bdppeventos.model.enums.TipoCobertura;
 

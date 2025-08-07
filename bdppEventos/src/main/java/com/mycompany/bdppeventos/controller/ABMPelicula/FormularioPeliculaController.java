@@ -3,13 +3,11 @@ package com.mycompany.bdppeventos.controller.ABMPelicula;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import com.mycompany.bdppeventos.model.entities.Pelicula;
 import com.mycompany.bdppeventos.services.Pelicula.PeliculaServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import com.mycompany.bdppeventos.util.RepositorioContext;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,10 +22,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class FormularioPeliculaController  implements Initializable {
 
     @FXML
-    private TextField txtNombre;
-
-    @FXML
-    private TextField txtDuracion;
+    private TextField txtNombre, txtDuracion;
+    
 
     @FXML
     private Button btnAltaPelicula, btnModificacion, btnBaja, btnCancelar;
@@ -52,9 +48,7 @@ public class FormularioPeliculaController  implements Initializable {
 
     // Constante que tiene el valor del Texto del boton alta
     private final String altaTxt = "Alta de Película";
-    
-    
-
+        
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Instanciamos la Pelicula servicios con el repositorio
@@ -66,9 +60,36 @@ public class FormularioPeliculaController  implements Initializable {
         // Llamamos al metodo que obtiene todas las instancias
         actualizarTabla();
     }
-        
     
-    // Metodos OnActioin
+    // === METODOS DE INICIALIZACION ===
+    
+    private void configurarTablayColumna()
+    {
+        configuracionColumnas();
+        configurarTabla();
+    }
+    
+    private void configuracionColumnas() {
+        // Definimos como cada columna obtiene los datos
+        colId.setCellValueFactory(new PropertyValueFactory<Pelicula, Integer>("idPelicula"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<Pelicula, String>("titulo"));
+        colDuracion.setCellValueFactory(new PropertyValueFactory<Pelicula, Double>("duracion"));
+    }
+    
+    private void configurarTabla() {
+        // Aplica política de ajuste automático
+        tblPelicula.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);        
+
+        // Configurar texto para tablas vacías
+        tblPelicula.setPlaceholder(new Label("No hay Peliculas para mostrar"));        
+
+        // Simula proporciones para tblPeliculas 
+        colId.setMaxWidth(1f * Integer.MAX_VALUE * 30); // 30%
+        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 40); // 40%                
+        colDuracion.setMaxWidth(1f * Integer.MAX_VALUE * 30); // 30%        
+    }            
+    
+    // === METODOS DE CONTROLES === 
 
     @FXML
     private void altaPelicula() {
@@ -100,14 +121,7 @@ public class FormularioPeliculaController  implements Initializable {
                 }
                 peliculaServicio.modificarPelicula(peliculaEnEdicion, titulo, duracion);                
                 Alerta.mostrarExito("Película modificada exitosamente");
-                // Asigno a pelicula en edicion el valor de null para indicar que vuelve al estaod inicial
-                peliculaEnEdicion = null;
-                // Limpio los campos
-                limpiarCampos();
-                // Actualizo la tabla
-                actualizarTabla();
-                // Configuro la Igu a su estado base
-                ConfiguracionIgu.configuracionBase(btnAltaPelicula, btnModificacion, btnBaja, btnCancelar, altaTxt);
+                configuracionEstadoBase();
             }
         } catch (IllegalArgumentException e) {
             Alerta.mostrarError(e.getMessage());            
@@ -159,9 +173,7 @@ public class FormularioPeliculaController  implements Initializable {
 
     @FXML
     private void cancelarEdicion() {
-        peliculaEnEdicion = null;
-        limpiarCampos();
-        ConfiguracionIgu.configuracionBtnCancelar(btnAltaPelicula, btnModificacion, btnBaja, btnCancelar, altaTxt);        
+        configuracionEstadoBase();
     }
 
     // Metodos Especificos
@@ -170,40 +182,24 @@ public class FormularioPeliculaController  implements Initializable {
         if (nombre.isEmpty() || duracionTexto.isEmpty()) {
             throw new IllegalArgumentException("Todos los campos son obligatorios");
         }
-    }            
+        
+        // Parseamos la duracion para validar si es un numero valido
+        try {
+            double duracion = Double.parseDouble(duracionTexto);
+            if (duracion <= 0) {
+                throw new IllegalArgumentException("La duración no debe ser 0 o inferior a 0");
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("La duración debe ser un número");
+        }
+    }   
     
     private void limpiarCampos() {
         txtNombre.clear();
         txtDuracion.clear();
-    }
+    }    
 
-    private void configurarTablayColumna()
-    {
-        configuracionColumnas();
-        configurarTabla();
-    }
-    
-    private void configuracionColumnas() {
-        // Definimos como cada columna obtiene los datos
-        colId.setCellValueFactory(new PropertyValueFactory<Pelicula, Integer>("idPelicula"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<Pelicula, String>("titulo"));
-        colDuracion.setCellValueFactory(new PropertyValueFactory<Pelicula, Double>("duracion"));
-    }
-    
-    private void configurarTabla() {
-        // Aplica política de ajuste automático
-        tblPelicula.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);        
-
-        // Configurar texto para tablas vacías
-        tblPelicula.setPlaceholder(new Label("No hay Peliculas para mostrar"));        
-
-        // Simula proporciones para tblEvento 
-        colId.setMaxWidth(1f * Integer.MAX_VALUE * 30); // 30%
-        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 40); // 40%                
-        colDuracion.setMaxWidth(1f * Integer.MAX_VALUE * 30); // 30%        
-    }
-
-     // Metodo Que obtiene todas las peliculas. 
+     
     
 
     private void actualizarTabla() {
@@ -220,6 +216,17 @@ public class FormularioPeliculaController  implements Initializable {
         } catch (Exception e) {
             Alerta.mostrarError("Ocurrio un Error inesperado:\n" + e.getMessage());
         }
+    }
+    
+    private void configuracionEstadoBase() {
+        // Asigno a pelicula en edicion el valor de null para indicar que vuelve al estaod inicial
+        peliculaEnEdicion = null;
+        // Limpio los campos
+        limpiarCampos();
+        // Actualizo la tabla
+        actualizarTabla();
+        // Configuro la Igu a su estado base
+        ConfiguracionIgu.configuracionBase(btnAltaPelicula, btnModificacion, btnBaja, btnCancelar, altaTxt);
     }
 
 }

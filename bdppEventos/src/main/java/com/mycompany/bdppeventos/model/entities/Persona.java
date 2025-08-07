@@ -2,6 +2,7 @@ package com.mycompany.bdppeventos.model.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.model.interfaces.Activable;
@@ -12,10 +13,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.stream.Collectors;
 
 /**
  * Clase que representa una persona en el sistema. Incluye datos personales,

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import com.mycompany.bdppeventos.model.entities.Proyeccion;
+import com.mycompany.bdppeventos.model.interfaces.PanelEvento;
 import com.mycompany.bdppeventos.services.proyeccion.ProyeccionServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.RepositorioContext;
@@ -17,7 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 
-public class PanelCicloCineController implements Initializable {
+public class PanelCicloCineController implements Initializable, PanelEvento<CicloDeCine> {
 
     @FXML
     private ComboBox<Proyeccion> cmbCiclo;
@@ -50,12 +51,7 @@ public class PanelCicloCineController implements Initializable {
         actualizarCombo();
     }
 
-    // ==Metodos Especificos==
-
-    protected void limpiarCampos() {
-        cmbCiclo.getSelectionModel().clearSelection();
-        ChkCharlasPosteriores.setSelected(false);
-    }
+    // ==Metodos Especificos==        
 
     public Proyeccion getProyeccion() {
         Proyeccion seleccion = cmbCiclo.getSelectionModel().getSelectedItem();
@@ -95,7 +91,22 @@ public class PanelCicloCineController implements Initializable {
         }
     }
 
-    void cargarDatos(CicloDeCine cicloDeCine) {        
+    // METODOS DE LA INTERFAZ PanelEvento<T>
+    @Override
+    public void limpiarCampos() {
+        cmbCiclo.getSelectionModel().clearSelection();
+        ChkCharlasPosteriores.setSelected(false);
+    }
+    
+    @Override
+    public void validar() {
+        if (cmbCiclo.getSelectionModel().getSelectedItem() == null) {
+            throw new IllegalArgumentException("Debe seleccionar una proyección para el ciclo de cine.");
+        }
+    }
+    
+    @Override
+    public void cargarDatos(CicloDeCine cicloDeCine) {        
         cmbCiclo.setValue(cicloDeCine.getUnaProyeccion());
         ChkCharlasPosteriores.setSelected(cicloDeCine.isCharlasPosteriores());
     }

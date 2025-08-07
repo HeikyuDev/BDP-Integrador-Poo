@@ -46,14 +46,11 @@ public class FormularioProyeccionController implements Initializable {
     private TableColumn<Proyeccion, String> colPeliculas;
 
     // Lista Observable para la Tabla
-    private ObservableList<Proyeccion> listaProyecciones = FXCollections.observableArrayList();
-
-    // Lista Observable de "Peliculas" Para la Combo
-    private ObservableList<Pelicula> listaPeliculas = FXCollections.observableArrayList();
+    private ObservableList<Proyeccion> listaProyecciones = FXCollections.observableArrayList();        
 
     // Botones
     @FXML
-    private Button btnAltaProyeccion, btnBaja, btnModificacion, btnCancelar, btnAgregarPelicula;
+    private Button btnAltaProyeccion, btnBaja, btnModificacion, btnCancelar;
 
     // Variable de modificacion
     private Proyeccion ProyeccionEnEdicion = null;
@@ -67,29 +64,66 @@ public class FormularioProyeccionController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Inicializamos los services de "Pelicula" y "Proyeccion"
-        proyeccionServicio = new ProyeccionServicio(RepositorioContext.getRepositorio());
-        peliculaServicio = new PeliculaServicio(RepositorioContext.getRepositorio());
+        inicializarServicios();
         // Vinculamos las Observable list con las tablas/Combos
-        tblProyeccion.setItems(listaProyecciones);
-        chkComboPeliculas.getItems().addAll(listaPeliculas);
+        tblProyeccion.setItems(listaProyecciones);        
         // Metodo Que configure la tabla y las columnas
         configurarTablaYColumnas();
         // Metodos que configuren el Combo y las Tables "Actualizar Combo" - "Actualizar Tabla"
-        actualizarCheckCombo();
-        actualizarTabla();
+        actualizarControles();
 
     }
+    
+    // === METODOS DE INICIALIZACION === 
+    
+    private void inicializarServicios()
+    {
+        proyeccionServicio = new ProyeccionServicio(RepositorioContext.getRepositorio());
+        peliculaServicio = new PeliculaServicio(RepositorioContext.getRepositorio());
+    }
+    
+    private void actualizarControles()
+    {
+        actualizarCheckCombo();
+        actualizarTabla();
+    }
+    
+    private void configurarTablaYColumnas() {
+        configurarTabla();
+        configuracionColumnas();
+    }
 
-    // Metodos de los Elementos Graficos
+    // Metodo que ajusta las dimensiones de la tabla y los comportamientos
+    private void configurarTabla() {
+        // Aplica política de ajuste automático
+        tblProyeccion.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        // Configurar texto para tablas vacías
+        tblProyeccion.setPlaceholder(new Label("No hay Proyecciones para mostrar"));
+
+        // Simula proporciones para tblEvento 
+        colId.setMaxWidth(1f * Integer.MAX_VALUE * 20); // 20%
+        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 30); // 40%                
+        colPeliculas.setMaxWidth(1f * Integer.MAX_VALUE * 50); // 30%        
+    }
+
+    // Metodo que configura Cada columna COMO Y QUE va a mostrar
+    private void configuracionColumnas() {
+        colId.setCellValueFactory(new PropertyValueFactory<Proyeccion, Integer>("idProyeccion")); // 
+        colNombre.setCellValueFactory(new PropertyValueFactory<Proyeccion, String>("nombre"));
+        colPeliculas.setCellValueFactory(cellData -> ConfiguracionIgu.formatLista(cellData.getValue().getUnaListaPelicula(), Pelicula::getTitulo, "Sin Peliculas"));
+        //Le paso la lista de pelicula asociada a al objeto de cada fila, Le paso COMO quiero que muestre esa pelicula como String(De cada pelicula quiero que muestres el titulo)
+        //,Y por ultimo le paso El mensaje que va a mostrar cuando un objeto no tenga asociado una lista o su listaes vacia
+    }
+
+    // === METODOS DE CONTROLES === 
+    
     @FXML
-    private void agregarPelicula() {
-        // Vaciamos los campos 
-        limpiarCampos();
+    private void agregarPelicula() {        
         // Abrimos nuevo modal que nos permiten dar de alta / Modificar / O dar de baja una pelicula        
         StageManager.abrirModal(Vista.FormularioPelicula);
         // Actualizamos el combo para registrar todas las posibles peliculas
-        actualizarCheckCombo();
-        actualizarTabla();
+        actualizarCheckCombo();        
     }
 
     @FXML
@@ -127,15 +161,7 @@ public class FormularioProyeccionController implements Initializable {
                 }
                 proyeccionServicio.modificarProyeccion(ProyeccionEnEdicion, nombre, listaSeleccionados);
                 Alerta.mostrarExito("Proyeccion modificada exitosamente");
-                // Asigno a la proyeccion en edicion el valor de null indicando que se va a realizar unn alta posteriormente
-                ProyeccionEnEdicion = null;
-                // Limpio los campos
-                limpiarCampos();
-                // Actualizo la tabla para que impacten los cambios
-                actualizarTabla();
-                // Configuros los iconos como estaban por defecto
-                ConfiguracionIgu.configuracionBase(btnAltaProyeccion, btnModificacion, btnBaja, btnCancelar, altaTxt);
-                btnAgregarPelicula.setDisable(false);
+                configuracionEstadoBase();
             }
         } catch (IllegalArgumentException e) {
             Alerta.mostrarError(e.getMessage());
@@ -203,47 +229,17 @@ public class FormularioProyeccionController implements Initializable {
 
     @FXML
     private void cancelarEdicion() {
-        ProyeccionEnEdicion = null;
-        limpiarCampos();
-        ConfiguracionIgu.configuracionBtnCancelar(btnAltaProyeccion, btnModificacion, btnBaja, btnCancelar, altaTxt);
+        configuracionEstadoBase();
     }
 
-    //===Metodos Especificos ===// 
+    //===Metodos Especificos === 
+    
     // Metodo que limpia los campos
     private void limpiarCampos() {
-        txtNombre.clear();
-        // Limpiar CheckComboBox (desmarcar todos los ítems seleccionados)
+        txtNombre.clear();        
         chkComboPeliculas.getCheckModel().clearChecks();
     }
-
-    private void configurarTablaYColumnas() {
-        configurarTabla();
-        configuracionColumnas();
-    }
-
-    // Metodo que ajusta las dimensiones de la tabla y los comportamientos
-    private void configurarTabla() {
-        // Aplica política de ajuste automático
-        tblProyeccion.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        // Configurar texto para tablas vacías
-        tblProyeccion.setPlaceholder(new Label("No hay Proyecciones para mostrar"));
-
-        // Simula proporciones para tblEvento 
-        colId.setMaxWidth(1f * Integer.MAX_VALUE * 20); // 20%
-        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 30); // 40%                
-        colPeliculas.setMaxWidth(1f * Integer.MAX_VALUE * 50); // 30%        
-    }
-
-    // Metodo que configura Cada columna COMO Y QUE va a mostrar
-    private void configuracionColumnas() {
-        colId.setCellValueFactory(new PropertyValueFactory<Proyeccion, Integer>("idProyeccion")); // 
-        colNombre.setCellValueFactory(new PropertyValueFactory<Proyeccion, String>("nombre"));
-        colPeliculas.setCellValueFactory(cellData -> ConfiguracionIgu.formatLista(cellData.getValue().getUnaListaPelicula(), Pelicula::getTitulo, "Sin Peliculas"));
-        //Le paso la lista de pelicula asociada a al objeto de cada fila, Le paso COMO quiero que muestre esa pelicula como String(De cada pelicula quiero que muestres el titulo)
-        //,Y por ultimo le paso El mensaje que va a mostrar cuando un objeto no tenga asociado una lista o su listaes vacia
-    }
-
+    
     private void validarCampos(String nombre, List<Pelicula> peliculas) {
         if (nombre == null || nombre.isBlank()) {
             throw new IllegalArgumentException("El nombre no puede estar vacío o ser nulo");
@@ -262,9 +258,8 @@ public class FormularioProyeccionController implements Initializable {
 
     // Metodo Que actualiza al CheckComboBox
     private void actualizarCheckCombo() {
-        try {
-            listaPeliculas.clear();
-            listaPeliculas.addAll(FXCollections.observableArrayList(peliculaServicio.buscarTodos()));
+        try {            
+            List<Pelicula> listaPeliculas = peliculaServicio.buscarTodos();            
             ConfiguracionIgu.configuracionListaEnCheckCombo(chkComboPeliculas, listaPeliculas);
         } catch (Exception e) {
             Alerta.mostrarError("Ocurrio un Error inesperado:\n" + e.getMessage());
@@ -290,6 +285,18 @@ public class FormularioProyeccionController implements Initializable {
         } catch (Exception e) {
             Alerta.mostrarError("Ocurrió un error al actualizar la tabla:\n" + e.getMessage());
         }
+    }
+    
+    private void configuracionEstadoBase()
+    {
+         // Asigno a la proyeccion en edicion el valor de null indicando que se va a realizar unn alta posteriormente
+        ProyeccionEnEdicion = null;
+        // Limpio los campos
+        limpiarCampos();
+        // Actualizo la tabla para que impacten los cambios
+        actualizarTabla();
+        // Configuros los iconos como estaban por defecto
+        ConfiguracionIgu.configuracionBase(btnAltaProyeccion, btnModificacion, btnBaja, btnCancelar, altaTxt);        
     }
 
 }

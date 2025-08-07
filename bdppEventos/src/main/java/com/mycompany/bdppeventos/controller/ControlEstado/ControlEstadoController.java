@@ -137,9 +137,12 @@ public class ControlEstadoController implements Initializable {
             }
 
             // Cambiamos el estado del evento planificado a "CONFIRMADO"
-            eventoServicio.confirmarEvento(eventoSeleccionado);            
-            actualizarTablaEventos();
+            eventoServicio.confirmarEvento(eventoSeleccionado);                        
             Alerta.mostrarExito("Evento '" + eventoSeleccionado.getNombre() + "' confirmado exitosamente!");                        
+            actualizarTablaEventos();
+            // Actualizo los estados de los eventos, util si un evento creado en el mismo dia cambia de estado al pasarle el estado a confirmado
+            // Ejemplo un Evento creado con la fecha de hoy planificado al confirmalo pasa automaticaMENTE a en ejecucion
+            eventoServicio.actualizarEstadoEventos();
         } catch (IllegalArgumentException e) {
             Alerta.mostrarError("Error: Asegurese de seleccionar un Evento valido: " + e.getMessage());
         } catch (Exception e) {

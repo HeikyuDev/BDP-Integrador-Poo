@@ -1,5 +1,11 @@
 package com.mycompany.bdppeventos.controller.InscribirParticipantes;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import com.mycompany.bdppeventos.model.entities.CicloDeCine;
 import com.mycompany.bdppeventos.model.entities.Concierto;
 import com.mycompany.bdppeventos.model.entities.Evento;
@@ -7,12 +13,8 @@ import com.mycompany.bdppeventos.model.entities.Exposicion;
 import com.mycompany.bdppeventos.model.entities.Feria;
 import com.mycompany.bdppeventos.model.entities.Persona;
 import com.mycompany.bdppeventos.model.entities.Taller;
+import com.mycompany.bdppeventos.model.enums.EstadoEvento;
 import com.mycompany.bdppeventos.model.enums.TipoEvento;
-import static com.mycompany.bdppeventos.model.enums.TipoEvento.CICLO_DE_CINE;
-import static com.mycompany.bdppeventos.model.enums.TipoEvento.CONCIERTO;
-import static com.mycompany.bdppeventos.model.enums.TipoEvento.EXPOSICION;
-import static com.mycompany.bdppeventos.model.enums.TipoEvento.FERIA;
-import static com.mycompany.bdppeventos.model.enums.TipoEvento.TALLER;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.services.Evento.EventoServicio;
 import com.mycompany.bdppeventos.services.Participacion.ParticipacionServicio;
@@ -20,10 +22,7 @@ import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import com.mycompany.bdppeventos.util.RepositorioContext;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -77,7 +76,10 @@ public class InscribirParticipantesController implements Initializable {
     private ParticipacionServicio participacionServicio;
     
     // FLAGS
-    private boolean existeRegistro;        
+    private boolean existeRegistro;
+    
+    // CONSTANTE de Filtro
+    private final List<EstadoEvento> ConfirmadoYEnEjecucion= Arrays.asList(EstadoEvento.CONFIRMADO, EstadoEvento.EN_EJECUCION);
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -100,7 +102,7 @@ public class InscribirParticipantesController implements Initializable {
     
     private void cargarTodosLosEventos() {
         try {
-            List<Evento> todosLosEventos = eventoServicio.obtenerEventosConfirmadosInscribibles();
+            List<Evento> todosLosEventos = eventoServicio.obtenerEventosPorEstado(ConfirmadoYEnEjecucion, true);
             listaEventos.setAll(todosLosEventos);            
         } catch (Exception e) {
             Alerta.mostrarError("Error al cargar los eventos: " + e.getMessage());
@@ -167,41 +169,41 @@ public class InscribirParticipantesController implements Initializable {
     private List<Evento> obtenerListaPorTipo(TipoEvento unTipoEvento) {
         // Si es null, devolver todos los eventos
         if (unTipoEvento == null) {
-            return eventoServicio.obtenerEventosConfirmadosInscribibles();
+            return eventoServicio.obtenerEventosPorEstado(ConfirmadoYEnEjecucion, true);
         }
 
         List<Evento> listaEventoFiltrada = new ArrayList<>();
         switch (unTipoEvento) {
             case EXPOSICION -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosConfirmadosInscribibles()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(ConfirmadoYEnEjecucion, true)) {
                     if (unEvento instanceof Exposicion) {
                         listaEventoFiltrada.add(unEvento);
                     }
                 }
             }
             case TALLER -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosConfirmadosInscribibles()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(ConfirmadoYEnEjecucion, true)) {
                     if (unEvento instanceof Taller) {
                         listaEventoFiltrada.add(unEvento);
                     }
                 }
             }
             case CONCIERTO -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosConfirmadosInscribibles()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(ConfirmadoYEnEjecucion, true)) {
                     if (unEvento instanceof Concierto) {
                         listaEventoFiltrada.add(unEvento);
                     }
                 }
             }
             case CICLO_DE_CINE -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosConfirmadosInscribibles()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(ConfirmadoYEnEjecucion, true)) {
                     if (unEvento instanceof CicloDeCine) {
                         listaEventoFiltrada.add(unEvento);
                     }
                 }
             }
             case FERIA -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosConfirmadosInscribibles()) {
+                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(ConfirmadoYEnEjecucion, true)) {
                     if (unEvento instanceof Feria) {
                         listaEventoFiltrada.add(unEvento);
                     }

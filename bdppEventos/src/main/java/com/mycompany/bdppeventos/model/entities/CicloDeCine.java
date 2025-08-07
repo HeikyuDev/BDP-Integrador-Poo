@@ -1,8 +1,5 @@
 package com.mycompany.bdppeventos.model.entities;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

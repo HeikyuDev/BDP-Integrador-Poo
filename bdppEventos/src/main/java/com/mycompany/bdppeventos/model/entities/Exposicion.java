@@ -1,9 +1,8 @@
 package com.mycompany.bdppeventos.model.entities;
 
-import com.mycompany.bdppeventos.model.enums.TipoRol;
-import jakarta.persistence.Column;
-import java.time.LocalDate;
 import java.util.List;
+
+import com.mycompany.bdppeventos.model.enums.TipoRol;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -32,9 +31,7 @@ public final class Exposicion extends Evento {
      */
     public Exposicion() {
         super();
-    }
-
-    // TODO: Hacer Contructor Con parametros           
+    }               
     
     // Getters y Setters
     public TipoDeArte getUnTipoArte() {

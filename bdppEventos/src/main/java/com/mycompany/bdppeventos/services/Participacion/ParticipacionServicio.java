@@ -358,10 +358,10 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
 
         // Validar estado del evento
         switch (evento.getEstado()) {
-            case  CONFIRMADO -> {
+            case  CONFIRMADO, EN_EJECUCION -> {
                 // Permitir inscripción
             }
-            case PLANIFICADO,EN_EJECUCION, FINALIZADO, CANCELADO -> {
+            case PLANIFICADO, FINALIZADO, CANCELADO -> {
                 throw new IllegalArgumentException("No se pueden inscribir participantes a un evento " + 
                                                  evento.getEstado().toString().toLowerCase());
             }
@@ -370,9 +370,8 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
         return crearParticipacion(evento, persona, TipoRol.PARTICIPANTE);
     }
  
-    public int eliminarTodasLasParticipacionesDelEvento(Evento evento) {
-        List<Participacion> participaciones = buscarPorEvento(evento);
-        int eliminadas = 0;
+    public void eliminarTodasLasParticipacionesDelEvento(Evento evento) {
+        List<Participacion> participaciones = buscarPorEvento(evento);        
 
         for (Participacion participacion : participaciones) {
             if (participacion.getActivo()) {
@@ -380,12 +379,9 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
                 marcarComoInactivo(participacion);
 
                 // Guardar cambios en la base (update)
-                modificar(participacion);
-                eliminadas++;
+                modificar(participacion);                
             }
-        }
-
-        return eliminadas;
+        }        
     }
                    
 }
