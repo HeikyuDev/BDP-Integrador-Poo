@@ -142,8 +142,15 @@ public class StageManager {
         modalStage.sizeToScene();
         modalStage.centerOnScreen();
         modalStage.setResizable(false);
-        modalStage.getIcons().add(new Image(App.class.getResource("/images/logo.png").toExternalForm()));        
+        modalStage.getIcons().add(new Image(App.class.getResource("/images/logo.png").toExternalForm()));
+        
+        // ✅ AGREGAR EL MODAL AL MAPA ANTES DE MOSTRARLO
+        modalStages.put(vista.getTitulo(), modalStage);
+        
         modalStage.showAndWait(); // Muestra el modal y espera hasta que se cierre
+        
+        // ✅ REMOVER DEL MAPA CUANDO SE CIERRE AUTOMÁTICAMENTE
+        modalStages.remove(vista.getTitulo());
     }
 
     // Cierra un modal asociado al título proporcionado
@@ -153,7 +160,8 @@ public class StageManager {
             modalStage.close(); // Cierra el modal si existe
             modalStages.remove(vista.getTitulo()); // Elimina el modal del mapa
         } else {
-            Alerta.mostrarError("No se encontró un modal con el título: " + vista.getTitulo()); // Advierte si no se encuentra el modal
+            // ✅ NO MOSTRAR ERROR - El modal podría haberse cerrado automáticamente
+            System.out.println("ℹ️ DEBUG: El modal '" + vista.getTitulo() + "' ya estaba cerrado o no se encontró");
         }
     }
 

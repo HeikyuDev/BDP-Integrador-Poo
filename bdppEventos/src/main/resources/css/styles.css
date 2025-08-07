@@ -557,6 +557,53 @@
 }
 
 
+/* ========== SEARCHABLE COMBOBOX (ControlsFX) ========== */
+.form-searchcombo {
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+/* Caja principal del combo */
+.form-searchcombo .combo-box-base {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4px;
+    -fx-border-width: 1.5px;
+    -fx-padding: 3px;
+}
+
+/* Hover de la caja */
+.form-searchcombo:hover .combo-box-base {
+    -fx-border-color: #2E4BC6;
+}
+
+/* Celda de texto seleccionada */
+.form-searchcombo .list-cell {
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+/* Lista desplegable */
+.form-searchcombo .combo-box-popup .list-view {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+}
+
+/* Hover de cada opción en la lista */
+.form-searchcombo .combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #f0f4ff;
+    -fx-text-fill: #2E4BC6;
+}
+
+/* Estado deshabilitado */
+.form-searchcombo:disabled {
+    -fx-opacity: 0.7;
+}
+
+
+
 /* ========== COMBOBOX ========== */
 .form-combobox {
     -fx-background-color: white;

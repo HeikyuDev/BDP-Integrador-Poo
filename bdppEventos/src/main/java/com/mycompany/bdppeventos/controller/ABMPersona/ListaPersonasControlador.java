@@ -102,10 +102,12 @@ public class ListaPersonasControlador implements Initializable {
             colDni.setCellValueFactory(new PropertyValueFactory<>("dni"));
             colNombreCompleto.setCellValueFactory(cell -> {
                 Persona p = cell.getValue();
-                return javafx.beans.binding.Bindings.createStringBinding(() -> p.getApellido() + ", " + p.getNombre());
+                return javafx.beans.binding.Bindings.createStringBinding(() -> p.getApellido() + " " + p.getNombre());
             });
             colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
             colEmail.setCellValueFactory(new PropertyValueFactory<>("correoElectronico"));
+
+            //cmbRol.setTitle("Seleccione roles");
 
             // ✅ CORREGIR COLUMNA DE ROLES - Persona no tiene getRol()
             colRol.setCellValueFactory(cell -> {
@@ -124,12 +126,7 @@ public class ListaPersonasControlador implements Initializable {
             personasOriginales.clear();
             personasFiltradas.clear();
 
-            // ✅ AQUÍ SE PROBARÁ REALMENTE LA CONEXIÓN
             // Cargar todas las personas al inicio
-            System.out.println("📊 Cargando personas desde la base de datos...");
-            List<Persona> todasLasPersonas = servicio.buscarTodos();
-            System.out.println("✅ Se cargaron " + todasLasPersonas.size() + " personas");
-
             personasOriginales.addAll(servicio.buscarTodos());
             personasFiltradas.setAll(personasOriginales);
             tblPersonas.setItems(personasFiltradas);
@@ -159,7 +156,6 @@ public class ListaPersonasControlador implements Initializable {
 
     @FXML
     void agregar() {
-        System.out.println("🔍 DEBUG: Botón agregar presionado");
 
         try {
             // ✅ VERIFICAR REPOSITORIO ANTES DE CONTINUAR
@@ -168,7 +164,6 @@ public class ListaPersonasControlador implements Initializable {
             }
 
             List<Persona> nuevasPersonas = abrirFormulario(null);
-            System.out.println("🔍 DEBUG 1: Iniciando abrirFormulario");
 
             if (nuevasPersonas != null && !nuevasPersonas.isEmpty()) {
                 for (Persona nueva : nuevasPersonas) {
@@ -178,7 +173,6 @@ public class ListaPersonasControlador implements Initializable {
                     }
                 }
                 tblPersonas.refresh();
-                System.out.println("✅ Personas agregadas correctamente");
             }
         } catch (Exception e) {
             System.err.println("❌ Error al agregar persona: " + e.getMessage());
@@ -222,7 +216,8 @@ public class ListaPersonasControlador implements Initializable {
     @FXML
     void filtrar() {
         personasFiltradas.clear();
-        personasOriginales.stream() // .stream() convierte la lista original en un Stream para aplicar operaciones funcionales
+        personasOriginales.stream() // .stream() convierte la lista original en un Stream para aplicar las
+                                    // siguientes operaciones funcionales
                 .filter(p -> (txtDni.getText().isEmpty() || p.getDni().contains(txtDni.getText())) &&
                         (txtNombreCompleto.getText().isEmpty() || (p.getNombre() + " " + p.getApellido()).toLowerCase()
                                 .contains(txtNombreCompleto.getText().toLowerCase()))
@@ -273,19 +268,16 @@ public class ListaPersonasControlador implements Initializable {
 
     private List<Persona> abrirFormulario(Persona personaSeleccionada) throws IOException {
         // Cargamos el controlador y el Parent (vista)
-        Pair<FormularioPersonaControlador, Parent> formulario =
-            StageManager.cargarVistaConControlador(Vista.FormularioPersona.getRutaFxml());
+        Pair<FormularioPersonaControlador, Parent> formulario = StageManager
+                .cargarVistaConControlador(Vista.FormularioPersona.getRutaFxml());
 
         // Le pasamos la persona seleccionada al formulario (modo edición)
         formulario.getKey().cargarPersona(personaSeleccionada);
 
         // Abrimos el modal pasando directamente el Parent ya cargado (misma instancia)
         StageManager.abrirModal(Vista.FormularioPersona, formulario.getValue());
-        
+
         // Retornamos las personas procesadas en el formulario
         return formulario.getKey().getPersonas();
-    }   
-
-    
+    }
 }
-

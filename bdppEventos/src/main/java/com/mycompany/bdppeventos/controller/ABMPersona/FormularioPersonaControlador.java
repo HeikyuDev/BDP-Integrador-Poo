@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.controlsfx.control.CheckComboBox;
@@ -31,6 +33,8 @@ public class FormularioPersonaControlador {
 
     @FXML
     private Label lblRol;
+    @FXML
+    private Text lblTitulo;
 
     @FXML
     private TextField txtApellido;
@@ -49,15 +53,11 @@ public class FormularioPersonaControlador {
 
     private Persona personaInicial;
     private ObservableList<Persona> nuevasPersonas = FXCollections.observableArrayList();
-
     private final ObservableList<TipoRol> roles = FXCollections.observableArrayList();
-
     private PersonaServicio personaServicio;
 
     @FXML
     public void initialize() {
-        System.out.println("✅ FormularioPersonaControlador inicializado correctamente");
-
         // Inicializar el servicio de persona
         personaServicio = new PersonaServicio(RepositorioContext.getRepositorio());
 
@@ -70,29 +70,15 @@ public class FormularioPersonaControlador {
         }
 
         chkCmbRol.getItems().addAll(roles);
-        // Configurar el CheckComboBox
         configurarCheckComboBox();
-
-        //personaInicial = null;
+        personaInicial = null;
         nuevasPersonas.clear();
-
-        // eliominar esto, es para saber si se carga 2 veces el formulario
-        System.out.println("🛑 FormularioPersonaControlador hashCode: " + this.hashCode());
-
-        
-
+  
     }
 
     private void configurarCheckComboBox() {
-        // Configurar el título del CheckComboBox
         chkCmbRol.setTitle("Seleccione roles");
         // ✅ NO seleccionar nada por defecto (SIN_ROL se asigna automáticamente si no hay selección)
-
-        // Listener para debug
-        chkCmbRol.getCheckModel().getCheckedItems()
-                .addListener((javafx.collections.ListChangeListener<TipoRol>) change -> {
-                    System.out.println("🔍 DEBUG: Roles seleccionados: " + chkCmbRol.getCheckModel().getCheckedItems());
-                });
     }
 
     @FXML
@@ -126,7 +112,7 @@ public class FormularioPersonaControlador {
 
             } else {
                 // Modificar persona existente
-                personaServicio.validarYModificar(personaInicial, nombre, apellido, telefono, correoElectronico);
+                personaServicio.validarYModificar(personaInicial, nombre, apellido, telefono, correoElectronico, rolesSeleccionados);
 
                 // Actualizar roles de la persona
                 personaInicial.setUnaListaRoles(rolesSeleccionados);
@@ -135,7 +121,8 @@ public class FormularioPersonaControlador {
                 nuevasPersonas.add(personaInicial);
 
                 Alerta.mostrarExito("Persona modificada exitosamente");
-                StageManager.cerrarModal(Vista.FormularioPersona); // Cerrar el modal después de guardar
+                
+                StageManager.cerrarModal(Vista.FormularioPersona); // Cerrar modal después de modificar
             }
 
         } catch (Exception e) {
@@ -154,9 +141,9 @@ public class FormularioPersonaControlador {
         chkCmbRol.getCheckModel().clearChecks(); // Limpiar selección de roles
     }
 
+    // utilizado para obtener la lista de personas creadas o modificadas
     public List<Persona> getPersonas() {
         return nuevasPersonas;
-
     }
 
     public void cargarPersona(Persona persona) {
@@ -185,6 +172,8 @@ public class FormularioPersonaControlador {
             // Deshabilitar campo DNI y botón "Nuevo" si es edición
             txtDni.setDisable(true);
             btnNuevo.setDisable(true);
+            lblTitulo.setText("Editar Persona");
+
         } else {
             // Limpiar formulario para nueva persona
             nuevo(null);
@@ -192,6 +181,4 @@ public class FormularioPersonaControlador {
             btnNuevo.setDisable(false);
         }
     }
-
-
 }

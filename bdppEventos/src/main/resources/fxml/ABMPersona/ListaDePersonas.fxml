@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="730.0" spacing="20.0" styleClass="color-vars" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMPersona.ListaPersonasControlador">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="730.0" spacing="20.0" styleClass="color-vars" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMPersona.ListaPersonasControlador">
    <children>
       <HBox prefHeight="35.0" prefWidth="600.0" styleClass="title-bar">
          <children>
@@ -39,7 +39,7 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="30.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="15.0" minHeight="7.0" prefHeight="14.0" vgrow="SOMETIMES" />
@@ -53,10 +53,10 @@
             <Label text="DNI:" GridPane.halignment="CENTER" />
             <Label layoutX="10.0" layoutY="17.0" prefHeight="16.0" prefWidth="125.0" text="Nombre completo:" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="17.0" prefHeight="17.0" prefWidth="115.0" text="Rol:" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-            <SearchableComboBox fx:id="cmbRol" maxHeight="30.0" minHeight="12.0" onAction="#filtrar" prefHeight="13.0" prefWidth="165.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <SearchableComboBox fx:id="cmbRol" maxHeight="42.0" minHeight="12.0" onAction="#filtrar" prefHeight="36.0" prefWidth="179.0" promptText="Seleccione roles" styleClass="form-searchcombo" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Button fx:id="btnLimpiar" maxWidth="100.0" minHeight="39.0" minWidth="56.0" mnemonicParsing="false" onAction="#limpiarFiltros" prefHeight="39.0" prefWidth="141.0" styleClass="btn-personalizado" text="Limpiar" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <TextField fx:id="txtDni" prefHeight="30.0" prefWidth="165.0" GridPane.rowIndex="1" />
-            <TextField fx:id="txtNombreCompleto" prefHeight="30.0" prefWidth="165.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtDni" prefHeight="30.0" prefWidth="165.0" styleClass="form-textfield" GridPane.rowIndex="1" />
+            <TextField fx:id="txtNombreCompleto" prefHeight="30.0" prefWidth="165.0" styleClass="form-textfield" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <TableView fx:id="tblPersonas" editable="true" minHeight="200.0" prefHeight="400.0" prefWidth="690.0" tableMenuButtonVisible="true">

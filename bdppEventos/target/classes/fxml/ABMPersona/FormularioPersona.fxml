@@ -13,11 +13,11 @@
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="601.0" spacing="10.0" xmlns:fx2="http://javafx.com/fxml/2" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMPersona.FormularioPersonaControlador">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="601.0" spacing="10.0" styleClass="main-section" xmlns:fx2="http://javafx.com/fxml/2" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMPersona.FormularioPersonaControlador">
   <children>
-    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0" style="-fx-background-color: #819A91;">
+    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="560.0" style="-fx-background-color: ;" styleClass="title-bar">
       <children>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gestion de Persona" wrappingWidth="144.6669921875" />
+        <Text fx:id="lblTitulo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-label" text="Datos de la Persona" wrappingWidth="264.6669921875" />
       </children>
       <VBox.margin>
         <Insets />
@@ -25,6 +25,10 @@
       <padding>
         <Insets left="10.0" />
       </padding>
+         <stylesheets>
+            <URL value="@../../css/styles.css" />
+            <URL value="@../../css/botones.css" />
+         </stylesheets>
     </HBox>
     <GridPane alignment="CENTER" hgap="10.0" minHeight="150.0" prefHeight="215.0" prefWidth="560.0">
       <columnConstraints>
@@ -35,47 +39,47 @@
       </columnConstraints>
       <rowConstraints>
         <RowConstraints maxHeight="90.0" minHeight="1.0" prefHeight="26.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="90.0" minHeight="1.0" prefHeight="25.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="129.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="115.0" minHeight="0.0" prefHeight="22.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="148.0" minHeight="0.0" prefHeight="33.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="131.0" minHeight="1.0" prefHeight="20.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="152.0" minHeight="0.0" prefHeight="31.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="127.0" minHeight="1.0" prefHeight="31.0" valignment="CENTER" vgrow="ALWAYS" />
       </rowConstraints>
       <VBox.margin>
         <Insets />
       </VBox.margin>
       <children>
-        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="40.0" text="DNI:" />
-        <Label text="Nombre/s:" GridPane.rowIndex="2" />
-        <Label text="Apellido/s:" GridPane.rowIndex="4" />
-        <Label text="Telefono:" GridPane.rowIndex="6">
+        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="40.0" styleClass="form-label" text="DNI:" />
+        <Label styleClass="form-label" text="Nombre/s:" GridPane.rowIndex="1" />
+        <Label styleClass="form-label" text="Apellido/s:" GridPane.rowIndex="2" />
+        <Label styleClass="form-label" text="Telefono:" GridPane.rowIndex="3">
           <GridPane.margin>
             <Insets />
           </GridPane.margin>
         </Label>
-        <Label text="Correo:" GridPane.columnIndex="2" GridPane.rowIndex="2">
+        <Label styleClass="form-label" text="Correo:" GridPane.columnIndex="2" GridPane.rowIndex="1">
           <GridPane.margin>
             <Insets left="15.0" />
           </GridPane.margin>
         </Label>
-        <TextField fx:id="txtDni" prefHeight="16.0" prefWidth="180.0" promptText="Ingrese el DNI" styleClass="text-field" GridPane.columnIndex="1" />
-        <TextField fx:id="txtNombre" promptText="Ingrese el nombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <TextField fx:id="txtApellido" promptText="Ingrese el Apellido" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-        <TextField fx:id="txtTelefono" promptText="Ingrese el Telefono" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-        <TextField fx:id="txtCorreo" promptText="Ingrese el email" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Label fx:id="lblRol" layoutX="294.0" layoutY="69.0" text="Rol:" GridPane.columnIndex="2">
+        <TextField fx:id="txtDni" prefHeight="16.0" prefWidth="180.0" promptText="Ingrese el DNI" styleClass="form-textfield" GridPane.columnIndex="1" />
+        <TextField fx:id="txtNombre" promptText="Ingrese el nombre" styleClass="form-textfield" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <TextField fx:id="txtApellido" promptText="Ingrese el Apellido" styleClass="form-textfield" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <TextField fx:id="txtTelefono" promptText="Ingrese el Telefono" styleClass="form-textfield" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <TextField fx:id="txtCorreo" promptText="Ingrese el email" styleClass="form-textfield" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Label fx:id="lblRol" layoutX="294.0" layoutY="69.0" styleClass="form-label" text="Roles:" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
             </Label>
-            <CheckComboBox fx:id="chkCmbRol" prefHeight="25.0" prefWidth="208.0" title="Seleccione un rol" GridPane.columnIndex="3" />
+            <CheckComboBox fx:id="chkCmbRol" prefHeight="25.0" prefWidth="208.0" styleClass="form-checkcombo-alt" title="Asigne roles a la persona" GridPane.columnIndex="3" />
       </children>
+         <stylesheets>
+            <URL value="@../../css/styles.css" />
+            <URL value="@../../css/botones.css" />
+         </stylesheets>
     </GridPane>
     <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="45.0" prefWidth="560.0" spacing="15.0">
       <children>
-        <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardar" styleClass="alta-button-alt" text="Guardar" />
+        <Button fx:id="btnGuardar" minWidth="97.0" mnemonicParsing="false" onAction="#guardar" prefHeight="18.0" prefWidth="97.0" styleClass="guardar-button" text="Guardar" />
         <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" styleClass="alta-button-alt" text="Nuevo" />
       </children>
       <VBox.margin>
