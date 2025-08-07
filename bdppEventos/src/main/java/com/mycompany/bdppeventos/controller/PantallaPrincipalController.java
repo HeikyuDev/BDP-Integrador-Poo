@@ -134,7 +134,7 @@ public class PantallaPrincipalController implements Initializable {
 
     @FXML
     private void cargarVistaCalendarioEventos() {
-        // TODO: Implementar view
+        StageManager.cambiarEscenaEnContenedor(centerContainer, Vista.PanelCalendarioEventos);
     }
 
     @FXML

@@ -18,6 +18,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 
 /**
  * Clase abstracta base para representar un Evento en el sistema. Incluye
@@ -354,6 +355,20 @@ public abstract class Evento implements Activable {
                 .anyMatch(p -> p.getPersona().equals(persona)
                 && p.getRolEnEvento().equals(rol)
                 && p.getActivo());
+    }
+    
+    // Metodo que me devuelve la fecha de fin del evento
+    public  LocalDate getFechaFin() {
+        LocalDate fechaInicio = this.fechaInicio;
+        double duracionHoras = this.duracionEstimada;
+        // PASO 1: Convertir fecha a fecha-hora (medianoche del día)
+        LocalDateTime fechaHoraInicio = fechaInicio.atStartOfDay();
+        // PASO 2: Sumar las horas de duración
+        long minutosTotales = Math.round(duracionHoras * 60);
+        LocalDateTime fechaHoraFin = fechaHoraInicio.plusMinutes(minutosTotales);
+        // PASO 3: Extraer solo la fecha del resultado
+        LocalDate fechaFin = fechaHoraFin.toLocalDate();
+        return fechaFin;
     }
 
     // Métodos de la interfaz Activable

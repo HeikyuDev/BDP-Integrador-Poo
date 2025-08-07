@@ -21,9 +21,6 @@ import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.repository.Repositorio;
 import com.mycompany.bdppeventos.services.CrudServicio;
 import com.mycompany.bdppeventos.services.Participacion.ParticipacionServicio;
-import com.mycompany.bdppeventos.util.ConfiguracionIgu;
-
-
 /**
  * Servicio para gestionar eventos con métodos específicos para cada tipo
  */
@@ -513,6 +510,49 @@ public class EventoServicio extends CrudServicio<Evento> {
 
         return eventosFiltrados;
     }
+    
+    // Obtiene eventos que ocurren dentro de un rango de fechas específico y con estados determinados
+    
+    public List<Evento> obtenerEventosEnRango(LocalDate fechaInicio, LocalDate fechaFin, List<EstadoEvento> estados) {
+        // Validación de entrada
+        if (fechaInicio == null || fechaFin == null) {
+            return new ArrayList<>();
+        }
+
+        if (fechaInicio.isAfter(fechaFin)) {
+            return new ArrayList<>();
+        }
+
+        if (estados == null || estados.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Evento> eventosFiltrados = new ArrayList<>();
+
+        for (Evento evento : buscarTodos()) {
+            // Verificar que el evento y sus fechas no sean null
+            if (evento == null || evento.getEstado() == null
+                    || evento.getFechaInicio() == null || evento.getFechaFin() == null) {
+                continue;
+            }
+
+            // Verificar si está en los estados deseados
+            if (!estados.contains(evento.getEstado())) {
+                continue;
+            }
+
+            // Verificar si el evento intersecta con el rango de fechas
+            // Un evento intersecta si:
+            // - Su fecha de inicio es <= fechaFin del rango Y
+            // - Su fecha de fin es >= fechaInicio del rango
+            if (!evento.getFechaInicio().isAfter(fechaFin)
+                    && !evento.getFechaFin().isBefore(fechaInicio)) {
+                eventosFiltrados.add(evento);
+            }
+        }
+
+        return eventosFiltrados;
+    }
                     
     
     //=== METODOS ESPECIFICOS === 
@@ -566,7 +606,7 @@ public void actualizarEstadoEventos() {
 
     for (Evento unEvento : buscarTodos()) {
         LocalDate inicio = unEvento.getFechaInicio();
-        LocalDate fin = ConfiguracionIgu.calcularFechaFin(inicio, unEvento.getDuracionEstimada());
+        LocalDate fin = unEvento.getFechaFin();
         EstadoEvento estado = unEvento.getEstado();
 
         // Si el evento está planificado y la fecha actual supera la fecha de fin,

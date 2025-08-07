@@ -56,7 +56,11 @@ public enum Vista {
     
     // FXML de la seccion de Panel De Administracion
     
-    PanelAdministracion("","PanelAdministracion/PanelAdministracion");
+    PanelAdministracion("","PanelAdministracion/PanelAdministracion"),
+    
+    // FXML de la seccion de Calendario de Eventos
+    
+    PanelCalendarioEventos("","CalendarioEventos/CalendarioEventos");
     
     private final String rutaFxml;  // Ruta relativa del archivo FXML que define la vista
     private final String titulo;

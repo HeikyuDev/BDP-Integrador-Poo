@@ -142,19 +142,7 @@ public abstract class ConfiguracionIgu {
         } else {
             return new SimpleStringProperty("Ilimitado");
         }
-    }
-    
-    // === METODOS AUXILIARES ===
-    
-    public static LocalDate calcularFechaFin(LocalDate fechaInicio, double duracionHoras) {                
-    // PASO 1: Convertir fecha a fecha-hora (medianoche del día)
-    LocalDateTime fechaHoraInicio = fechaInicio.atStartOfDay();        
-    // PASO 2: Sumar las horas de duración
-    long minutosTotales = Math.round(duracionHoras * 60);        
-    LocalDateTime fechaHoraFin = fechaHoraInicio.plusMinutes(minutosTotales);        
-    // PASO 3: Extraer solo la fecha del resultado
-    LocalDate fechaFin = fechaHoraFin.toLocalDate();        
-    return fechaFin;
-}
+    }        
+        
 
 }

@@ -89,7 +89,7 @@ public class ControlEstadoController implements Initializable {
         colNombre.setCellValueFactory(new PropertyValueFactory<Evento, String>("nombre"));
         colUbicacion.setCellValueFactory(new PropertyValueFactory<Evento, String>("ubicacion"));
         colFechaInicio.setCellValueFactory(cellData -> ConfiguracionIgu.formatFecha(cellData.getValue().getFechaInicio()));
-        colFechaFin.setCellValueFactory(cellData -> ConfiguracionIgu.formatFecha(ConfiguracionIgu.calcularFechaFin(cellData.getValue().getFechaInicio(), cellData.getValue().getDuracionEstimada())));
+        colFechaFin.setCellValueFactory(cellData -> ConfiguracionIgu.formatFecha(cellData.getValue().getFechaFin()));
         colEstado.setCellValueFactory(new PropertyValueFactory<Evento, String>("estado"));
     }
     
