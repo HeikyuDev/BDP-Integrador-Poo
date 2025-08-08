@@ -60,7 +60,8 @@ public enum Vista {
     
     // FXML de la seccion de Calendario de Eventos
     
-    PanelCalendarioEventos("","CalendarioEventos/CalendarioEventos");
+    PanelCalendarioEventos("","CalendarioEventos/CalendarioEventos"),
+    PanelCeldaDia("","CalendarioEventos/CeldaDia");
     
     private final String rutaFxml;  // Ruta relativa del archivo FXML que define la vista
     private final String titulo;

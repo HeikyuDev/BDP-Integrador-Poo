@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -83,17 +84,18 @@ public class StageManager {
     }
 
     public static <T> T cambiarEscenaEnContenedorYObtenerControlador(AnchorPane contenedor, Vista vista) {
-    Pair<T, Parent> resultado = cargarVistaConControlador(vista.getRutaFxml());
-    if (resultado != null) {
-        Parent root = resultado.getValue();
-        T controlador = resultado.getKey();
-        mostrarEnContenedor(contenedor, root);
-        return controlador;
-    } else {
-        Alerta.mostrarError("No se pudo cargar la vista con controlador: " + vista.getRutaFxml());
-        return null;
+        Pair<T, Parent> resultado = cargarVistaConControlador(vista.getRutaFxml());
+        if (resultado != null) {
+            Parent root = resultado.getValue();
+            T controlador = resultado.getKey();
+            mostrarEnContenedor(contenedor, root);
+            return controlador;
+        } else {
+            Alerta.mostrarError("No se pudo cargar la vista con controlador: " + vista.getRutaFxml());
+            return null;
+        }
     }
-}
+
 
     // Mustra el nodoRaiz pasado como parametro en el contenedor
     private static void mostrarEnContenedor(AnchorPane contenedor, Parent root) {
@@ -110,7 +112,7 @@ public class StageManager {
         }
 
     }
-
+      
     
     // Abre un modal con la vista proporcionada
     public static void abrirModal(Vista vista) {
@@ -190,6 +192,18 @@ public class StageManager {
         }
     }
     
+    public static <T> Pair<T, VBox> cargarVistaVBox(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            VBox nodo = loader.load(); 
+            T controlador = loader.getController();
+            return new Pair<>(controlador, nodo);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alerta.mostrarError("Error al cargar vista:\n" + e.getMessage());
+            return null;
+        }
+    }
     
 // Abre un modal con la vista proporcionada y devuelve el controlador
     public static <T> T abrirModalConControlador(Vista vista) {

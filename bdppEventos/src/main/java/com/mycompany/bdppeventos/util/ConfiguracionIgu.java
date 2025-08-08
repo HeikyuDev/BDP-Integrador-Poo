@@ -1,14 +1,16 @@
 package com.mycompany.bdppeventos.util;
 
-import com.mycompany.bdppeventos.model.entities.Evento;
-import com.mycompany.bdppeventos.model.enums.TipoRol;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 import org.controlsfx.control.CheckComboBox;
+
+import com.mycompany.bdppeventos.model.entities.Evento;
+import com.mycompany.bdppeventos.model.enums.TipoRol;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
