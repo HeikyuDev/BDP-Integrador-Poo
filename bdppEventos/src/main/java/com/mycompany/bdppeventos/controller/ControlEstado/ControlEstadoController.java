@@ -7,10 +7,12 @@ import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import com.mycompany.bdppeventos.util.RepositorioContext;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,7 +35,13 @@ public class ControlEstadoController implements Initializable {
     
     // Columnas
     @FXML
-    private TableColumn<Evento,String> colNombre, colUbicacion, colFechaInicio, colFechaFin, colEstado;
+    private TableColumn<Evento,String> colNombre, colUbicacion;
+    
+    @FXML
+    private TableColumn<Evento,LocalDate> colFechaInicio, colFechaFin;
+    
+    @FXML
+    private TableColumn<Evento, EstadoEvento> colEstado;
         
     // Servicios
     private EventoServicio eventoServicio;
@@ -78,19 +86,24 @@ public class ControlEstadoController implements Initializable {
 
         // Simula proporciones para tblEvento 
         colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 20); // 20%
-        colUbicacion.setMaxWidth(1f * Integer.MAX_VALUE * 30); // 30%
+        colUbicacion.setMaxWidth(1f * Integer.MAX_VALUE * 35); // 35%
         colFechaInicio.setMaxWidth(1f * Integer.MAX_VALUE * 15); // 15%
         colFechaFin.setMaxWidth(1f * Integer.MAX_VALUE * 15); // 15%   
-        colEstado.setMaxWidth(1f * Integer.MAX_VALUE * 20); // 15%
+        colEstado.setMaxWidth(1f * Integer.MAX_VALUE * 15); // 15%
     }
     
     private void configurarColumnas()
     {
         colNombre.setCellValueFactory(new PropertyValueFactory<Evento, String>("nombre"));
         colUbicacion.setCellValueFactory(new PropertyValueFactory<Evento, String>("ubicacion"));
-        colFechaInicio.setCellValueFactory(cellData -> ConfiguracionIgu.formatFecha(cellData.getValue().getFechaInicio()));
-        colFechaFin.setCellValueFactory(cellData -> ConfiguracionIgu.formatFecha(cellData.getValue().getFechaFin()));
-        colEstado.setCellValueFactory(new PropertyValueFactory<Evento, String>("estado"));
+        colFechaInicio.setCellValueFactory(new PropertyValueFactory<Evento, LocalDate>("fechaInicio"));        
+        colFechaFin.setCellValueFactory(cellData -> { return new SimpleObjectProperty<>(cellData.getValue().getFechaFin());});            
+        colEstado.setCellValueFactory(new PropertyValueFactory<Evento, EstadoEvento>("estado"));
+        
+        // Configuracionws de Celdas
+        ConfiguracionIgu.configurarColumnaEstado(colEstado);
+        ConfiguracionIgu.configurarColumnaFecha(colFechaInicio);
+        ConfiguracionIgu.configurarColumnaFecha(colFechaFin);
     }
     
     

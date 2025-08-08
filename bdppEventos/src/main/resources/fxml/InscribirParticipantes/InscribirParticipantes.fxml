@@ -29,16 +29,17 @@
 
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
-                        <ComboBox fx:id="cmbTipoEvento" onAction="#filtrarEvento" promptText="Todos los Tipos" styleClass="form-combobox" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="cmbTipoEvento" onAction="#filtrarEvento" promptText="Todos los Tipos" styleClass="form-combobox" HBox.hgrow="ALWAYS" />                        
                      </children>
                   </HBox>
 
                   <TableView fx:id="tblEvento" prefHeight="236.0" prefWidth="981.0" styleClass="form-tableview" VBox.vgrow="ALWAYS">
                      <columns>
-                        <TableColumn fx:id="colNombre" prefWidth="229.333345413208" text="Nombre" />
-                        <TableColumn fx:id="colUbicacion" prefWidth="292.66664123535156" text="Ubicacion" />
-                        <TableColumn fx:id="colFechaInicio" prefWidth="228.0" text="Fecha De Inicio" />
-                        <TableColumn fx:id="colCupo" prefWidth="228.0" text="Cupo " />
+                        <TableColumn fx:id="colNombre"  text="NOMBRE" reorderable="false" />
+                        <TableColumn fx:id="colUbicacion"  text="UBICACION" reorderable="false"/>
+                        <TableColumn fx:id="colFechaInicio"  text="FECHA DE INICIO" reorderable="false"/>
+                        <TableColumn fx:id="colEstado"  text="ESTADO" reorderable="false"/>
+                        <TableColumn fx:id="colCupo"  text="CUPO" reorderable="false"/>
                      </columns>
                   </TableView>
 
@@ -72,9 +73,10 @@
                   </HBox>
                </children>
             </VBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="1013.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="1013.0" spacing="20.0">
                <children>
                   <Button fx:id="btnInscribir" disable="true" mnemonicParsing="false" onAction="#inscribirParticipante" prefHeight="23.0" prefWidth="133.0" styleClass="simple-button-bold" text="Inscribir" />
+                  <Button fx:id="btnCancelar" disable="true" mnemonicParsing="false" onAction="#cancelar" prefHeight="23.0" prefWidth="133.0" styleClass="baja-button" text="Cancelar" />
                </children>
             </HBox>
          </VBox>         

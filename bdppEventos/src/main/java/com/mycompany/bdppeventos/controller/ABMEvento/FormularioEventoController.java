@@ -71,8 +71,11 @@ public class FormularioEventoController implements Initializable {
     private TableView<Evento> tablaEventos;
     @FXML
     private TableColumn<Evento, String> colNombre, colUbicacion, colTieneInscripcion,
-            colTieneCupo, colCapacidadMaxima, colOrganizadores, colTipo, colFechaInicio;
+            colTieneCupo, colCapacidadMaxima, colOrganizadores, colTipo;
 
+    @FXML
+    private TableColumn<Evento, LocalDate> colFechaInicio;
+    
     @FXML
     private TableColumn<Evento, Integer> colDuracion;
 
@@ -135,15 +138,12 @@ public class FormularioEventoController implements Initializable {
         // Columnas básicas
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colUbicacion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
-        colDuracion.setCellValueFactory(new PropertyValueFactory<>("duracionEstimada"));
-        // Columna de fecha formateada
-        colFechaInicio
-                .setCellValueFactory(cellData -> ConfiguracionIgu.formatFecha(cellData.getValue().getFechaInicio()));
+        colDuracion.setCellValueFactory(new PropertyValueFactory<>("duracionEstimada"));        
+        colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
         // Columnas booleanas
-        colTieneCupo.setCellValueFactory(cellData -> ConfiguracionIgu.formatBoolean(cellData.getValue().isTieneCupo(), "SÍ", "NO"));
-        colTieneInscripcion
-                .setCellValueFactory(cellData -> ConfiguracionIgu.formatBoolean(cellData.getValue().isTieneInscripcion(), "SÍ", "NO"));
-        // Columna de capacidad condicional
+        colTieneCupo.setCellValueFactory(cellData -> ConfiguracionIgu.formatBoolean(cellData.getValue().isTieneCupo()));
+        colTieneInscripcion.setCellValueFactory(cellData -> ConfiguracionIgu.formatBoolean(cellData.getValue().isTieneInscripcion()));
+        // Columna de capacidad 
         colCapacidadMaxima.setCellValueFactory(cellData -> ConfiguracionIgu.formatCupoMaximoEvent(cellData.getValue()));
         // Columna de organizadores
         colOrganizadores.setCellValueFactory(cellData -> {
@@ -151,24 +151,14 @@ public class FormularioEventoController implements Initializable {
             return ConfiguracionIgu.formatLista(organizadores, Persona::getInformacionPersonal, TEXTO_SIN_ORGANIZADORES);
         });
         // Columna de tipo de evento
-        colTipo.setCellValueFactory(cellData -> obtenerTipoEvento(cellData.getValue()));
+        colTipo.setCellValueFactory(cellData -> ConfiguracionIgu.obtenerTipoEvento(cellData.getValue()));        
+        // Configuracion de las Celdas
+        ConfiguracionIgu.configurarColumnaFecha(colFechaInicio);
+        
     }
-    // Metodo utilizado para formatear el tipo de evento
-    private SimpleStringProperty obtenerTipoEvento(Evento evento) {
-        if (evento instanceof Exposicion) {
-            return new SimpleStringProperty(TipoEvento.EXPOSICION.getDescripcion());
-        } else if (evento instanceof Taller) {
-            return new SimpleStringProperty(TipoEvento.TALLER.getDescripcion());
-        } else if (evento instanceof Concierto) {
-            return new SimpleStringProperty(TipoEvento.CONCIERTO.getDescripcion());
-        } else if (evento instanceof CicloDeCine) {
-            return new SimpleStringProperty(TipoEvento.CICLO_DE_CINE.getDescripcion());
-        } else if (evento instanceof Feria) {
-            return new SimpleStringProperty(TipoEvento.FERIA.getDescripcion());
-        } else {
-            return new SimpleStringProperty("-");
-        }
-    }    
+    
+    
+  
 
     // Metodo Utilizado para actualizar tanto los datos de la tabla de eventos como los de la combo de Organizadores
     private void actualizarDatos() {

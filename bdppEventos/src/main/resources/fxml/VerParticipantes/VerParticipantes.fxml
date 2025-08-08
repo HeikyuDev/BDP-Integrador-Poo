@@ -29,14 +29,16 @@
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
                         <ComboBox fx:id="cmbTipoEvento" onAction="#filtrarEvento" promptText="Todos los Tipos" styleClass="form-combobox" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="cmbEstado" onAction="#filtrarEvento" promptText="Todos los Estados" styleClass="form-combobox" HBox.hgrow="ALWAYS"/>
                      </children>
                   </HBox>
 
                   <TableView fx:id="tblEvento" styleClass="form-tableview" VBox.vgrow="ALWAYS">
                      <columns>
-                        <TableColumn fx:id="colNombre" prefWidth="229.333345413208" text="Nombre" />
-                        <TableColumn fx:id="colUbicacion" prefWidth="292.66664123535156" text="Ubicacion" />
-                        <TableColumn fx:id="colFechaInicio" prefWidth="228.0" text="Fecha De Inicio" />
+                        <TableColumn fx:id="colNombre" reorderable="false" text="NOMBRE" />
+                        <TableColumn fx:id="colUbicacion" reorderable="false" text="UBICACION" />
+                        <TableColumn fx:id="colFechaInicio" reorderable="false" text="FECHA DE INICIO" />
+                        <TableColumn fx:id="colEstado" reorderable="false" text="ESTADO" />
                      </columns>
                   </TableView>
 
@@ -57,10 +59,10 @@
 
                   <TableView fx:id="tblParticipantes" styleClass="form-tableview" VBox.vgrow="ALWAYS">
                      <columns>
-                        <TableColumn fx:id="colDNI" prefWidth="100.0" text="DNI" />
-                        <TableColumn fx:id="colNombreCompleto" prefWidth="250.0" text="Nombre" />
-                        <TableColumn fx:id="colTelefono" prefWidth="150.0" text="Teléfono" />
-                        <TableColumn fx:id="colCorreo" prefWidth="250.0" text="Correo Electrónico" />
+                        <TableColumn fx:id="colDNI" reorderable="false" text="DNI" />
+                        <TableColumn fx:id="colNombreCompleto" reorderable="false" text="Nombre" />
+                        <TableColumn fx:id="colTelefono" reorderable="false" text="Teléfono" />
+                        <TableColumn fx:id="colCorreo" reorderable="false" text="Correo Electrónico" />
                      </columns>
                   </TableView>
                </children>

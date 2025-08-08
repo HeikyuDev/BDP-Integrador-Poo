@@ -30,11 +30,11 @@
                         </HBox>
                         <TableView fx:id="tblEvento" styleClass="form-tableview" VBox.vgrow="ALWAYS">
                           <columns>
-                            <TableColumn fx:id="colNombre" text="Nombre" />
-                            <TableColumn fx:id="colUbicacion" text="Ubicación" />
-                            <TableColumn fx:id="colFechaInicio" text="Fecha de Inicio" />
-                            <TableColumn fx:id="colFechaFin" text="Fecha de Fin" />
-                            <TableColumn fx:id="colEstado" text="Estado" />
+                            <TableColumn fx:id="colNombre" text="Nombre" reorderable="false"/>
+                            <TableColumn fx:id="colUbicacion" text="Ubicación" reorderable="false"/>
+                            <TableColumn fx:id="colFechaInicio" text="Fecha de Inicio" reorderable="false" />
+                            <TableColumn fx:id="colFechaFin" text="Fecha de Fin" reorderable="false"/>
+                            <TableColumn fx:id="colEstado" text="Estado" reorderable="false"/>
                           </columns>
                         </TableView>
                         <HBox alignment="CENTER_RIGHT" spacing="15.0">

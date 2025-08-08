@@ -1,10 +1,9 @@
 package com.mycompany.bdppeventos.controller.VerParticipantes;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
+import java.util.stream.Collectors;
 import com.mycompany.bdppeventos.model.entities.CicloDeCine;
 import com.mycompany.bdppeventos.model.entities.Concierto;
 import com.mycompany.bdppeventos.model.entities.Evento;
@@ -19,8 +18,8 @@ import com.mycompany.bdppeventos.services.Evento.EventoServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import com.mycompany.bdppeventos.util.RepositorioContext;
+import java.time.LocalDate;
 import java.util.Arrays;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,44 +36,38 @@ public class VerParticipantesController implements Initializable {
     // Controles
     @FXML
     private ComboBox<TipoEvento> cmbTipoEvento;
+    
+    @FXML 
+    private ComboBox<EstadoEvento> cmbEstado;
 
     // Tablas
     @FXML
     private TableView<Evento> tblEvento;
-
     @FXML
-    private TableColumn<Evento, String> colNombre;
-
+    private TableColumn<Evento, String> colNombre, colUbicacion;   
     @FXML
-    private TableColumn<Evento, String> colUbicacion;
-
+    private TableColumn<Evento, LocalDate> colFechaInicio;
     @FXML
-    private TableColumn<Evento, String> colFechaInicio;
+    private TableColumn<Evento, EstadoEvento> colEstado;
 
     @FXML
     private TableView<Persona> tblParticipantes;
-
     @FXML
-    private TableColumn<Persona, String> colDNI;
-
-    @FXML
-    private TableColumn<Persona, String> colNombreCompleto;
-
-    @FXML
-    private TableColumn<Persona, String> colTelefono;
-
-    @FXML
-    private TableColumn<Persona, String> colCorreo;
+    private TableColumn<Persona, String> colDNI, colNombreCompleto, colTelefono, colCorreo;
 
     // Listas Observables Asociadas a las table view
     private ObservableList<Evento> listaEventos = FXCollections.observableArrayList();
     private ObservableList<Persona> listaParticipantes = FXCollections.observableArrayList();
+    
+    // Lista completa de eventos 
+    private List<Evento> listaEventosCompleta;
 
     // Servicios
     private EventoServicio eventoServicio;
     
     // CONSTANTE DE FILTRO    
-    private final List<EstadoEvento> estados = Arrays.asList(EstadoEvento.CONFIRMADO, EstadoEvento.EN_EJECUCION, EstadoEvento.FINALIZADO);
+    private final List<EstadoEvento> estadosHabilitados = Arrays.asList(
+        EstadoEvento.CONFIRMADO, EstadoEvento.EN_EJECUCION, EstadoEvento.FINALIZADO);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -82,9 +75,7 @@ public class VerParticipantesController implements Initializable {
         eventoServicio = new EventoServicio(RepositorioContext.getRepositorio());
 
         // Configuramos la IGU
-        configurarTabla();
-        configurarColumnas();
-        ConfiguracionIgu.configuracionEnumEnCombo(cmbTipoEvento, TipoEvento.class);
+        configuracionIgu();        
 
         // Asociamos las listas Observables a Las tablas
         tblEvento.setItems(listaEventos);
@@ -93,11 +84,18 @@ public class VerParticipantesController implements Initializable {
         // Cargamos todos los eventos al inicializar
         cargarTodosLosEventos();
     }
+    
+    private void configuracionIgu() {
+        configurarTabla();
+        configurarColumnas();
+        ConfiguracionIgu.configuracionEnumEnCombo(cmbTipoEvento, TipoEvento.class);
+        ConfiguracionIgu.configuracionListaEnCombo(cmbEstado, estadosHabilitados);
+    }
 
     private void cargarTodosLosEventos() {
         try {
-            List<Evento> todosLosEventos = eventoServicio.obtenerEventosPorEstado(estados, true);
-            listaEventos.setAll(todosLosEventos);
+            listaEventosCompleta = eventoServicio.obtenerEventosPorEstado(estadosHabilitados, true);
+            listaEventos.setAll(listaEventosCompleta);
         } catch (Exception e) {
             Alerta.mostrarError("Error al cargar los eventos: " + e.getMessage());
         }
@@ -112,12 +110,12 @@ public class VerParticipantesController implements Initializable {
         tblEvento.setPlaceholder(new Label("No hay eventos para mostrar"));
         tblParticipantes.setPlaceholder(new Label("Seleccione un evento para ver los participantes"));
 
-        // Simula proporciones para tblEvento (ejemplo: 30%-40%-30%)
-        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 30); // 30%
-        colUbicacion.setMaxWidth(1f * Integer.MAX_VALUE * 40); // 40%
-        colFechaInicio.setMaxWidth(1f * Integer.MAX_VALUE * 30); // 30%
-
-        // Simula proporciones para tblParticipantes (ejemplo: 15%-35%-25%-25%)
+        // Simula proporciones para tblEvento 
+        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 20); 
+        colUbicacion.setMaxWidth(1f * Integer.MAX_VALUE * 30); 
+        colFechaInicio.setMaxWidth(1f * Integer.MAX_VALUE * 30); 
+        colEstado.setMaxWidth(1f * Integer.MAX_VALUE * 20); 
+        // Simula proporciones para tblParticipantes
         colDNI.setMaxWidth(1f * Integer.MAX_VALUE * 15);
         colNombreCompleto.setMaxWidth(1f * Integer.MAX_VALUE * 35);
         colTelefono.setMaxWidth(1f * Integer.MAX_VALUE * 25);
@@ -128,8 +126,8 @@ public class VerParticipantesController implements Initializable {
         // Configuraciones de las columnas de la tabla Eventos
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colUbicacion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
-        colFechaInicio
-                .setCellValueFactory(cellData -> ConfiguracionIgu.formatFecha(cellData.getValue().getFechaInicio()));
+        colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
+        colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
 
         // Configuracion de las columnas de la tabla Participantes
         colDNI.setCellValueFactory(new PropertyValueFactory<>("dni"));
@@ -139,70 +137,63 @@ public class VerParticipantesController implements Initializable {
         });
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         colCorreo.setCellValueFactory(new PropertyValueFactory<>("correoElectronico"));
+        
+        // Configuraciones de celdas
+        ConfiguracionIgu.configurarColumnaFecha(colFechaInicio);
+        ConfiguracionIgu.configurarColumnaEstado(colEstado);
     }
 
-    // Metodos de Controles
+    // === MÉTODO DE FILTRADO COMBINADO ===
     @FXML
     private void filtrarEvento() {
         try {
-            // Obtenemos el Tipo de Evento Seleccionado
+            // Obtenemos ambos filtros seleccionados
             TipoEvento tipoSeleccionado = cmbTipoEvento.getSelectionModel().getSelectedItem();
-            List<Evento> listaPorTipo = obtenerListaPorTipo(tipoSeleccionado);
+            EstadoEvento estadoSeleccionado = cmbEstado.getSelectionModel().getSelectedItem();
+            
+            // Aplicamos el filtrado combinado
+            List<Evento> eventosFiltrados = aplicarFiltrosCombinados(tipoSeleccionado, estadoSeleccionado);
 
-            listaEventos.setAll(listaPorTipo);
+            listaEventos.setAll(eventosFiltrados);
             tblEvento.refresh();
+            
+            // Limpiar tabla de participantes al cambiar filtros
+            limpiarTablaParticipantes();
+            
         } catch (Exception e) {
-            Alerta.mostrarError("Ocurrio un Error Inesperado: " + e.getMessage());
+            Alerta.mostrarError("Error al aplicar filtros: " + e.getMessage());
         }
     }
-
-    private List<Evento> obtenerListaPorTipo(TipoEvento unTipoEvento) {
-        // Si es null, devolver todos los eventos
-        if (unTipoEvento == null) {
-            return eventoServicio.obtenerEventosPorEstado(estados, true);
+    
+    private List<Evento> aplicarFiltrosCombinados(TipoEvento tipo, EstadoEvento estado) {
+        return listaEventosCompleta.stream()
+                .filter(evento -> cumpleFiltroTipo(evento, tipo))
+                .filter(evento -> cumpleFiltroEstado(evento, estado))
+                .collect(Collectors.toList());
+    }
+    
+    private boolean cumpleFiltroTipo(Evento evento, TipoEvento tipo) {
+        // Si no hay filtro de tipo, acepta todos
+        if (tipo == null) {
+            return true;
         }
-
-        List<Evento> listaEventoFiltrada = new ArrayList<>();
-        switch (unTipoEvento) {
-            case EXPOSICION -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(estados, true)) {
-                    if (unEvento instanceof Exposicion) {
-                        listaEventoFiltrada.add(unEvento);
-                    }
-                }
-            }
-            case TALLER -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(estados, true)) {
-                    if (unEvento instanceof Taller) {
-                        listaEventoFiltrada.add(unEvento);
-                    }
-                }
-            }
-            case CONCIERTO -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(estados, true)) {
-                    if (unEvento instanceof Concierto) {
-                        listaEventoFiltrada.add(unEvento);
-                    }
-                }
-            }
-            case CICLO_DE_CINE -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(estados, true)) {
-                    if (unEvento instanceof CicloDeCine) {
-                        listaEventoFiltrada.add(unEvento);
-                    }
-                }
-            }
-            case FERIA -> {
-                for (Evento unEvento : eventoServicio.obtenerEventosPorEstado(estados, true)) {
-                    if (unEvento instanceof Feria) {
-                        listaEventoFiltrada.add(unEvento);
-                    }
-                }
-            }
-        }
-        return listaEventoFiltrada;
+        
+        // Verificar el tipo específico usando instanceof
+        return switch (tipo) {
+            case EXPOSICION -> evento instanceof Exposicion;
+            case TALLER -> evento instanceof Taller;
+            case CONCIERTO -> evento instanceof Concierto;
+            case CICLO_DE_CINE -> evento instanceof CicloDeCine;
+            case FERIA -> evento instanceof Feria;
+        };
+    }
+    
+    private boolean cumpleFiltroEstado(Evento evento, EstadoEvento estado) {
+        // Si no hay filtro de estado, acepta todos
+        return estado == null || evento.getEstado().equals(estado);
     }
 
+    // === MÉTODO DE PARTICIPANTES 
     @FXML
     private void verParticipantes() {
         try {
@@ -220,17 +211,22 @@ public class VerParticipantesController implements Initializable {
 
             if (!listaParticipantesDelEvento.isEmpty()) {
                 listaParticipantes.setAll(listaParticipantesDelEvento);
+                tblParticipantes.setPlaceholder(new Label("Seleccione un evento para ver los participantes"));
             } else {
                 tblParticipantes.setPlaceholder(new Label("Este evento no tiene participantes inscriptos"));
-                listaParticipantes.clear(); // Limpiar por si había datos previos
+                listaParticipantes.clear();
             }
             tblParticipantes.refresh(); 
 
         } catch (Exception e) {
             Alerta.mostrarError("Error al cargar los participantes: " + e.getMessage());
-            listaParticipantes.clear(); // Limpia la tabla en caso de error
+            listaParticipantes.clear();
         }
     }
-
     
+    // === MÉTODO AUXILIAR ===
+    private void limpiarTablaParticipantes() {
+        listaParticipantes.clear();
+        tblParticipantes.setPlaceholder(new Label("Seleccione un evento para ver los participantes"));
+    }
 }

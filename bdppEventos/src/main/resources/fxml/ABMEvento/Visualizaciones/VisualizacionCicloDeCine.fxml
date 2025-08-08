@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="280.0" prefWidth="532.0" styleClass="main-section" stylesheets="@../../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.VisualizacionController">
+<VBox  styleClass="main-section" stylesheets="@../../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.VisualizacionController">
    
    <!-- Encabezado -->
    <Label styleClass="section-title" text="Detalles del Ciclo de Cine" />
@@ -13,20 +13,11 @@
    <VBox spacing="10" styleClass="field-section">
       <VBox spacing="5">
          <Label styleClass="section-title" text="Proyeccion:" />
-         <Label fx:id="proyeccionLabel" maxWidth="500" styleClass="value-label-long" text="[Proyeccion]" wrapText="true">
-            <tooltip>
-                <Tooltip styleClass="long-tooltip" text="{tipoArteLabel.text}" />
-            </tooltip>
-         </Label>
-      </VBox>
-      
+         <Label fx:id="proyeccionLabel" maxWidth="500" styleClass="value-label-long" text="[Proyeccion]" wrapText="true"/>            
+      </VBox>      
       <VBox spacing="5">
          <Label styleClass="section-title" text="Tiene Charlas Posteriores:" />
-         <Label fx:id="charlasPosterioresLabel" maxWidth="500" styleClass="value-label-long" text="[Charlas Posteriores]" wrapText="true">
-            <tooltip>
-                <Tooltip styleClass="long-tooltip" text="{curadorLabel.text}" />
-            </tooltip>
-         </Label>
+         <Label fx:id="charlasPosterioresLabel"  styleClass="value-label-long" text="[Charlas Posteriores]" wrapText="true"/>            
       </VBox>
    </VBox>
 </VBox>

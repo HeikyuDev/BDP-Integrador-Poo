@@ -152,35 +152,7 @@ public class PersonaServicio extends CrudServicio<Persona> {
         if (persona != null) {
             persona.setActivo(false);
         }
-    }
-
-    // Comentado por aahora
-    
-    /* @Override
-    public List<Persona> buscarTodos() {
-    try {
-        if (repositorio == null) {
-            throw new RuntimeException("Repositorio no inicializado");
-        }
-        
-        System.out.println("📊 Buscando todas las personas...");
-        List<Persona> personas = repositorio.buscarTodos(Persona.class);
-        System.out.println("✅ Encontradas " + personas.size() + " personas");
-        return personas;
-        
-    } catch (Exception e) {
-        System.err.println("❌ Error al buscar todas las personas: " + e.getMessage());
-        
-        // ✅ VERIFICAR SI ES ERROR DE TABLA INEXISTENTE
-        if (e.getMessage().contains("no existe la relación") || 
-            e.getMessage().contains("does not exist")) {
-            throw new RuntimeException("La tabla 'personas' no existe en la base de datos. " +
-                "Verifique la configuración de persistence.xml y que las tablas se hayan creado correctamente.", e);
-        }
-        
-        throw new RuntimeException("No se pudieron cargar las personas desde la base de datos", e);
-        }
-    }    */
+    } 
     
     // Metodos para asignarle a una persona un rol, y persistir la informacion
     public void asignarRol(Persona unaPersona, TipoRol rol) {
