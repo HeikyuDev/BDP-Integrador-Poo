@@ -561,8 +561,10 @@ public class EventoServicio extends CrudServicio<Evento> {
     {
         try {
             // Innscribimos una Persona a un evento utilizando el tipo de Rol PARTICIPANTE
-            participacionServicio.inscribirParticipante(unEvento, unaPersona);
-            unEvento.setParticipaciones(participacionServicio.buscarPorEvento(unEvento));
+            Participacion unaParticipacion = participacionServicio.inscribirParticipante(unEvento, unaPersona);
+            // Agregamos la particpacion a la lista de participaciones asociada al evento
+            unEvento.agregarParticipacion(unaParticipacion);
+            // Modifcamos la instancia de evento para Persistir los cambios
             this.modificar(unEvento);
         } catch (Exception e) {
             throw e;

@@ -68,10 +68,7 @@ public class Persona implements Activable {
     @ElementCollection
     @Enumerated(EnumType.STRING)
     @Column(name = "roles")
-    private List<TipoRol> unaListaRoles;
-
-    @OneToMany(mappedBy = "unaPersona")
-    private List<Participacion> participaciones;
+    private List<TipoRol> unaListaRoles;    
 
     // Constructores
     /**
@@ -236,21 +233,7 @@ public class Persona implements Activable {
         } else {
             this.correoElectronico = null; // Si viene vacío, guardar como null
         }
-    }
-
-    /**
-     * Devuelve todas las participaciones de la persona.
-     */
-    public List<Participacion> getParticipaciones() {
-        return participaciones;
-    }
-
-    /**
-     * Asigna la lista de participaciones.
-     */
-    public void setParticipaciones(List<Participacion> participaciones) {
-        this.participaciones = participaciones;
-    }
+    }    
 
     /**
      * Devuelve la lista de roles asociados a la persona.
@@ -359,85 +342,7 @@ public class Persona implements Activable {
         }
 
         return true;
-    }
-
-    /**
-     * Agrega una participación a la persona.
-     */
-    public void agregarParticipacion(Participacion participacion) {
-        if (this.participaciones == null) {
-            this.participaciones = new ArrayList<>();
-        }
-        this.participaciones.add(participacion);
-        participacion.setPersona(this);
-    }
-
-    /**
-     * Quita una participación de la persona.
-     */
-    public void quitarParticipacion(Participacion participacion) {
-        if (this.participaciones != null) {
-            this.participaciones.remove(participacion);
-            participacion.setPersona(null);
-        }
-    }
-
-    /**
-     * Obtiene todos los eventos donde la persona tiene un rol específico.
-     */
-    public List<Evento> getEventosPorRol(TipoRol rol) {
-        if (this.participaciones == null) {
-            return new ArrayList<>();
-        }
-
-        return this.participaciones.stream()
-                .filter(p -> p.getRolEnEvento().equals(rol) && p.getActivo())
-                .map(Participacion::getEvento)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Obtiene todos los eventos donde la persona es organizadora.
-     */
-    public List<Evento> getEventosComoOrganizadora() {
-        return getEventosPorRol(TipoRol.ORGANIZADOR);
-    }
-
-    /**
-     * Obtiene todos los eventos donde la persona es artista.
-     */
-    public List<Evento> getEventosComoArtista() {
-        return getEventosPorRol(TipoRol.ARTISTA);
-    }
-
-    /**
-     * Obtiene todos los eventos donde la persona es curadora.
-     */
-    public List<Evento> getEventosComoCuradora() {
-        return getEventosPorRol(TipoRol.CURADOR);
-    }
-
-    /**
-     * Obtiene todos los eventos donde la persona es instructora.
-     */
-    public List<Evento> getEventosComoInstructora() {
-        return getEventosPorRol(TipoRol.INSTRUCTOR);
-    }
-
-    /**
-     * Verifica si la persona participa en un evento específico con un rol
-     * determinado.
-     */
-    public boolean participaEnEventoConRol(Evento evento, TipoRol rol) {
-        if (this.participaciones == null) {
-            return false;
-        }
-
-        return this.participaciones.stream()
-                .anyMatch(p -> p.getEvento().equals(evento)
-                && p.getRolEnEvento().equals(rol)
-                && p.getActivo());
-    }
+    }             
 
     // Métodos de la interfaz Activable
     /**

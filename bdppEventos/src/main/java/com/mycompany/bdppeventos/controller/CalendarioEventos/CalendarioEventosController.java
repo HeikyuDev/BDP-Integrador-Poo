@@ -22,15 +22,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.*;
 import java.util.stream.Collectors;
-import javafx.scene.image.Image;
 
-/**
- * Controlador principal del Calendario de Eventos
- *
- * Responsabilidades: - Gestionar la navegación entre meses - Cargar y mostrar
- * eventos del mes actual - Generar dinámicamente las celdas del calendario -
- * Coordinar la interacción con las celdas individuales
- */
+
 public class CalendarioEventosController implements Initializable {
 
     // ========== CONTROLES FXML ==========
@@ -44,6 +37,12 @@ public class CalendarioEventosController implements Initializable {
     private EventoServicio eventoServicio;          // Servicio para operaciones CRUD de eventos
     private List<Evento> eventosDelMes = new ArrayList<>();  // Lista de eventos del Mes       
 
+    // === CONSTANTES ===
+    
+    private final List<EstadoEvento> estadosValidos = Arrays.asList(EstadoEvento.CONFIRMADO, EstadoEvento.FINALIZADO,EstadoEvento.EN_EJECUCION);;
+    
+    
+    
     /**
      * Inicialización del controlador Se ejecuta automáticamente después de
      * cargar el FXML
@@ -125,14 +124,7 @@ public class CalendarioEventosController implements Initializable {
         // Calcular el rango de fechas del mes actual
         LocalDate inicioMes = mesActual.atDay(1);                    // Primer día del mes
         LocalDate finMes = mesActual.atEndOfMonth();                 // Último día del mes
-
-        // Estados de eventos que se mostrarán en el calendario
-        List<EstadoEvento> estadosValidos = Arrays.asList(
-                EstadoEvento.CONFIRMADO, // Eventos confirmados
-                EstadoEvento.FINALIZADO, // Eventos ya finalizados
-                EstadoEvento.EN_EJECUCION // Eventos actualmente en ejecución
-        );
-
+        
         // Cargar eventos del rango de fechas con estados válidos
         eventosDelMes = eventoServicio.obtenerEventosEnRango(inicioMes, finMes, estadosValidos);
     }

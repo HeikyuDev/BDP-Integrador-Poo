@@ -54,7 +54,7 @@
         
         <!-- Calendario con ScrollPane -->
         <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS" 
-                   hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="scroll-calendario">
+                   hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="scroll-pane">
             <GridPane fx:id="gridCalendario" hgap="1" vgap="1" 
                      minHeight="600" prefHeight="600" maxHeight="600">
                 <!-- Columnas con porcentajes fijos -->

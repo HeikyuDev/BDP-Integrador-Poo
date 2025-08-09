@@ -464,8 +464,8 @@ public class FormularioEventoController implements Initializable {
             altaEventoPorTipo(unTipoEvento, datosComunes);            
             // Mostrar Mensaje de Exito
             Alerta.mostrarExito(MENSAJE_EXITO_ALTA);   
-            // Limpio los campos
-            limpiarCampos();
+            //Pongo el formulario en su forma por defecto
+            configuracionBase();
             // Actualizo la tabla
             actualizarTabla();
             
@@ -645,7 +645,7 @@ public class FormularioEventoController implements Initializable {
         dpFechaInicio.setValue(null);
         txtDuracion.clear();
         chkCupoMaximo.setSelected(false);
-        txtCupoMaximo.clear();
+        txtCupoMaximo.clear();        
         chkTieneInscripcion.setSelected(false);
         chkComboOrganizadores.getCheckModel().clearChecks();
         cmbTipoEvento.setValue(null);

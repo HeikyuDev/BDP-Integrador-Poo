@@ -37,8 +37,7 @@
                      <columns>
                         <TableColumn fx:id="colNombre"  text="NOMBRE" reorderable="false" />
                         <TableColumn fx:id="colUbicacion"  text="UBICACION" reorderable="false"/>
-                        <TableColumn fx:id="colFechaInicio"  text="FECHA DE INICIO" reorderable="false"/>
-                        <TableColumn fx:id="colEstado"  text="ESTADO" reorderable="false"/>
+                        <TableColumn fx:id="colFechaInicio"  text="FECHA DE INICIO" reorderable="false"/>                        
                         <TableColumn fx:id="colCupo"  text="CUPO" reorderable="false"/>
                      </columns>
                   </TableView>

@@ -37,6 +37,7 @@
                      <columns>
                         <TableColumn fx:id="colNombre" reorderable="false" text="NOMBRE" />
                         <TableColumn fx:id="colUbicacion" reorderable="false" text="UBICACION" />
+                        <TableColumn fx:id="colInscriptos" reorderable="false" text="INSCRIPTOS" />
                         <TableColumn fx:id="colFechaInicio" reorderable="false" text="FECHA DE INICIO" />
                         <TableColumn fx:id="colEstado" reorderable="false" text="ESTADO" />
                      </columns>

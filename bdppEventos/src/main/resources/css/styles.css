@@ -646,13 +646,25 @@
     -fx-font-weight: 400; 
     -fx-font-size: 11px;
     -fx-background-radius: 5px 5px 0 0;
-    -fx-border-width: 0; /* Sin bordes que causen separación */
-    -fx-padding: 0; /* Sin padding que cause separación */
+    -fx-border-width: 0;
+    -fx-padding: 0;
 }
 
+/* Label de encabezado */
 .form-tableview .column-header .label {
     -fx-text-fill: white;
     -fx-padding: 5px;
+}
+
+/* Icono de ordenar (triángulo) en blanco */
+.form-tableview .column-header .arrow,
+.form-tableview .column-header .sort-arrow {
+    -fx-background-color: white;
+}
+
+/* Relleno del encabezado cuando sobra espacio */
+.form-tableview .filler {
+    -fx-background-color: #2E4BC6;
 }
 
 /* Filas */
@@ -680,6 +692,48 @@
     -fx-text-fill: #2E4BC6;
 }
 
+/* Scrollbar vertical estilizada */
+.form-tableview .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10px;
+}
+
+.form-tableview .scroll-bar:vertical .thumb {
+    -fx-background-color: #c5cae9;
+    -fx-background-radius: 5px;
+}
+
+.form-tableview .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #9fa8da;
+}
+
+.form-tableview .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+/* Scrollbar horizontal estilizada */
+.form-tableview .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-pref-height: 10px;
+}
+
+.form-tableview .scroll-bar:horizontal .thumb {
+    -fx-background-color: #c5cae9;
+    -fx-background-radius: 5px;
+}
+
+.form-tableview .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #9fa8da;
+}
+
+.form-tableview .scroll-bar:horizontal .track {
+    -fx-background-color: transparent;
+}
+
+/* Esquina inferior derecha (donde se cruzan scrolls) */
+.form-tableview .corner {
+    -fx-background-color: #ffffff; /* O #2E4BC6 si querés azul */
+}
 
 
 /*RADIOBUTTONS*/
@@ -776,4 +830,40 @@
 .evento-cancelado {
     -fx-background-color: #f44336 !important;
     -fx-text-fill: white;
+}
+
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* Fondo interno del ScrollPane */
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Scrollbar vertical */
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10px;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #c5cae9;
+    -fx-background-radius: 5px;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #9fa8da;
+}
+
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+
+/* Esquina inferior derecha donde se cruzan las barras */
+.scroll-pane .corner {
+    -fx-background-color: #ffffff; /* O #2E4BC6 para azul */
 }

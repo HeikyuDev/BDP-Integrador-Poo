@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import com.mycompany.bdppeventos.model.entities.CicloDeCine;
 import com.mycompany.bdppeventos.model.entities.Concierto;
 import com.mycompany.bdppeventos.model.entities.Evento;
@@ -59,10 +58,7 @@ public class InscribirParticipantesController implements Initializable {
     private TableColumn<Evento, String> colNombre, colUbicacion, colCupo;  
 
     @FXML
-    private TableColumn<Evento, LocalDate> colFechaInicio;
-    
-    @FXML
-    private TableColumn<Evento, EstadoEvento> colEstado;
+    private TableColumn<Evento, LocalDate> colFechaInicio;        
         
     
     // Listas Observables Asociadas a las table view
@@ -105,6 +101,32 @@ public class InscribirParticipantesController implements Initializable {
         ConfiguracionIgu.configuracionEnumEnCombo(cmbTipoEvento, TipoEvento.class);
     }
     
+    private void configurarTabla() {
+        // Aplica política de ajuste automático
+        tblEvento.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);        
+
+        // Configurar texto para tablas vacías
+        tblEvento.setPlaceholder(new Label("No hay eventos para mostrar"));        
+
+        // Simula proporciones para tblEvento 
+        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 30); 
+        colUbicacion.setMaxWidth(1f * Integer.MAX_VALUE * 30); 
+        colFechaInicio.setMaxWidth(1f * Integer.MAX_VALUE * 15);         
+        colCupo.setMaxWidth(1f * Integer.MAX_VALUE * 25); 
+    }
+    
+    private void configurarColumnas() {
+        // Configuraciones de las columnas de la tabla Eventos
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colUbicacion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
+        colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));        
+        colCupo.setCellValueFactory(cellData -> ConfiguracionIgu.formatCupoMaximoEvent(cellData.getValue()));
+        
+        // Configuraciones de las Celdas        
+        ConfiguracionIgu.configurarColumnaFecha(colFechaInicio);
+    }
+    
+    // Metodo para cargar todos los eventos sin filtros
     private void cargarTodosLosEventos() {
         try {
             // Obtengo todos los eventos basandome en los estados habilitados para la inscripcion (CONFIRMADO/EN_EJECUCION)
@@ -115,22 +137,7 @@ public class InscribirParticipantesController implements Initializable {
             Alerta.mostrarError("Error al cargar los eventos: " + e.getMessage());
         }
     }
-
-    private void configurarTabla() {
-        // Aplica política de ajuste automático
-        tblEvento.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);        
-
-        // Configurar texto para tablas vacías
-        tblEvento.setPlaceholder(new Label("No hay eventos para mostrar"));        
-
-        // Simula proporciones para tblEvento 
-        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 25); 
-        colUbicacion.setMaxWidth(1f * Integer.MAX_VALUE * 25); 
-        colFechaInicio.setMaxWidth(1f * Integer.MAX_VALUE * 15); 
-        colEstado.setMaxWidth(1f * Integer.MAX_VALUE * 15); 
-        colCupo.setMaxWidth(1f * Integer.MAX_VALUE * 20); 
-    }
-    
+        
     private void actualizarTabla() {
         try {
             // Si hay un filtro aplicado, mantenerlo
@@ -150,19 +157,7 @@ public class InscribirParticipantesController implements Initializable {
             Alerta.mostrarError("Error al actualizar la tabla: " + e.getMessage());
         }
     }
-
-    private void configurarColumnas() {
-        // Configuraciones de las columnas de la tabla Eventos
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colUbicacion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
-        colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
-        colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
-        colCupo.setCellValueFactory(cellData -> ConfiguracionIgu.formatCupoMaximoEvent(cellData.getValue()));
-        
-        // Configuraciones de las Celdas
-        ConfiguracionIgu.configurarColumnaEstado(colEstado);
-        ConfiguracionIgu.configurarColumnaFecha(colFechaInicio);
-    }
+    
     
     @FXML
     private void filtrarEvento() {
@@ -170,9 +165,7 @@ public class InscribirParticipantesController implements Initializable {
             // Obtenemos el Tipo de Evento Seleccionado
             TipoEvento tipoSeleccionado = cmbTipoEvento.getSelectionModel().getSelectedItem();
             List<Evento> listaPorTipo = obtenerListaPorTipo(tipoSeleccionado);
-
-            listaEventos.setAll(listaPorTipo);
-            tblEvento.refresh();
+            listaEventos.setAll(listaPorTipo);                        
         } catch (Exception e) {
             Alerta.mostrarError("Ocurrió un Error Inesperado: " + e.getMessage());
         }
@@ -192,6 +185,22 @@ public class InscribirParticipantesController implements Initializable {
                 .filter(evento -> esDelTipoEspecificado(evento, unTipoEvento))
                 .collect(Collectors.toList());
     }    
+    
+    // Metodo Auxiliar parsa validar si un Evento pertenece a un tipo específico
+    private boolean esDelTipoEspecificado(Evento evento, TipoEvento tipo) {
+        return switch (tipo) {
+            case EXPOSICION ->
+                evento instanceof Exposicion;
+            case TALLER ->
+                evento instanceof Taller;
+            case CONCIERTO ->
+                evento instanceof Concierto;
+            case CICLO_DE_CINE ->
+                evento instanceof CicloDeCine;
+            case FERIA ->
+                evento instanceof Feria;
+        };
+    }
     
     @FXML
     private void verificarExistencia() {
@@ -221,8 +230,8 @@ public class InscribirParticipantesController implements Initializable {
             throw new IllegalArgumentException("Error: El DNI debe contener solo números");
         }        
         // Validar que contenga un mínimo de 7 caracteres
-        if (dniIngresado.length() < 7) {
-            throw new IllegalArgumentException("Error: El DNI debe tener un mínimo de 7 dígitos");
+        if (dniIngresado.length() < 7 || dniIngresado.length() > 12) {
+            throw new IllegalArgumentException("Error: El DNI debe tener un mínimo de 7 dígitos y un maximo de 12");
         }
     }
     
@@ -230,7 +239,8 @@ public class InscribirParticipantesController implements Initializable {
         if (personaServicio.buscarPorId(dniIngresado) == null) {
             // Si el DNI ingresado no corresponde a una persona registrada, habilita el campo de ingreso de datos
             vboxDatos.setDisable(false);
-            Alerta.mostrarExito("El DNI ingresado no corresponde a ninguna persona registrada");
+            Alerta.mostrarExito("El DNI ingresado NO corresponde a ninguna persona registrada\n"
+                    + "Ingrese Acontinuacion los datos del Participante");
             existeRegistro = false;
         } else {
             // Si el DNI ingresado corresponde a una persona registrada            
@@ -249,11 +259,30 @@ public class InscribirParticipantesController implements Initializable {
     }
     
     @FXML
-    private void cancelar()
-    {
+    private void cancelar() {
         limpiarCampos();
     }
+
+    private void estadoInicial() {
+        // Deshabilito el layout de ingreso de datos
+        vboxDatos.setDisable(true);
+        // Deshabilito el btn de Inscripción
+        btnInscribir.setDisable(true);
+        // Desabilito el btn de Cancelar
+        btnCancelar.setDisable(true);
+        // Habilito el TextField del dni
+        txtDNIParticipante.setDisable(false);
+
+    }
     
+    private void limpiarCampos() {
+        txtDNIParticipante.clear();
+        txtNombre.clear();
+        txtApellido.clear();
+        txtTelefono.clear();
+        txtCorreo.clear();
+        estadoInicial();
+    }    
     
     @FXML
     private void inscribirParticipante() {
@@ -284,22 +313,47 @@ public class InscribirParticipantesController implements Initializable {
             limpiarCampos(); 
         }
     }
-
-    // === MÉTODOS AUXILIARES DE VALIDACIÓN ===
-    private Evento validarYObtenerEventoSeleccionado() {
+    
+    // Valida si se selecciono una fila de la tabla
+    private Evento validarYObtenerEventoSeleccionado() {        
         Evento eventoSeleccionado = tblEvento.getSelectionModel().getSelectedItem();
         if (eventoSeleccionado == null) {
             throw new IllegalArgumentException("Debe seleccionar un evento para inscribir al participante");
         }
         return eventoSeleccionado;
     }
+    
+    // Validación del cupo maximo
+    private void validarCupoDisponible(Evento evento) {
+        int participantesActuales = participacionServicio.contarPersonasPorRol(evento, TipoRol.PARTICIPANTE);
+        int capacidadMaxima;
 
-    private boolean confirmarInscripcion() {
-        String dni = txtDNIParticipante.getText().trim();
-        return Alerta.confirmarAccion("¿Inscribir el Participante con el DNI: '" + dni + "'?");
+        // Validamos si tiene cupo el evento
+        if (evento.isTieneCupo()) {
+            // Si el evento tiene cupo obtengo la capacidad maxima registrada del evento
+            capacidadMaxima = evento.getCapacidadMaxima();
+        } else {
+            // Sino le asigno el maximo valor del tipo de dato int
+            capacidadMaxima = Integer.MAX_VALUE;
+        }
+
+        if (participantesActuales >= capacidadMaxima) {
+            throw new IllegalStateException(
+                    String.format("No se puede inscribir al participante. "
+                            + "El evento '%s' ya alcanzó su capacidad máxima (%d/%d participantes).",
+                            evento.getNombre(), participantesActuales, capacidadMaxima)
+            );
+        }
     }
-
-    // === MÉTODOS DE PROCESAMIENTO ===
+    
+    //Maneja las acciones necesarias después de una inscripción exitosa     
+    private void manejarInscripcionExitosa() {
+        Alerta.mostrarExito("Inscripción Realizada Correctamente");
+        limpiarCampos();
+        actualizarTabla(); // Refrescar la tabla para mostrar cambios en cupos
+    }
+      
+    // Metodo que inscribe una persona existente a un Eventos
     private void procesarPersonaExistente(Evento eventoSeleccionado) throws Exception {
         String dni = txtDNIParticipante.getText().trim();
         Persona unaPersona = personaServicio.buscarPorId(dni);
@@ -322,6 +376,11 @@ public class InscribirParticipantesController implements Initializable {
 
         // Inscribir al participante
         eventoServicio.inscribirParticipantes(eventoSeleccionado, unaPersona);
+    }
+    
+    private boolean confirmarInscripcion() {
+        String dni = txtDNIParticipante.getText().trim();
+        return Alerta.confirmarAccion("¿Inscribir el Participante con el DNI: '" + dni + "'?");
     }
 
     private void procesarPersonaNueva(Evento eventoSeleccionado) throws Exception {
@@ -347,14 +406,7 @@ public class InscribirParticipantesController implements Initializable {
         Persona unaPersona = personaServicio.validarEInsertar(dni, nombre, apellido, telefono, correo, listaRol);
         eventoServicio.inscribirParticipantes(eventoSeleccionado, unaPersona);
     }
-
-
-    //Maneja las acciones necesarias después de una inscripción exitosa     
-    private void manejarInscripcionExitosa() {
-        Alerta.mostrarExito("Inscripción Realizada Correctamente");
-        limpiarCampos();
-        actualizarTabla(); // Refrescar la tabla para mostrar cambios en cupos
-    }
+   
 
     private void validarCamposObligatorios(String DNI, String nombre, String apellido) {
         StringBuilder sb = new StringBuilder();
@@ -375,67 +427,5 @@ public class InscribirParticipantesController implements Initializable {
             throw new IllegalArgumentException(sb.toString());
         }
     }
-
-    // Validación del cupo maximo
-    private void validarCupoDisponible(Evento evento) {
-        int participantesActuales = participacionServicio.contarPersonasPorRol(evento, TipoRol.PARTICIPANTE);
-        int capacidadMaxima;
-
-        // Validamos si tiene cupo el evento
-        if (evento.isTieneCupo()) {
-            // Si el evento tiene cupo obtengo la capacidad maxima registrada del evento
-            capacidadMaxima = evento.getCapacidadMaxima();
-        } else {
-            // Sino le asigno el maximo valor del tipo de dato int
-            capacidadMaxima = Integer.MAX_VALUE;
-        }
-
-        if (participantesActuales >= capacidadMaxima) {
-            throw new IllegalStateException(
-                    String.format("No se puede inscribir al participante. "
-                            + "El evento '%s' ya alcanzó su capacidad máxima (%d/%d participantes).",
-                            evento.getNombre(), participantesActuales, capacidadMaxima)
-            );
-        }
-    }
-    
-    // === METODOS AUXILIARES === 
-    
-        private void estadoInicial() {
-        // Deshabilito el layout de ingreso de datos
-        vboxDatos.setDisable(true);
-        // Deshabilito el btn de Inscripción
-        btnInscribir.setDisable(true);
-        // Desabilito el btn de Cancelar
-        btnCancelar.setDisable(true);
-        // Habilito el TextField del dni
-        txtDNIParticipante.setDisable(false);        
-        
-    }
-    
-    private void limpiarCampos() {
-        txtDNIParticipante.clear();
-        txtNombre.clear();
-        txtApellido.clear();
-        txtTelefono.clear();
-        txtCorreo.clear();
-        estadoInicial();
-    }
-    
-    // Método auxiliar para determinar el tipo
-    private boolean esDelTipoEspecificado(Evento evento, TipoEvento tipo) {
-        return switch (tipo) {
-            case EXPOSICION ->
-                evento instanceof Exposicion;
-            case TALLER ->
-                evento instanceof Taller;
-            case CONCIERTO ->
-                evento instanceof Concierto;
-            case CICLO_DE_CINE ->
-                evento instanceof CicloDeCine;
-            case FERIA ->
-                evento instanceof Feria;
-        };
-    }
-    
+                       
 }

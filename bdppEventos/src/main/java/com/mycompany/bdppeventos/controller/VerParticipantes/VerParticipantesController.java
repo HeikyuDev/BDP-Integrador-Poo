@@ -20,6 +20,7 @@ import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import com.mycompany.bdppeventos.util.RepositorioContext;
 import java.time.LocalDate;
 import java.util.Arrays;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,39 +34,39 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class VerParticipantesController implements Initializable {
 
-    // Controles
+    // === CONTROLES    
+    // ComboBox
     @FXML
-    private ComboBox<TipoEvento> cmbTipoEvento;
-    
+    private ComboBox<TipoEvento> cmbTipoEvento;    
     @FXML 
     private ComboBox<EstadoEvento> cmbEstado;
-
-    // Tablas
+    // TableView
     @FXML
     private TableView<Evento> tblEvento;
     @FXML
-    private TableColumn<Evento, String> colNombre, colUbicacion;   
+    private TableColumn<Evento, String> colNombre, colUbicacion;    
+    @FXML
+    private TableColumn<Evento, Integer> colInscriptos;    
     @FXML
     private TableColumn<Evento, LocalDate> colFechaInicio;
     @FXML
     private TableColumn<Evento, EstadoEvento> colEstado;
-
     @FXML
-    private TableView<Persona> tblParticipantes;
+    private TableView<Persona> tblParticipantes;    
     @FXML
     private TableColumn<Persona, String> colDNI, colNombreCompleto, colTelefono, colCorreo;
 
-    // Listas Observables Asociadas a las table view
+    // === LISTAS OBSERVABLES ===        
     private ObservableList<Evento> listaEventos = FXCollections.observableArrayList();
     private ObservableList<Persona> listaParticipantes = FXCollections.observableArrayList();
-    
-    // Lista completa de eventos 
-    private List<Evento> listaEventosCompleta;
-
-    // Servicios
+        
+    // === SERVICIOS ===
     private EventoServicio eventoServicio;
     
-    // CONSTANTE DE FILTRO    
+    // === LISTA DE EVENTOS === 
+    private List<Evento> listaEventosCompleta;
+    
+    // === CONSTANTES === 
     private final List<EstadoEvento> estadosHabilitados = Arrays.asList(
         EstadoEvento.CONFIRMADO, EstadoEvento.EN_EJECUCION, EstadoEvento.FINALIZADO);
 
@@ -94,7 +95,9 @@ public class VerParticipantesController implements Initializable {
 
     private void cargarTodosLosEventos() {
         try {
+            // Utilizando el evento Servicio, obtengo todos los eventos servicios (Confirmados/EnEjecucion/Finalizados) Inscribibles
             listaEventosCompleta = eventoServicio.obtenerEventosPorEstado(estadosHabilitados, true);
+            // Agrego todos los elementos a la lista observable asociada a la tabla de los eventos
             listaEventos.setAll(listaEventosCompleta);
         } catch (Exception e) {
             Alerta.mostrarError("Error al cargar los eventos: " + e.getMessage());
@@ -112,8 +115,9 @@ public class VerParticipantesController implements Initializable {
 
         // Simula proporciones para tblEvento 
         colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 20); 
-        colUbicacion.setMaxWidth(1f * Integer.MAX_VALUE * 30); 
-        colFechaInicio.setMaxWidth(1f * Integer.MAX_VALUE * 30); 
+        colUbicacion.setMaxWidth(1f * Integer.MAX_VALUE * 20); 
+        colInscriptos.setMaxWidth(1f * Integer.MAX_VALUE * 20); 
+        colFechaInicio.setMaxWidth(1f * Integer.MAX_VALUE * 20); 
         colEstado.setMaxWidth(1f * Integer.MAX_VALUE * 20); 
         // Simula proporciones para tblParticipantes
         colDNI.setMaxWidth(1f * Integer.MAX_VALUE * 15);
@@ -126,15 +130,13 @@ public class VerParticipantesController implements Initializable {
         // Configuraciones de las columnas de la tabla Eventos
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colUbicacion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
+        colInscriptos.setCellValueFactory(cellData ->{return new SimpleObjectProperty<>(cellData.getValue().getPersonasPorRol(TipoRol.PARTICIPANTE).size());});
         colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
 
         // Configuracion de las columnas de la tabla Participantes
         colDNI.setCellValueFactory(new PropertyValueFactory<>("dni"));
-        colNombreCompleto.setCellValueFactory(cellData -> {
-            Persona persona = cellData.getValue();
-            return new SimpleStringProperty(persona.getNombre() + " " + persona.getApellido());
-        });
+        colNombreCompleto.setCellValueFactory(cellData -> {return new SimpleStringProperty(cellData.getValue().getNombre() + " " + cellData.getValue().getApellido());});
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         colCorreo.setCellValueFactory(new PropertyValueFactory<>("correoElectronico"));
         
@@ -210,10 +212,14 @@ public class VerParticipantesController implements Initializable {
             List<Persona> listaParticipantesDelEvento = eventoSeleccionado.getPersonasPorRol(TipoRol.PARTICIPANTE);
 
             if (!listaParticipantesDelEvento.isEmpty()) {
+                // Si la lista no estra vacia, le agrego a la lista obserbalble la lista de los participantes del evento seleccionado
                 listaParticipantes.setAll(listaParticipantesDelEvento);
+                // Y le agrego a la tabla el nuevo placeHolder.
                 tblParticipantes.setPlaceholder(new Label("Seleccione un evento para ver los participantes"));
             } else {
+                // Si la lista de participantes asociada al evento esta vacia, muestro un mensaje indicando que no hay participantes inscriptos
                 tblParticipantes.setPlaceholder(new Label("Este evento no tiene participantes inscriptos"));
+                // Limpio los elementos de la lista de los participantes
                 listaParticipantes.clear();
             }
             tblParticipantes.refresh(); 

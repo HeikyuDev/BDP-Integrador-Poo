@@ -370,6 +370,8 @@ public abstract class Evento implements Activable {
         LocalDate fechaFin = fechaHoraFin.toLocalDate();
         return fechaFin;
     }
+    
+    
 
     // Métodos de la interfaz Activable
     /**

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1093.0" prefWidth="807.0" styleClass="scroll-pane-vertical" stylesheets="@../../css/styles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
+<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1093.0" prefWidth="807.0" styleClass="scroll-pane" stylesheets="@../../css/styles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
     <content>
         <VBox prefWidth="728.0" styleClass="main-container">
             <children>
