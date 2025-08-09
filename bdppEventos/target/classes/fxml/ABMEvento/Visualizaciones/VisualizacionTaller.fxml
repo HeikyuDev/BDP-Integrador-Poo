@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox  styleClass="main-section" stylesheets="@../../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.VisualizacionController">
+   
+   <!-- Encabezado -->
+   <Label styleClass="section-title" text="Detalles del Taller" />
+   
+   <!-- Contenido -->
+   <VBox spacing="10" styleClass="field-section">
+      <VBox spacing="5">
+         <Label styleClass="section-title" text="Modalidad" />
+         <Label fx:id="modalidadLabel"  styleClass="value-label-long" text="[Modalidad]" wrapText="true"/>            
+      </VBox>
+      
+      <VBox spacing="5">
+         <Label styleClass="section-title" text="Instructor:" />
+         <Label fx:id="instructorLabel"  styleClass="value-label-long" text="[Instructor Seleccionado]" wrapText="true"/>            
+      </VBox>
+   </VBox>
+</VBox>

@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,6 @@ import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.services.Persona.PersonaServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.RepositorioContext;
-import com.mycompany.bdppeventos.util.StageManager;
-import com.mycompany.bdppeventos.view.Vista;
 
 public class FormularioPersonaControlador {
 
@@ -114,15 +113,15 @@ public class FormularioPersonaControlador {
                 // Modificar persona existente
                 personaServicio.validarYModificar(personaInicial, nombre, apellido, telefono, correoElectronico, rolesSeleccionados);
 
-                // Actualizar roles de la persona
-                personaInicial.setUnaListaRoles(rolesSeleccionados);
+                // ✅ Ya no es necesario setear roles aquí porque validarYModificar ya los maneja
                 System.out.println("🔍 DEBUG: Persona modificada: " + personaInicial);
 
                 nuevasPersonas.add(personaInicial);
 
                 Alerta.mostrarExito("Persona modificada exitosamente");
                 
-                StageManager.cerrarModal(Vista.FormularioPersona); // Cerrar modal después de modificar
+                // ✅ CERRAR MODAL AUTOMÁTICAMENTE DESPUÉS DE MODIFICAR (mejora UX)
+                cerrarModal();
             }
 
         } catch (Exception e) {
@@ -179,6 +178,26 @@ public class FormularioPersonaControlador {
             nuevo(null);
             txtDni.setDisable(false);
             btnNuevo.setDisable(false);
+        }
+    }
+
+    /**
+     * Cierra el modal automáticamente para mejorar la experiencia de usuario.
+     * Se ejecuta después de modificar una persona exitosamente.
+     */
+    private void cerrarModal() {
+        try {
+            // Obtener el Stage desde cualquier control del formulario
+            Stage stage = (Stage) txtNombre.getScene().getWindow();
+            
+            if (stage != null) {
+                stage.close();
+                System.out.println("✅ Modal cerrado automáticamente después de modificar persona");
+            }
+        } catch (Exception e) {
+            System.err.println("⚠️ No se pudo cerrar el modal automáticamente: " + e.getMessage());
+            // No es crítico si no se puede cerrar, el usuario puede cerrarlo manualmente
+            // Esto puede pasar si el modal se está ejecutando en un contexto especial
         }
     }
 }

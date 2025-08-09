@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.CheckComboBox?>
+
+<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="1093.0" prefWidth="807.0" styleClass="scroll-pane" stylesheets="@../../css/styles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.FormularioEventoController">
+    <content>
+        <VBox prefWidth="728.0" styleClass="main-container">
+            <children>
+                <!-- Header -->
+                <HBox fx:id="encabezadoHbox" alignment="CENTER" prefHeight="45.0" styleClass="title-bar">
+                    <children>
+                        <Label alignment="CENTER" styleClass="title-label" text="ABM Evento" />
+                    </children>
+                </HBox>
+
+                <!-- Formulario Principal REORGANIZADO -->
+                <HBox prefHeight="237.0" prefWidth="805.0" spacing="30.0" styleClass="main-section">
+                    <children>
+                        <!-- Datos del Evento - MAS COMPACTO -->
+                        <VBox prefHeight="265.0" prefWidth="445.0" spacing="20.0" styleClass="field-section">
+                            <children>
+                                <Label styleClass="section-title" text="Datos del Evento" />
+
+                                <!-- Nombre y Ubicación en fila -->
+                                <HBox spacing="20.0">
+                                    <children>
+                                        <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="form-label-required" text="Nombre *" />
+                                                <TextField fx:id="txtNombre" promptText="ingrese el nombre" styleClass="form-textfield" />
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="form-label-required" text="Ubicación *" />
+                                                <TextField fx:id="txtUbicacion" promptText="ingrese la ubicacion" styleClass="form-textfield" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+
+                                <!-- Fecha y Duración en fila -->
+                                <HBox spacing="20.0">
+                                    <children>
+                                        <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="form-label-required" text="Fecha de Inicio *" />
+                                                <DatePicker fx:id="dpFechaInicio" maxWidth="Infinity" prefHeight="33.0" prefWidth="179.0" promptText="dd/mm/yyyy" styleClass="form-datepicker" />
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="form-label-required" text="Duración (Horas) *" />
+                                                <TextField fx:id="txtDuracion" promptText="ingrese la duracion" styleClass="form-textfield" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                           <children>
+                              <VBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="404.0" spacing="8.0">
+                                 <children>
+                                    <Label styleClass="form-label-required" text="Organizador/es *" />
+                                    <CheckComboBox fx:id="chkComboOrganizadores" prefHeight="23.0" prefWidth="403.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Configuraciones - MAS A LA DERECHA -->
+                        <VBox prefHeight="170.0" prefWidth="315.0" spacing="22.0" styleClass="field-section-highlight" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label styleClass="section-title" text="Configuraciones">
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                                </Label>
+
+                                <!-- Cupo Máximo -->
+                                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                    <children>
+                                        <CheckBox fx:id="chkCupoMaximo" onAction="#configuracionCupoMaximo" styleClass="form-checkbox" />
+                                        <Label alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="119.0" styleClass="form-label" text="Cupo Máximo">
+                                            <HBox.margin>
+                                                <Insets left="2.0" right="9.0" />
+                                            </HBox.margin>
+                                        </Label>
+                                        <TextField fx:id="txtCupoMaximo" disable="true" prefWidth="110.0" styleClass="form-textfield" />
+                                    </children>
+                                </HBox>
+
+                                <!-- Es Pago -->
+                                <HBox alignment="CENTER_LEFT" spacing="12.0" />
+
+                                <!-- Tiene Inscripción -->
+                                <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="279.0" spacing="12.0">
+                                    <children>
+                                        <CheckBox fx:id="chkTieneInscripcion" styleClass="form-checkbox" />
+                                        <Label alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="147.0" styleClass="form-label" text="Tiene Inscripción">
+                                            <HBox.margin>
+                                                <Insets left="2.0" right="9.0" />
+                                            </HBox.margin>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <!-- Tipo de Evento -->
+                <VBox spacing="7.0" styleClass="main-section"> <!-- Espaciado general 15px -->
+                    <children>
+                        <!-- Contenedor intermedio agregado -->
+                        <VBox spacing="8" styleClass="field-section"> <!-- Espaciado interno 8px -->
+                            <children>
+                                <Label styleClass="section-title" text="Tipo De Evento" />
+                                <Label fx:id="lblTipoDeEvento" styleClass="form-label-required" text="Tipo *" />
+                                <ComboBox fx:id="cmbTipoEvento" onAction="#onTipoEventoChanged" prefHeight="35.0" prefWidth="430.0" promptText="Seleccione un Tipo" styleClass="form-combobox" />
+
+                                <!-- Panel dinámico (sin cambios) -->
+                                <AnchorPane fx:id="contenedorDinamico" prefHeight="120.0" styleClass="dynamic-container">
+                                    <children>
+                                        
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </VBox>
+
+                        <!-- Botón (con margen superior ajustado) -->
+                        <HBox alignment="CENTER_RIGHT">
+                            <children>
+                                <Button fx:id="btnAlta" onAction="#altaEvento" prefHeight="39.0" prefWidth="214.0" styleClass="simple-button-bold" text="Dar de Alta" />
+                            </children>
+                            <VBox.margin>
+                                <Insets top="7.0" />
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <!-- Tabla de Datos -->
+                <VBox prefHeight="367.0" prefWidth="791.0" styleClass="main-section">
+                    <children>
+                        <VBox prefHeight="346.0" prefWidth="761.0" styleClass="field-section">
+                            <children>
+                                <Label styleClass="section-title" text="Eventos Registrados">
+                                    <VBox.margin>
+                                        <Insets bottom="15.0" />
+                                    </VBox.margin>
+                                </Label>
+                                <TableView fx:id="tablaEventos" prefHeight="500.0" prefWidth="1300.0" styleClass="form-tableview">
+                                    <columns>
+                                        <TableColumn fx:id="colNombre" editable="false" prefWidth="150.0" sortable="true" text="NOMBRE" reorderable="false"  />
+                                        <TableColumn fx:id="colUbicacion" editable="false" prefWidth="200.0" sortable="true" text="UBICACIÓN" reorderable="false"  />
+                                        <TableColumn fx:id="colFechaInicio" editable="false" prefWidth="150.0" sortable="true" text="FECHA INICIO" reorderable="false"  />
+                                        <TableColumn fx:id="colDuracion" editable="false" prefWidth="75.0" sortable="true" text="DURACIÓN" reorderable="false"  />                                                                                
+                                        <TableColumn fx:id="colTieneInscripcion" editable="false" prefWidth="92.66668701171875" sortable="true" text="INSCRIBIBLE" reorderable="false"  />
+                                        <TableColumn fx:id="colTieneCupo" editable="false" prefWidth="107.333251953125" sortable="true" text="TIENE CUPO" reorderable="false"  />
+                                        <TableColumn fx:id="colCapacidadMaxima" editable="false" prefWidth="150.0" sortable="true" text="CAPACIDAD MAXIMA" reorderable="false"  />                                                                                                                                                                
+                                        <TableColumn fx:id="colOrganizadores" editable="false" prefWidth="300.0" sortable="false" text="ORGANIZADOR/ES" reorderable="false"  /> 
+                                        <TableColumn fx:id="colTipo" editable="false" prefWidth="100.0" sortable="true" text="TIPO" reorderable="false"  />                                                                                                                       
+                                    </columns>                                    
+                                </TableView>
+                                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                    <children>
+                              <Button fx:id="btnVisualizacion" mnemonicParsing="false" onAction="#visualizacionEvento" prefHeight="38.0" prefWidth="134.0" styleClass="visualizar-button" text="Visualizar" />
+                                        <Button fx:id="btnBaja" mnemonicParsing="false" onAction="#bajaEvento" styleClass="baja-button" text="Baja" />
+                                        <Button fx:id="btnModificacion" mnemonicParsing="false" onAction="#modificacionEvento" styleClass="modificacion-button" text="Modificacion" />
+                                        <Button fx:id="btnCancelar" disable="true" mnemonicParsing="false" onAction="#cancelarEdicion" styleClass="baja-button" text="Cancelar" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </content>
+</ScrollPane>

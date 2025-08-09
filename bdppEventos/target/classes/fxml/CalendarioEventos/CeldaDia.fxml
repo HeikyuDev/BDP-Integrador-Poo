@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mycompany.bdppeventos.controller.CalendarioEventos.CeldaDiaController"
+      fx:id="root"
+      styleClass="calendario-dia">
+
+    <!-- Número del día -->
+    <Label fx:id="lblDia" styleClass="numero-dia" />
+
+    <!-- Contenedor para eventos -->
+    <VBox fx:id="contenedorEventos" spacing="1" />
+
+    <!-- Label para "más eventos" -->
+    <Label fx:id="lblMasEventos" styleClass="mas-eventos" visible="false"/>
+    
+</VBox>

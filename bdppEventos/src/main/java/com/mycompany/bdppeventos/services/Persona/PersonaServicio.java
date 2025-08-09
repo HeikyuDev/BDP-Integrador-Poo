@@ -75,13 +75,17 @@ public class PersonaServicio extends CrudServicio<Persona> {
     public void validarYModificar(Persona persona, Object... datos) {
         if (datos.length < 2 || datos.length > 5) {
             throw new IllegalArgumentException(
-                    "Número incorrecto de parámetros. Se requieren: nombre, apellido y opcionalmente teléfono y correo.");
+                    "Número incorrecto de parámetros. Se requieren: nombre, apellido y opcionalmente teléfono, correo y roles.");
         }
 
         String nombre = (String) datos[0];
         String apellido = (String) datos[1];
         String telefono = datos.length > 2 ? (String) datos[2] : null;
         String correoElectronico = datos.length > 3 ? (String) datos[3] : null;
+        
+        // ✅ AGREGAR SOPORTE PARA ROLES EN MODIFICACIÓN
+        @SuppressWarnings("unchecked")
+        List<TipoRol> nuevosRoles = datos.length > 4 ? (List<TipoRol>)datos[4] : null;
 
         Persona aux = new Persona(); // para llenar los campos con los setters
         List<String> errores = new ArrayList<>();
@@ -122,13 +126,23 @@ public class PersonaServicio extends CrudServicio<Persona> {
         persona.setTelefono(telefono);
         persona.setCorreoElectronico(correoElectronico);
 
-        if (persona.getUnaListaRoles() == null || persona.getUnaListaRoles().isEmpty()) {
-            List<TipoRol> roles = new ArrayList<>();
-            roles.add(TipoRol.getRolPorDefecto());
-            persona.setUnaListaRoles(roles);
+        // ✅ MANEJAR ROLES EN MODIFICACIÓN
+        if (nuevosRoles != null && !nuevosRoles.isEmpty()) {
+            // Si se proporcionaron nuevos roles, usarlos
+            persona.setUnaListaRoles(nuevosRoles);
+            System.out.println("🔍 DEBUG: Roles actualizados: " + nuevosRoles);
+        } else {
+            // Si no se proporcionaron roles, mantener los existentes o asignar rol por defecto
+            if (persona.getUnaListaRoles() == null || persona.getUnaListaRoles().isEmpty()) {
+                List<TipoRol> roles = new ArrayList<>();
+                roles.add(TipoRol.getRolPorDefecto());
+                persona.setUnaListaRoles(roles);
+                System.out.println("🔍 DEBUG: Asignado rol por defecto");
+            }
+            // Si ya tiene roles, no hacer nada (mantener los existentes)
         }
 
-        // Guardar cambios en la base
+        // Guardar cambios en la base (incluyendo roles)
         modificar(persona);
 
     }

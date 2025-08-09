@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox  styleClass="main-section" stylesheets="@../../../css/styles.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.bdppeventos.controller.ABMEvento.VisualizacionController">
+   
+   <!-- Encabezado -->
+   <Label styleClass="section-title" text="Detalles del Concierto" />
+   
+   <!-- Contenido -->
+   <VBox spacing="10" styleClass="field-section" VBox.vgrow="NEVER" >
+      <VBox spacing="5">
+         <Label styleClass="section-title" text="Tipo de Entrada:" />
+         <Label fx:id="tipoEntradaLabel" styleClass="value-label-long" text="[Tipo de Entrada]" wrapText="true"/>         
+      </VBox>
+      
+      <VBox spacing="5" VBox.vgrow="NEVER">
+         <Label styleClass="section-title" text="Monto:" />
+         <Label fx:id="montoLabel"  styleClass="value-label-long" text="[Monto]" wrapText="true"/>            
+      </VBox>
+      <VBox spacing="5" VBox.vgrow="ALWAYS">
+         <children>
+            <Label styleClass="section-title" text="Artistas:" />
+            <Label fx:id="artistaLabel"  styleClass="value-label-long" text="[Artistas]" wrapText="true"/>
+         </children>
+      </VBox>
+   </VBox>
+</VBox>

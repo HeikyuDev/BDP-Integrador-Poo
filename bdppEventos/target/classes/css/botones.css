@@ -1,0 +1,137 @@
+.color-vars {
+    -color-principal: #0670b8;
+    -rojo: #e74c3c;
+    -amarillo: #f1c40f;
+}
+
+
+/* Botones personalizados */
+.btn-personalizado{
+    -fx-background-color: -color-principal;
+    -fx-min-width: 100px;
+    -fx-pref-width: 100px;
+    -fx-text-fill: white;
+    -fx-font-size: 1em;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent;
+    -fx-border-radius: 5px;
+    -fx-padding: 10;
+    -fx-opacity: 0.8;
+    -fx-transition: opacity 0.3s;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    
+}
+
+.btn-personalizado:hover, .btn-personalizado:focused{
+    -fx-cursor: hand;
+    -fx-opacity: 1;
+}
+.btn-personalizado:pressed{
+    -fx-opacity: 0.8;
+}
+
+/* Acciones */
+.acciones-contenedor{
+    -fx-alignment: center;
+    -fx-flex-align: center;
+}
+
+/* acciones (agregar, modificar y eliminar) */
+.acciones-contenedor .btn-personalizado.eliminar{
+    -fx-background-color: -rojo;
+}
+.acciones-contenedor .btn-personalizado.modificar{
+    -fx-text-fill: black;
+    -fx-background-color: -amarillo;
+}
+
+
+.guardar-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 2px;
+    -fx-text-fill: #4CAF50;
+    -fx-font-family: "Montserrat", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);
+    -fx-min-width: 100px;
+}
+
+/* Hover: fondo verdoso muy suave */
+.guardar-button:hover {
+    -fx-border-color: #388E3C;
+    -fx-text-fill: #388E3C;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+/* Presionado: leve empuje y color más profundo */
+.guardar-button:pressed {
+    -fx-background-color: #C8E6C9;
+    -fx-border-color: #2E7D32;
+    -fx-text-fill: #2E7D32;
+    -fx-translate-y: 1px;
+}
+
+/* ========== CHECK COMBOBOX ALT (ControlsFX) ========== */
+.form-checkcombo-alt {
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+/* Caja principal del combo */
+.form-checkcombo-alt .combo-box-base {
+    -fx-background-color: white;
+    -fx-border-color: #4CAF50;
+    -fx-border-radius: 4px;
+    -fx-border-width: 1.5px;
+    -fx-padding: 3px;
+}
+
+/* Hover de la caja */
+.form-checkcombo-alt:hover .combo-box-base {
+    -fx-border-color: #388E3C;
+}
+
+/* Lista desplegable */
+.form-checkcombo-alt .list-cell {
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+/* Checkboxes dentro del popup */
+.form-checkcombo-alt .check-box {
+    -fx-font-family: "Inter", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+/* Caja del checkbox */
+.form-checkcombo-alt .check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4px;
+    -fx-border-width: 1.5px;
+}
+
+/* Check seleccionado */
+.form-checkcombo-alt .check-box:selected .mark {
+    -fx-background-color: #4CAF50;
+}
+
+/* Hover sobre el checkbox */
+.form-checkcombo-alt .check-box:hover .box {
+    -fx-border-color: #388E3C;
+}
+
+/* Estado deshabilitado */
+.form-checkcombo-alt:disabled {
+    -fx-opacity: 0.6;
+}
