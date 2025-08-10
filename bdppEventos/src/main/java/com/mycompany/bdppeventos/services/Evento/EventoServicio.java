@@ -580,10 +580,17 @@ public class EventoServicio extends CrudServicio<Evento> {
     // Metodo para confirmar un EVento (Pasar de PLANIFICADO A CONFIRMADO)
     public void confirmarEvento(Evento unEvento) {
         try {
-            // Seteamos el estado de Confirmado al evento
-            unEvento.setEstado(EstadoEvento.CONFIRMADO);
-            // Modificamos la instancia existente en la BD
-            modificar(unEvento);
+            if(unEvento.getEstado().equals(EstadoEvento.PLANIFICADO))
+            {
+                // Seteamos el estado de Confirmado al evento
+                unEvento.setEstado(EstadoEvento.CONFIRMADO);
+                // Modificamos la instancia existente en la BD
+                modificar(unEvento);
+            }
+            else
+            {
+                throw new IllegalArgumentException("Solo se pueden Confirmar eventos, cuyo estado es: PLANIFICADO");
+            }
         } catch (Exception e) {
             throw e;
         }
@@ -592,10 +599,16 @@ public class EventoServicio extends CrudServicio<Evento> {
     // Metodo para Cancelar un Evento (Pasar de PLANIFICADO/CONFIRMADO/EN_EJECUCION A CANCELADO)
     public void cancelarEvento(Evento unEvento) {
         try {
-            // Seteamos el estado de Confirmado al evento
-            unEvento.setEstado(EstadoEvento.CANCELADO);
-            // Modificamos la instancia existente en la BD
-            modificar(unEvento);
+            if (unEvento.getEstado() == EstadoEvento.PLANIFICADO
+                    || unEvento.getEstado() == EstadoEvento.CONFIRMADO
+                    || unEvento.getEstado() == EstadoEvento.EN_EJECUCION) {
+                unEvento.setEstado(EstadoEvento.CANCELADO);
+                modificar(unEvento);
+            } else {
+                throw new IllegalArgumentException(
+                        "Solo se pueden cancelar eventos en estado PLANIFICADO, CONFIRMADO o EN_EJECUCION"
+                );
+            }
         } catch (Exception e) {
             throw e;
         }
