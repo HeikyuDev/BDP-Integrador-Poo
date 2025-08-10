@@ -114,7 +114,7 @@ public class FormularioPersonaControlador {
                 personaServicio.validarYModificar(personaInicial, nombre, apellido, telefono, correoElectronico, rolesSeleccionados);
 
                 // ✅ Ya no es necesario setear roles aquí porque validarYModificar ya los maneja
-                System.out.println("🔍 DEBUG: Persona modificada: " + personaInicial);
+                System.out.println("🔍 DEBUG: Persona modificada: " + personaInicial + " roles asignados: " + personaInicial.getUnaListaRoles());
 
                 nuevasPersonas.add(personaInicial);
 
@@ -196,8 +196,6 @@ public class FormularioPersonaControlador {
             }
         } catch (Exception e) {
             System.err.println("⚠️ No se pudo cerrar el modal automáticamente: " + e.getMessage());
-            // No es crítico si no se puede cerrar, el usuario puede cerrarlo manualmente
-            // Esto puede pasar si el modal se está ejecutando en un contexto especial
         }
     }
 }

@@ -50,7 +50,7 @@
         <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="40.0" styleClass="form-label" text="DNI:" />
         <Label styleClass="form-label" text="Nombre/s:" GridPane.rowIndex="1" />
         <Label styleClass="form-label" text="Apellido/s:" GridPane.rowIndex="2" />
-        <Label styleClass="form-label" text="Telefono:" GridPane.rowIndex="3">
+        <Label styleClass="form-label" text="Teléfono:" GridPane.rowIndex="3">
           <GridPane.margin>
             <Insets />
           </GridPane.margin>
