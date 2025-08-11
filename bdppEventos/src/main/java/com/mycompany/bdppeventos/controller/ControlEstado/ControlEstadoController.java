@@ -1,17 +1,19 @@
 package com.mycompany.bdppeventos.controller.ControlEstado;
 
-import com.mycompany.bdppeventos.model.entities.Evento;
-import com.mycompany.bdppeventos.model.enums.EstadoEvento;
-import com.mycompany.bdppeventos.services.Evento.EventoServicio;
-import com.mycompany.bdppeventos.util.Alerta;
-import com.mycompany.bdppeventos.util.ConfiguracionIgu;
-import com.mycompany.bdppeventos.util.RepositorioContext;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
+import com.mycompany.bdppeventos.model.entities.Evento;
+import com.mycompany.bdppeventos.model.enums.EstadoEvento;
+import com.mycompany.bdppeventos.services.Evento.EventoServicio;
+import com.mycompany.bdppeventos.util.Alerta;
+import com.mycompany.bdppeventos.util.ConfiguracionIgu;
+import com.mycompany.bdppeventos.util.RepositorioContext;
+
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -94,11 +96,11 @@ public class ControlEstadoController implements Initializable {
     
     private void configurarColumnas()
     {
-        colNombre.setCellValueFactory(new PropertyValueFactory<Evento, String>("nombre"));
-        colUbicacion.setCellValueFactory(new PropertyValueFactory<Evento, String>("ubicacion"));
-        colFechaInicio.setCellValueFactory(new PropertyValueFactory<Evento, LocalDate>("fechaInicio"));        
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colUbicacion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
+        colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));        
         colFechaFin.setCellValueFactory(cellData -> { return new SimpleObjectProperty<>(cellData.getValue().getFechaFin());});            
-        colEstado.setCellValueFactory(new PropertyValueFactory<Evento, EstadoEvento>("estado"));
+        colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         
         // Configuracionws de Celdas
         ConfiguracionIgu.configurarColumnaEstado(colEstado);
@@ -152,10 +154,11 @@ public class ControlEstadoController implements Initializable {
             // Cambiamos el estado del evento planificado a "CONFIRMADO"
             eventoServicio.confirmarEvento(eventoSeleccionado);                        
             Alerta.mostrarExito("Evento '" + eventoSeleccionado.getNombre() + "' confirmado exitosamente!");                        
+            eventoServicio.actualizarEstadoEventos();
             actualizarTablaEventos();
             // Actualizo los estados de los eventos, util si un evento creado en el mismo dia cambia de estado al pasarle el estado a confirmado
             // Ejemplo un Evento creado con la fecha de hoy planificado al confirmalo pasa automaticaMENTE a en ejecucion
-            eventoServicio.actualizarEstadoEventos();
+            
         } catch (IllegalArgumentException e) {
             Alerta.mostrarError("Error: Asegurese de seleccionar un Evento valido: " + e.getMessage());
         } catch (Exception e) {
@@ -228,7 +231,7 @@ public class ControlEstadoController implements Initializable {
                 return todosLosEventos;
             }
 
-            // Filtramos usando Streams (más eficiente y legible)
+            // Filtramos usando Streams 
             return todosLosEventos.stream()
                     .filter(evento -> evento.getEstado().equals(estadoSeleccionado))
                     .collect(Collectors.toList());

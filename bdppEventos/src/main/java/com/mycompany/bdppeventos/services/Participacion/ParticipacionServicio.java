@@ -96,10 +96,13 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
      * Busca todas las participaciones de un evento específico.
      */
     public List<Participacion> buscarPorEvento(Evento evento) {
+        // Obtengo todas las participaciones de la BD
         List<Participacion> todasLasParticipaciones = buscarTodos();
         return todasLasParticipaciones.stream()
                 .filter(p -> p.getEvento().getId() == evento.getId() && p.getActivo())
+                // Filtro, por aquellas cuyo p.evento.Id sea igual al eventoParametro.id
                 .collect(Collectors.toList());
+                // Collecciono todos las participaciones que cumplen con los filtroa en una lista
     }
 
     /**
@@ -117,7 +120,9 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
      */
     public List<Participacion> buscarPorEventoYRol(Evento evento, TipoRol rol) {
         return buscarPorEvento(evento).stream()
+        // Obtengo todas las "Participaciones" De un Determinado Evento
                 .filter(p -> p.getRolEnEvento().equals(rol))
+                // y filtro aquellas cuyo rol sea igual al parámetro
                 .collect(Collectors.toList());
     }
 
@@ -141,6 +146,7 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
                         && p.getRolEnEvento().equals(rol)
                         && p.getActivo())
                 .findFirst()
+                // Me devuelve la primer participacion que cumple con los criterios de filtro
                 .orElse(null);
     }
 
@@ -168,32 +174,7 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
         return buscarPorEventoYRol(evento, rol).size();
     }
 
-    // ===== MÉTODOS DE MODIFICACIÓN =====
-
-    /**
-     * Cambia el rol de una persona en un evento específico.
-     */
-    public boolean cambiarRol(Evento evento, Persona persona, TipoRol rolAnterior, TipoRol rolNuevo) {
-        Participacion participacion = buscarParticipacionEspecifica(evento, persona, rolAnterior);
-        
-        if (participacion == null) {
-            throw new IllegalArgumentException("No se encontró la participación a modificar");
-        }
-
-        // Verificar que el nuevo rol no exista ya
-        if (existeParticipacion(evento, persona, rolNuevo)) {
-            throw new IllegalArgumentException("La persona ya tiene el rol " + rolNuevo + " en este evento");
-        }
-
-        // Validar el nuevo rol
-        validarRolEspecifico(evento, rolNuevo);
-
-        // Cambiar el rol
-        participacion.setRolEnEvento(rolNuevo);
-        this.modificar(participacion);
-        
-        return true;
-    }
+    // ===== MÉTODOS DE MODIFICACIÓN =====    
 
     /**
      * Elimina una participación específica (baja lógica).
@@ -276,21 +257,20 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
         switch (rol) {
             case CURADOR -> {
                 // Un evento solo puede tener un curador
-                long curadoresActuales = contarPersonasPorRol(evento, TipoRol.CURADOR);
+                int curadoresActuales = contarPersonasPorRol(evento, TipoRol.CURADOR);
                 if (curadoresActuales >= 1) {
                     throw new IllegalArgumentException("El evento ya tiene un curador asignado");
                 }
             }
             case INSTRUCTOR -> {
                 // Un taller solo puede tener un instructor
-                long instructoresActuales = contarPersonasPorRol(evento, TipoRol.INSTRUCTOR);
+                int instructoresActuales = contarPersonasPorRol(evento, TipoRol.INSTRUCTOR);
                 if (instructoresActuales >= 1) {
                     throw new IllegalArgumentException("El evento ya tiene un instructor asignado");
                 }
             }
             case ORGANIZADOR -> {
-                // Los organizadores no tienen límite específico, pero debe haber al menos uno
-                // Esta validación se hace al eliminar, no al crear
+                // Los Organizadores pueden ser múltiples, sin restricciones especiales
             }
             case ARTISTA -> {
                 // Los artistas pueden ser múltiples, sin restricciones especiales
@@ -298,7 +278,7 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
             case PARTICIPANTE -> {
                 // Validar cupo si el evento tiene límite
                 if (evento.isTieneCupo()) {
-                    long participantesActuales = contarPersonasPorRol(evento, TipoRol.PARTICIPANTE);
+                    int participantesActuales = contarPersonasPorRol(evento, TipoRol.PARTICIPANTE);
                     if (participantesActuales >= evento.getCapacidadMaxima()) {
                         throw new IllegalArgumentException("El evento ha alcanzado su capacidad máxima");
                     }
@@ -370,6 +350,7 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
         return crearParticipacion(evento, persona, TipoRol.PARTICIPANTE);
     }
  
+    // Metodo que elimina todas las participaciones en un Evento ("UTIL" en la baja de Eventos)
     public void eliminarTodasLasParticipacionesDelEvento(Evento evento) {
         List<Participacion> participaciones = buscarPorEvento(evento);        
 

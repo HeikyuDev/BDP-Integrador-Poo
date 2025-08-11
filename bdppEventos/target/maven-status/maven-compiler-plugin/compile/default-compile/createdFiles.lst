@@ -1,13 +1,10 @@
-com\mycompany\bdppeventos\controller\ABMProyeccion\FormularioProyeccionController.class
 com\mycompany\bdppeventos\model\entities\Pelicula.class
 com\mycompany\bdppeventos\controller\CalendarioEventos\CalendarioEventosController.class
 com\mycompany\bdppeventos\util\ConfiguracionIgu$3.class
 com\mycompany\bdppeventos\services\TipoDeArte\TipoDeArteServicio.class
-com\mycompany\bdppeventos\controller\ABMEvento\PanelFeriaController.class
 com\mycompany\bdppeventos\util\RepositorioContext.class
 com\mycompany\bdppeventos\view\Vista.class
 com\mycompany\bdppeventos\repository\Repositorio.class
-com\mycompany\bdppeventos\controller\ABMEvento\PanelConciertoController.class
 com\mycompany\bdppeventos\controller\ABMPelicula\FormularioPeliculaController.class
 com\mycompany\bdppeventos\dto\DatosComunesEvento.class
 com\mycompany\bdppeventos\controller\ControlEstado\ControlEstadoController.class
@@ -16,7 +13,6 @@ com\mycompany\bdppeventos\model\entities\TipoDeArte.class
 com\mycompany\bdppeventos\controller\VerParticipantes\VerParticipantesController.class
 com\mycompany\bdppeventos\controller\PantallaPrincipalController.class
 com\mycompany\bdppeventos\model\entities\Persona.class
-com\mycompany\bdppeventos\util\ConfiguracionIgu$2.class
 com\mycompany\bdppeventos\controller\InscribirParticipantes\InscribirParticipantesController$1.class
 com\mycompany\bdppeventos\services\proyeccion\ProyeccionServicio.class
 com\mycompany\bdppeventos\controller\ABMPersona\ListaPersonasControlador.class
@@ -25,7 +21,6 @@ module-info.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelExposicionController.class
 com\mycompany\bdppeventos\controller\PanelAdministracion\PanelAdministracionController.class
 com\mycompany\bdppeventos\controller\VerParticipantes\VerParticipantesController$1.class
-com\mycompany\bdppeventos\util\ConfiguracionIgu$1.class
 com\mycompany\bdppeventos\model\enums\TipoEvento.class
 com\mycompany\bdppeventos\App.class
 com\mycompany\bdppeventos\controller\ABMTipoDeArte\FormularioTipoDeArteController.class
@@ -43,16 +38,13 @@ com\mycompany\bdppeventos\model\enums\EstadoEvento.class
 com\mycompany\bdppeventos\model\entities\Concierto.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelCicloCineController.class
 com\mycompany\bdppeventos\model\entities\Feria.class
-com\mycompany\bdppeventos\controller\InscribirParticipantes\InscribirParticipantesController.class
 com\mycompany\bdppeventos\model\entities\CicloDeCine.class
 com\mycompany\bdppeventos\services\Persona\PersonaServicio.class
 com\mycompany\bdppeventos\util\StageManager.class
 com\mycompany\bdppeventos\controller\ABMEvento\VisualizacionController.class
 com\mycompany\bdppeventos\model\enums\TipoRol.class
-com\mycompany\bdppeventos\controller\ABMEvento\FormularioEventoController.class
 com\mycompany\bdppeventos\model\entities\Proyeccion.class
 com\mycompany\bdppeventos\controller\ABMEvento\PanelTallerController.class
-com\mycompany\bdppeventos\util\ConfiguracionIgu.class
 com\mycompany\bdppeventos\model\entities\Participacion.class
 com\mycompany\bdppeventos\model\entities\Taller.class
 com\mycompany\bdppeventos\controller\ABMPersona\FormularioPersonaControlador.class

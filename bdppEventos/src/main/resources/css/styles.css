@@ -478,7 +478,7 @@
     -fx-text-fill: #333333;
 }
 
-/* Botón principal del CheckComboBox */
+/* Botón principal */
 .form-checkcombo .combo-box-base {
     -fx-background-color: white;
     -fx-border-color: #e0e0e0;
@@ -487,26 +487,33 @@
     -fx-padding: 3px;
 }
 
-/* Hover del botón */
-.form-checkcombo:hover .combo-box-base {
+/* Hover botón */
+.form-checkcombo .combo-box-base:hover {
     -fx-border-color: #2E4BC6;
 }
 
-/* Lista desplegable */
+/* Lista desplegable (ListView interno) */
+.form-checkcombo .list-view {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4px;
+}
+
+/* Celdas de la lista */
 .form-checkcombo .list-cell {
     -fx-font-family: "Inter", sans-serif;
     -fx-font-size: 14px;
     -fx-text-fill: #333333;
 }
 
-/* Checkboxes dentro del popup */
+/* CheckBox dentro de las celdas */
 .form-checkcombo .check-box {
     -fx-font-family: "Inter", sans-serif;
     -fx-font-size: 14px;
     -fx-text-fill: #333333;
 }
 
-/* Caja del checkbox */
+/* Caja del check */
 .form-checkcombo .check-box .box {
     -fx-background-color: white;
     -fx-border-color: #e0e0e0;
@@ -514,7 +521,7 @@
     -fx-border-width: 1.5px;
 }
 
-/* Check seleccionado */
+/* Check seleccionado (marca) */
 .form-checkcombo .check-box:selected .mark {
     -fx-background-color: #2E4BC6;
 }

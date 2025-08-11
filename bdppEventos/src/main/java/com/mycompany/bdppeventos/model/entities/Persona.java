@@ -2,7 +2,6 @@ package com.mycompany.bdppeventos.model.entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.model.interfaces.Activable;
@@ -13,12 +12,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
  * Clase que representa una persona en el sistema. Incluye datos personales,
- * información de contacto y estado de actividad. Implementa la interfaz
+ * información de contacto, y los roles que tiene. Implementa la interfaz
  * Activable para permitir activar/desactivar la persona.
  */
 @Entity
@@ -71,6 +69,7 @@ public class Persona implements Activable {
     private List<TipoRol> unaListaRoles;    
 
     // Constructores
+    
     /**
      * Constructor por defecto. Marca la persona como activa e inicializa roles.
      */

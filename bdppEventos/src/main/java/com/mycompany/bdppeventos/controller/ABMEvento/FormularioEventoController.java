@@ -1,12 +1,14 @@
 package com.mycompany.bdppeventos.controller.ABMEvento;
 
-import com.mycompany.bdppeventos.dto.DatosComunesEvento;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import org.controlsfx.control.CheckComboBox;
+
+import com.mycompany.bdppeventos.dto.DatosComunesEvento;
 import com.mycompany.bdppeventos.model.entities.CicloDeCine;
 import com.mycompany.bdppeventos.model.entities.Concierto;
 import com.mycompany.bdppeventos.model.entities.Evento;
@@ -26,7 +28,7 @@ import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import com.mycompany.bdppeventos.util.RepositorioContext;
 import com.mycompany.bdppeventos.util.StageManager;
 import com.mycompany.bdppeventos.view.Vista;
-import javafx.beans.property.SimpleStringProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

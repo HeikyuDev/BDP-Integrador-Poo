@@ -1,6 +1,7 @@
 package com.mycompany.bdppeventos.model.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +19,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 
 /**
  * Clase abstracta base para representar un Evento en el sistema. Incluye
@@ -101,7 +101,7 @@ public abstract class Evento implements Activable {
 
     // Constructores
     /**
-     * Constructor por defecto. Marca el evento como activo.
+     * Constructor por defecto. Marca el evento como activo y en estado Planificado
      */
     public Evento() {
         this.activo = true;
@@ -109,6 +109,7 @@ public abstract class Evento implements Activable {
     }
 
     // Getters y setters
+
     /**
      * Devuelve el identificador único del evento.
      */
@@ -158,7 +159,7 @@ public abstract class Evento implements Activable {
         }
         if (fechaInicio.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha de inicio debe ser posterior a la fecha actual");
-        }          
+        }
         this.fechaInicio = fechaInicio;
     }
 
@@ -335,13 +336,13 @@ public abstract class Evento implements Activable {
                 .map(Participacion::getPersona)
                 .collect(Collectors.toList());
     }
-    
+
     /**
      * Obtiene todos los organizadores del evento.
      */
     public List<Persona> getOrganizadores() {
         return getPersonasPorRol(TipoRol.ORGANIZADOR);
-    }       
+    }
 
     /**
      * Verifica si una persona participa en el evento con un rol específico.
@@ -353,25 +354,19 @@ public abstract class Evento implements Activable {
 
         return this.participaciones.stream()
                 .anyMatch(p -> p.getPersona().equals(persona)
-                && p.getRolEnEvento().equals(rol)
-                && p.getActivo());
+                        && p.getRolEnEvento().equals(rol)
+                        && p.getActivo());
     }
-    
+
     // Metodo que me devuelve la fecha de fin del evento
-    public  LocalDate getFechaFin() {
-        LocalDate fechaInicio = this.fechaInicio;
-        double duracionHoras = this.duracionEstimada;
+    public LocalDate getFechaFin() {
         // PASO 1: Convertir fecha a fecha-hora (medianoche del día)
-        LocalDateTime fechaHoraInicio = fechaInicio.atStartOfDay();
+        LocalDateTime fechaHoraInicio = this.fechaInicio.atStartOfDay(); // usa el atributo
         // PASO 2: Sumar las horas de duración
-        long minutosTotales = Math.round(duracionHoras * 60);
-        LocalDateTime fechaHoraFin = fechaHoraInicio.plusMinutes(minutosTotales);
+        LocalDateTime fechaHoraFin = fechaHoraInicio.plusHours(this.duracionEstimada);
         // PASO 3: Extraer solo la fecha del resultado
-        LocalDate fechaFin = fechaHoraFin.toLocalDate();
-        return fechaFin;
+        return fechaHoraFin.toLocalDate();
     }
-    
-    
 
     // Métodos de la interfaz Activable
     /**

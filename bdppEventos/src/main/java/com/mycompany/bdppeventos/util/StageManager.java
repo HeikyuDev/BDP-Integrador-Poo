@@ -2,11 +2,11 @@ package com.mycompany.bdppeventos.util;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.mycompany.bdppeventos.App;
 import com.mycompany.bdppeventos.view.Vista;
 
-import java.util.Map;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,7 +27,6 @@ public class StageManager {
 
     // Mapa para gestionar los modales abiertos, asociando títulos con Stages
     private static Map<String, Stage> modalStages = new HashMap<>();
-    
 
     // Cambia la escena principal a la especificada por la vista proporcionada
     public static void cambiarEscena(Vista vista) {
@@ -35,7 +34,7 @@ public class StageManager {
         if (root != null) {
             mostrar(root, vista.getTitulo()); // Muestra la vista en el Stage principal
         } else {
-            Alerta.mostrarError("No se pudo cargar la vista:" + vista.getRutaFxml());
+            throw new IllegalStateException("No se pudo cargar la vista:" + vista.getRutaFxml());
         }
     }
 
@@ -55,10 +54,10 @@ public class StageManager {
             try {
                 stagePrincipal.show();
             } catch (Exception e) {
-                Alerta.mostrarError("No se puede mostrar la escena del título: " + titulo);
+                throw new IllegalStateException("No se puede mostrar la escena del título: " + titulo);
             }
         } else {
-            Alerta.mostrarError("El Stage principal no está inicializado.");
+            throw new IllegalStateException("El Stage principal no está inicializado.");
         }
     }
 
@@ -79,23 +78,18 @@ public class StageManager {
         if (root != null && contenedor != null) {
             mostrarEnContenedor(contenedor, root);
         } else {
-            Alerta.mostrarError("No se pudo cargar la vista en el contenedor: " + vista.getRutaFxml());
+            throw new IllegalStateException("No se pudo cargar la vista en el contenedor: " + vista.getRutaFxml());
         }
     }
 
     public static <T> T cambiarEscenaEnContenedorYObtenerControlador(AnchorPane contenedor, Vista vista) {
         Pair<T, Parent> resultado = cargarVistaConControlador(vista.getRutaFxml());
-        if (resultado != null) {
-            Parent root = resultado.getValue();
-            T controlador = resultado.getKey();
-            mostrarEnContenedor(contenedor, root);
-            return controlador;
-        } else {
-            Alerta.mostrarError("No se pudo cargar la vista con controlador: " + vista.getRutaFxml());
-            return null;
-        }
-    }
 
+        Parent root = resultado.getValue();
+        T controlador = resultado.getKey();
+        mostrarEnContenedor(contenedor, root);
+        return controlador;
+    }
 
     // Mustra el nodoRaiz pasado como parametro en el contenedor
     private static void mostrarEnContenedor(AnchorPane contenedor, Parent root) {
@@ -105,15 +99,12 @@ public class StageManager {
             AnchorPane.setRightAnchor(root, 0.0);
             AnchorPane.setBottomAnchor(root, 0.0);
             AnchorPane.setLeftAnchor(root, 0.0);
-        }
-        else
-        {
-            Alerta.mostrarError("No se pudo mostrar el panel");
+        } else {
+            throw new IllegalStateException("No se pudo mostrar el panel");
         }
 
     }
-      
-    
+
     // Abre un modal con la vista proporcionada
     public static void abrirModal(Vista vista) {
         Parent root = cargarVista(vista.getRutaFxml());
@@ -123,18 +114,16 @@ public class StageManager {
 
     // Abre un modal con la vista proporcionada y el nodo raíz
     public static void abrirModal(Vista vista, Parent root) {
-    Stage modalStage = crearModalStage(vista);
-    mostrarModal(modalStage, root, vista);
-}
-
+        Stage modalStage = crearModalStage(vista);
+        mostrarModal(modalStage, root, vista);
+    }
 
     // Crea un nuevo Stage para el modal
     private static Stage crearModalStage(Vista vista) {
         Stage modalStage = new Stage();
-        modalStage.initModality(Modality.APPLICATION_MODAL); // Configura el modal como bloqueante        
+        modalStage.initModality(Modality.APPLICATION_MODAL); // Configura el modal como bloqueante
         return modalStage;
     }
-   
 
     // Muestra el modal con la vista proporcionada
     private static void mostrarModal(Stage modalStage, Parent root, Vista vista) {
@@ -145,12 +134,12 @@ public class StageManager {
         modalStage.centerOnScreen();
         modalStage.setResizable(false);
         modalStage.getIcons().add(new Image(App.class.getResource("/images/logo.png").toExternalForm()));
-        
+
         // ✅ AGREGAR EL MODAL AL MAPA ANTES DE MOSTRARLO
         modalStages.put(vista.getTitulo(), modalStage);
-        
+
         modalStage.showAndWait(); // Muestra el modal y espera hasta que se cierre
-        
+
         // ✅ REMOVER DEL MAPA CUANDO SE CIERRE AUTOMÁTICAMENTE
         modalStages.remove(vista.getTitulo());
     }
@@ -174,61 +163,55 @@ public class StageManager {
             Parent root = loader.load(); // Carga el nodo raíz de la vista
             return root;
         } catch (IOException | NullPointerException e) {
-            Alerta.mostrarError("Error al cargar la vista\n" + e.getMessage());
-            return null;
+            throw new IllegalStateException("Error al cargar la vista: " + rutaFxml + " - " + e.getMessage());
         }
     }
 
-    // Carga una vista FXML  y devuelve el controlador y el nodo raíz
+    // Carga una vista FXML y devuelve el controlador y el nodo raíz
     public static <T> Pair<T, Parent> cargarVistaConControlador(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath)); // Carga el archivo FXML
             Parent nodo = loader.load(); // Carga el nodo raíz de la vista
             T controlador = loader.getController(); // Obtiene el controlador asociado
             return new Pair<>(controlador, nodo); // Devuelve el controlador y el nodo raíz como un par
-        } catch (IOException e) {            
-            Alerta.mostrarError("A ocurrido un Error inesperado\n" + e.getMessage());
-            return null;
+        } catch (IOException e) {
+            throw new IllegalStateException(
+                    "Error al cargar la vista con controlador: " + fxmlPath + " - " + e.getMessage());
         }
     }
-    
+
     public static <T> Pair<T, VBox> cargarVistaVBox(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
-            VBox nodo = loader.load(); 
+            VBox nodo = loader.load();
             T controlador = loader.getController();
             return new Pair<>(controlador, nodo);
         } catch (IOException e) {
-            e.printStackTrace();
-            Alerta.mostrarError("Error al cargar vista:\n" + e.getMessage());
-            return null;
+            throw new IllegalStateException("Error al cargar vista VBox: " + fxmlPath + " - " + e.getMessage());
         }
     }
-    
-// Abre un modal con la vista proporcionada y devuelve el controlador
+
+    // Abre un modal con la vista proporcionada y devuelve el controlador
     public static <T> T abrirModalConControlador(Vista vista) {
         Pair<T, Parent> resultado = cargarVistaConControlador(vista.getRutaFxml());
-        if (resultado != null) {
-            Parent root = resultado.getValue();
-            T controlador = resultado.getKey();
 
-            Stage modalStage = crearModalStage(vista);
-            mostrarModal(modalStage, root, vista);
+        Parent root = resultado.getValue();
+        T controlador = resultado.getKey();
 
-            return controlador;
-        } else {
-            Alerta.mostrarError("No se pudo cargar la vista con controlador: " + vista.getRutaFxml());
-            return null;
-        }
+        Stage modalStage = crearModalStage(vista);
+        mostrarModal(modalStage, root, vista);
+
+        return controlador;
     }
 
     // Método que carga el controlador pero NO muestra el modal todavía
-public static <T> Pair<T, Stage> prepararModalConControlador(Vista vista) {
-    Pair<T, Parent> resultado = cargarVistaConControlador(vista.getRutaFxml());
-    if (resultado != null) {
+    // Método que carga el controlador pero NO muestra el modal todavía
+    public static <T> Pair<T, Stage> prepararModalConControlador(Vista vista) {
+        Pair<T, Parent> resultado = cargarVistaConControlador(vista.getRutaFxml());
+
         Parent root = resultado.getValue();
         T controlador = resultado.getKey();
-        
+
         Stage modalStage = crearModalStage(vista);
         // Preparar la escena pero NO mostrar todavía
         Scene escena = new Scene(root);
@@ -238,20 +221,16 @@ public static <T> Pair<T, Stage> prepararModalConControlador(Vista vista) {
         modalStage.centerOnScreen();
         modalStage.setResizable(false);
         modalStage.getIcons().add(new Image(App.class.getResource("/images/logo.png").toExternalForm()));
-        
-        return new Pair<>(controlador, modalStage);
-    } else {
-        Alerta.mostrarError("No se pudo cargar la vista con controlador: " + vista.getRutaFxml());
-        return null;
-    }
-}
 
-// Método para mostrar el modal ya preparado
-public static void mostrarModalPreparado(Stage modalStage) {
-    if (modalStage != null) {
-        modalStage.showAndWait();
+        return new Pair<>(controlador, modalStage);
     }
-}
+
+    // Método para mostrar el modal ya preparado
+    public static void mostrarModalPreparado(Stage modalStage) {
+        if (modalStage != null) {
+            modalStage.showAndWait();
+        }
+    }
 
     // Establece el Stage principal de la aplicación
     public static void setStagePrincipal(Stage stage) {
@@ -262,7 +241,5 @@ public static void mostrarModalPreparado(Stage modalStage) {
     public static void setTitulo(String titulo) {
         stagePrincipal.setTitle(titulo);
     }
-
-    
 
 }

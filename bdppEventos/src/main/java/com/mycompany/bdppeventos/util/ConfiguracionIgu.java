@@ -1,7 +1,5 @@
 package com.mycompany.bdppeventos.util;
 
-import com.mycompany.bdppeventos.model.entities.CicloDeCine;
-import com.mycompany.bdppeventos.model.entities.Concierto;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -10,6 +8,8 @@ import java.util.stream.Collectors;
 
 import org.controlsfx.control.CheckComboBox;
 
+import com.mycompany.bdppeventos.model.entities.CicloDeCine;
+import com.mycompany.bdppeventos.model.entities.Concierto;
 import com.mycompany.bdppeventos.model.entities.Evento;
 import com.mycompany.bdppeventos.model.entities.Exposicion;
 import com.mycompany.bdppeventos.model.entities.Feria;
@@ -20,7 +20,6 @@ import com.mycompany.bdppeventos.model.enums.TipoRol;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -32,7 +31,7 @@ import javafx.scene.control.TextField;
 public abstract class ConfiguracionIgu {
 
     // === CONFIGURACIONES PARA LOS TEXTFIELDS ===
-    
+
     public static void configuracionCheckTextfield(CheckBox unCheckbox, TextField unTextfield) {
         if (unCheckbox.isSelected()) {
             unTextfield.setDisable(false);
@@ -42,10 +41,9 @@ public abstract class ConfiguracionIgu {
             unTextfield.setDisable(true);
         }
     }
-    
 
     // === CONFIGURACION PARA LOS COMBOBOX/CHECKCOMBO ===
-    
+
     public static <T extends Enum<T>> void configuracionEnumEnCombo(ComboBox<T> combo, Class<T> enumClass) {
         // Validación del ComboBox
         if (combo == null) {
@@ -69,25 +67,25 @@ public abstract class ConfiguracionIgu {
         // Agrego un Elemento null
         combo.getItems().add(null);
         combo.getItems().addAll(lista);
-        
+
     }
 
     // Configuracion Que llena un CheckCombobox pasandole una lista
     public static <T> void configuracionListaEnCheckCombo(CheckComboBox<T> checkCombo, List<T> lista) {
-    // 1) Limpia los checks anteriores
-    checkCombo.getCheckModel().clearChecks();
+        // 1) Limpia los checks anteriores
+        checkCombo.getCheckModel().clearChecks();
 
-    // 2) Limpia los elementos existentes
-    checkCombo.getItems().clear();
+        // 2) Limpia los elementos existentes
+        checkCombo.getItems().clear();
 
-    // 3) Pasa la lista a ObservableList y la asigna
-    if (lista != null) {
-        checkCombo.getItems().setAll(FXCollections.observableArrayList(lista));
+        // 3) Pasa la lista a ObservableList y la asigna
+        if (lista != null) {
+            checkCombo.getItems().setAll(FXCollections.observableArrayList(lista));
+        }
     }
-}
 
-    
-    // === CONFIGURACIONES DE BOTONES ===        
+
+    // === CONFIGURACIONES DE BOTONES ===
 
     // Configuracion del boton "Modificar"
     public static void configuracionBtnModificar(Button btnAlta, Button btnModificacion, Button btnBaja,
@@ -136,9 +134,9 @@ public abstract class ConfiguracionIgu {
             return new SimpleStringProperty("NO");
         }
     }
-    
+
     // Configuracion para visualizar el tipo de evento
-        // Metodo utilizado para formatear el tipo de evento
+    // Metodo utilizado para formatear el tipo de evento
     public static SimpleStringProperty obtenerTipoEvento(Evento evento) {
         if (evento instanceof Exposicion) {
             return new SimpleStringProperty(TipoEvento.EXPOSICION.getDescripcion());
@@ -153,19 +151,19 @@ public abstract class ConfiguracionIgu {
         } else {
             return new SimpleStringProperty("-");
         }
-    }      
-    
-    
+    }
+
     public static SimpleStringProperty formatCupoMaximoEvent(Evento evento) {
         if (evento.isTieneCupo()) {
-            return new SimpleStringProperty(String.valueOf(evento.getPersonasPorRol(TipoRol.PARTICIPANTE).size() + " / " +evento.getCapacidadMaxima()));
+            return new SimpleStringProperty(String.valueOf(
+                    evento.getPersonasPorRol(TipoRol.PARTICIPANTE).size() + " / " + evento.getCapacidadMaxima()));
         } else {
             return new SimpleStringProperty("Ilimitado");
         }
-    }        
+    }
 
     // CONFIGURACIONES DE COLUMNAS CELLFACTORY
-    
+
     // Método estático que recibe la columna que mostrará el EstadoEvento
     public static void configurarColumnaEstado(TableColumn<Evento, EstadoEvento> columna) {
 
@@ -188,7 +186,8 @@ public abstract class ConfiguracionIgu {
 
                 // Si la celda no está vacía y el estado no es null
                 if (!empty && estado != null) {
-                    // Pone el texto del label con el nombre del enum (PLANIFICADO, CONFIRMADO, etc.)
+                    // Pone el texto del label con el nombre del enum (PLANIFICADO, CONFIRMADO,
+                    // etc.)
                     label.setText(estado.getDescripcion());
 
                     // Asigna primero la clase base común a todos los estados
@@ -219,7 +218,7 @@ public abstract class ConfiguracionIgu {
             }
         });
     }
-    
+
     // Método estático que recibe la columna que mostrará LocalDate
     public static void configurarColumnaFecha(TableColumn<Evento, LocalDate> columna) {
         // Se asigna una "fábrica de celdas" personalizada para la columna.
@@ -244,7 +243,5 @@ public abstract class ConfiguracionIgu {
             }
         });
     }
-
-
 
 }
