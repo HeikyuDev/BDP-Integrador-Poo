@@ -3,11 +3,13 @@ package com.mycompany.bdppeventos.controller.ABMPelicula;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import com.mycompany.bdppeventos.model.entities.Pelicula;
 import com.mycompany.bdppeventos.services.Pelicula.PeliculaServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import com.mycompany.bdppeventos.util.RepositorioContext;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -71,9 +73,9 @@ public class FormularioPeliculaController  implements Initializable {
     
     private void configuracionColumnas() {
         // Definimos como cada columna obtiene los datos
-        colId.setCellValueFactory(new PropertyValueFactory<Pelicula, Integer>("idPelicula"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<Pelicula, String>("titulo"));
-        colDuracion.setCellValueFactory(new PropertyValueFactory<Pelicula, Double>("duracion"));
+        colId.setCellValueFactory(new PropertyValueFactory<>("idPelicula"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("titulo"));
+        colDuracion.setCellValueFactory(new PropertyValueFactory<>("duracion"));
     }
     
     private void configurarTabla() {
@@ -84,9 +86,9 @@ public class FormularioPeliculaController  implements Initializable {
         tblPelicula.setPlaceholder(new Label("No hay Peliculas para mostrar"));        
 
         // Simula proporciones para tblPeliculas 
-        colId.setMaxWidth(1f * Integer.MAX_VALUE * 30); // 30%
-        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 40); // 40%                
-        colDuracion.setMaxWidth(1f * Integer.MAX_VALUE * 30); // 30%        
+        colId.setMaxWidth(1f * Integer.MAX_VALUE * 30); 
+        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 40);                 
+        colDuracion.setMaxWidth(1f * Integer.MAX_VALUE * 30); 
     }            
     
     // === METODOS DE CONTROLES === 

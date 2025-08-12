@@ -80,6 +80,7 @@ public class PantallaPrincipalController implements Initializable {
         btnVerParticipantes.setToggleGroup(menuGroup);
         btnControlEstado.setToggleGroup(menuGroup);
 
+        // Ese listener está ahí para asegurarse de que nunca se quede ninguna opción sin seleccionar
         menuGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             if (newToggle == null && oldToggle != null) {
                 oldToggle.setSelected(true);

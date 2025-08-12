@@ -1,8 +1,3 @@
-
-/**
- * Clase que representa un Taller, subclase de Evento.
- * Agrega el atributo esPresencial para indicar si el taller es presencial o virtual.
- */
 package com.mycompany.bdppeventos.model.entities;
 
 import java.util.List;
@@ -24,22 +19,11 @@ public final class Taller extends Evento {
     
 
     /**
-     * Constructor por defecto. Inicializa el taller como activo.
+     * Constructor por defecto. Inicializa el taller como activo, Y en estado PLANIFICADO
      */
     public Taller() {
         super();
-    }
-
-
-    /**
-     * Constructor que recibe solo si el taller es presencial.
-     * @param esPresencial true si es presencial, false si es virtual
-     */
-    public Taller(boolean esPresencial) {
-        super();
-        this.setEsPresencial(esPresencial);
-    }
-
+    }    
 
     // Getters y Setters
 
@@ -59,7 +43,7 @@ public final class Taller extends Evento {
     }
     
     /**
-     * Obtiene el instructor del evento (si es un taller).
+     * Obtiene el instructor del evento.
      */
     public Persona getInstructor() {
         List<Persona> instructores = getPersonasPorRol(TipoRol.INSTRUCTOR);

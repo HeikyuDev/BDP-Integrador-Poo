@@ -10,9 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 /**
- * Clase que representa una Película en el sistema.
- * Una película puede tener múltiples proyecciones asociadas.
- * Implementa la interfaz Activable para permitir activar/desactivar la película.
+ * Clase que representa una Película en el sistema.  
  */
 @Entity
 @Table(name = "peliculas")
@@ -40,7 +38,7 @@ public class Pelicula implements Activable {
     @Column(name = "activo", nullable = false)
     private boolean activo;
    
-    // Constructores
+    // === CONSTRUCTORES === 
 
     /**
      * Constructor por defecto. Marca la película como activa.
@@ -64,7 +62,7 @@ public class Pelicula implements Activable {
         this.activo = true;        
     }
     
-    // Getters y Setters
+    // === GETTERS Y SETTERS === 
 
     /**
      * Devuelve el identificador único de la película.

@@ -15,11 +15,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
-/**
- * Clase que representa una Proyección en el sistema.
- * Una proyección pertenece a un CicloDeCine y está asociada a una Película.
- * Implementa la interfaz Activable para permitir activar/desactivar la proyección.
- */
 @Entity
 @Table(name = "proyecciones")
 public class Proyeccion implements Activable {
@@ -44,9 +39,9 @@ public class Proyeccion implements Activable {
     
     /** Indica si la proyección está activa (lógico, para borrado suave) */
     @Column(name = "activo", nullable = false)
-    private boolean activo;
-                                               
-    // Constructores
+    private boolean activo;                                               
+    
+    // === CONSTRUCTORES === 
 
     public Proyeccion() {
         this.activo = true; // Por defecto activo
@@ -57,9 +52,8 @@ public class Proyeccion implements Activable {
         this.nombre = nombre;
         this.unaListaPelicula = unaListaPelicula;
         this.activo = true;
-    }
-          
-    // Getters y Setters
+    }          
+    // === GETTERS Y SETTERS === 
     
     
     public int getIdProyeccion() {

@@ -8,11 +8,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-/**
- * Clase que representa un Concierto, subclase de Evento.
- * Un concierto es un evento musical que puede tener entrada gratuita o paga.
- * Incluye atributos para indicar si es pago y el monto correspondiente.
- */
 @Entity
 @Table(name = "conciertos")
 public final class Concierto extends Evento {
@@ -28,30 +23,16 @@ public final class Concierto extends Evento {
 
     
     
-    // Constructores
+    // === CONTRUCTORES === 
 
     /**
      * Constructor por defecto. Inicializa el concierto como activo.
      */
     public Concierto() {
         super();
-    }
+    }              
 
-    /**
-     * Constructor que recibe si es pago y el monto.
-     * @param esPago true si es pago, false si es gratuito
-     * @param monto Monto de la entrada (0 si es gratuito)
-     */
-    public Concierto(boolean esPago, double monto) {
-        super();
-        this.setEsPago(esPago);
-        this.setMonto(monto);
-    }
-
-    
-      
-
-    // Getters y Setters
+    // === GETTERS Y SETTERS === 
 
     /**
      * Devuelve si el concierto es pago.
@@ -64,6 +45,7 @@ public final class Concierto extends Evento {
      * Asigna si el concierto es pago. Si es gratuito, el monto se pone en 0.
      * @param esPago true si es pago, false si es gratuito
      */
+
     public void setEsPago(boolean esPago) {
         this.esPago = esPago;
         if(this.esPago == false) {
@@ -94,7 +76,7 @@ public final class Concierto extends Evento {
     }
     
     /**
-     * Obtiene todos los artistas del evento (si es un concierto).
+     * Obtiene todos los artistas del evento.
      */
     public List<Persona> getArtistas() {
         return getPersonasPorRol(TipoRol.ARTISTA);

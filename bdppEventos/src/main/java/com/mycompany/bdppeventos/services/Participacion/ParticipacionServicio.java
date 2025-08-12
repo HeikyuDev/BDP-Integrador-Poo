@@ -275,6 +275,9 @@ public class ParticipacionServicio extends CrudServicio<Participacion> {
             case ARTISTA -> {
                 // Los artistas pueden ser múltiples, sin restricciones especiales
             }
+            case SIN_ROL -> {
+                // No hay validaciones para el SIN ROL
+            }
             case PARTICIPANTE -> {
                 // Validar cupo si el evento tiene límite
                 if (evento.isTieneCupo()) {

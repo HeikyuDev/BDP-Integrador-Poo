@@ -87,11 +87,11 @@ public class ControlEstadoController implements Initializable {
         tblEvento.setPlaceholder(new Label("No hay eventos para mostrar"));        
 
         // Simula proporciones para tblEvento 
-        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 20); // 20%
-        colUbicacion.setMaxWidth(1f * Integer.MAX_VALUE * 35); // 35%
-        colFechaInicio.setMaxWidth(1f * Integer.MAX_VALUE * 15); // 15%
-        colFechaFin.setMaxWidth(1f * Integer.MAX_VALUE * 15); // 15%   
-        colEstado.setMaxWidth(1f * Integer.MAX_VALUE * 15); // 15%
+        colNombre.setMaxWidth(1f * Integer.MAX_VALUE * 20); 
+        colUbicacion.setMaxWidth(1f * Integer.MAX_VALUE * 35); 
+        colFechaInicio.setMaxWidth(1f * Integer.MAX_VALUE * 15); 
+        colFechaFin.setMaxWidth(1f * Integer.MAX_VALUE * 15); 
+        colEstado.setMaxWidth(1f * Integer.MAX_VALUE * 15); 
     }
     
     private void configurarColumnas()
@@ -107,11 +107,6 @@ public class ControlEstadoController implements Initializable {
         ConfiguracionIgu.configurarColumnaFecha(colFechaInicio);
         ConfiguracionIgu.configurarColumnaFecha(colFechaFin);
     }
-    
-    
-    
-    
-    // Metodos "onAction"
     
     @FXML
     private void filtrarPorEstado()
@@ -192,11 +187,10 @@ public class ControlEstadoController implements Initializable {
             if (!Alerta.confirmarAccion("¿Cancelar Evento: '" + eventoSeleccionado.getNombre() + "'?")) {
                 return;
             }
-
-            // Cambiamos el estado del evento planificado a "CANCELADO"
+            // Cambiamos el estado del evento a "CANCELADO"            
             eventoServicio.cancelarEvento(eventoSeleccionado);            
-            actualizarTablaEventos();
-            Alerta.mostrarExito("Evento '" + eventoSeleccionado.getNombre() + "' Cancelado exitosamente!");                        
+            Alerta.mostrarExito("Evento '" + eventoSeleccionado.getNombre() + "' Cancelado exitosamente!");            
+            actualizarTablaEventos();            
         } catch (IllegalArgumentException e) {
             Alerta.mostrarError("Error: Asegurese de seleccionar un Evento valido: " + e.getMessage());
         } catch (Exception e) {
@@ -240,7 +234,5 @@ public class ControlEstadoController implements Initializable {
             Alerta.mostrarError("Ocurrió un Error inesperado: " + e.getMessage());
             return new ArrayList<>();
         }
-    }
-    
-    
+    }        
 }

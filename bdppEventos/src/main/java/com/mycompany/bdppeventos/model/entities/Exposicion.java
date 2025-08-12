@@ -24,10 +24,10 @@ public final class Exposicion extends Evento {
     @JoinColumn(name = "id_tipo_arte")
     TipoDeArte unTipoArte;
       
-    // Constructores
+    // === CONSTRUCTORES === 
 
     /**
-     * Constructor por defecto. Inicializa la exposición como activa.
+     * Constructor por defecto. Inicializa la exposición como activa, y en estado PLANIFICADO
      */
     public Exposicion() {
         super();
@@ -51,7 +51,7 @@ public final class Exposicion extends Evento {
     }
 
     /**
-     * Obtiene el curador del evento (si es una exposición).
+     * Obtiene el curador del evento.
      */
     public Persona getCurador() {
         List<Persona> curadores = getPersonasPorRol(TipoRol.CURADOR);

@@ -1,8 +1,3 @@
-
-/**
- * Clase que representa una Feria, subclase de Evento.
- * Agrega los atributos cantidadStands y tipoCobertura para modelar ferias específicas.
- */
 package com.mycompany.bdppeventos.model.entities;
 
 
@@ -30,28 +25,16 @@ public final class Feria extends Evento {
 
     
 
-    // Constructores
+    // === CONSTRUCTORES === 
 
     /**
-     * Constructor por defecto. Inicializa la feria como activa.
+     * Constructor por defecto. Inicializa la feria como activa y en estado planificado
      */
     public Feria() {
         super();
-    }
+    }    
 
-    /**
-     * Constructor que recibe solo la cantidad de stands y el tipo de cobertura.
-     * @param cantidadStands Cantidad de stands
-     * @param tipoCobertura Tipo de cobertura de la feria
-     */
-    public Feria(int cantidadStands, TipoCobertura tipoCobertura) {
-        super();
-        this.setCantidadStands(cantidadStands);
-        this.setTipoCobertura(tipoCobertura);
-    }
-
-
-    // Getters y Setters
+    // === GETTERS Y SETTERS
 
     /**
      * Devuelve la cantidad de stands de la feria.

@@ -58,6 +58,7 @@ public class FormularioProyeccionController implements Initializable {
 
     // Constante que tiene el valor del Texto del boton alta
     private final String altaTxt = "Alta de Proyeccion";
+    
     // Servicios
     private ProyeccionServicio proyeccionServicio;
     private PeliculaServicio peliculaServicio;

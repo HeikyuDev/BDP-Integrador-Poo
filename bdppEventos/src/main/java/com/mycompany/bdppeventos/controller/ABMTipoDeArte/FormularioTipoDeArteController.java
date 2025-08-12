@@ -1,13 +1,15 @@
 package com.mycompany.bdppeventos.controller.ABMTipoDeArte;
 
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import com.mycompany.bdppeventos.model.entities.TipoDeArte;
 import com.mycompany.bdppeventos.services.TipoDeArte.TipoDeArteServicio;
 import com.mycompany.bdppeventos.util.Alerta;
 import com.mycompany.bdppeventos.util.ConfiguracionIgu;
 import com.mycompany.bdppeventos.util.RepositorioContext;
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -69,8 +71,8 @@ public class FormularioTipoDeArteController implements Initializable {
 
     private void configurarColumnas() {
         // Definimos como cada columna representa los datos ("Lo que muestra") DEFINIMOS EL QUÉ Y EL CÓMO
-        colId.setCellValueFactory(new PropertyValueFactory<TipoDeArte, Integer>("idTipoArte"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<TipoDeArte, String>("nombre"));
+        colId.setCellValueFactory(new PropertyValueFactory<>("idTipoArte"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
     }
 
     private void configurarTabla() {

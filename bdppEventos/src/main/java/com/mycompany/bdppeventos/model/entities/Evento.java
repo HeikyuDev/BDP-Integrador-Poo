@@ -99,16 +99,18 @@ public abstract class Evento implements Activable {
     @OneToMany(mappedBy = "unEvento")
     private List<Participacion> participaciones;
 
-    // Constructores
+    // === CONSTRUCTORES === 
+
     /**
      * Constructor por defecto. Marca el evento como activo y en estado Planificado
      */
+
     public Evento() {
         this.activo = true;
         this.estado = EstadoEvento.PLANIFICADO;
     }
 
-    // Getters y setters
+    // === GETTERS Y SETTERS === 
 
     /**
      * Devuelve el identificador único del evento.

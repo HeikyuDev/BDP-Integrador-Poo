@@ -6,10 +6,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-/**
- * Clase que representa un Ciclo de Cine, subclase de Evento.
- * Un ciclo de cine es un evento que agrupa múltiples proyecciones de películas y puede incluir charlas posteriores.
- */
 @Entity
 @Table(name = "ciclos_cine")
 
@@ -27,21 +23,14 @@ public final class CicloDeCine extends Evento {
     private Proyeccion unaProyeccion;
 
 
-    // Constructores
+    // === CONSTRUCTORES === 
     
+    // Constructor por defecto que inicializa como activo al ciclo, y en estado PLANIFICADO
     public CicloDeCine() {
         super();
-    }
+    }            
 
-    public CicloDeCine(boolean charlasPosteriores, Proyeccion unaProyeccion) {
-        super();
-        this.charlasPosteriores = charlasPosteriores;
-        this.unaProyeccion = unaProyeccion;
-    }
-
-        
-               
-    // Getters y Setters
+    // === GETTERS Y SETTERS
 
     /**
      * Devuelve si el ciclo de cine incluye charlas posteriores.

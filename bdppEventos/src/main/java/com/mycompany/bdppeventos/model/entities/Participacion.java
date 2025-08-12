@@ -3,13 +3,22 @@ package com.mycompany.bdppeventos.model.entities;
 import com.mycompany.bdppeventos.model.enums.TipoRol;
 import com.mycompany.bdppeventos.model.interfaces.Activable;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 /**
  * Entidad intermedia que representa la participación de una persona en un evento específico.
- * Define el rol que cumple esa persona en ese evento particular.
- * Implementa la interfaz Activable para permitir activar/desactivar la participación.
+ * Define el rol que cumple esa persona en ese evento particular. 
  */
+
 @Entity
 @Table(name = "participaciones")
 public class Participacion implements Activable {
@@ -40,7 +49,7 @@ public class Participacion implements Activable {
     @Column(name = "activo", nullable = false)
     private boolean activo;
 
-    // Constructores
+    // === CONSTRUCTORES === 
 
     /**
      * Constructor por defecto. Marca la participación como activa.
@@ -64,7 +73,7 @@ public class Participacion implements Activable {
     }
    
 
-    // Getters y Setters
+    // === GETTERS Y SETTERS === 
 
     /**
      * Devuelve el identificador único de la participación.
