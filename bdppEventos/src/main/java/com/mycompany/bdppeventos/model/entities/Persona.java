@@ -64,7 +64,7 @@ public class Persona implements Activable {
      * Una persona puede tener uno o mas roles asignados
      */
     @ElementCollection
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) // guarda el nombre de los roles como cadenas
     @Column(name = "roles")
     private List<TipoRol> unaListaRoles;    
 
@@ -95,11 +95,13 @@ public class Persona implements Activable {
      */
     public Persona(String dni, String nombre, String apellido, String telefono, String correoElectronico) {
         this(); // Llama al constructor por defecto para inicializar activo
-        setDni(dni); // Usa el setter para validar el DNI
-        setNombre(nombre); // Usa el setter para validar el nombre
-        setApellido(apellido); // Usa el setter para validar el apellido
-        setTelefono(telefono); // Usa el setter para validar el teléfono
-        setCorreoElectronico(correoElectronico); // Usa el setter para validar el correo electrónico
+        // usamos los setters para que las validaciones de datos se apliquen automaticamente
+        setDni(dni);
+        setNombre(nombre);
+        setApellido(apellido);
+        setTelefono(telefono);
+        setCorreoElectronico(correoElectronico);
+
     }
 
     // Getters y Setters
